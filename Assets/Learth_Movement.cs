@@ -10,6 +10,6 @@ public class Learth_Movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Translate(0,10*Time.deltaTime,0);
+		//transform.Translate(0,10*Time.deltaTime,0);
 	}
 }
