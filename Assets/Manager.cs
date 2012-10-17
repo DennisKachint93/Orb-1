@@ -9,7 +9,7 @@ public class Manager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-		l = Instantiate (learth, new Vector3 (20, -20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		l = Instantiate (learth, new Vector3 (0, -40, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		s = Instantiate (test_star, new Vector3 (20, 20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		
 		Vector3 l_movement = l.transform.up;
@@ -24,9 +24,14 @@ public class Manager : MonoBehaviour {
 		
 		//slightly past tangent (hyp len)
 		useful_movement_vec = useful_movement_vec + l.transform.position;
-		
+		Debug.Log("prequation stuff: star from learth: "+star_from_learth+"useful movement: "+useful_movement_vec);
+		float angledeg = Vector3.Angle(star_from_learth, l_movement);
+		float angle = angledeg*Mathf.Deg2Rad;
 		Vector3 projection = Vector3.Project (star_from_learth, l_movement);
-		
+		float dist = Mathf.Sin(angle) * distance;
+		float dist2 = Mathf.Sqrt(distance*distance-dist*dist);
+		l_movement = l_movement*dist2;
+		Vector3 movement_vec = l_movement+l.transform.position;
 		
 		Debug.Log ("l_movement: " + l_movement.ToString ());
 		Debug.Log ("Star position: " + s_vec.ToString ());
@@ -35,9 +40,10 @@ public class Manager : MonoBehaviour {
 		Debug.Log ("star_from_learth: " + star_from_learth.ToString ());
 		Debug.Log ("useful movement: " + useful_movement_vec.ToString ());
 		Debug.Log("distance b/t star and learth: "+distance);
+		Debug.Log("angle: "+angle+"deg: "+angledeg);
+		Debug.Log("dist: "+dist);
 		
-		
-		GameObject n_s = Instantiate (learth, projection, new Quaternion (0, 0, 0, 0)) as GameObject;
+		GameObject n_s = Instantiate (learth, movement_vec, new Quaternion (0, 0, 0, 0)) as GameObject;
 		
 	}
 	
