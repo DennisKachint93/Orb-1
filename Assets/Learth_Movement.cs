@@ -3,13 +3,22 @@ using System.Collections;
 
 public class Learth_Movement : MonoBehaviour {
 
-	// Use this for initialization
+	public static Vector3 velocity = new Vector3(1f, 1f, 0f);
+	Vector3 lastPos;
+	public static bool isTangent = false;
+	
 	void Start () {
+		lastPos = this.transform.position - new Vector3(.5f, .5f, 0f);	
+	}	
 	
-	}
-	
-	// Update is called once per frame
 	void Update () {
-		//transform.Translate(0,10*Time.deltaTime,0);
+		//calculate velocity every frame
+		velocity = this.transform.position - lastPos;
+		lastPos = this.transform.position;
+		//regular non-orbiting movement
+		if (!isTangent) {
+			this.transform.position += velocity;
+		}
 	}
+	
 }
