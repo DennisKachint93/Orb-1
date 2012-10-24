@@ -3,57 +3,63 @@ using System.Collections;
 
 public class Manager : MonoBehaviour {
 	
-	//PROBLEMS: sometimes planet doesn't immediately leave orbit
-	//			can only enter orbit from one direction (planet turns around) 
-	//			hard to aim -- maybe add guide thing again?
-	
 	public GameObject learth;
 	public GameObject star;		
 	public static GameObject l, s, s1, s2, s3, s4, s5, s6, s7;
-	public static Vector3 tangent;
 	public GameObject[] starrArr;
 	public int numStars = 0;
-
+	
+	//learth-related variables
+	public static int energy = 2;
+	public GameObject lastStar;
+	public static Vector3 tangent;
+	public bool clockwise = false;
+	
+	public Color orange = new Color(255, 140, 0, 1);
+	
 	void Start () {
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		
 		//instantiate stars and store them in array
 		starrArr = new GameObject[7]; 
+		
 		s1 = Instantiate (star, new Vector3 (0, 0, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s1script = s1.GetComponent<Starscript>();
-		s1script.c = Color.blue;
-		s1script.orbitRadius = 25f;
+		s1script.c = Color.white;
+		s1script.starSize = 25f;
 		
 		s2 = Instantiate (star, new Vector3 (-100, 50, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s2script = s2.GetComponent<Starscript>();
-		s2script.c = Color.red;
+		s2script.c = Color.blue;
 		
 		s3 = Instantiate (star, new Vector3 (-70, -20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s3script = s3.GetComponent<Starscript>();
 		s3script.c = Color.yellow;
-		s3script.orbitRadius = 25f;
+		s3script.starSize = 25f;
 		
 		s4 = Instantiate (star, new Vector3 (120, -50, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s4script = s4.GetComponent<Starscript>();
-		s4script.c = Color.yellow;
-		s4script.orbitRadius = 30f;
+		s4script.c = Color.white;
+		s4script.starSize = 30f;
 		
 		s5 = Instantiate (star, new Vector3 (90, 60, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s5script = s5.GetComponent<Starscript>();
-		s5script.c = Color.green;
-		s5script.orbitRadius = 35f;
+		s5script.c = Color.red;
+		s5script.starSize = 35f;
 		
 		s6 = Instantiate (star, new Vector3 (70, -20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s6script = s6.GetComponent<Starscript>();
-		s6script.c = Color.white;
-		s6script.orbitRadius = 25f;
+		s6script.c = Color.red;
+		s6script.starSize = 25f;
 		
 		s7 = Instantiate (star, new Vector3 (-100, -70, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s7script = s7.GetComponent<Starscript>();
-		s7script.c = Color.cyan;
-		s7script.orbitRadius = 30f;
+		s7script.c = Color.blue;
+		s7script.starSize = 30f;
 		
+		//lastVelocity = Learth_Movement.velocity;
+		lastStar = s7;
 		numStars+=7;
 		starrArr[0] = s1;
 		starrArr[1] = s2;
@@ -67,13 +73,20 @@ public class Manager : MonoBehaviour {
 	void Update () {
 		//if learth is tangent to star s, rotate around star s
 		if (Learth_Movement.isTangent) {
-			l.transform.RotateAround(s.transform.position, Vector3.forward, 60*Time.deltaTime);
+			if (clockwise){
+				l.transform.RotateAround(s.transform.position, Vector3.forward, -60*Time.deltaTime);
+			}
+			else  {
+				l.transform.RotateAround(s.transform.position, Vector3.forward, 60*Time.deltaTime);
+			}
+			if (Vector3.Distance (l.transform.position, tangent) < .5) {
+				energy -= 1;
+			}
 			//if space bar is pressed, accelerate away from star. Problem: sometimes star gets stuck in orbit because its still within orbital radius
 			if (Input.GetKeyDown(KeyCode.Space)) {
 				Learth_Movement.isTangent = false;
-				l.transform.position += Learth_Movement.velocity;				
-				l.transform.position += Learth_Movement.velocity;
-				l.transform.position += Learth_Movement.velocity;
+				lastStar = s;			
+				energy -= 1;
 				l.transform.position += Learth_Movement.velocity;
 			}
 		}
@@ -87,14 +100,47 @@ public class Manager : MonoBehaviour {
 				Vector3 projection = Vector3.Project (star_from_learth, l_movement);
 				tangent = projection + l.transform.position;
 				//if planet is within star's orbital radius, set isTangent to true
-				if (Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - 5) && Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius + 5) && Vector3.Distance (tangent, l.transform.position) <= 2f) {
+				if (s != lastStar && Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - 7) && Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius + 7) && Vector3.Distance (tangent, l.transform.position) <= 2f) {
 					Learth_Movement.isTangent = true;
+					//determine direction of orbit
+					if (tangent.y < s.transform.position.y && l_movement.x < 0) { 
+						clockwise = true;
+					}
+					else if (tangent.y > s.transform.position.y  && l_movement.x > 0) {
+						clockwise = true;
+					}		
+					else if (tangent.x < s.transform.position.x && l_movement.y > 0) {
+						clockwise = true;
+					}
+					else {
+						clockwise = false;
+					}
+					//add appropriate energy value depending on color of star
+					if (sscript.c == Color.blue) {
+						energy += 5;
+					} else if (sscript.c == Color.white){
+						energy += 4;
+					} else if (sscript.c == Color.yellow) {
+						energy += 3;
+					} else if (sscript.c == orange) {
+						energy += 2;
+					} else if (sscript.c == Color.red) {
+						energy += 1;
+					}
+					else {
+						energy -= 1;
+					}
+					sscript.c = Color.gray;
 					break;
 				}
 			}
 		}
 	
 	}
+	
+	void OnGUI() {
+        GUI.Label(new Rect(10, 10, 100, 30), "Energy: " + energy);
+    }
 		
 }
 	
