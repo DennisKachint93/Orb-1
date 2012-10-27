@@ -9,11 +9,14 @@ public class Manager : MonoBehaviour {
 	public GameObject[] starrArr;
 	public int numStars = 0;
 	
+	
+	
 	//learth-related variables
 	public static int energy = 2;
 	public GameObject lastStar;
 	public static Vector3 tangent;
 	public bool clockwise = false;
+	private int num_deaths = 0;
 	
 	public Color orange = new Color(255, 140, 0, 1);
 	
@@ -70,7 +73,48 @@ public class Manager : MonoBehaviour {
 		starrArr[6] = s7;
 	}
 	
+	//puts Learth in orbit given an entrance point, a velocity, a star, and a direction
+	void MoveLearthToOrbit(Vector3 entrance_point, Vector3 entrance_velocity, GameObject star, bool clockwise )
+	{
+		Debug.Log("moving learth");
+		s = star;
+		Learth_Movement.isTangent = true;
+		l.transform.position = Vector3.Lerp(l.transform.position,entrance_point,100.0F);
+		Learth_Movement.velocity = entrance_velocity;
+		this.clockwise = clockwise;
+	} 
+	
+	void Die()
+	{
+		//death animation here?
+		
+		//if you screw up too much at the beginning, or if you've died more than 3 times, just start the level over
+		if(Learth_Movement.last_star_gos[num_deaths] == null || num_deaths > 2)
+		{
+			ResetLevel();
+		}
+		//otherwise, you move back 1, 2, or 3 stars
+		else {
+			MoveLearthToOrbit(Learth_Movement.last_stars[num_deaths], Learth_Movement.last_stars_velocity[num_deaths], 
+				Learth_Movement.last_star_gos[num_deaths], Learth_Movement.last_star_rots[num_deaths]);
+			num_deaths++;
+		}
+		
+	}
+	
+	//reloads the scene and modifies whatever we want to modify when the scene gets reloaded
+	void ResetLevel() {
+		Application.LoadLevel(Application.loadedLevel);	
+	}
+	
 	void Update () {
+		
+		// for testing purposes, R causes a death. We should be testing for death conditions here 
+		if(Input.GetKeyDown(KeyCode.R))
+		{
+			Die();
+		}
+		
 		//if learth is tangent to star s, rotate around star s
 		if (Learth_Movement.isTangent) {
 			if (clockwise){
@@ -102,6 +146,8 @@ public class Manager : MonoBehaviour {
 				//if planet is within star's orbital radius, set isTangent to true
 				if (s != lastStar && Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - 7) && Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius + 7) && Vector3.Distance (tangent, l.transform.position) <= 2f) {
 					Learth_Movement.isTangent = true;
+					
+					
 					//determine direction of orbit
 					if (tangent.y < s.transform.position.y && l_movement.x < 0) { 
 						clockwise = true;
@@ -115,6 +161,20 @@ public class Manager : MonoBehaviour {
 					else {
 						clockwise = false;
 					}
+					
+					//update last stars, last entrances, last velocity vectors, and last rotations to include this star
+					for(int k=2; k>0;k--)
+					{
+						Learth_Movement.last_stars[k] = Learth_Movement.last_stars[k-1];
+						Learth_Movement.last_stars_velocity[k] = Learth_Movement.last_stars_velocity[k-1];
+						Learth_Movement.last_star_gos[k] = Learth_Movement.last_star_gos[k-1];
+						Learth_Movement.last_star_rots[k] = Learth_Movement.last_star_rots[k-1];
+					}
+					Learth_Movement.last_stars[0] = l.transform.position;
+					Learth_Movement.last_stars_velocity[0] = l_movement;
+					Learth_Movement.last_star_gos[0] = s;
+					Learth_Movement.last_star_rots[0] = clockwise;
+					
 					//add appropriate energy value depending on color of star
 					if (sscript.c == Color.blue) {
 						energy += 5;

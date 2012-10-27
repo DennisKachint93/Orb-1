@@ -7,7 +7,20 @@ public class Learth_Movement : MonoBehaviour {
 	Vector3 lastPos;
 	public static bool isTangent = false;
 	
+	//current and previous 3 positions at which the learth entered
+	public static Vector3[] last_stars = new Vector3[4];
+	//current and previous 3 velocity vectors of entrance points
+	public static Vector3[] last_stars_velocity = new Vector3[4];
+	//current and previous 3 star game objects
+	public static GameObject[] last_star_gos = new GameObject[4];
+	//current and previous 3 clockwise rotations
+	public static bool[] last_star_rots = new bool[4];
+	
 	void Start () {
+		//initialize last stars array
+		for(int i=0;i<3;i++)
+			last_star_gos[i] = null;
+		
 		lastPos = this.transform.position - new Vector3(.5f, .5f, 0f);	
 	}	
 	
@@ -20,5 +33,9 @@ public class Learth_Movement : MonoBehaviour {
 			this.transform.position += velocity;
 		}
 	}
+	
+	
+	
+	
 	
 }
