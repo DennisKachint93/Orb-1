@@ -9,7 +9,13 @@ public class Manager : MonoBehaviour {
 	public GameObject[] starrArr;
 	public int numStars = 0;
 	
+	//level related variables, not sure how this works with different scenes. might need another class for these
 	
+	//positions past which learth will die. levels are always rectangles
+	float LEVEL_X_MAX = 200;
+	float LEVEL_X_MIN = -200;
+	float LEVEL_Y_MAX = 200;
+	float LEVEL_Y_MIN = -200;
 	
 	//learth-related variables
 	public static int energy = 2;
@@ -84,6 +90,7 @@ public class Manager : MonoBehaviour {
 		this.clockwise = clockwise;
 	} 
 	
+	//call this anytime something "kills" the player
 	void Die()
 	{
 		//death animation here?
@@ -109,11 +116,29 @@ public class Manager : MonoBehaviour {
 	
 	void Update () {
 		
-		// for testing purposes, R causes a death. We should be testing for death conditions here 
+		// for testing purposes, R causes a death.
 		if(Input.GetKeyDown(KeyCode.R))
 		{
 			Die();
 		}
+		
+		
+		//Death conditions
+		//if you run out of energy, you die, but you get a little energy back
+		if(energy < 0)
+		{
+			Die ();
+			energy = 2;
+		}
+		
+		//if you travel outside the bounds of the level, you die
+		if(l.transform.position.x > LEVEL_X_MAX
+			|| l.transform.position.x < LEVEL_X_MIN
+			|| l.transform.position.y > LEVEL_Y_MAX
+			|| l.transform.position.y < LEVEL_Y_MIN)
+			Die ();
+		
+		
 		
 		//if learth is tangent to star s, rotate around star s
 		if (Learth_Movement.isTangent) {
