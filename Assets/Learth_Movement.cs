@@ -7,6 +7,9 @@ public class Learth_Movement : MonoBehaviour {
 	Vector3 lastPos;
 	public static bool isTangent = false;
 	
+	//manager, for communicating collisions
+	
+	
 	//current and previous 3 positions at which the learth entered
 	public static Vector3[] last_stars = new Vector3[4];
 	//current and previous 3 velocity vectors of entrance points
@@ -34,7 +37,13 @@ public class Learth_Movement : MonoBehaviour {
 		}
 	}
 	
-	
+	void OnCollisionEnter (Collision collision)
+	{
+		//if learth collides with a space rip, die
+		if(collision.gameObject.name == "Space_Rip(Clone)")
+			Manager.Die();	
+			
+	}	
 	
 	
 	

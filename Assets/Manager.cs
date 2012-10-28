@@ -3,8 +3,12 @@ using System.Collections;
 
 public class Manager : MonoBehaviour {
 	
+	//Hook into unity
 	public GameObject learth;
 	public GameObject star;		
+	public GameObject rip;
+	
+	//actual objects used in script
 	public static GameObject l, s, s1, s2, s3, s4, s5, s6, s7;
 	public GameObject[] starrArr;
 	public int numStars = 0;
@@ -21,8 +25,8 @@ public class Manager : MonoBehaviour {
 	public static int energy = 2;
 	public GameObject lastStar;
 	public static Vector3 tangent;
-	public bool clockwise = false;
-	private int num_deaths = 0;
+	public static bool clockwise = false;
+	public static int num_deaths = 0;
 	
 	public Color orange = new Color(255, 140, 0, 1);
 	
@@ -32,6 +36,9 @@ public class Manager : MonoBehaviour {
 		
 		//instantiate stars and store them in array
 		starrArr = new GameObject[7]; 
+		
+		//instantiate spacerip
+		CreateSpaceRip(-10,55,70,10);
 		
 		s1 = Instantiate (star, new Vector3 (0, 0, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s1script = s1.GetComponent<Starscript>();
@@ -79,19 +86,26 @@ public class Manager : MonoBehaviour {
 		starrArr[6] = s7;
 	}
 	
-	//puts Learth in orbit given an entrance point, a velocity, a star, and a direction
-	void MoveLearthToOrbit(Vector3 entrance_point, Vector3 entrance_velocity, GameObject star, bool clockwise )
+	//instantiates a space rip from prefab at given location and of given dimensions, returns reference to that object
+	GameObject CreateSpaceRip(float x, float y, float width, float height)
 	{
-		Debug.Log("moving learth");
+		GameObject rip_actual = Instantiate (rip, new Vector3 (x, y, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		rip_actual.transform.localScale += new Vector3(width,height,0);
+		return rip_actual;
+	}
+	
+	//puts Learth in orbit given an entrance point, a velocity, a star, and a direction
+	public static void MoveLearthToOrbit(Vector3 entrance_point, Vector3 entrance_velocity, GameObject star, bool cwise )
+	{
 		s = star;
 		Learth_Movement.isTangent = true;
 		l.transform.position = Vector3.Lerp(l.transform.position,entrance_point,100.0F);
 		Learth_Movement.velocity = entrance_velocity;
-		this.clockwise = clockwise;
+		clockwise = cwise;
 	} 
 	
 	//call this anytime something "kills" the player
-	void Die()
+	public static void Die()
 	{
 		//death animation here?
 		
@@ -110,17 +124,17 @@ public class Manager : MonoBehaviour {
 	}
 	
 	//reloads the scene and modifies whatever we want to modify when the scene gets reloaded
-	void ResetLevel() {
+	public static void ResetLevel() {
 		Application.LoadLevel(Application.loadedLevel);	
 	}
 	
 	void Update () {
 		
-		// for testing purposes, R causes a death.
+		// for testing purposes, R causes a death and T resets the level
 		if(Input.GetKeyDown(KeyCode.R))
-		{
 			Die();
-		}
+		if(Input.GetKeyDown(KeyCode.T))
+			ResetLevel();
 		
 		
 		//Death conditions
