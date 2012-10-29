@@ -3,6 +3,13 @@ using System.Collections;
 
 public class Manager : MonoBehaviour {
 	
+	/* KNOWN BUGS */
+	/* Game freeze when you call ResetLevel() before you leave the orbit of the first star */
+	
+	//Constants for tweaking
+	//the larger this number is, the sharper bends are
+	private float BEND_FACTOR = 2.5f;
+	
 	//Hook into unity
 	public GameObject learth;
 	public GameObject star;		
@@ -10,11 +17,10 @@ public class Manager : MonoBehaviour {
 	
 	//actual objects used in script
 	public static GameObject l, s, s1, s2, s3, s4, s5, s6, s7;
-	public GameObject[] starrArr;
+	public GameObject[] star_arr;
 	public int numStars = 0;
 	
 	//level related variables, not sure how this works with different scenes. might need another class for these
-	
 	//positions past which learth will die. levels are always rectangles
 	float LEVEL_X_MAX = 200;
 	float LEVEL_X_MIN = -200;
@@ -35,7 +41,7 @@ public class Manager : MonoBehaviour {
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		
 		//instantiate stars and store them in array
-		starrArr = new GameObject[7]; 
+		star_arr = new GameObject[7]; 
 		
 		//instantiate spacerip
 		CreateSpaceRip(-10,55,70,10);
@@ -77,13 +83,13 @@ public class Manager : MonoBehaviour {
 		//lastVelocity = Learth_Movement.velocity;
 		lastStar = s7;
 		numStars+=7;
-		starrArr[0] = s1;
-		starrArr[1] = s2;
-		starrArr[2] = s3;
-		starrArr[3] = s4;
-		starrArr[4] = s5;
-		starrArr[5] = s6;	
-		starrArr[6] = s7;
+		star_arr[0] = s1;
+		star_arr[1] = s2;
+		star_arr[2] = s3;
+		star_arr[3] = s4;
+		star_arr[4] = s5;
+		star_arr[5] = s6;	
+		star_arr[6] = s7;
 	}
 	
 	//instantiates a space rip from prefab at given location and of given dimensions, returns reference to that object
@@ -104,7 +110,7 @@ public class Manager : MonoBehaviour {
 		clockwise = cwise;
 	} 
 	
-	//call this anytime something "kills" the player
+	//call this anytime something kills the player
 	public static void Die()
 	{
 		//death animation here?
@@ -131,10 +137,21 @@ public class Manager : MonoBehaviour {
 	void Update () {
 		
 		// for testing purposes, R causes a death and T resets the level
+		// resetting level with T before leaving first star orbit freezes the game 
 		if(Input.GetKeyDown(KeyCode.R))
 			Die();
 		if(Input.GetKeyDown(KeyCode.T))
 			ResetLevel();
+		
+		//bending
+		if(Input.GetKey(KeyCode.Q))
+		{
+			Learth_Movement.lastPos += BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,-0.1f,0);
+		}
+		else if (Input.GetKey(KeyCode.W))
+		{
+			Learth_Movement.lastPos -= BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,-0.1f,0);
+		}
 		
 		
 		//Death conditions
@@ -151,7 +168,6 @@ public class Manager : MonoBehaviour {
 			|| l.transform.position.y > LEVEL_Y_MAX
 			|| l.transform.position.y < LEVEL_Y_MIN)
 			Die ();
-		
 		
 		
 		//if learth is tangent to star s, rotate around star s
@@ -176,7 +192,7 @@ public class Manager : MonoBehaviour {
 		//if earth is not tangent to any star, loop through array and calculate tangent vectors to every star
 		else if (!Learth_Movement.isTangent) {
 			for (int i = 0; i < numStars; i++){
-				s = starrArr[i];
+				s = star_arr[i];
 				Starscript sscript = s.GetComponent<Starscript>();
 				Vector3 l_movement = Learth_Movement.velocity;
 				Vector3 star_from_learth = s.transform.position - l.transform.position;

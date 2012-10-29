@@ -4,11 +4,8 @@ using System.Collections;
 public class Learth_Movement : MonoBehaviour {
 
 	public static Vector3 velocity = new Vector3(1f, 1f, 0f);
-	Vector3 lastPos;
+	public static Vector3 lastPos;
 	public static bool isTangent = false;
-	
-	//manager, for communicating collisions
-	
 	
 	//current and previous 3 positions at which the learth entered
 	public static Vector3[] last_stars = new Vector3[4];
