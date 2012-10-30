@@ -19,6 +19,7 @@ public class Manager : MonoBehaviour {
 	public static GameObject l, s, s1, s2, s3, s4, s5, s6, s7;
 	public GameObject[] star_arr;
 	public int numStars = 0;
+	public static int RADIAL_ERROR = 7;
 	
 	//level related variables, not sure how this works with different scenes. might need another class for these
 	//positions past which learth will die. levels are always rectangles
@@ -33,8 +34,16 @@ public class Manager : MonoBehaviour {
 	public static Vector3 tangent;
 	public static bool clockwise = false;
 	public static int num_deaths = 0;
+	public int revisit = 0;
 	
-	public Color orange = new Color(255, 140, 0, 1);
+	public Color orange = new Color(1f, .6f, 0f, 1f);
+	public Color dgray = new Color(.1f, .1f, .1f, 1f);
+	public Texture tred;
+	public Texture torange;
+	public Texture tyellow;
+	public Texture twhite;
+	public Texture tgray;
+	public Texture tblue;
 	
 	void Start () {
 		//instantiate learth
@@ -49,35 +58,42 @@ public class Manager : MonoBehaviour {
 		s1 = Instantiate (star, new Vector3 (0, 0, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s1script = s1.GetComponent<Starscript>();
 		s1script.c = Color.white;
+		s1script.t = twhite;
 		s1script.starSize = 25f;
 		
 		s2 = Instantiate (star, new Vector3 (-100, 50, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s2script = s2.GetComponent<Starscript>();
 		s2script.c = Color.blue;
+		s2script.t = tblue;
 		
 		s3 = Instantiate (star, new Vector3 (-70, -20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s3script = s3.GetComponent<Starscript>();
 		s3script.c = Color.yellow;
+		s3script.t = tyellow;
 		s3script.starSize = 25f;
 		
 		s4 = Instantiate (star, new Vector3 (120, -50, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s4script = s4.GetComponent<Starscript>();
 		s4script.c = Color.white;
+		s4script.t = twhite;
 		s4script.starSize = 30f;
 		
 		s5 = Instantiate (star, new Vector3 (90, 60, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s5script = s5.GetComponent<Starscript>();
 		s5script.c = Color.red;
+		s5script.t = tred;
 		s5script.starSize = 35f;
 		
 		s6 = Instantiate (star, new Vector3 (70, -20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s6script = s6.GetComponent<Starscript>();
 		s6script.c = Color.red;
+		s6script.t = tred;
 		s6script.starSize = 25f;
 		
 		s7 = Instantiate (star, new Vector3 (-100, -70, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s7script = s7.GetComponent<Starscript>();
 		s7script.c = Color.blue;
+		s7script.t = tblue;
 		s7script.starSize = 30f;
 		
 		//lastVelocity = Learth_Movement.velocity;
@@ -178,8 +194,14 @@ public class Manager : MonoBehaviour {
 			else  {
 				l.transform.RotateAround(s.transform.position, Vector3.forward, 60*Time.deltaTime);
 			}
-			if (Vector3.Distance (l.transform.position, tangent) < .5) {
-				energy -= 1;
+			if (Vector3.Distance (l.transform.position, tangent) < 1) {
+				revisit++;
+				if (revisit == 1) {
+					energy -= 1;
+				}
+			}
+			else {
+				revisit = 0;
 			}
 			//if space bar is pressed, accelerate away from star. Problem: sometimes star gets stuck in orbit because its still within orbital radius
 			if (Input.GetKeyDown(KeyCode.Space)) {
@@ -199,10 +221,8 @@ public class Manager : MonoBehaviour {
 				Vector3 projection = Vector3.Project (star_from_learth, l_movement);
 				tangent = projection + l.transform.position;
 				//if planet is within star's orbital radius, set isTangent to true
-				if (s != lastStar && Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - 7) && Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius + 7) && Vector3.Distance (tangent, l.transform.position) <= 2f) {
+				if (s != lastStar && Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - RADIAL_ERROR) && Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius + RADIAL_ERROR) && Vector3.Distance (tangent, l.transform.position) <= 2f) {
 					Learth_Movement.isTangent = true;
-					
-					
 					//determine direction of orbit
 					if (tangent.y < s.transform.position.y && l_movement.x < 0) { 
 						clockwise = true;
@@ -237,7 +257,7 @@ public class Manager : MonoBehaviour {
 						energy += 4;
 					} else if (sscript.c == Color.yellow) {
 						energy += 3;
-					} else if (sscript.c == orange) {
+					} else if (sscript.t == torange) {
 						energy += 2;
 					} else if (sscript.c == Color.red) {
 						energy += 1;
@@ -245,7 +265,8 @@ public class Manager : MonoBehaviour {
 					else {
 						energy -= 1;
 					}
-					sscript.c = Color.gray;
+					sscript.c = dgray;
+					sscript.t = tgray;
 					break;
 				}
 			}
