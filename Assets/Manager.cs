@@ -14,6 +14,7 @@ public class Manager : MonoBehaviour {
 	public GameObject learth;
 	public GameObject star;		
 	public GameObject rip;
+	public static GameObject cur_star;
 	
 	//actual objects used in script
 	public static GameObject l, s, s1, s2, s3, s4, s5, s6, s7;
@@ -35,6 +36,7 @@ public class Manager : MonoBehaviour {
 	public static bool clockwise = false;
 	public static int num_deaths = 0;
 	public int revisit = 0;
+	public static bool orbitting = false;
 	
 	public Color orange = new Color(1f, .6f, 0f, 1f);
 	public Color dgray = new Color(.1f, .1f, .1f, 1f);
@@ -120,10 +122,12 @@ public class Manager : MonoBehaviour {
 	public static void MoveLearthToOrbit(Vector3 entrance_point, Vector3 entrance_velocity, GameObject star, bool cwise )
 	{
 		s = star;
+		cur_star = s;
 		Learth_Movement.isTangent = true;
 		l.transform.position = Vector3.Lerp(l.transform.position,entrance_point,100.0F);
 		Learth_Movement.velocity = entrance_velocity;
 		clockwise = cwise;
+		orbitting = true;
 	} 
 	
 	//call this anytime something kills the player
@@ -188,6 +192,7 @@ public class Manager : MonoBehaviour {
 		
 		//if learth is tangent to star s, rotate around star s
 		if (Learth_Movement.isTangent) {
+			orbitting = true;
 			if (clockwise){
 				l.transform.RotateAround(s.transform.position, Vector3.forward, -60*Time.deltaTime);
 			}
@@ -209,6 +214,7 @@ public class Manager : MonoBehaviour {
 				lastStar = s;			
 				energy -= 1;
 				l.transform.position += Learth_Movement.velocity;
+				orbitting = false;
 			}
 		}
 		//if earth is not tangent to any star, loop through array and calculate tangent vectors to every star
@@ -222,6 +228,8 @@ public class Manager : MonoBehaviour {
 				tangent = projection + l.transform.position;
 				//if planet is within star's orbital radius, set isTangent to true
 				if (s != lastStar && Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - RADIAL_ERROR) && Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius + RADIAL_ERROR) && Vector3.Distance (tangent, l.transform.position) <= 2f) {
+					orbitting = true;
+					cur_star = s;
 					Learth_Movement.isTangent = true;
 					//determine direction of orbit
 					if (tangent.y < s.transform.position.y && l_movement.x < 0) { 
@@ -271,6 +279,19 @@ public class Manager : MonoBehaviour {
 				}
 			}
 		}
+		//if Planet is orbitting around a star, make star the center of the screen, otherwise the planet
+		if(orbitting){												
+			Camera.main.transform.position = new Vector3(cur_star.transform.position.x, cur_star.transform.position.y, Camera.main.transform.position.z);
+
+		}
+		else{
+			Camera.main.transform.position = new Vector3(l.transform.position.x, l.transform.position.y, Camera.main.transform.position.z);
+		}
+		//If the planet is orbitting, the tab key moves you further away and A moves you closer
+		if(orbitting && Input.GetKey(KeyCode.Tab) && Camera.main.orthographicSize <= 150)
+			Camera.main.orthographicSize +=5;
+		if(orbitting && Input.GetKey(KeyCode.A) && Camera.main.orthographicSize >=50)
+			Camera.main.orthographicSize -= 5;
 	
 	}
 	
