@@ -7,15 +7,17 @@ public class Manager : MonoBehaviour {
 	/* Game freeze when you call ResetLevel() before you leave the orbit of the first star */
 	
 	//Constants for tweaking
-	//Larger the error, the easier it is to get into orbit (farther from tangent)
-	public static int RADIAL_ERROR = 7;
+	//Larger the error, the wider legal orbit radius 
+	private int RADIAL_ERROR = 9;
+	//larger the tan error, the easier it is to enter a star at a legal radius
+	private float TAN_ERROR = 8;
 	//the larger this number is, the sharper bends are
 	private float BEND_FACTOR = 2.5f;
 	//lerp note: too high, and the game is jerky, too low and the learth goes off screen 
 	//the larger this number is, the more closely the camera follows learth while in orbit
 	private float ORBIT_LERP = .05f;
 	//the larger this number is, the more closely the camera follows learth while not in orbit
-	private float TRAVEL_LERP = 0.7f;
+	private static float TRAVEL_LERP = 0.7F;
 	//How far the player is allowed to move the camera
 	private float CAM_MAX_DIST = 400;
 	//How close the player is allowed to move the camera
@@ -66,8 +68,9 @@ public class Manager : MonoBehaviour {
 		//instantiate stars and store them in array
 		star_arr = new GameObject[8]; 
 		
-		//instantiate spacerip
-	//	CreateSpaceRip(-10,55,70,10);
+		//instantiate spacerips
+		CreateSpaceRip(-200,-70,10,600);
+		CreateSpaceRip(-200, -500,10,70);
 		
 		s1 = Instantiate (star, new Vector3 (0, 0, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s1script = s1.GetComponent<Starscript>();
@@ -191,7 +194,7 @@ public class Manager : MonoBehaviour {
 		if(Input.GetKeyDown (KeyCode.Y))
 			Camera.main.transform.position = new Vector3(l.transform.position.x, l.transform.position.y, Camera.main.transform.position.z);
 		
-		//bending
+		//bending - 2 or 4 cases, probably 2, - vs + second term
 		if(Input.GetKey(KeyCode.Q))
 		{
 			Learth_Movement.lastPos += BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,-0.1f,0);
@@ -255,7 +258,7 @@ public class Manager : MonoBehaviour {
 				Vector3 projection = Vector3.Project (star_from_learth, l_movement);
 				tangent = projection + l.transform.position;
 				//if planet is within star's orbital radius, set isTangent to true
-				if (s != lastStar && Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - RADIAL_ERROR) && Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius + RADIAL_ERROR) && Vector3.Distance (tangent, l.transform.position) <= 2f) {
+				if (s != lastStar && Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - RADIAL_ERROR) && Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius + RADIAL_ERROR) && Vector3.Distance (tangent, l.transform.position) <= TAN_ERROR) {
 					orbitting = true;
 					cur_star = s;
 					Learth_Movement.isTangent = true;
