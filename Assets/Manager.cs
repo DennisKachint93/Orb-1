@@ -12,7 +12,7 @@ public class Manager : MonoBehaviour {
 	//larger the tan error, the easier it is to enter a star at a legal radius
 	private float TAN_ERROR = 8;
 	//the larger this number is, the sharper bends are
-	private float BEND_FACTOR = 2.5f;
+	private float BEND_FACTOR = 5.5f;
 	//lerp note: too high, and the game is jerky, too low and the learth goes off screen 
 	//the larger this number is, the more closely the camera follows learth while in orbit
 	private float ORBIT_LERP = .05f;
