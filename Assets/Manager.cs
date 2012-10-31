@@ -193,15 +193,38 @@ public class Manager : MonoBehaviour {
 		//Y resets camera to learth's position
 		if(Input.GetKeyDown (KeyCode.Y))
 			Camera.main.transform.position = new Vector3(l.transform.position.x, l.transform.position.y, Camera.main.transform.position.z);
+		//U prints position and last position on demand
+		if(Input.GetKeyDown(KeyCode.U))
+			Debug.Log("pos: "+l.transform.position+" last pos: "+Learth_Movement.lastPos);
 		
-		//bending - 2 or 4 cases, probably 2, - vs + second term
+		//bending - each has 4 cases. this is functional enough but needs to be seriously analyzed and probably rewritten 
 		if(Input.GetKey(KeyCode.Q))
 		{
-			Learth_Movement.lastPos += BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,-0.1f,0);
+			if(l.transform.position.x < 0 && l.transform.position.y < 0)
+				Learth_Movement.lastPos += BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,-0.1f,0);
+
+			if(l.transform.position.x < 0 && l.transform.position.y >= 0)
+				Learth_Movement.lastPos += BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,0.1f,0); 			
+			
+			if(l.transform.position.x >= 0 && l.transform.position.y < 0)
+				Learth_Movement.lastPos += BEND_FACTOR*Time.deltaTime*new Vector3(-0.1f,-0.1f,0);
+				
+			if(l.transform.position.x >= 0 && l.transform.position.y >= 0)
+				Learth_Movement.lastPos += BEND_FACTOR*Time.deltaTime*new Vector3(-0.1f, 0.1f,0);
 		}
 		else if (Input.GetKey(KeyCode.W))
-		{
-			Learth_Movement.lastPos -= BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,-0.1f,0);
+		{		
+			if(l.transform.position.x < 0  && l.transform.position.y < 0)
+				Learth_Movement.lastPos -= BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,-0.1f,0);
+			
+			if(l.transform.position.x < 0 && l.transform.position.y >= 0)
+				Learth_Movement.lastPos -= BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,0.1f,0); 
+			
+			if(l.transform.position.x >= 0 && l.transform.position.y < 0)
+				Learth_Movement.lastPos -= BEND_FACTOR*Time.deltaTime*new Vector3(-0.1f,-0.1f,0);
+				
+			if(l.transform.position.x >= 0 && l.transform.position.y >= 0)
+				Learth_Movement.lastPos -= BEND_FACTOR*Time.deltaTime*new Vector3(-0.1f, 0.1f,0);
 		}
 		
 		
