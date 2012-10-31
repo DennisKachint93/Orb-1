@@ -1,13 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Manager.cs">
-    <Files>
-      <File FileName="Assets\Manager.cs" Line="32" Column="28" />
-      <File FileName="..\..\TechPrototype\Assets\Manager.cs" Line="179" Column="13" />
-      <File FileName="..\..\TechPrototype\Assets\Learth_Movement.cs" Line="1" Column="1" />
-      <File FileName="..\..\TechPrototype\Assets\Starscript.cs" Line="1" Column="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

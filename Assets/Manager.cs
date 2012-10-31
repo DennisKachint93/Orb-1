@@ -38,10 +38,10 @@ public class Manager : MonoBehaviour {
 	
 	//level related variables, not sure how this works with different scenes. might need another class for these
 	//positions past which learth will die. levels are always rectangles
-	float LEVEL_X_MAX = 1000;
-	float LEVEL_X_MIN = -1000;
-	float LEVEL_Y_MAX = 1000;
-	float LEVEL_Y_MIN = -1000;
+	float LEVEL_X_MAX = 500;
+	float LEVEL_X_MIN = -500;
+	float LEVEL_Y_MAX = 500;
+	float LEVEL_Y_MIN = -500;
 	
 	//learth-related variables
 	public static int energy = 2;
@@ -248,10 +248,10 @@ public class Manager : MonoBehaviour {
 		if (Learth_Movement.isTangent) {
 			orbitting = true;
 			if (clockwise){
-				l.transform.RotateAround(s.transform.position, Vector3.forward, -60*Time.deltaTime);
+				l.transform.RotateAround(s.transform.position, Vector3.forward, -(Learth_Movement.SPEED)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
 			}
 			else  {
-				l.transform.RotateAround(s.transform.position, Vector3.forward, 60*Time.deltaTime);
+				l.transform.RotateAround(s.transform.position, Vector3.forward, Learth_Movement.SPEED/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
 			}
 			if (Vector3.Distance (l.transform.position, tangent) < 1) {
 				revisit++;
@@ -267,7 +267,7 @@ public class Manager : MonoBehaviour {
 				Learth_Movement.isTangent = false;
 				lastStar = s;			
 				energy -= 1;
-				l.transform.position += Learth_Movement.velocity;
+				Learth_Movement.lastPos = l.transform.position - Learth_Movement.velocity.normalized*Learth_Movement.SPEED;
 				orbitting = false;
 			}
 		}
