@@ -72,11 +72,12 @@ public class Manager : MonoBehaviour {
 		CreateSpaceRip(-200,-70,10,600);
 		CreateSpaceRip(-200, -500,10,70);
 		
-		s1 = Instantiate (star, new Vector3 (0, 0, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-		Starscript s1script = s1.GetComponent<Starscript>();
-		s1script.c = Color.white;
-		s1script.t = twhite;
-		s1script.starSize = 30f;
+		s1=addStar (s1, new Vector3 (0, 0, 0), new Quaternion (0, 0, 0, 0), Color.white, twhite, 30f);
+		//s1 = Instantiate (star, new Vector3 (0, 0, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		//Starscript s1script = s1.GetComponent<Starscript>();
+		//s1script.c = Color.white;
+		//s1script.t = twhite;
+		//s1script.starSize = 30f;
 		
 		s2 = Instantiate (star, new Vector3 (-50, -100, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s2script = s2.GetComponent<Starscript>();
@@ -140,7 +141,15 @@ public class Manager : MonoBehaviour {
 		rip_actual.transform.localScale += new Vector3(width,height,0);
 		return rip_actual;
 	}
-	
+		GameObject addStar(GameObject starE, Vector3 vec, Quaternion quat, Color color, Texture texture, float size)
+	{
+		starE = Instantiate (star, vec, quat) as GameObject;
+		Starscript starscript = starE.GetComponent<Starscript>();
+		starscript.c = color;
+		starscript.t = texture;
+		starscript.starSize = size; 
+		return starE;
+	}
 	//puts Learth in orbit given an entrance point, a velocity, a star, and a direction
 	public static void MoveLearthToOrbit(Vector3 entrance_point, Vector3 entrance_velocity, GameObject star, bool cwise )
 	{
