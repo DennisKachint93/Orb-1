@@ -7,8 +7,19 @@ public class Manager : MonoBehaviour {
 	/* Game freeze when you call ResetLevel() before you leave the orbit of the first star */
 	
 	//Constants for tweaking
+	//Larger the error, the easier it is to get into orbit (farther from tangent)
+	public static int RADIAL_ERROR = 7;
 	//the larger this number is, the sharper bends are
 	private float BEND_FACTOR = 2.5f;
+	//lerp note: too high, and the game is jerky, too low and the learth goes off screen 
+	//the larger this number is, the more closely the camera follows learth while in orbit
+	private float ORBIT_LERP = .05f;
+	//the larger this number is, the more closely the camera follows learth while not in orbit
+	private float TRAVEL_LERP = 0.7f;
+	//How far the player is allowed to move the camera
+	private float CAM_MAX_DIST = 150;
+	//How close the player is allowed to move the camera
+	private float CAM_MIN_DIST = 50;
 	
 	//Hook into unity
 	public GameObject learth;
@@ -20,7 +31,6 @@ public class Manager : MonoBehaviour {
 	public static GameObject l, s, s1, s2, s3, s4, s5, s6, s7;
 	public GameObject[] star_arr;
 	public int numStars = 0;
-	public static int RADIAL_ERROR = 7;
 	
 	//level related variables, not sure how this works with different scenes. might need another class for these
 	//positions past which learth will die. levels are always rectangles
@@ -142,8 +152,12 @@ public class Manager : MonoBehaviour {
 		}
 		//otherwise, you move back 1, 2, or 3 stars
 		else {
+			//move learth to previous stars
 			MoveLearthToOrbit(Learth_Movement.last_stars[num_deaths], Learth_Movement.last_stars_velocity[num_deaths], 
 				Learth_Movement.last_star_gos[num_deaths], Learth_Movement.last_star_rots[num_deaths]);
+				
+			//move with learth
+			Camera.main.transform.position = new Vector3(l.transform.position.x, l.transform.position.y, Camera.main.transform.position.z);
 			num_deaths++;
 		}
 		
@@ -156,12 +170,16 @@ public class Manager : MonoBehaviour {
 	
 	void Update () {
 		
+		/*********************DEBUGGING CONROLS********************/
 		// for testing purposes, R causes a death and T resets the level
 		// resetting level with T before leaving first star orbit freezes the game 
 		if(Input.GetKeyDown(KeyCode.R))
 			Die();
 		if(Input.GetKeyDown(KeyCode.T))
 			ResetLevel();
+		//Y resets camera to learth's position
+		if(Input.GetKeyDown (KeyCode.Y))
+			Camera.main.transform.position = new Vector3(l.transform.position.x, l.transform.position.y, Camera.main.transform.position.z);
 		
 		//bending
 		if(Input.GetKey(KeyCode.Q))
@@ -279,19 +297,22 @@ public class Manager : MonoBehaviour {
 				}
 			}
 		}
-		//if Planet is orbitting around a star, make star the center of the screen, otherwise the planet
-		if(orbitting){												
-			Camera.main.transform.position = new Vector3(cur_star.transform.position.x, cur_star.transform.position.y, Camera.main.transform.position.z);
-
-		}
-		else{
-			Camera.main.transform.position = new Vector3(l.transform.position.x, l.transform.position.y, Camera.main.transform.position.z);
-		}
-		//If the planet is orbitting, the tab key moves you further away and A moves you closer
-		if(orbitting && Input.GetKey(KeyCode.Tab) && Camera.main.orthographicSize <= 150)
+	
+		//camera follows learth
+		Camera.main.transform.position = orbitting ? 
+				Vector3.Lerp(Camera.main.transform.position, 
+				new Vector3(l.transform.position.x,l.transform.position.y,Camera.main.transform.position.z),ORBIT_LERP*Time.deltaTime)
+				:
+				Vector3.Lerp(Camera.main.transform.position, 
+				new Vector3(l.transform.position.x,l.transform.position.y,Camera.main.transform.position.z),TRAVEL_LERP*Time.deltaTime)
+				;
+		
+		//the tab key moves you further away and A moves you closer
+		if(Input.GetKey(KeyCode.Tab) && Camera.main.orthographicSize <= CAM_MAX_DIST)
 			Camera.main.orthographicSize +=5;
-		if(orbitting && Input.GetKey(KeyCode.A) && Camera.main.orthographicSize >=50)
+		if(Input.GetKey(KeyCode.A) && Camera.main.orthographicSize >= CAM_MIN_DIST)
 			Camera.main.orthographicSize -= 5;
+		
 	
 	}
 	
