@@ -17,9 +17,11 @@ public class Manager : MonoBehaviour {
 	//the larger this number is, the more closely the camera follows learth while not in orbit
 	private float TRAVEL_LERP = 0.7f;
 	//How far the player is allowed to move the camera
-	private float CAM_MAX_DIST = 150;
+	private float CAM_MAX_DIST = 400;
 	//How close the player is allowed to move the camera
 	private float CAM_MIN_DIST = 50;
+	//how fast the player can zoom in/out
+	private float CAM_MOVE_SPEED = 2;
 	
 	//Hook into unity
 	public GameObject learth;
@@ -28,16 +30,16 @@ public class Manager : MonoBehaviour {
 	public static GameObject cur_star;
 	
 	//actual objects used in script
-	public static GameObject l, s, s1, s2, s3, s4, s5, s6, s7;
+	public static GameObject l, s, s1, s2, s3, s4, s5, s6, s7, s8;
 	public GameObject[] star_arr;
 	public int numStars = 0;
 	
 	//level related variables, not sure how this works with different scenes. might need another class for these
 	//positions past which learth will die. levels are always rectangles
-	float LEVEL_X_MAX = 200;
-	float LEVEL_X_MIN = -200;
-	float LEVEL_Y_MAX = 200;
-	float LEVEL_Y_MIN = -200;
+	float LEVEL_X_MAX = 1000;
+	float LEVEL_X_MIN = -1000;
+	float LEVEL_Y_MAX = 1000;
+	float LEVEL_Y_MIN = -1000;
 	
 	//learth-related variables
 	public static int energy = 2;
@@ -62,62 +64,70 @@ public class Manager : MonoBehaviour {
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		
 		//instantiate stars and store them in array
-		star_arr = new GameObject[7]; 
+		star_arr = new GameObject[8]; 
 		
 		//instantiate spacerip
-		CreateSpaceRip(-10,55,70,10);
+	//	CreateSpaceRip(-10,55,70,10);
 		
 		s1 = Instantiate (star, new Vector3 (0, 0, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s1script = s1.GetComponent<Starscript>();
 		s1script.c = Color.white;
 		s1script.t = twhite;
-		s1script.starSize = 25f;
+		s1script.starSize = 30f;
 		
-		s2 = Instantiate (star, new Vector3 (-100, 50, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		s2 = Instantiate (star, new Vector3 (-50, -100, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s2script = s2.GetComponent<Starscript>();
 		s2script.c = Color.blue;
 		s2script.t = tblue;
+		s2script.starSize = 35f;
 		
-		s3 = Instantiate (star, new Vector3 (-70, -20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		s3 = Instantiate (star, new Vector3 (50, -200, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s3script = s3.GetComponent<Starscript>();
 		s3script.c = Color.yellow;
 		s3script.t = tyellow;
-		s3script.starSize = 25f;
+		s3script.starSize = 35f;
 		
-		s4 = Instantiate (star, new Vector3 (120, -50, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		s4 = Instantiate (star, new Vector3 (-50, -300, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s4script = s4.GetComponent<Starscript>();
 		s4script.c = Color.white;
 		s4script.t = twhite;
-		s4script.starSize = 30f;
+		s4script.starSize = 35f;
 		
-		s5 = Instantiate (star, new Vector3 (90, 60, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		s5 = Instantiate (star, new Vector3 (50, -400, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s5script = s5.GetComponent<Starscript>();
 		s5script.c = Color.red;
 		s5script.t = tred;
 		s5script.starSize = 35f;
 		
-		s6 = Instantiate (star, new Vector3 (70, -20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		s6 = Instantiate (star, new Vector3 (-100, -450, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s6script = s6.GetComponent<Starscript>();
 		s6script.c = Color.red;
 		s6script.t = tred;
-		s6script.starSize = 25f;
+		s6script.starSize = 35f;
 		
-		s7 = Instantiate (star, new Vector3 (-100, -70, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		s7 = Instantiate (star, new Vector3 (-300, 150, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		Starscript s7script = s7.GetComponent<Starscript>();
 		s7script.c = Color.blue;
 		s7script.t = tblue;
-		s7script.starSize = 30f;
+		s7script.starSize = 35f; 
+		
+		s8 = Instantiate (star, new Vector3 (400, 150, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		Starscript s8script = s8.GetComponent<Starscript>();
+		s8script.c = Color.blue;
+		s8script.t = tblue;
+		s8script.starSize = 70f;
 		
 		//lastVelocity = Learth_Movement.velocity;
-		lastStar = s7;
-		numStars+=7;
+		lastStar = s8;
+		numStars+=8;
 		star_arr[0] = s1;
 		star_arr[1] = s2;
 		star_arr[2] = s3;
 		star_arr[3] = s4;
 		star_arr[4] = s5;
 		star_arr[5] = s6;	
-		star_arr[6] = s7;
+		star_arr[6] = s7; 
+		star_arr[7] = s8;
 	}
 	
 	//instantiates a space rip from prefab at given location and of given dimensions, returns reference to that object
@@ -308,10 +318,10 @@ public class Manager : MonoBehaviour {
 				;
 		
 		//the tab key moves you further away and A moves you closer
-		if(Input.GetKey(KeyCode.Tab) && Camera.main.orthographicSize <= CAM_MAX_DIST)
-			Camera.main.orthographicSize +=5;
-		if(Input.GetKey(KeyCode.A) && Camera.main.orthographicSize >= CAM_MIN_DIST)
-			Camera.main.orthographicSize -= 5;
+		if(Input.GetKey(KeyCode.A) && Camera.main.orthographicSize <= CAM_MAX_DIST)
+			Camera.main.orthographicSize += CAM_MOVE_SPEED;
+		if(Input.GetKey(KeyCode.S) && Camera.main.orthographicSize >= CAM_MIN_DIST)
+			Camera.main.orthographicSize -= CAM_MOVE_SPEED;
 		
 	
 	}
