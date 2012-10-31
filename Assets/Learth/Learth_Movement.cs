@@ -38,7 +38,10 @@ public class Learth_Movement : MonoBehaviour {
 	{
 		//if learth collides with a space rip, die
 		if(collision.gameObject.name == "Space_Rip(Clone)")
-			Manager.Die();	
+			Manager.Die();
+		//if learth collides with a star, die
+		if(collision.gameObject.name == "Star(Clone)")
+			Manager.Die();
 			
 	}	
 	
