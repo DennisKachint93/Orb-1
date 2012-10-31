@@ -24,6 +24,8 @@ public class Manager : MonoBehaviour {
 	private float CAM_MIN_DIST = 50;
 	//how fast the player can zoom in/out
 	private float CAM_MOVE_SPEED = 2;
+	//Camera orthographic size at start, higher = see more
+	private float CAM_START_HEIGHT = 300;
 	
 	//Hook into unity
 	public GameObject learth;
@@ -72,56 +74,16 @@ public class Manager : MonoBehaviour {
 		CreateSpaceRip(-200,-70,10,600);
 		CreateSpaceRip(-200, -500,10,70);
 		
-		s1=addStar (s1, new Vector3 (0, 0, 0), new Quaternion (0, 0, 0, 0), Color.white, twhite, 30f);
-		//s1 = Instantiate (star, new Vector3 (0, 0, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-		//Starscript s1script = s1.GetComponent<Starscript>();
-		//s1script.c = Color.white;
-		//s1script.t = twhite;
-		//s1script.starSize = 30f;
+		//instantiate stars
+		s1 = CreateStar (s1, new Vector3 (0, 0, 0), Color.white, twhite, 30f);
+		s2 = CreateStar (s2, new Vector3 (-50, -100, 0), Color.blue, tblue, 35f);
+		s3 = CreateStar (s3, new Vector3 (50, -200, 0), Color.yellow, tyellow, 30f);
+		s4 = CreateStar (s4, new Vector3 (-50, -300, 0), Color.white, twhite, 35f);
+		s5 = CreateStar (s5, new Vector3 (50, -400, 0), Color.red, tred, 35f);
+		s6 = CreateStar (s6, new Vector3 (-100, -450, 0), Color.red, tred, 35f);
+		s7 = CreateStar (s7, new Vector3 (-300, 150, 0), Color.blue, tblue, 30f);
+		s8 = CreateStar (s8, new Vector3 (400, 150, 0), Color.blue, tblue, 70f);
 		
-		s2 = Instantiate (star, new Vector3 (-50, -100, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-		Starscript s2script = s2.GetComponent<Starscript>();
-		s2script.c = Color.blue;
-		s2script.t = tblue;
-		s2script.starSize = 35f;
-		
-		s3 = Instantiate (star, new Vector3 (50, -200, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-		Starscript s3script = s3.GetComponent<Starscript>();
-		s3script.c = Color.yellow;
-		s3script.t = tyellow;
-		s3script.starSize = 35f;
-		
-		s4 = Instantiate (star, new Vector3 (-50, -300, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-		Starscript s4script = s4.GetComponent<Starscript>();
-		s4script.c = Color.white;
-		s4script.t = twhite;
-		s4script.starSize = 35f;
-		
-		s5 = Instantiate (star, new Vector3 (50, -400, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-		Starscript s5script = s5.GetComponent<Starscript>();
-		s5script.c = Color.red;
-		s5script.t = tred;
-		s5script.starSize = 35f;
-		
-		s6 = Instantiate (star, new Vector3 (-100, -450, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-		Starscript s6script = s6.GetComponent<Starscript>();
-		s6script.c = Color.red;
-		s6script.t = tred;
-		s6script.starSize = 35f;
-		
-		s7 = Instantiate (star, new Vector3 (-300, 150, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-		Starscript s7script = s7.GetComponent<Starscript>();
-		s7script.c = Color.blue;
-		s7script.t = tblue;
-		s7script.starSize = 35f; 
-		
-		s8 = Instantiate (star, new Vector3 (400, 150, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-		Starscript s8script = s8.GetComponent<Starscript>();
-		s8script.c = Color.blue;
-		s8script.t = tblue;
-		s8script.starSize = 70f;
-		
-		//lastVelocity = Learth_Movement.velocity;
 		lastStar = s8;
 		numStars+=8;
 		star_arr[0] = s1;
@@ -132,6 +94,9 @@ public class Manager : MonoBehaviour {
 		star_arr[5] = s6;	
 		star_arr[6] = s7; 
 		star_arr[7] = s8;
+		
+		//set camera height for beginning a game
+		Camera.main.orthographicSize = CAM_START_HEIGHT;
 	}
 	
 	//instantiates a space rip from prefab at given location and of given dimensions, returns reference to that object
@@ -141,15 +106,18 @@ public class Manager : MonoBehaviour {
 		rip_actual.transform.localScale += new Vector3(width,height,0);
 		return rip_actual;
 	}
-		GameObject addStar(GameObject starE, Vector3 vec, Quaternion quat, Color color, Texture texture, float size)
+	
+	//instantiates star given a reference to a gameobject, a location, a color, a texture, and a size
+	GameObject CreateStar(GameObject starE, Vector3 vec, Color color, Texture texture, float size)
 	{
-		starE = Instantiate (star, vec, quat) as GameObject;
+		starE = Instantiate (star, vec, new Quaternion(0,0,0,0)) as GameObject;
 		Starscript starscript = starE.GetComponent<Starscript>();
 		starscript.c = color;
 		starscript.t = texture;
 		starscript.starSize = size; 
 		return starE;
 	}
+	
 	//puts Learth in orbit given an entrance point, a velocity, a star, and a direction
 	public static void MoveLearthToOrbit(Vector3 entrance_point, Vector3 entrance_velocity, GameObject star, bool cwise )
 	{
@@ -192,19 +160,22 @@ public class Manager : MonoBehaviour {
 	
 	void Update () {
 		
-		/*********************DEBUGGING CONROLS********************/
-		// for testing purposes, R causes a death and T resets the level
+		/*********************DEBUGGING CONTROLS********************/
 		// resetting level with T before leaving first star orbit freezes the game 
+		//R causes the player to die
 		if(Input.GetKeyDown(KeyCode.R))
 			Die();
+		//T resets the level
 		if(Input.GetKeyDown(KeyCode.T))
 			ResetLevel();
 		//Y resets camera to learth's position
 		if(Input.GetKeyDown (KeyCode.Y))
 			Camera.main.transform.position = new Vector3(l.transform.position.x, l.transform.position.y, Camera.main.transform.position.z);
-		//U prints position and last position on demand
+		//U prints position and last position and their difference on demand
 		if(Input.GetKeyDown(KeyCode.U))
-			Debug.Log("pos: "+l.transform.position+" last pos: "+Learth_Movement.lastPos);
+			Debug.Log("pos: "+l.transform.position+" last pos: "+Learth_Movement.lastPos+" dist: "
+				+Vector3.Distance(l.transform.position,Learth_Movement.lastPos));
+		/*********************END DEBUGGING CONTROLS*****************/
 		
 		//bending - each has 4 cases. this is functional enough but needs to be seriously analyzed and probably rewritten 
 		if(Input.GetKey(KeyCode.Q))
@@ -352,7 +323,7 @@ public class Manager : MonoBehaviour {
 				new Vector3(l.transform.position.x,l.transform.position.y,Camera.main.transform.position.z),TRAVEL_LERP*Time.deltaTime)
 				;
 		
-		//the tab key moves you further away and A moves you closer
+		//A moves the camera farther, S moves the camera closer
 		if(Input.GetKey(KeyCode.A) && Camera.main.orthographicSize <= CAM_MAX_DIST)
 			Camera.main.orthographicSize += CAM_MOVE_SPEED;
 		if(Input.GetKey(KeyCode.S) && Camera.main.orthographicSize >= CAM_MIN_DIST)
