@@ -12,12 +12,11 @@ public class Manager : MonoBehaviour {
 	//larger the tan error, the easier it is to enter a star at a legal radius
 	private float TAN_ERROR = 8;
 	//the larger this number is, the sharper bends are
-	private float BEND_FACTOR = 5.5f;
-	//lerp note: too high, and the game is jerky, too low and the learth goes off screen 
+	private float BEND_FACTOR = 4.0f;
 	//the larger this number is, the more closely the camera follows learth while in orbit
 	private float ORBIT_LERP = .05f;
 	//the larger this number is, the more closely the camera follows learth while not in orbit
-	private static float TRAVEL_LERP = 0.7F;
+	private float TRAVEL_LERP = 0.7F;
 	//How far the player is allowed to move the camera
 	private float CAM_MAX_DIST = 400;
 	//How close the player is allowed to move the camera
@@ -34,7 +33,7 @@ public class Manager : MonoBehaviour {
 	public static GameObject cur_star;
 	
 	//actual objects used in script
-	public static GameObject l, s, e, s1, s2, s3, s4, s5, s6, s7, s8;
+	public static GameObject l, s, e;
 	public GameObject[] star_arr;
 	public int numStars = 0;
 	
@@ -63,37 +62,29 @@ public class Manager : MonoBehaviour {
 	public Texture tgray;
 	public Texture tblue;
 	
+	//current number of stars added
+	private int arr_size = 0;
+	
 	void Start () {
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		
 		//instantiate stars and store them in array
-		star_arr = new GameObject[8]; 
+		star_arr = new GameObject[0]; 
 		
 		//instantiate spacerips
 		CreateSpaceRip(-200,-70,10,600);
 		CreateSpaceRip(-200, -500,10,70);
 		
 		//instantiate stars
-		s1 = CreateStar (s1, new Vector3 (0, 0, 0), Color.white, twhite, 30f);
-		s2 = CreateStar (s2, new Vector3 (-50, -100, 0), Color.blue, tblue, 35f);
-		s3 = CreateStar (s3, new Vector3 (50, -200, 0), Color.yellow, tyellow, 30f);
-		s4 = CreateStar (s4, new Vector3 (-50, -300, 0), Color.white, twhite, 35f);
-		s5 = CreateStar (s5, new Vector3 (50, -400, 0), Color.red, tred, 35f);
-		s6 = CreateStar (s6, new Vector3 (-100, -450, 0), Color.red, tred, 35f);
-		s7 = CreateStar (s7, new Vector3 (-300, 150, 0), Color.blue, tblue, 30f);
-		s8 = CreateStar (s8, new Vector3 (400, 150, 0), Color.blue, tblue, 70f);
-		
-		lastStar = s8;
-		numStars+=8;
-		star_arr[0] = s1;
-		star_arr[1] = s2;
-		star_arr[2] = s3;
-		star_arr[3] = s4;
-		star_arr[4] = s5;
-		star_arr[5] = s6;	
-		star_arr[6] = s7; 
-		star_arr[7] = s8;
+		CreateStar (0, 0, Color.white, twhite, 30f);
+		CreateStar (-50, -100, Color.blue, tblue, 35f);
+		CreateStar (50, -200, Color.yellow, tyellow, 30f);
+		CreateStar (-50, -300, Color.white, twhite, 35f);
+		CreateStar (50, -400, Color.red, tred, 35f);
+		CreateStar (-100, -450, Color.red, tred, 35f);
+		CreateStar (-300, 150, Color.blue, tblue, 30f);
+		CreateStar (400, 150, Color.blue, tblue, 70f);
 		
 		//set camera height for beginning a game
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
@@ -107,14 +98,24 @@ public class Manager : MonoBehaviour {
 		return rip_actual;
 	}
 	
-	//instantiates star given a reference to a gameobject, a location, a color, a texture, and a size
-	GameObject CreateStar(GameObject starE, Vector3 vec, Color color, Texture texture, float size)
+	//instantiates star from prefab at given xy location and of given characteristics
+	GameObject CreateStar(float x, float y, Color color, Texture texture, float size)
 	{
-		starE = Instantiate (star, vec, new Quaternion(0,0,0,0)) as GameObject;
+		GameObject starE = Instantiate (star, new Vector3(x,y,0), new Quaternion(0,0,0,0)) as GameObject;
 		Starscript starscript = starE.GetComponent<Starscript>();
 		starscript.c = color;
 		starscript.t = texture;
 		starscript.starSize = size; 
+		
+		//expand and copy star_arr - if loading a level takes too long, this can be optimized
+		GameObject[] temp_arr = new GameObject[arr_size+1];
+		for(int i=0;i<arr_size;i++)
+			temp_arr[i] = star_arr[i];
+		star_arr = temp_arr;
+		star_arr[arr_size] = starE;
+		arr_size++;
+		lastStar = starE;
+		numStars++;
 		return starE;
 	}
 	
@@ -142,7 +143,8 @@ public class Manager : MonoBehaviour {
 		//otherwise, you move back 1, 2, or 3 stars
 		else {
 			//move learth to previous stars
-			MoveLearthToOrbit(Learth_Movement.last_stars[num_deaths], Learth_Movement.last_stars_velocity[num_deaths], Learth_Movement.last_energies[num_deaths],
+			MoveLearthToOrbit(Learth_Movement.last_stars[num_deaths], 
+				Learth_Movement.last_stars_velocity[num_deaths], Learth_Movement.last_energies[num_deaths],
 				Learth_Movement.last_star_gos[num_deaths], Learth_Movement.last_star_rots[num_deaths]);
 				
 			//move with learth
@@ -229,10 +231,12 @@ public class Manager : MonoBehaviour {
 		if (Learth_Movement.isTangent) {
 			orbitting = true;
 			if (clockwise){
-				l.transform.RotateAround(s.transform.position, Vector3.forward, -(Learth_Movement.SPEED)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
+				l.transform.RotateAround(s.transform.position, Vector3.forward, 
+					-(Learth_Movement.SPEED)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
 			}
 			else  {
-				l.transform.RotateAround(s.transform.position, Vector3.forward, Learth_Movement.SPEED/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
+				l.transform.RotateAround(s.transform.position, 
+					Vector3.forward, Learth_Movement.SPEED/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
 			}
 			if (Vector3.Distance (l.transform.position, tangent) < 2) {
 				revisit++;
@@ -262,7 +266,11 @@ public class Manager : MonoBehaviour {
 				Vector3 projection = Vector3.Project (star_from_learth, l_movement);
 				tangent = projection + l.transform.position;
 				//if planet is within star's orbital radius, set isTangent to true
-				if (s != lastStar && Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - RADIAL_ERROR) && Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius + RADIAL_ERROR) && Vector3.Distance (tangent, l.transform.position) <= TAN_ERROR) {
+				if (s != lastStar 
+					&& Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - RADIAL_ERROR) 
+					&& Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius + RADIAL_ERROR) 
+					&& Vector3.Distance (tangent, l.transform.position) <= TAN_ERROR) 
+				{	
 					orbitting = true;
 					cur_star = s;
 					Learth_Movement.isTangent = true;
