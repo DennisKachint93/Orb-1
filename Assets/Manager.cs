@@ -34,7 +34,7 @@ public class Manager : MonoBehaviour {
 	public static GameObject cur_star;
 	
 	//actual objects used in script
-	public static GameObject l, s, s1, s2, s3, s4, s5, s6, s7, s8;
+	public static GameObject l, s, e, s1, s2, s3, s4, s5, s6, s7, s8;
 	public GameObject[] star_arr;
 	public int numStars = 0;
 	
@@ -46,7 +46,7 @@ public class Manager : MonoBehaviour {
 	float LEVEL_Y_MIN = -500;
 	
 	//learth-related variables
-	public static int energy = 2;
+	public static float energy = 5f;
 	public GameObject lastStar;
 	public static Vector3 tangent;
 	public static bool clockwise = false;
@@ -118,9 +118,10 @@ public class Manager : MonoBehaviour {
 		return starE;
 	}
 	
-	//puts Learth in orbit given an entrance point, a velocity, a star, and a direction
-	public static void MoveLearthToOrbit(Vector3 entrance_point, Vector3 entrance_velocity, GameObject star, bool cwise )
+	//puts Learth in orbit given an entrance point, an energy value, a velocity, a star, and a direction
+	public static void MoveLearthToOrbit(Vector3 entrance_point, Vector3 entrance_velocity, float lastEnergy, GameObject star, bool cwise )
 	{
+		energy = lastEnergy;
 		s = star;
 		cur_star = s;
 		Learth_Movement.isTangent = true;
@@ -132,9 +133,7 @@ public class Manager : MonoBehaviour {
 	
 	//call this anytime something kills the player
 	public static void Die()
-	{
-		//death animation here?
-		
+	{		
 		//if you screw up too much at the beginning, or if you've died more than 3 times, just start the level over
 		if(Learth_Movement.last_star_gos[num_deaths] == null || num_deaths > 2)
 		{
@@ -143,7 +142,7 @@ public class Manager : MonoBehaviour {
 		//otherwise, you move back 1, 2, or 3 stars
 		else {
 			//move learth to previous stars
-			MoveLearthToOrbit(Learth_Movement.last_stars[num_deaths], Learth_Movement.last_stars_velocity[num_deaths], 
+			MoveLearthToOrbit(Learth_Movement.last_stars[num_deaths], Learth_Movement.last_stars_velocity[num_deaths], Learth_Movement.last_energies[num_deaths],
 				Learth_Movement.last_star_gos[num_deaths], Learth_Movement.last_star_rots[num_deaths]);
 				
 			//move with learth
@@ -180,6 +179,7 @@ public class Manager : MonoBehaviour {
 		//bending - each has 4 cases. this is functional enough but needs to be seriously analyzed and probably rewritten 
 		if(Input.GetKey(KeyCode.Q))
 		{
+			energy -= .025f;
 			if(l.transform.position.x < 0 && l.transform.position.y < 0)
 				Learth_Movement.lastPos += BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,-0.1f,0);
 
@@ -194,6 +194,7 @@ public class Manager : MonoBehaviour {
 		}
 		else if (Input.GetKey(KeyCode.W))
 		{		
+			energy -= .025f;
 			if(l.transform.position.x < 0  && l.transform.position.y < 0)
 				Learth_Movement.lastPos -= BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,-0.1f,0);
 			
@@ -213,7 +214,7 @@ public class Manager : MonoBehaviour {
 		if(energy < 0)
 		{
 			Die ();
-			energy = 2;
+			energy = 2f;
 		}
 		
 		//if you travel outside the bounds of the level, you die
@@ -233,20 +234,20 @@ public class Manager : MonoBehaviour {
 			else  {
 				l.transform.RotateAround(s.transform.position, Vector3.forward, Learth_Movement.SPEED/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
 			}
-			if (Vector3.Distance (l.transform.position, tangent) < 1) {
+			if (Vector3.Distance (l.transform.position, tangent) < 2) {
 				revisit++;
 				if (revisit == 1) {
-					energy -= 1;
+					energy -= 1f;
 				}
 			}
 			else {
 				revisit = 0;
 			}
-			//if space bar is pressed, accelerate away from star. Problem: sometimes star gets stuck in orbit because its still within orbital radius
+			//if space bar is pressed, accelerate away from star. 
 			if (Input.GetKeyDown(KeyCode.Space)) {
 				Learth_Movement.isTangent = false;
 				lastStar = s;			
-				energy -= 1;
+				energy -= 1f;
 				Learth_Movement.lastPos = l.transform.position - Learth_Movement.velocity.normalized*Learth_Movement.SPEED;
 				orbitting = false;
 			}
@@ -279,33 +280,36 @@ public class Manager : MonoBehaviour {
 						clockwise = false;
 					}
 					
-					//update last stars, last entrances, last velocity vectors, and last rotations to include this star
+					//update last stars, last energy value, last entrances, last velocity vectors, and last rotations to include this star
 					for(int k=2; k>0;k--)
 					{
+						
 						Learth_Movement.last_stars[k] = Learth_Movement.last_stars[k-1];
+						Learth_Movement.last_energies[k] = Learth_Movement.last_energies[k-1];
 						Learth_Movement.last_stars_velocity[k] = Learth_Movement.last_stars_velocity[k-1];
 						Learth_Movement.last_star_gos[k] = Learth_Movement.last_star_gos[k-1];
 						Learth_Movement.last_star_rots[k] = Learth_Movement.last_star_rots[k-1];
 					}
 					Learth_Movement.last_stars[0] = l.transform.position;
+					Learth_Movement.last_energies[0] = energy;
 					Learth_Movement.last_stars_velocity[0] = l_movement;
 					Learth_Movement.last_star_gos[0] = s;
 					Learth_Movement.last_star_rots[0] = clockwise;
 					
 					//add appropriate energy value depending on color of star
 					if (sscript.c == Color.blue) {
-						energy += 5;
+						energy += 5f;
 					} else if (sscript.c == Color.white){
-						energy += 4;
+						energy += 4f;
 					} else if (sscript.c == Color.yellow) {
-						energy += 3;
+						energy += 3f;
 					} else if (sscript.t == torange) {
-						energy += 2;
+						energy += 2f;
 					} else if (sscript.c == Color.red) {
-						energy += 1;
+						energy += 1f;
 					}
 					else {
-						energy -= 1;
+						energy -= 1f;
 					}
 					sscript.c = dgray;
 					sscript.t = tgray;
@@ -333,7 +337,7 @@ public class Manager : MonoBehaviour {
 	}
 	
 	void OnGUI() {
-        GUI.Label(new Rect(10, 10, 100, 30), "Energy: " + energy);
+        GUI.Label(new Rect(10, 10, 150, 50), "Energy: " + energy);
     }
 		
 }

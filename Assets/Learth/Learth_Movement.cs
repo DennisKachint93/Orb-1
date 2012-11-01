@@ -4,11 +4,14 @@ using System.Collections;
 public class Learth_Movement : MonoBehaviour {
 	
 	//starting speed of learth
-	public static float SPEED = 1.5f;
+	public static float SPEED = 1.3f;
 	
 	public static Vector3 velocity = new Vector3(1f, 1f, 0f);
 	public static Vector3 lastPos;
 	public static bool isTangent = false;
+	
+	//explosion prefab
+	//public GameObject explosion, e;
 	
 	//current and previous 3 positions at which the learth entered
 	public static Vector3[] last_stars = new Vector3[4];
@@ -18,6 +21,8 @@ public class Learth_Movement : MonoBehaviour {
 	public static GameObject[] last_star_gos = new GameObject[4];
 	//current and previous 3 clockwise rotations
 	public static bool[] last_star_rots = new bool[4];
+	//current and previous 3 last energy values at previous 3 stars
+	public static float[] last_energies = new float[4];
 	
 	void Start () {
 		//initialize last stars array
@@ -41,12 +46,17 @@ public class Learth_Movement : MonoBehaviour {
 	void OnCollisionEnter (Collision collision)
 	{
 		//if learth collides with a space rip, die
-		if(collision.gameObject.name == "Space_Rip(Clone)")
+		if(collision.gameObject.name == "Space_Rip(Clone)") {
+			//death animation
+			//e = Instantiate (explosion, transform.position, new Quaternion(0,0,0,0)) as GameObject;
 			Manager.Die();
+		}
 		//if learth collides with a star, die
-		if(collision.gameObject.name == "Star(Clone)")
-			Manager.Die();
-			
+		if(collision.gameObject.name == "Star(Clone)") {
+			//death animation
+			//e = Instantiate (explosion, transform.position, new Quaternion(0,0,0,0)) as GameObject;
+			Manager.Die();	
+		}
 	}	
 	
 	
