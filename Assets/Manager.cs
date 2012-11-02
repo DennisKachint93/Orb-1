@@ -18,11 +18,11 @@ public class Manager : MonoBehaviour {
 	//the larger this number is, the more closely the camera follows learth while not in orbit
 	private float TRAVEL_LERP = 0.7F;
 	//How far the player is allowed to move the camera
-	private float CAM_MAX_DIST = 400;
+	private float CAM_MAX_DIST = 500;
 	//How close the player is allowed to move the camera
 	private float CAM_MIN_DIST = 50;
 	//how fast the player can zoom in/out
-	private float CAM_MOVE_SPEED = 2;
+	private float CAM_MOVE_SPEED = 4;
 	//Camera orthographic size at start, higher = see more
 	private float CAM_START_HEIGHT = 300;
 	
@@ -40,7 +40,7 @@ public class Manager : MonoBehaviour {
 	//level related variables, not sure how this works with different scenes. might need another class for these
 	//positions past which learth will die. levels are always rectangles
 	float LEVEL_X_MAX = 1000;
-	float LEVEL_X_MIN = -1000;
+	float LEVEL_X_MIN = -3000;
 	float LEVEL_Y_MAX = 1000;
 	float LEVEL_Y_MIN = -1000;
 	
@@ -72,37 +72,50 @@ public class Manager : MonoBehaviour {
 		//instantiate stars and store them in array
 		star_arr = new GameObject[0]; 
 		
-		float factor = 2.75f;
-		//instantiate spacerips
-		CreateSpaceRip(50,-85,25,200,-45);
-		CreateSpaceRip(-130,-250,25,200,-60);
-		CreateSpaceRip(-370,-300,25,200,-90);
-		CreateSpaceRip(-575,-225,25,200, 45);
-		CreateSpaceRip(-600,-35,25,200, -20);
-		CreateSpaceRip(-450, 175,25,200, -55);
+		//insantiate spacerips
+		CreateSpaceRip(-400,230,25,400, 25);
+		CreateSpaceRip(-400,-230,25,400, -25);
 		
-		CreateSpaceRip(0, 85,25,200,-45);
-		CreateSpaceRip(-250, -50,25,200,-60);
-		CreateSpaceRip(-350, 10,25,200,-30);
-		CreateSpaceRip(70,30,25,200,50);
-		
+		CreateSpaceRip(500,-100,25,400);
 		
 		//instantiate stars
 		CreateStar (0, 0, Color.white, twhite, 30f);
-		CreateStar (-50*factor, -50*factor, Color.blue, tblue, 30f);
-		CreateStar (-100*factor, -75*factor, Color.yellow, tyellow, 30f);
-		CreateStar (-150*factor, -75*factor, Color.white, twhite, 30f);
-		CreateStar (-200*factor, -50*factor, Color.red, tred, 30f);
-		CreateStar (-175*factor, 25*factor, Color.red, tred, 30f);
-		CreateStar (-120*factor, 50*factor, Color.blue, tblue, 30f);
-		CreateStar (200*factor, 100*factor, Color.blue, tblue, 70f);
-		CreateStar(100*factor,-50*factor, Color.blue, tblue, 30f);
-		CreateStar(150*factor,-100*factor, Color.blue, tblue, 30f);
+		
+		//left side stars
+		CreateStar (-500,75,Color.blue,tblue,70f);
+		CreateStar (-500,-75,Color.blue,tblue,70f);
+		
+		CreateStar(-490,430,Color.blue,tblue,20f);
+		CreateStar(-490,-430,Color.blue,tblue,20f);
+	
+		CreateStar(-900,200,Color.yellow, tyellow, 35f);
+		CreateStar(-700,150,Color.white, twhite, 35f);
+		CreateStar(-950,0,Color.yellow, tyellow, 35f);
+		CreateStar(-1100,100,Color.white, twhite,35f);
+		CreateStar(-1100,-200,Color.blue, tblue,35f);
+		
+		//right side stars
+		CreateStar(500,200,Color.red,tred,65f);
+		
+		CreateStar(700, 0, Color.blue,tblue,35f);
+		CreateStar (650, -100, Color.white,twhite,35f);
+		CreateStar (800,-100, Color.yellow,tyellow,35f);
+		CreateStar (1400, -300, Color.white,twhite,45f);
+		
+		//middle stars
+		CreateStar(-100,100,Color.blue,tblue,35f);
+		CreateStar(-250, -400,Color.white,twhite,35f);
+		CreateStar(200,-250,Color.yellow, tyellow,35f);
 		
 		//set camera height for beginning a game
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
 	}
 	
+	//Instantiates a space rip with 0 rotation
+	GameObject CreateSpaceRip(float x, float y, float width, float height)
+	{
+		return CreateSpaceRip(x,y,width,height,0);	
+	}
 	//instantiates a space rip from prefab at given location and of given dimensions, with given rotation, returns reference to that object
 	GameObject CreateSpaceRip(float x, float y, float width, float height, float rotation)
 	{

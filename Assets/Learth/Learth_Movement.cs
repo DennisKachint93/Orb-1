@@ -4,7 +4,7 @@ using System.Collections;
 public class Learth_Movement : MonoBehaviour {
 	
 	//starting speed of learth
-	public static float SPEED = 1.3f;
+	public static float SPEED = 1.5f;
 	
 	public static Vector3 velocity = new Vector3(1f, 1f, 0f);
 	public static Vector3 lastPos;
