@@ -104,7 +104,7 @@ public class Manager : MonoBehaviour {
 		CreateStar(700, 0, Color.blue,tblue,35f);
 		CreateStar (650, -100, Color.white,twhite,35f);
 		CreateStar (800,-100, Color.yellow,tyellow,35f);
-		CreateStar (1400, -300, Color.white,twhite,45f);
+		CreateStar (950, -300, Color.white,twhite,45f);
 		
 		//middle stars
 		CreateStar(-100,100,Color.blue,tblue,35f);
