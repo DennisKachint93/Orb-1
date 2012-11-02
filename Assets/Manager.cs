@@ -25,6 +25,10 @@ public class Manager : MonoBehaviour {
 	private float CAM_MOVE_SPEED = 4;
 	//Camera orthographic size at start, higher = see more
 	private float CAM_START_HEIGHT = 300;
+	//How much energy is reduced each frame while bending
+	private float BEND_COST = .025f;
+	//How much energy is reduced each frame while invincible
+	private float INVINC_COST = .05f;
 	
 	//Hook into unity
 	public GameObject learth;
@@ -208,7 +212,7 @@ public class Manager : MonoBehaviour {
 		//bending - each has 4 cases. this is functional enough but needs to be seriously analyzed and probably rewritten 
 		if(Input.GetKey(KeyCode.Q))
 		{
-			energy -= .025f;
+			energy -= BEND_COST;
 			if(l.transform.position.x < 0 && l.transform.position.y < 0)
 				Learth_Movement.lastPos += BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,-0.1f,0);
 
@@ -223,7 +227,7 @@ public class Manager : MonoBehaviour {
 		}
 		else if (Input.GetKey(KeyCode.W))
 		{		
-			energy -= .025f;
+			energy -= BEND_COST;
 			if(l.transform.position.x < 0  && l.transform.position.y < 0)
 				Learth_Movement.lastPos -= BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,-0.1f,0);
 			
@@ -237,6 +241,15 @@ public class Manager : MonoBehaviour {
 				Learth_Movement.lastPos -= BEND_FACTOR*Time.deltaTime*new Vector3(-0.1f, 0.1f,0);
 		}
 		
+		//temporary invincibility, logic implemented in Learth_Movement.cs 
+		if(Input.GetKey(KeyCode.E))
+		{
+			l.renderer.material.color = Color.green;
+			energy -= INVINC_COST;
+		}
+		//change learth color back to normal
+		if(Input.GetKeyUp (KeyCode.E))
+			l.renderer.material.color = Color.white;
 		
 		//Death conditions
 		//if you run out of energy, you die, but you get a little energy back
