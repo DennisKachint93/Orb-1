@@ -5,12 +5,17 @@ public class Manager : MonoBehaviour {
 	
 	//Constants
 
+	/*GAMEPLAY CONTROLS */
 	//Larger the error, the wider legal orbit radius 
 	private int RADIAL_ERROR = 9;
 	//larger the tan error, the easier it is to enter a star at a legal radius
-	private float TAN_ERROR = 8;
+	private float TAN_ERROR = 13;
 	//the larger this number is, the sharper bends are
 	private float BEND_FACTOR = 4.0f;
+	//larger the number, the faster the learth moves overall
+	private float MOVEMENT_SPEED = 0.80f;
+	
+	/*CAMERA CONTROLS */
 	//the larger this number is, the more closely the camera follows learth while in orbit
 	private float ORBIT_LERP = .05f;
 	//the larger this number is, the more closely the camera follows learth while not in orbit
@@ -23,12 +28,18 @@ public class Manager : MonoBehaviour {
 	private float CAM_MOVE_SPEED = 4;
 	//Camera orthographic size at start, higher = see more
 	private float CAM_START_HEIGHT = 300;
+	
+	/*ENERGY CONTROLS */	
 	//How much energy is reduced each frame while bending
 	private float BEND_COST = .025f;
 	//How much energy is reduced each frame while invincible
 	private float INVINC_COST = .05f;
-	//starting speed of learth
-	public static float MOVEMENT_SPEED = 1.35f;
+	//this much energy is subtracted each frame the learth is not in orbit
+	private float FLYING_COST = .00025f;
+	//this much energy is subtracted each frame the learth is in orbit
+	private float ORBITING_COST = .000025f;
+	//this much energy is subtracted when they player hits the space bar to launch from a star
+	private float LEAVING_COST = 0;
 	
 	//Hook into unity
 	public GameObject learth;
@@ -49,6 +60,7 @@ public class Manager : MonoBehaviour {
 	float LEVEL_Y_MIN = -1000;
 	
 	//learth-related variables
+	public static float speed = 0;
 	public static float energy = 5f;
 	public GameObject lastStar;
 	public static Vector3 tangent;
@@ -188,6 +200,7 @@ public class Manager : MonoBehaviour {
 	//reloads the scene and modifies whatever we want to modify when the scene gets reloaded
 	public static void ResetLevel() {
 		Application.LoadLevel(Application.loadedLevel);	
+		energy = 2;
 	}
 	
 	void Update () {
@@ -208,6 +221,9 @@ public class Manager : MonoBehaviour {
 			Debug.Log("pos: "+l.transform.position+" last pos: "+Learth_Movement.lastPos+" dist: "
 				+Vector3.Distance(l.transform.position,Learth_Movement.lastPos));
 		/*********************END DEBUGGING CONTROLS*****************/
+		
+		//Speed is now logarithmic
+		speed = Mathf.Log(energy)*MOVEMENT_SPEED;
 		
 		//bending - each has 4 cases. this is functional enough but needs to be seriously analyzed and probably rewritten 
 		if(Input.GetKey(KeyCode.Q))
@@ -253,7 +269,7 @@ public class Manager : MonoBehaviour {
 		
 		//Death conditions
 		//if you run out of energy, you die, but you get a little energy back
-		if(energy < 0)
+		if(energy < 1)
 		{
 			Die ();
 			energy = 2f;
@@ -267,16 +283,22 @@ public class Manager : MonoBehaviour {
 			Die ();
 		
 		
-		//if learth is tangent to star s, rotate around star s
+		//if learth is tangent to star s
 		if (Learth_Movement.isTangent) {
+			//if in orbit, decrease energy at correct rate
+			energy -= ORBITING_COST;
+			
+			//set flag
 			orbitting = true;
+			
+			//rotate around star s
 			if (clockwise){
 				l.transform.RotateAround(s.transform.position, Vector3.forward, 
-					-(MOVEMENT_SPEED)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
+					-(speed > 1 ? speed : 1)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
 			}
 			else  {
 				l.transform.RotateAround(s.transform.position, 
-					Vector3.forward, MOVEMENT_SPEED/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
+					Vector3.forward, (speed > 1 ? speed : 1)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
 			}
 			if (Vector3.Distance (l.transform.position, tangent) < 2) {
 				revisit++;
@@ -287,17 +309,22 @@ public class Manager : MonoBehaviour {
 			else {
 				revisit = 0;
 			}
+			
 			//if space bar is pressed, accelerate away from star. 
 			if (Input.GetKeyDown(KeyCode.Space)) {
 				Learth_Movement.isTangent = false;
 				lastStar = s;			
-				energy -= 1f;
-				Learth_Movement.lastPos = l.transform.position - Learth_Movement.velocity.normalized*MOVEMENT_SPEED;
+				energy -= LEAVING_COST;
+				Learth_Movement.lastPos = l.transform.position - Learth_Movement.velocity.normalized*speed;
 				orbitting = false;
 			}
 		}
-		//if earth is not tangent to any star, loop through array and calculate tangent vectors to every star
+		//if earth is not tangent to any star
 		else if (!Learth_Movement.isTangent) {
+			//if not in orbit, decrease energy at correct rate
+			energy -= FLYING_COST;
+			
+			//loop through array and calculate tangent vectors to every star
 			for (int i = 0; i < numStars; i++){
 				s = star_arr[i];
 				Starscript sscript = s.GetComponent<Starscript>();

@@ -27,7 +27,7 @@ public class Learth_Movement : MonoBehaviour {
 		for(int i=0;i<3;i++)
 			last_star_gos[i] = null;
 		
-		lastPos = this.transform.position - new Vector3(Manager.MOVEMENT_SPEED, Manager.MOVEMENT_SPEED, 0f);	
+		lastPos = this.transform.position - new Vector3(Manager.speed, Manager.speed, 0f);	
 	}	
 	
 	void Update () {
@@ -36,7 +36,7 @@ public class Learth_Movement : MonoBehaviour {
 		lastPos = this.transform.position;
 		//regular non-orbiting movement
 		if (!isTangent) {
-			this.transform.position += velocity.normalized*Manager.MOVEMENT_SPEED;	
+			this.transform.position += velocity.normalized*Manager.speed;	
 		}
 	}
 	
