@@ -10,8 +10,8 @@ public class Manager : MonoBehaviour {
 	private int RADIAL_ERROR = 9;
 	//larger the tan error, the easier it is to enter a star at a legal radius
 	private float TAN_ERROR = 13;
-	//the larger this number is, the sharper bends are
-	private float BEND_FACTOR = .10f;
+	//the larger this number is, the sharper bends are (est. useful range: 0 - 2)
+	private float BEND_FACTOR = .075f;
 	//larger the number, the faster the learth moves overall
 	private float MOVEMENT_SPEED = 0.80f;
 	
@@ -127,13 +127,8 @@ public class Manager : MonoBehaviour {
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
 	}
 	
-	//Instantiates a space rip with 0 rotation
-	GameObject CreateSpaceRip(float x, float y, float width, float height)
-	{
-		return CreateSpaceRip(x,y,width,height,0);	
-	}
-	//instantiates a space rip from prefab at given location and of given dimensions, with given rotation, returns reference to that object
-	GameObject CreateSpaceRip(float x, float y, float width, float height, float rotation)
+	//instantiates a space rip from prefab at given location and of given dimensions, with given rotation (default = 0), returns reference to that object
+	GameObject CreateSpaceRip(float x, float y, float width, float height, float rotation = 0)
 	{
 		GameObject rip_actual = Instantiate (rip, new Vector3 (x, y, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		rip_actual.transform.localScale += new Vector3(width,height,0);
