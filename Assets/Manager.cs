@@ -56,8 +56,8 @@ public class Manager : MonoBehaviour {
 	
 	//level related variables, not sure how this works with different scenes. might need another class for these
 	//positions past which learth will die. levels are always rectangles
-	float LEVEL_X_MAX = 1000;
-	float LEVEL_X_MIN = -3000;
+	float LEVEL_X_MAX = 2000;
+	float LEVEL_X_MIN = -1000;
 	float LEVEL_Y_MAX = 1000;
 	float LEVEL_Y_MIN = -1000;
 	
@@ -90,14 +90,14 @@ public class Manager : MonoBehaviour {
 		star_arr = new GameObject[0]; 
 		
 		//insantiate spacerips
-		CreateSpaceRip(-400,230,25,400, 25);
+/*		CreateSpaceRip(-400,230,25,400, 25);
 		CreateSpaceRip(-400,-230,25,400, -25);
 		
 		CreateSpaceRip(500,-100,25,400);
-		
+		*/
 		//instantiate stars
 		CreateStar (0, 0, Color.white, twhite, 30f);
-		
+		/*
 		//left side stars
 		CreateStar (-500,75,Color.blue,tblue,70f);
 		CreateStar (-500,-75,Color.blue,tblue,70f);
@@ -122,7 +122,31 @@ public class Manager : MonoBehaviour {
 		//middle stars
 		CreateStar(-100,100,Color.blue,tblue,35f);
 		CreateStar(-250, -400,Color.white,twhite,35f);
-		CreateStar(200,-250,Color.yellow, tyellow,35f);
+		CreateStar(200,-250,Color.yellow, tyellow,35f); */
+		
+		//new test level!
+		CreateStar (100,100,Color.blue,tblue,35f);
+		CreateStar (200,200,Color.blue,tblue,35f);
+		CreateStar (350,300,Color.blue,tblue,35f);
+		CreateStar (550, 400, Color.blue,tblue,35f);
+		CreateStar (900, 500, Color.blue,tblue,35f);
+		
+		CreateStar (900, -200, Color.white,twhite,35f);
+		CreateStar (850, -150, Color.blue,tblue,35f);
+		CreateStar(800, 100, Color.white,twhite,35f);
+		CreateStar(700, 0, Color.blue,tblue,35f);
+		CreateStar (800, -250,Color.white,twhite,35f);
+		CreateStar (950, 100,Color.blue,tblue,35f);
+		
+		CreateSpaceRip(900,0,30,30);
+		CreateSpaceRip(800,-70,30,30);
+		CreateSpaceRip (900,150, 30,30);
+		CreateSpaceRip (725, 100,30,30);
+		
+		CreateSpaceRip (400,100,30,900,-55);
+		
+		CreateStar(-500,500,Color.blue,tblue,55f);
+		CreateStar (-700, -200, Color.white,twhite,65f);
 		
 		//set camera height for beginning a game
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
