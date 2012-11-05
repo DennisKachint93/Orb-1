@@ -3,10 +3,8 @@ using System.Collections;
 
 public class Manager : MonoBehaviour {
 	
-	/* KNOWN BUGS */
-	/* Game freeze when you call ResetLevel() before you leave the orbit of the first star */
-	
-	//Constants for tweaking
+	//Constants
+
 	//Larger the error, the wider legal orbit radius 
 	private int RADIAL_ERROR = 9;
 	//larger the tan error, the easier it is to enter a star at a legal radius
@@ -29,6 +27,8 @@ public class Manager : MonoBehaviour {
 	private float BEND_COST = .025f;
 	//How much energy is reduced each frame while invincible
 	private float INVINC_COST = .05f;
+	//starting speed of learth
+	public static float MOVEMENT_SPEED = 1.35f;
 	
 	//Hook into unity
 	public GameObject learth;
@@ -272,11 +272,11 @@ public class Manager : MonoBehaviour {
 			orbitting = true;
 			if (clockwise){
 				l.transform.RotateAround(s.transform.position, Vector3.forward, 
-					-(Learth_Movement.SPEED)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
+					-(MOVEMENT_SPEED)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
 			}
 			else  {
 				l.transform.RotateAround(s.transform.position, 
-					Vector3.forward, Learth_Movement.SPEED/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
+					Vector3.forward, MOVEMENT_SPEED/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
 			}
 			if (Vector3.Distance (l.transform.position, tangent) < 2) {
 				revisit++;
@@ -292,7 +292,7 @@ public class Manager : MonoBehaviour {
 				Learth_Movement.isTangent = false;
 				lastStar = s;			
 				energy -= 1f;
-				Learth_Movement.lastPos = l.transform.position - Learth_Movement.velocity.normalized*Learth_Movement.SPEED;
+				Learth_Movement.lastPos = l.transform.position - Learth_Movement.velocity.normalized*MOVEMENT_SPEED;
 				orbitting = false;
 			}
 		}

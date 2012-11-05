@@ -3,8 +3,6 @@ using System.Collections;
 
 public class Learth_Movement : MonoBehaviour {
 	
-	//starting speed of learth
-	public static float SPEED = 1.5f;
 	
 	public static Vector3 velocity = new Vector3(1f, 1f, 0f);
 	public static Vector3 lastPos;
@@ -29,7 +27,7 @@ public class Learth_Movement : MonoBehaviour {
 		for(int i=0;i<3;i++)
 			last_star_gos[i] = null;
 		
-		lastPos = this.transform.position - new Vector3(SPEED, SPEED, 0f);	
+		lastPos = this.transform.position - new Vector3(Manager.MOVEMENT_SPEED, Manager.MOVEMENT_SPEED, 0f);	
 	}	
 	
 	void Update () {
@@ -38,8 +36,7 @@ public class Learth_Movement : MonoBehaviour {
 		lastPos = this.transform.position;
 		//regular non-orbiting movement
 		if (!isTangent) {
-			this.transform.position += velocity.normalized*SPEED;
-			
+			this.transform.position += velocity.normalized*Manager.MOVEMENT_SPEED;	
 		}
 	}
 	
