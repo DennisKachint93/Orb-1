@@ -50,14 +50,10 @@ public class Learth_Movement : MonoBehaviour {
 		{
 			//if learth collides with a space rip, die
 			if(collision.gameObject.name == "Space_Rip(Clone)") {
-				//death animation
-				//e = Instantiate (explosion, transform.position, new Quaternion(0,0,0,0)) as GameObject;
 				Manager.Die();
 			}
 			//if learth collides with a star, die
 			if(collision.gameObject.name == "Star(Clone)") {
-				//death animation
-				//e = Instantiate (explosion, transform.position, new Quaternion(0,0,0,0)) as GameObject;
 				Manager.Die();	
 			}
 		}

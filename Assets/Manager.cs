@@ -9,11 +9,13 @@ public class Manager : MonoBehaviour {
 	//Larger the error, the wider legal orbit radius 
 	private int RADIAL_ERROR = 9;
 	//larger the tan error, the easier it is to enter a star at a legal radius
-	private float TAN_ERROR = 13;
+	private float TAN_ERROR = 10;
 	//the larger this number is, the sharper bends are (est. useful range: 0 - 2)
-	private float BEND_FACTOR = .075f;
+	private float BEND_FACTOR = .065f;
 	//larger the number, the faster the learth moves overall
 	private float MOVEMENT_SPEED = 0.80f;
+	//larger the number, the faster lerath moves when orbiting (doesn't affect speed, but makes aiming easier)
+	private float ORBIT_SPEED_FACTOR = .85f;
 	
 	/*CAMERA CONTROLS */
 	//the larger this number is, the more closely the camera follows learth while in orbit
@@ -272,11 +274,11 @@ public class Manager : MonoBehaviour {
 			//rotate around star s
 			if (clockwise){
 				l.transform.RotateAround(s.transform.position, Vector3.forward, 
-					-(speed > 1 ? speed : 1)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
+					-(speed > 1 ? speed : 1)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime)*ORBIT_SPEED_FACTOR);
 			}
 			else  {
 				l.transform.RotateAround(s.transform.position, 
-					Vector3.forward, (speed > 1 ? speed : 1)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime));
+					Vector3.forward, (speed > 1 ? speed : 1)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime/ORBIT_SPEED_FACTOR));
 			}
 			if (Vector3.Distance (l.transform.position, tangent) < 2) {
 				revisit++;
