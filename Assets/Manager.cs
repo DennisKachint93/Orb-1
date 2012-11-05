@@ -7,14 +7,14 @@ public class Manager : MonoBehaviour {
 
 	/*GAMEPLAY CONTROLS */
 	//Larger the error, the wider legal orbit radius 
-	private int RADIAL_ERROR = 9;
+	private int RADIAL_ERROR = 10;
 	//larger the tan error, the easier it is to enter a star at a legal radius
-	private float TAN_ERROR = 10;
+	private float TAN_ERROR = 8;
 	//the larger this number is, the sharper bends are (est. useful range: 0 - 2)
 	private float BEND_FACTOR = .065f;
 	//larger the number, the faster the learth moves overall
 	private float MOVEMENT_SPEED = 0.80f;
-	//larger the number, the faster lerath moves when orbiting (doesn't affect speed, but makes aiming easier)
+	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
 	private float ORBIT_SPEED_FACTOR = .85f;
 	
 	/*CAMERA CONTROLS */
@@ -69,7 +69,6 @@ public class Manager : MonoBehaviour {
 	public static bool clockwise = false;
 	public static int num_deaths = 0;
 	public int revisit = 0;
-	public static bool orbitting = false;
 	
 	public Color orange = new Color(1f, .6f, 0f, 1f);
 	public Color dgray = new Color(.1f, .1f, .1f, 1f);
@@ -169,7 +168,6 @@ public class Manager : MonoBehaviour {
 		l.transform.position = Vector3.Lerp(l.transform.position,entrance_point,100.0F);
 		Learth_Movement.velocity = entrance_velocity;
 		clockwise = cwise;
-		orbitting = true;
 	} 
 	
 	//call this anytime something kills the player
@@ -268,9 +266,6 @@ public class Manager : MonoBehaviour {
 			//if in orbit, decrease energy at correct rate
 			energy -= ORBITING_COST;
 			
-			//set flag
-			orbitting = true;
-			
 			//rotate around star s
 			if (clockwise){
 				l.transform.RotateAround(s.transform.position, Vector3.forward, 
@@ -296,7 +291,6 @@ public class Manager : MonoBehaviour {
 				lastStar = s;			
 				energy -= LEAVING_COST;
 				Learth_Movement.lastPos.position = l.transform.position - Learth_Movement.velocity.normalized*speed;
-				orbitting = false;
 			}
 		}
 		//if earth is not tangent to any star
@@ -318,9 +312,8 @@ public class Manager : MonoBehaviour {
 					&& Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius + RADIAL_ERROR) 
 					&& Vector3.Distance (tangent, l.transform.position) <= TAN_ERROR) 
 				{	
-					orbitting = true;
-					cur_star = s;
 					Learth_Movement.isTangent = true;
+					cur_star = s;
 					//determine direction of orbit
 					if (tangent.y < s.transform.position.y && l_movement.x < 0) { 
 						clockwise = true;
@@ -374,7 +367,7 @@ public class Manager : MonoBehaviour {
 		}
 	
 		//camera follows learth
-		Camera.main.transform.position = orbitting ? 
+		Camera.main.transform.position = Learth_Movement.isTangent ? 
 				Vector3.Lerp(Camera.main.transform.position, 
 				new Vector3(l.transform.position.x,l.transform.position.y,Camera.main.transform.position.z),ORBIT_LERP*Time.deltaTime)
 				:
