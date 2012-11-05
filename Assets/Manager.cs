@@ -11,7 +11,7 @@ public class Manager : MonoBehaviour {
 	//larger the tan error, the easier it is to enter a star at a legal radius
 	private float TAN_ERROR = 13;
 	//the larger this number is, the sharper bends are
-	private float BEND_FACTOR = 4.0f;
+	private float BEND_FACTOR = .10f;
 	//larger the number, the faster the learth moves overall
 	private float MOVEMENT_SPEED = 0.80f;
 	
@@ -218,43 +218,26 @@ public class Manager : MonoBehaviour {
 			Camera.main.transform.position = new Vector3(l.transform.position.x, l.transform.position.y, Camera.main.transform.position.z);
 		//U prints position and last position and their difference on demand
 		if(Input.GetKeyDown(KeyCode.U))
-			Debug.Log("pos: "+l.transform.position+" last pos: "+Learth_Movement.lastPos+" dist: "
-				+Vector3.Distance(l.transform.position,Learth_Movement.lastPos));
+			Debug.Log("pos: "+l.transform.position+" last pos: "+Learth_Movement.lastPos.position+" dist: "
+				+Vector3.Distance(l.transform.position,Learth_Movement.lastPos.position));
+		//f increases energy by 1
+		if(Input.GetKeyDown(KeyCode.F))
+			energy++;
 		/*********************END DEBUGGING CONTROLS*****************/
 		
-		//Speed is now logarithmic
+		//Speed increases logarithmically with energy
 		speed = Mathf.Log(energy)*MOVEMENT_SPEED;
 		
-		//bending - each has 4 cases. this is functional enough but needs to be seriously analyzed and probably rewritten 
+		//bending
 		if(Input.GetKey(KeyCode.Q))
 		{
 			energy -= BEND_COST;
-			if(l.transform.position.x < 0 && l.transform.position.y < 0)
-				Learth_Movement.lastPos += BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,-0.1f,0);
-
-			if(l.transform.position.x < 0 && l.transform.position.y >= 0)
-				Learth_Movement.lastPos += BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,0.1f,0); 			
-			
-			if(l.transform.position.x >= 0 && l.transform.position.y < 0)
-				Learth_Movement.lastPos += BEND_FACTOR*Time.deltaTime*new Vector3(-0.1f,-0.1f,0);
-				
-			if(l.transform.position.x >= 0 && l.transform.position.y >= 0)
-				Learth_Movement.lastPos += BEND_FACTOR*Time.deltaTime*new Vector3(-0.1f, 0.1f,0);
+			Learth_Movement.lastPos.RotateAround(Learth_Movement.velocity,Vector3.forward,-1*Time.deltaTime*BEND_FACTOR);
 		}
 		else if (Input.GetKey(KeyCode.W))
 		{		
 			energy -= BEND_COST;
-			if(l.transform.position.x < 0  && l.transform.position.y < 0)
-				Learth_Movement.lastPos -= BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,-0.1f,0);
-			
-			if(l.transform.position.x < 0 && l.transform.position.y >= 0)
-				Learth_Movement.lastPos -= BEND_FACTOR*Time.deltaTime*new Vector3(0.1f,0.1f,0); 
-			
-			if(l.transform.position.x >= 0 && l.transform.position.y < 0)
-				Learth_Movement.lastPos -= BEND_FACTOR*Time.deltaTime*new Vector3(-0.1f,-0.1f,0);
-				
-			if(l.transform.position.x >= 0 && l.transform.position.y >= 0)
-				Learth_Movement.lastPos -= BEND_FACTOR*Time.deltaTime*new Vector3(-0.1f, 0.1f,0);
+			Learth_Movement.lastPos.RotateAround(Learth_Movement.velocity,Vector3.forward,Time.deltaTime*BEND_FACTOR);
 		}
 		
 		//temporary invincibility, logic implemented in Learth_Movement.cs 
@@ -315,7 +298,7 @@ public class Manager : MonoBehaviour {
 				Learth_Movement.isTangent = false;
 				lastStar = s;			
 				energy -= LEAVING_COST;
-				Learth_Movement.lastPos = l.transform.position - Learth_Movement.velocity.normalized*speed;
+				Learth_Movement.lastPos.position = l.transform.position - Learth_Movement.velocity.normalized*speed;
 				orbitting = false;
 			}
 		}

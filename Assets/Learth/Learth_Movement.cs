@@ -5,7 +5,8 @@ public class Learth_Movement : MonoBehaviour {
 	
 	
 	public static Vector3 velocity = new Vector3(1f, 1f, 0f);
-	public static Vector3 lastPos;
+	//public static Vector3 lastPos;
+	public static Transform lastPos;
 	public static bool isTangent = false;
 	
 	//explosion prefab
@@ -27,13 +28,16 @@ public class Learth_Movement : MonoBehaviour {
 		for(int i=0;i<3;i++)
 			last_star_gos[i] = null;
 		
-		lastPos = this.transform.position - new Vector3(Manager.speed, Manager.speed, 0f);	
+		//initialize lastPos
+		lastPos = new GameObject().transform;
+		
+		lastPos.position = this.transform.position - new Vector3(Manager.speed, Manager.speed, 0f);	
 	}	
 	
 	void Update () {
 		//calculate velocity every frame
-		velocity = this.transform.position - lastPos;
-		lastPos = this.transform.position;
+		velocity = this.transform.position - lastPos.position;
+		lastPos.position = this.transform.position;
 		//regular non-orbiting movement
 		if (!isTangent) {
 			this.transform.position += velocity.normalized*Manager.speed;	
