@@ -56,6 +56,11 @@ public class Learth_Movement : MonoBehaviour {
 			if(collision.gameObject.name == "Star(Clone)") {
 				Manager.Die();	
 			}
+			if(collision.gameObject.name == "coin(Clone)") {
+				Manager.currency++;
+				Destroy(collision.gameObject);
+			}
+			
 		}
 	}	
 	
