@@ -90,10 +90,10 @@ public class Manager : MonoBehaviour {
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		
-	/*	GameObject c1 = Instantiate(coin, new Vector3(5, 20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		GameObject c1 = Instantiate(coin, new Vector3(5, 20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		GameObject c2 = Instantiate(coin, new Vector3(5, -20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		GameObject c3 = Instantiate(coin, new Vector3(25, 20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-		GameObject c4 = Instantiate(coin, new Vector3(25, -20, 0), new Quaternion (0, 0, 0, 0)) as GameObject; */
+		GameObject c4 = Instantiate(coin, new Vector3(25, -20, 0), new Quaternion (0, 0, 0, 0)) as GameObject; 
 		//instantiate stars and store them in array
 		star_arr = new GameObject[0]; 
 		
