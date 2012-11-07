@@ -86,9 +86,6 @@ public class Manager : MonoBehaviour {
 	//currency
 	public static int currency = 0;
 	
-	//current number of stars added
-	private int arr_size = 0;
-	
 	void Start () {
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
@@ -124,10 +121,13 @@ public class Manager : MonoBehaviour {
 			Destroy (coin_arr[i]);
 		
 		//reset energy
-		energy = 0;
+		energy = 2f;
 		
 		//reset currency (maybe don't do this for design reasons)
 		currency = 0;
+		
+		//make sure learth is not tangent 
+		Learth_Movement.isTangent = false;
 	}
 	
 	//instantiates level design elements as specified in the text file in the argument
@@ -196,9 +196,12 @@ public class Manager : MonoBehaviour {
 	}
 	
 	//puts learth in orbit given a valid radius
-	public void GoToOrbit(GameObject star, float radius)
+	public static void GoToOrbit(GameObject star, float radius)
 	{
 		l.transform.position = new Vector3(star.transform.position.x+radius,star.transform.position.y,0);
+		cur_star = star;
+		s = star;
+		Learth_Movement.isTangent = true;
 	}
 	
 	//instantiates a coin at the location provided
@@ -242,12 +245,11 @@ public class Manager : MonoBehaviour {
 		starscript.starSize = size; 
 		
 		//expand and copy star_arr - if loading a level takes too long, this can be optimized
-		GameObject[] temp_arr = new GameObject[arr_size+1];
-		for(int i=0;i<arr_size;i++)
+		GameObject[] temp_arr = new GameObject[star_arr.Length+1];
+		for(int i=0;i<star_arr.Length;i++)
 			temp_arr[i] = star_arr[i];
 		star_arr = temp_arr;
-		star_arr[arr_size] = starE;
-		arr_size++;
+		star_arr[star_arr.Length-1] = starE;
 		lastStar = starE;
 		numStars++;
 		return starE;
@@ -316,6 +318,9 @@ public class Manager : MonoBehaviour {
 		//H unloads the current level
 		if(Input.GetKeyDown (KeyCode.H))
 			UnloadCurrentLevel();
+		if(Input.GetKeyDown(KeyCode.J))
+			LoadLevel("assets/level2.txt");
+				
 		/*********************END DEBUGGING CONTROLS*****************/
 		
 		//Speed increases logarithmically with energy
