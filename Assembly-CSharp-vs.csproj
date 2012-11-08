@@ -51,6 +51,7 @@
      <None Include="Assets\level2.txt" />
      <None Include="Assets\Level1.txt" />
      <None Include="Assets\Shaders\Particle Add.shader" />
+     <None Include="Assets\Level3.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

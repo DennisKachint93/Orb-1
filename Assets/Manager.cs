@@ -4,6 +4,8 @@ using System.IO;
 
 public class Manager : MonoBehaviour {
 	
+	
+	
 	//Constants
 
 	/*GAMEPLAY CONTROLS */
@@ -20,9 +22,9 @@ public class Manager : MonoBehaviour {
 	
 	/*CAMERA CONTROLS */
 	//the larger this number is, the more closely the camera follows learth while in orbit
-	private float ORBIT_LERP = .05f;
+	private float ORBIT_LERP = .06f;
 	//the larger this number is, the more closely the camera follows learth while not in orbit
-	private float TRAVEL_LERP = 0.7F;
+	private float TRAVEL_LERP = 0.6F;
 	//How far the player is allowed to move the camera
 	private float CAM_MAX_DIST = 500;
 	//How close the player is allowed to move the camera
@@ -30,7 +32,7 @@ public class Manager : MonoBehaviour {
 	//how fast the player can zoom in/out
 	private float CAM_MOVE_SPEED = 4;
 	//Camera orthographic size at start, higher = see more
-	private float CAM_START_HEIGHT = 300;
+	private float CAM_START_HEIGHT = 400;
 	
 	/*ENERGY CONTROLS */	
 	//How much energy is reduced each frame while bending
@@ -60,10 +62,10 @@ public class Manager : MonoBehaviour {
 	
 	//level related variables, not sure how this works with different scenes. might need another class for these
 	//positions past which learth will die. levels are always rectangles
-	float LEVEL_X_MAX = 2000;
+	float LEVEL_X_MAX = 10000;
 	float LEVEL_X_MIN = -1000;
-	float LEVEL_Y_MAX = 1000;
-	float LEVEL_Y_MIN = -1000;
+	float LEVEL_Y_MAX = 2000;
+	float LEVEL_Y_MIN = -2000;
 	
 	//learth-related variables
 	public static float speed = 0;
@@ -96,14 +98,26 @@ public class Manager : MonoBehaviour {
 		//set camera height for beginning a game
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
 		
-		//load level one
-		LoadLevel("Assets/Level1.txt");
-		
-		//example of a moving star
-		CreateMovingStar(-100,100,Color.blue,tblue,35f, new Vector3(-1,-1,0),10f);
-
+		//load a level
+		LoadLevel("Assets/Level3.txt");
 	}
 	
+	
+	/* HOW LEVELS WORK
+	 * in case you want to make/change a level
+	 * 
+	 * each level is stored in a text file in the Assets directory ex: level3.txt
+	 * 
+	 * the first line of that file contains the number of each type of level design element to be specified
+	 * ex: 1,0,0,2 == 1 static star, 0 space rips, 0 coins, 2 moving stars
+	 * 
+	 * Following that are the arguments for each method call that will instantiate the specified elements
+	 * 
+	 * The Learth begins the level orbiting the first static star specified and at least one static star must be specified
+	 * 
+	 * To change levels, you must call UnloadCurrentLevel() before you call LoadLevel(fname) 
+	 * 
+	 */	
 	//Destroys all elements of currently loaded level
 	//this must be called before you load another level, unless you want to compose multiple levels
 	public void UnloadCurrentLevel() 
@@ -125,7 +139,7 @@ public class Manager : MonoBehaviour {
 			Destroy (coin_arr[i]);
 		
 		//reset energy
-		energy = 2f;
+		energy = 8f;
 		
 		//reset currency (maybe don't do this for design reasons)
 		currency = 0;
@@ -147,6 +161,7 @@ public class Manager : MonoBehaviour {
 		int stars = int.Parse(sp[0]);
 		int rips  = int.Parse(sp[1]);
 		int coins = int.Parse(sp[2]);
+		int mstars = int.Parse (sp[3]);
 		
 		//create all stars specified in the text file
 		for(int i=0; i<stars;i++)
@@ -177,8 +192,10 @@ public class Manager : MonoBehaviour {
 			
 			//learth starts in orbit around first star specified
 			if(i == 0)
-				GoToOrbit(newstar,float.Parse(args[3]));
+				GoToOrbit(newstar,float.Parse(args[3]));	
 		}
+		
+		
 		
 		//create all space rips specified in the text file
 		for(int i = 0; i < rips;i++)
@@ -196,6 +213,36 @@ public class Manager : MonoBehaviour {
 			string[] args = line.Split(delim);
 			
 			CreateCoin(float.Parse(args[0]),float.Parse(args[1]));
+		}
+		
+		//create all moving stars specified in the text file
+		for(int i = 0; i < mstars;i++)
+		{
+			line = file.ReadLine();
+			string [] args = line.Split(delim);
+			
+			//get color and texture objects
+			Color starcol = Color.white;
+			Texture startex = twhite;
+			if(args[2] == "blue"){
+				starcol = Color.blue;
+				startex = tblue;
+				
+			} else if(args[2] == "white") {
+				starcol = Color.white;
+				startex = twhite;
+			} else if(args[2] == "red") {
+				starcol = Color.red;
+				startex = tred;
+			} else if (args[2] == "yellow") {
+				starcol = Color.yellow;
+				startex = tyellow;
+			}
+			
+			//make the star
+			CreateMovingStar(float.Parse(args[0]),float.Parse(args[1]), 
+				starcol, startex, float.Parse(args[3]), new Vector3(float.Parse (args[4]), float.Parse(args[5]),0), float.Parse(args[6]));
+			
 		}
 	}
 	
@@ -323,7 +370,7 @@ public class Manager : MonoBehaviour {
 		//Y resets camera to learth's position
 		if(Input.GetKeyDown (KeyCode.Y))
 			Camera.main.transform.position = new Vector3(l.transform.position.x, l.transform.position.y, Camera.main.transform.position.z);
-		//U prints position and last position and their difference on demand
+		//U prints position and last position and their difference
 		if(Input.GetKeyDown(KeyCode.U))
 			Debug.Log("pos: "+l.transform.position+" last pos: "+Learth_Movement.lastPos.position+" dist: "
 				+Vector3.Distance(l.transform.position,Learth_Movement.lastPos.position));
