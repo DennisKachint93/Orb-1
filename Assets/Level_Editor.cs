@@ -43,7 +43,7 @@ public class Level_Editor : MonoBehaviour {
 	public int SR_boxHeight;
 	public int SR_box_x;
 	public int SR_box_y;
-    public Rect button = new Rect(10, 10, 75, 25);
+    public Rect button;
 	public bool createSR, spaceRipButton = false;
 	//User input strings of x and y scale of space rip (and corresponding ints)
 	public string spaceRipStringX = "10";
@@ -58,10 +58,13 @@ public class Level_Editor : MonoBehaviour {
 		
 		//set camera height for level editing
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
+		//space rip gui -- input box 
 		SR_boxWidth = 115;
 		SR_boxHeight = 105;
 		SR_box_x = Screen.width/2 - SR_boxWidth/2;
 		SR_box_y = Screen.height/2 - SR_boxHeight/2;
+		//space rip gui -- button to create space rip
+		button = new Rect(10, 10, 75, 25);
 		
 	}
 	
@@ -112,14 +115,14 @@ public class Level_Editor : MonoBehaviour {
 			Camera.main.orthographicSize += CAM_MOVE_SPEED;
 		if(Input.GetKey(KeyCode.S) && Camera.main.orthographicSize >= CAM_MIN_DIST)
 			Camera.main.orthographicSize -= CAM_MOVE_SPEED;
-		
 		//after a specific button has been pressed, corresponding object is instantiated
 		if(Input.GetMouseButtonDown(0)) {
         	Vector3 p = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
 			if (createSR) {
-				//check to see that you aren't instantiating spacerips when you want to click a button
-				if (!button.Contains(Input.mousePosition))
-					CreateSpaceRip (p.x, p.y, spaceRipX, spaceRipY);	
+				//check to see that you aren't instantiating spacerips when you want to click a button	
+		if (Input.mousePosition.x > 10 && Input.mousePosition.x < 85 && Input.mousePosition.y < Screen.height - 10 && Input.mousePosition.y > Screen.height - 35);
+		else 
+			CreateSpaceRip (p.x, p.y, spaceRipX, spaceRipY);	
 			}
 		}
 	}   

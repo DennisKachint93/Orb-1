@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.IO;
 
 public class Manager : MonoBehaviour {
 	
@@ -53,6 +54,8 @@ public class Manager : MonoBehaviour {
 	//actual objects used in script
 	public static GameObject l, s, e;
 	public GameObject[] star_arr;
+	public GameObject[] rip_arr;
+	public GameObject[] coin_arr;
 	public int numStars = 0;
 	
 	//level related variables, not sure how this works with different scenes. might need another class for these
@@ -83,81 +86,136 @@ public class Manager : MonoBehaviour {
 	//currency
 	public static int currency = 0;
 	
-	//current number of stars added
-	private int arr_size = 0;
-	
 	void Start () {
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		
-		GameObject c1 = Instantiate(coin, new Vector3(5, 20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-		GameObject c2 = Instantiate(coin, new Vector3(5, -20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-		GameObject c3 = Instantiate(coin, new Vector3(25, 20, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-		GameObject c4 = Instantiate(coin, new Vector3(25, -20, 0), new Quaternion (0, 0, 0, 0)) as GameObject; 
-		//instantiate stars and store them in array
+		//instantiate star storage
 		star_arr = new GameObject[0]; 
-		
-		//insantiate spacerips
-/*		CreateSpaceRip(-400,230,25,400, 25);
-		CreateSpaceRip(-400,-230,25,400, -25);
-		
-		CreateSpaceRip(500,-100,25,400);
-		*/
-		//instantiate stars
-		CreateStar (0, 0, Color.white, twhite, 30f);
-		/*
-		//left side stars
-		CreateStar (-500,75,Color.blue,tblue,70f);
-		CreateStar (-500,-75,Color.blue,tblue,70f);
-		
-		CreateStar(-490,430,Color.blue,tblue,20f);
-		CreateStar(-490,-430,Color.blue,tblue,20f);
-	
-		CreateStar(-900,200,Color.yellow, tyellow, 35f);
-		CreateStar(-700,150,Color.white, twhite, 35f);
-		CreateStar(-950,0,Color.yellow, tyellow, 35f);
-		CreateStar(-1100,100,Color.white, twhite,35f);
-		CreateStar(-1100,-200,Color.blue, tblue,35f);
-		
-		//right side stars
-		CreateStar(500,200,Color.red,tred,65f);
-		
-		CreateStar(700, 0, Color.blue,tblue,35f);
-		CreateStar (650, -100, Color.white,twhite,35f);
-		CreateStar (800,-100, Color.yellow,tyellow,35f);
-		CreateStar (950, -300, Color.white,twhite,45f);
-		
-		//middle stars
-		CreateStar(-100,100,Color.blue,tblue,35f);
-		CreateStar(-250, -400,Color.white,twhite,35f);
-		CreateStar(200,-250,Color.yellow, tyellow,35f); */
-		
-		//new test level!
-		CreateStar (100,100,Color.blue,tblue,35f);
-		CreateStar (200,200,Color.blue,tblue,35f);
-		CreateStar (350,300,Color.blue,tblue,35f);
-		CreateStar (550, 400, Color.blue,tblue,35f);
-		CreateStar (900, 500, Color.blue,tblue,35f);
-		
-		CreateStar (900, -200, Color.white,twhite,35f);
-		CreateStar (850, -150, Color.blue,tblue,35f);
-		CreateStar(800, 100, Color.white,twhite,35f);
-		CreateStar(700, 0, Color.blue,tblue,35f);
-		CreateStar (800, -250,Color.white,twhite,35f);
-		CreateStar (950, 100,Color.blue,tblue,35f);
-		
-		CreateSpaceRip(900,0,30,30);
-		CreateSpaceRip(800,-70,30,30);
-		CreateSpaceRip (900,150, 30,30);
-		CreateSpaceRip (725, 100,30,30);
-		
-		CreateSpaceRip (400,100,30,900,-55);
-		
-		CreateStar(-500,500,Color.blue,tblue,55f);
-		CreateStar (-700, -200, Color.white,twhite,65f);
 		
 		//set camera height for beginning a game
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
+		
+		//load level one
+		LoadLevel("Assets/Level2.txt");
+	}
+	
+	//Destroys all elements of currently loaded level
+	//this must be called before you load another level, unless you want to compose multiple levels
+	public void UnloadCurrentLevel() 
+	{
+		//destroy stars
+		for(int i = 0; i < star_arr.Length; i++)
+			Destroy(star_arr[i]);
+		//reset star_arr and counter
+		star_arr = new GameObject[0];
+		numStars = 0;
+		
+		//destroy space rips
+		for(int i = 0; i < rip_arr.Length; i++)
+			Destroy (rip_arr[i]);
+		rip_arr = new GameObject[0];
+		
+		//destroy coins
+		for(int i = 0; i < coin_arr.Length; i++)
+			Destroy (coin_arr[i]);
+		
+		//reset energy
+		energy = 2f;
+		
+		//reset currency (maybe don't do this for design reasons)
+		currency = 0;
+		
+		//make sure learth is not tangent 
+		Learth_Movement.isTangent = false;
+	}
+	
+	//instantiates level design elements as specified in the text file in the argument
+	public void LoadLevel(string fname) 
+	{
+		string line;
+		char[] delim = {','};
+		StreamReader file = new StreamReader(fname);
+		string numels = file.ReadLine();
+		
+		//get numbers of each type of element
+		string[] sp = numels.Split(delim);
+		int stars = int.Parse(sp[0]);
+		int rips  = int.Parse(sp[1]);
+		int coins = int.Parse(sp[2]);
+		
+		//create all stars specified in the text file
+		for(int i=0; i<stars;i++)
+		{
+			line = file.ReadLine();
+			string [] args = line.Split(delim);
+			
+			//get color and texture objects
+			Color starcol = Color.white;
+			Texture startex = twhite;
+			if(args[2] == "blue"){
+				starcol = Color.blue;
+				startex = tblue;
+				
+			} else if(args[2] == "white") {
+				starcol = Color.white;
+				startex = twhite;
+			} else if(args[2] == "red") {
+				starcol = Color.red;
+				startex = tred;
+			} else if (args[2] == "yellow") {
+				starcol = Color.yellow;
+				startex = tyellow;
+			}
+			
+			//make the star
+			GameObject newstar = CreateStar(float.Parse(args[0]),float.Parse(args[1]), starcol, startex, float.Parse(args[3]));
+			
+			//learth starts in orbit around first star specified
+			if(i == 0)
+				GoToOrbit(newstar,float.Parse(args[3]));
+		}
+		
+		//create all space rips specified in the text file
+		for(int i = 0; i < rips;i++)
+		{
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			
+			CreateSpaceRip(float.Parse(args[0]),float.Parse(args[1]),float.Parse(args[2]),float.Parse(args[3]),float.Parse(args[4]));
+		}
+		
+		//create all coins specified in the text file
+		for(int i = 0; i < coins; i++)
+		{
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			
+			CreateCoin(float.Parse(args[0]),float.Parse(args[1]));
+		}
+	}
+	
+	//puts learth in orbit given a valid radius
+	public static void GoToOrbit(GameObject star, float radius)
+	{
+		l.transform.position = new Vector3(star.transform.position.x+radius,star.transform.position.y,0);
+		cur_star = star;
+		s = star;
+		Learth_Movement.isTangent = true;
+	}
+	
+	//instantiates a coin at the location provided
+	GameObject CreateCoin(float x, float y)
+	{
+		GameObject coin_actual = Instantiate(coin, new Vector3(x, y, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		
+		//put rip in rip_arr for unloading
+		GameObject[] temp_arr = new GameObject[coin_arr.Length+1];
+		for(int i=0;i<coin_arr.Length;i++)
+			temp_arr[i] = coin_arr[i];
+		coin_arr = temp_arr;
+		coin_arr[coin_arr.Length-1] = coin_actual;
+		return coin_actual;
 	}
 	
 	//instantiates a space rip from prefab at given location and of given dimensions, with given rotation (default = 0), returns reference to that object
@@ -166,6 +224,14 @@ public class Manager : MonoBehaviour {
 		GameObject rip_actual = Instantiate (rip, new Vector3 (x, y, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		rip_actual.transform.localScale += new Vector3(width,height,0);
 		rip_actual.transform.Rotate(new Vector3(0,0,rotation));
+		
+		//put rip in rip_arr for unloading
+		GameObject[] temp_arr = new GameObject[rip_arr.Length+1];
+		for(int i=0;i<rip_arr.Length;i++)
+			temp_arr[i] = rip_arr[i];
+		rip_arr = temp_arr;
+		rip_arr[rip_arr.Length-1] = rip_actual;
+		
 		return rip_actual;
 	}
 	
@@ -179,12 +245,11 @@ public class Manager : MonoBehaviour {
 		starscript.starSize = size; 
 		
 		//expand and copy star_arr - if loading a level takes too long, this can be optimized
-		GameObject[] temp_arr = new GameObject[arr_size+1];
-		for(int i=0;i<arr_size;i++)
+		GameObject[] temp_arr = new GameObject[star_arr.Length+1];
+		for(int i=0;i<star_arr.Length;i++)
 			temp_arr[i] = star_arr[i];
 		star_arr = temp_arr;
-		star_arr[arr_size] = starE;
-		arr_size++;
+		star_arr[star_arr.Length-1] = starE;
 		lastStar = starE;
 		numStars++;
 		return starE;
@@ -250,6 +315,12 @@ public class Manager : MonoBehaviour {
 		//f increases energy by 1
 		if(Input.GetKeyDown(KeyCode.F))
 			energy++;
+		//H unloads the current level
+		if(Input.GetKeyDown (KeyCode.H))
+			UnloadCurrentLevel();
+		if(Input.GetKeyDown(KeyCode.J))
+			LoadLevel("assets/level2.txt");
+				
 		/*********************END DEBUGGING CONTROLS*****************/
 		
 		//Speed increases logarithmically with energy
