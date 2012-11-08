@@ -28,7 +28,7 @@ public class Manager : MonoBehaviour {
 	//How close the player is allowed to move the camera
 	private float CAM_MIN_DIST = 50;
 	//how fast the player can zoom in/out
-	private float CAM_MOVE_SPEED = 4;
+	private float CAM_MOVE_SPEED = 10;
 	//Camera orthographic size at start, higher = see more
 	private float CAM_START_HEIGHT = 400;
 	
@@ -62,8 +62,8 @@ public class Manager : MonoBehaviour {
 	//positions past which learth will die. levels are always rectangles
 	float LEVEL_X_MAX = 10000;
 	float LEVEL_X_MIN = -1000;
-	float LEVEL_Y_MAX = 2000;
-	float LEVEL_Y_MIN = -2000;
+	float LEVEL_Y_MAX = 1000;
+	float LEVEL_Y_MIN = -1000;
 	
 	//learth-related variables
 	public static float speed = 0;
