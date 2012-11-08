@@ -12,7 +12,7 @@ public class Manager : MonoBehaviour {
 	//larger the tan error, the easier it is to enter a star at a legal radius
 	private float TAN_ERROR = 8;
 	//the larger this number is, the sharper bends are (est. useful range: 0 - 2)
-	private float BEND_FACTOR = .065f;
+	private float BEND_FACTOR = .035f;
 	//larger the number, the faster the learth moves overall
 	private float MOVEMENT_SPEED = 0.80f;
 	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
@@ -24,7 +24,7 @@ public class Manager : MonoBehaviour {
 	//the larger this number is, the more closely the camera follows learth while not in orbit
 	private float TRAVEL_LERP = 0.6F;
 	//How far the player is allowed to move the camera
-	private float CAM_MAX_DIST = 500;
+	private float CAM_MAX_DIST = 5000;
 	//How close the player is allowed to move the camera
 	private float CAM_MIN_DIST = 50;
 	//how fast the player can zoom in/out
@@ -38,7 +38,7 @@ public class Manager : MonoBehaviour {
 	//How much energy is reduced each frame while invincible
 	private float INVINC_COST = .05f;
 	//this much energy is subtracted each frame the learth is not in orbit
-	private float FLYING_COST = .00025f;
+	private float FLYING_COST = .0025f;
 	//this much energy is subtracted each frame the learth is in orbit
 	private float ORBITING_COST = .000025f;
 	//this much energy is subtracted when they player hits the space bar to launch from a star
@@ -68,7 +68,7 @@ public class Manager : MonoBehaviour {
 	//learth-related variables
 	public static float speed = 0;
 	public static float energy = 5f;
-	public GameObject lastStar;
+	public static GameObject lastStar;
 	public static Vector3 tangent;
 	public static bool clockwise = false;
 	public static int num_deaths = 0;
@@ -97,7 +97,7 @@ public class Manager : MonoBehaviour {
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
 		
 		//load a level
-		LoadLevel("Assets/Level3.txt");
+		LoadLevel("Assets/level3.txt");
 	}
 	
 	
@@ -330,29 +330,14 @@ public class Manager : MonoBehaviour {
 	//call this anytime something kills the player
 	public static void Die()
 	{		
-		//if you screw up too much at the beginning, or if you've died more than 3 times, just start the level over
-		if(Learth_Movement.last_star_gos[num_deaths] == null || num_deaths > 2)
-		{
-			ResetLevel();
-		}
-		//otherwise, you move back 1, 2, or 3 stars
-		else {
-			//move learth to previous stars
-			MoveLearthToOrbit(Learth_Movement.last_stars[num_deaths], 
-				Learth_Movement.last_stars_velocity[num_deaths], Learth_Movement.last_energies[num_deaths],
-				Learth_Movement.last_star_gos[num_deaths], Learth_Movement.last_star_rots[num_deaths]);
-				
-			//move with learth
-			Camera.main.transform.position = new Vector3(l.transform.position.x, l.transform.position.y, Camera.main.transform.position.z);
-			num_deaths++;
-		}
-		
+		Starscript scpt = lastStar.GetComponent<Starscript>();
+		GoToOrbit(lastStar,scpt.orbitRadius);
 	}
 	
 	//reloads the scene and modifies whatever we want to modify when the scene gets reloaded
 	public static void ResetLevel() {
 		Application.LoadLevel(Application.loadedLevel);	
-		energy = 2;
+		energy = 8;
 	}
 	
 	void Update () {
@@ -516,13 +501,13 @@ public class Manager : MonoBehaviour {
 					if (sscript.c == Color.blue) {
 						energy += 5f;
 					} else if (sscript.c == Color.white){
-						energy += 4f;
+						energy += 3f;
 					} else if (sscript.c == Color.yellow) {
 						energy += 3f;
 					} else if (sscript.t == torange) {
 						energy += 2f;
 					} else if (sscript.c == Color.red) {
-						energy += 1f;
+						energy += 8f;
 					}
 					else {
 						energy -= 1f;
