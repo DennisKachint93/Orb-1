@@ -97,7 +97,11 @@ public class Manager : MonoBehaviour {
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
 		
 		//load level one
-		LoadLevel("Assets/Level2.txt");
+		LoadLevel("Assets/Level1.txt");
+		
+		//example of a moving star
+		CreateMovingStar(-100,100,Color.blue,tblue,35f, new Vector3(-1,-1,0),10f);
+
 	}
 	
 	//Destroys all elements of currently loaded level
@@ -235,6 +239,17 @@ public class Manager : MonoBehaviour {
 		return rip_actual;
 	}
 	
+	//instantiates a star that moves in the direction given at the speed given
+	GameObject CreateMovingStar(float x, float y, Color color, Texture texture, float size, Vector3 dir, float speed)
+	{
+		GameObject mstar = CreateStar(x,y,color,texture,size);
+		Starscript scpt  = mstar.GetComponent<Starscript>();
+		scpt.is_moving = true;
+		scpt.dir = dir;
+		scpt.speed = speed;
+		return mstar;
+	}
+
 	//instantiates star from prefab at given xy location and of given characteristics
 	GameObject CreateStar(float x, float y, Color color, Texture texture, float size)
 	{
@@ -368,6 +383,13 @@ public class Manager : MonoBehaviour {
 		if (Learth_Movement.isTangent) {
 			//if in orbit, decrease energy at correct rate
 			energy -= ORBITING_COST;
+			
+			//rotation around moving bodies
+			Starscript scpt = cur_star.GetComponent<Starscript>();
+			if(scpt.is_moving)
+			{
+				l.transform.Translate(scpt.dir.x*scpt.speed*Time.deltaTime,scpt.dir.y*scpt.speed*Time.deltaTime,0,Space.World);
+			}
 			
 			//rotate around star s
 			if (clockwise){
