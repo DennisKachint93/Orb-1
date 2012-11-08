@@ -67,7 +67,7 @@ public class Manager : MonoBehaviour {
 	
 	//learth-related variables
 	public static float speed = 0;
-	public static float energy = 5f;
+	public static float energy = 8f;
 	public static GameObject lastStar;
 	public static Vector3 tangent;
 	public static bool clockwise = false;
