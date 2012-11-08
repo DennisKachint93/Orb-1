@@ -4,8 +4,6 @@ using System.IO;
 
 public class Manager : MonoBehaviour {
 	
-	
-	
 	//Constants
 
 	/*GAMEPLAY CONTROLS */
@@ -108,7 +106,7 @@ public class Manager : MonoBehaviour {
 	 * 
 	 * each level is stored in a text file in the Assets directory ex: level3.txt
 	 * 
-	 * the first line of that file contains the number of each type of level design element to be specified
+	 * the first line of that file contains the number of each type of level design element to be specified, delimited by commas
 	 * ex: 1,0,0,2 == 1 static star, 0 space rips, 0 coins, 2 moving stars
 	 * 
 	 * Following that are the arguments for each method call that will instantiate the specified elements
@@ -431,12 +429,10 @@ public class Manager : MonoBehaviour {
 			//if in orbit, decrease energy at correct rate
 			energy -= ORBITING_COST;
 			
-			//rotation around moving bodies
+			//if learth is orbiting a moving planet, translate it with the planet to maintain circular orbit
 			Starscript scpt = cur_star.GetComponent<Starscript>();
 			if(scpt.is_moving)
-			{
 				l.transform.Translate(scpt.dir.x*scpt.speed*Time.deltaTime,scpt.dir.y*scpt.speed*Time.deltaTime,0,Space.World);
-			}
 			
 			//rotate around star s
 			if (clockwise){
@@ -557,7 +553,7 @@ public class Manager : MonoBehaviour {
 	}
 	
 	void OnGUI() {
-        GUI.Label(new Rect(10, 10, 150, 50), "Energy: " + energy + ", Currency: "+currency);
+        GUI.Label(new Rect(10, 10, 150, 50), "Energy: " + energy + "\n$pace Dollar$: "+currency);
     }
 		
 }
