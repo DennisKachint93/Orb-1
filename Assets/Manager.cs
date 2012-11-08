@@ -49,10 +49,11 @@ public class Manager : MonoBehaviour {
 	public GameObject star;		
 	public GameObject rip;
 	public GameObject coin;
+	public GameObject plane;
 	public static GameObject cur_star;
 	
 	//actual objects used in script
-	public static GameObject l, s, e;
+	public static GameObject l, s, e, p;
 	public GameObject[] star_arr;
 	public GameObject[] rip_arr;
 	public GameObject[] coin_arr;
@@ -74,6 +75,7 @@ public class Manager : MonoBehaviour {
 	public static int num_deaths = 0;
 	public int revisit = 0;
 	
+	//star colors and textures
 	public Color orange = new Color(1f, .6f, 0f, 1f);
 	public Color dgray = new Color(.1f, .1f, .1f, 1f);
 	public Texture tred;
@@ -82,6 +84,9 @@ public class Manager : MonoBehaviour {
 	public Texture twhite;
 	public Texture tgray;
 	public Texture tblue;
+
+        //energy gauge
+        public Texture gaugeTexture;
 
 	//currency
 	public static int currency = 0;
@@ -96,6 +101,13 @@ public class Manager : MonoBehaviour {
 		//set camera height for beginning a game
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
 		
+		//instantiate background based on level constraints
+		for (int i = -2500; i < (int)LEVEL_X_MAX; i+=2500) {
+			for (int j = -4000; j < 4000; j+=1250) {
+				p = Instantiate (plane, new Vector3(i, j, 100), transform.rotation) as GameObject;
+				p.transform.Rotate(270, 0, 0);
+			}
+		}
 		//load a level
 		LoadLevel("Assets/level3.txt");
 	}
@@ -538,8 +550,9 @@ public class Manager : MonoBehaviour {
 	}
 	
 	void OnGUI() {
-        GUI.Label(new Rect(10, 10, 150, 50), "Energy: " + energy + "\n$pace Dollar$: "+currency);
-    }
+        GUI.Label(new Rect(10, Screen.height-50, 150, 50), "$pace Dollar$: "+currency);
+   	GUI.DrawTexture(new Rect(10, Screen.height-30, energy*10, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
+	}
 		
 }
 	
