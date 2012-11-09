@@ -12,7 +12,7 @@ public class Manager : MonoBehaviour {
 	//larger the tan error, the easier it is to enter a star at a legal radius
 	private float TAN_ERROR = 8;
 	//the larger this number is, the sharper bends are (est. useful range: 0 - 2)
-	private float BEND_FACTOR = 0.05f;
+	private float BEND_FACTOR = 0.01f;
 	//larger the number, the faster the learth moves overall
 	private float MOVEMENT_SPEED = 0.70f;
 	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
@@ -43,10 +43,6 @@ public class Manager : MonoBehaviour {
 	private float ORBITING_COST = .000025f;
 	//this much energy is subtracted when they player hits the space bar to launch from a star
 	private float LEAVING_COST = 0;
-	//when aliens are within distance, they start to suck your energy
-	private float ALIEN_SUCKING_DISTANCE = 3f;
-	//this much energy is sucked from player when alien is within alien_sucking_distance
-	private float ALIEN_SUCKS_ENERGY = .25f;
 	
 	//Hook into unity
 	public GameObject learth;
@@ -413,8 +409,8 @@ public class Manager : MonoBehaviour {
 		//alieeeeens!
 		for(int i = 0; i<3; i++){
 			Debug.Log(i);
-			if(Mathf.Abs(Vector3.Distance(l.transform.position, alien_arr[0].transform.position)) < ALIEN_SUCKING_DISTANCE){
-				energy -= ALIEN_SUCKS_ENERGY;
+			if(Mathf.Abs(Vector3.Distance(l.transform.position, alien_arr[0].transform.position)) < 7){
+				energy -= .04f;
 			}
 		}
 		
