@@ -86,6 +86,10 @@ public class Manager : MonoBehaviour {
 	public Texture twhite;
 	public Texture tgray;
 	public Texture tblue;
+	
+	public GameObject al1;
+	public GameObject al2;
+	public GameObject al3;
 
     //energy gauge
     public Texture gaugeTexture;
