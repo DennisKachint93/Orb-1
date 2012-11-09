@@ -2,12 +2,12 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Manager.cs">
     <Files>
-      <File FileName="Assets\Manager.cs" Line="92" Column="24" />
-      <File FileName="Assets\alien\alien_behavior.cs" Line="6" Column="2" />
+      <File FileName="Assets\Manager.cs" Line="575" Column="126" />
+      <File FileName="Assets\alien\alien_behavior.cs" Line="1" Column="1" />
       <File FileName="Assets\Star\Starscript.cs" Line="1" Column="1" />
       <File FileName="Assets\Level3.txt" Line="1" Column="1" />
       <File FileName="..\..\techpro2\TechPrototype\Assets\alien\alien_behavior.cs" Line="6" Column="19" />
-      <File FileName="..\..\techpro2\TechPrototype\Assets\Manager.cs" Line="53" Column="25" />
+      <File FileName="..\..\techpro2\TechPrototype\Assets\Manager.cs" Line="588" Column="69" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

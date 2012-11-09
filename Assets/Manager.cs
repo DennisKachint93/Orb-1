@@ -569,10 +569,10 @@ public class Manager : MonoBehaviour {
 		//camera follows learth
 		Camera.main.transform.position = Learth_Movement.isTangent ? 
 				Vector3.Lerp(Camera.main.transform.position, 
-				new Vector3(l.transform.position.x,l.transform.position.y,Camera.main.transform.position.z),ORBIT_LERP*Time.deltaTime)
+				new Vector3(l.transform.position.x,l.transform.position.y,Camera.main.transform.position.z),ORBIT_LERP*Time.deltaTime*50)
 				:
 				Vector3.Lerp(Camera.main.transform.position, 
-				new Vector3(l.transform.position.x,l.transform.position.y,Camera.main.transform.position.z),TRAVEL_LERP*Time.deltaTime)
+				new Vector3(l.transform.position.x,l.transform.position.y,Camera.main.transform.position.z),TRAVEL_LERP*Time.deltaTime*50)
 				;
 		
 		//A moves the camera farther, S moves the camera closer
