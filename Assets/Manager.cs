@@ -68,7 +68,7 @@ public class Manager : MonoBehaviour {
 	
 	//learth-related variables
 	public static float speed = 0;
-	public static float energy = 11f;
+	public static float energy = 24f;
 	public static GameObject lastStar;
 	public static Vector3 tangent;
 	public static bool clockwise = false;
@@ -94,7 +94,7 @@ public class Manager : MonoBehaviour {
 	void Start () {
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-		
+	 	l.renderer.material.color = Color.red;	
 		//instantiate star storage
 		star_arr = new GameObject[0]; 
 		
@@ -149,7 +149,7 @@ public class Manager : MonoBehaviour {
 			Destroy (coin_arr[i]);
 		
 		//reset energy
-		energy = 11f;
+		energy = 20f;
 		
 		//reset currency (maybe don't do this for design reasons)
 		currency = 0;
@@ -409,7 +409,7 @@ public class Manager : MonoBehaviour {
 		}
 		//change learth color back to normal
 		if(Input.GetKeyUp (KeyCode.E))
-			l.renderer.material.color = Color.white;
+			l.renderer.material.color = Color.red;
 		
 		//Death conditions
 		//if you run out of energy, you die, but you get a little energy back
