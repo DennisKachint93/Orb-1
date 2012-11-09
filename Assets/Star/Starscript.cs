@@ -19,6 +19,8 @@ public class Starscript : MonoBehaviour {
 	public Vector3 dir = new Vector3(0,0,0);
 	//speed of move
 	public float speed = 0;
+	//is winner
+	public bool is_sink = false;
 	
 	void Start () {
 		this.transform.localScale *= starSize;

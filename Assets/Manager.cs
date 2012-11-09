@@ -14,7 +14,7 @@ public class Manager : MonoBehaviour {
 	//the larger this number is, the sharper bends are (est. useful range: 0 - 2)
 	private float BEND_FACTOR = 0.01f;
 	//larger the number, the faster the learth moves overall
-	private float MOVEMENT_SPEED = 0.80f;
+	private float MOVEMENT_SPEED = 0.70f;
 	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
 	private float ORBIT_SPEED_FACTOR = .85f;
 	
@@ -68,7 +68,7 @@ public class Manager : MonoBehaviour {
 	
 	//learth-related variables
 	public static float speed = 0;
-	public static float energy = 8f;
+	public static float energy = 11f;
 	public static GameObject lastStar;
 	public static Vector3 tangent;
 	public static bool clockwise = false;
@@ -149,7 +149,7 @@ public class Manager : MonoBehaviour {
 			Destroy (coin_arr[i]);
 		
 		//reset energy
-		energy = 8f;
+		energy = 11f;
 		
 		//reset currency (maybe don't do this for design reasons)
 		currency = 0;
@@ -203,6 +203,12 @@ public class Manager : MonoBehaviour {
 			//learth starts in orbit around first star specified
 			if(i == 0)
 				GoToOrbit(newstar,float.Parse(args[3]));	
+			//last star is the sink
+			if(i == stars-1){
+				Starscript scpt = newstar.GetComponent<Starscript>();
+				scpt.is_sink = true;
+			}
+				
 		}
 		
 		
@@ -349,7 +355,7 @@ public class Manager : MonoBehaviour {
 	//reloads the scene and modifies whatever we want to modify when the scene gets reloaded
 	public static void ResetLevel() {
 		Application.LoadLevel(Application.loadedLevel);	
-		energy = 8;
+		energy = 11;
 	}
 	
 	void Update () {
@@ -410,7 +416,7 @@ public class Manager : MonoBehaviour {
 		if(energy < 1)
 		{
 			Die ();
-			energy = 2f;
+			energy = 6f;
 		}
 		
 		//if you travel outside the bounds of the level, you die
@@ -430,6 +436,7 @@ public class Manager : MonoBehaviour {
 			Starscript scpt = cur_star.GetComponent<Starscript>();
 			if(scpt.is_moving)
 				l.transform.Translate(scpt.dir.x*scpt.speed*Time.deltaTime,scpt.dir.y*scpt.speed*Time.deltaTime,0,Space.World);
+			
 			
 			//rotate around star s
 			if (clockwise){
@@ -550,8 +557,12 @@ public class Manager : MonoBehaviour {
 	}
 	
 	void OnGUI() {
-        GUI.Label(new Rect(10, Screen.height-50, 150, 50), "$pace Dollar$: "+currency);
-   	GUI.DrawTexture(new Rect(10, Screen.height-30, energy*10, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
+		Starscript scpt = cur_star.GetComponent<Starscript>();
+		if(scpt.is_sink)
+			GUI.Label(new Rect(10, Screen.height-80,150,50), "YOU WIN!");
+        GUI.Label(new Rect(10, Screen.height-65, 150, 50), "$pace Dollar$: "+currency);
+		GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
+   		GUI.DrawTexture(new Rect(10, Screen.height-30, energy*10, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
 	}
 		
 }
