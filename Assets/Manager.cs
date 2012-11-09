@@ -50,6 +50,7 @@ public class Manager : MonoBehaviour {
 	public GameObject rip;
 	public GameObject coin;
 	public GameObject plane;
+	public GameObject alien;
 	public static GameObject cur_star;
 	
 	//actual objects used in script
@@ -57,6 +58,7 @@ public class Manager : MonoBehaviour {
 	public GameObject[] star_arr;
 	public GameObject[] rip_arr;
 	public GameObject[] coin_arr;
+	public GameObject[] alien_arr;
 	public int numStars = 0;
 	
 	//level related variables, not sure how this works with different scenes. might need another class for these
@@ -96,7 +98,21 @@ public class Manager : MonoBehaviour {
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 	 	l.renderer.material.color = Color.red;	
 		//instantiate star storage
-		star_arr = new GameObject[0]; 
+		star_arr = new GameObject[0];
+		alien_arr = new GameObject[3];
+		
+		al1 = Instantiate(alien, new Vector3(1800, 400, 0), new Quaternion(0, 0, 0, 0)) as GameObject;
+		alien_behavior al1b = al1.GetComponent<alien_behavior>();
+		al1b.learth = l;
+		alien_arr[0] = al1;
+		al2 = Instantiate(alien, new Vector3(1800, 100, 0), new Quaternion(0, 0, 0, 0)) as GameObject;
+		alien_behavior al2b = al2.GetComponent<alien_behavior>();
+		al2b.learth = l;
+		alien_arr[1] = al2;		
+		al3 = Instantiate(alien, new Vector3(1800, -100, 0), new Quaternion(0, 0, 0, 0)) as GameObject;		
+		alien_behavior al3b = al3.GetComponent<alien_behavior>();
+		al3b.learth = l;
+		alien_arr[2] = al3;
 		
 		//set camera height for beginning a game
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
@@ -385,6 +401,14 @@ public class Manager : MonoBehaviour {
 			LoadLevel("assets/level2.txt");
 				
 		/*********************END DEBUGGING CONTROLS*****************/
+		
+		//alieeeeens!
+		for(int i = 0; i<3; i++){
+			Debug.Log(i);
+			if(Mathf.Abs(Vector3.Distance(l.transform.position, alien_arr[0].transform.position)) < 7){
+				energy -= .04f;
+			}
+		}
 		
 		//Speed increases logarithmically with energy
 		speed = Mathf.Log(energy)*MOVEMENT_SPEED;
