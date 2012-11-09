@@ -12,7 +12,7 @@ public class Manager : MonoBehaviour {
 	//larger the tan error, the easier it is to enter a star at a legal radius
 	private float TAN_ERROR = 8;
 	//the larger this number is, the sharper bends are (est. useful range: 0 - 2)
-	private float BEND_FACTOR = 0f;
+	private float BEND_FACTOR = 0.01f;
 	//larger the number, the faster the learth moves overall
 	private float MOVEMENT_SPEED = 0.80f;
 	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
@@ -85,8 +85,8 @@ public class Manager : MonoBehaviour {
 	public Texture tgray;
 	public Texture tblue;
 
-        //energy gauge
-        public Texture gaugeTexture;
+    //energy gauge
+    public Texture gaugeTexture;
 
 	//currency
 	public static int currency = 0;
