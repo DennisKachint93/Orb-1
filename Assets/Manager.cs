@@ -11,10 +11,10 @@ public class Manager : MonoBehaviour {
 	private int RADIAL_ERROR = 10;
 	//larger the tan error, the easier it is to enter a star at a legal radius
 	private float TAN_ERROR = 8;
-	//the larger this number is, the sharper bends are (est. useful range: 0 - 2)
-	private float BEND_FACTOR = 0.05f;
+	//the larger this number is, the sharper bends are
+	private float BEND_FACTOR = 10f;
 	//larger the number, the faster the learth moves overall
-	private float MOVEMENT_SPEED = 0.70f;
+	private float MOVEMENT_SPEED = 0.60f;
 	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
 	private float ORBIT_SPEED_FACTOR = .85f;
 	
@@ -412,7 +412,6 @@ public class Manager : MonoBehaviour {
 		
 		//alieeeeens!
 		for(int i = 0; i<3; i++){
-			Debug.Log(i);
 			if(Mathf.Abs(Vector3.Distance(l.transform.position, alien_arr[0].transform.position)) < ALIEN_SUCKING_DISTANCE){
 				energy -= ALIEN_SUCKS_ENERGY;
 			}
@@ -425,12 +424,14 @@ public class Manager : MonoBehaviour {
 		if(Input.GetKey(KeyCode.Q))
 		{
 			energy -= BEND_COST;
-			Learth_Movement.lastPos.RotateAround(Learth_Movement.velocity,Vector3.forward,-1*Time.deltaTime*BEND_FACTOR);
+			Learth_Movement.lastPos.RotateAround(l.transform.position,Vector3.forward,Time.deltaTime*BEND_FACTOR);
+		//	Learth_Movement.lastPos.RotateAround(Learth_Movement.velocity,Vector3.forward,-1*Time.deltaTime*BEND_FACTOR);
 		}
 		else if (Input.GetKey(KeyCode.W))
 		{		
 			energy -= BEND_COST;
-			Learth_Movement.lastPos.RotateAround(Learth_Movement.velocity,Vector3.forward,Time.deltaTime*BEND_FACTOR);
+			Learth_Movement.lastPos.RotateAround(l.transform.position,Vector3.forward,-1*Time.deltaTime*BEND_FACTOR);
+			//Learth_Movement.lastPos.RotateAround(Learth_Movement.velocity,Vector3.forward,Time.deltaTime*BEND_FACTOR);
 		}
 		
 		//temporary invincibility, logic implemented in Learth_Movement.cs 
