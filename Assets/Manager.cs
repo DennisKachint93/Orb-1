@@ -107,20 +107,12 @@ public class Manager : MonoBehaviour {
 	 	l.renderer.material.color = Color.red;	
 		//instantiate star storage
 		star_arr = new GameObject[0];
-		alien_arr = new GameObject[3];
+		alien_arr = new GameObject[0];
 		
-		al1 = Instantiate(alien, new Vector3(1800, 400, 0), new Quaternion(0, 0, 0, 0)) as GameObject;
-		alien_behavior al1b = al1.GetComponent<alien_behavior>();
-		al1b.learth = l;
-		alien_arr[0] = al1;
-		al2 = Instantiate(alien, new Vector3(1800, 100, 0), new Quaternion(0, 0, 0, 0)) as GameObject;
-		alien_behavior al2b = al2.GetComponent<alien_behavior>();
-		al2b.learth = l;
-		alien_arr[1] = al2;		
-		al3 = Instantiate(alien, new Vector3(1800, -100, 0), new Quaternion(0, 0, 0, 0)) as GameObject;		
-		alien_behavior al3b = al3.GetComponent<alien_behavior>();
-		al3b.learth = l;
-		alien_arr[2] = al3;
+		//create aliens (not yet added to level loading)
+		CreateAlien(1800,400);
+		CreateAlien(1800,100);
+		CreateAlien(1800,-100);
 		
 		//set camera height for beginning a game
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
@@ -293,6 +285,23 @@ public class Manager : MonoBehaviour {
 		cur_star = star;
 		s = star;
 		Learth_Movement.isTangent = true;
+	}
+	
+	//instantiates an alien at the location provided
+	GameObject CreateAlien(float x, float y) 
+	{
+		GameObject alien_actual = Instantiate (alien, new Vector3(x,y,0),new Quaternion(0,0,0,0)) as GameObject;
+		alien_behavior ab = alien.GetComponent<alien_behavior>();
+		ab.learth = l;
+		
+		//expand and put in array
+		GameObject[] temp_arr = new GameObject[alien_arr.Length+1];
+		for(int i=0;i<alien_arr.Length;i++)
+			temp_arr[i] = alien_arr[i];
+		alien_arr = temp_arr;
+		alien_arr[alien_arr.Length-1] = alien_actual;
+		
+		return alien_actual;
 	}
 	
 	//instantiates a coin at the location provided
