@@ -44,9 +44,9 @@ public class Manager : MonoBehaviour {
 	//this much energy is subtracted when they player hits the space bar to launch from a star
 	private float LEAVING_COST = 0;
 	//when aliens are within distance, they start to suck your energy
-	private float ALIEN_SUCKING_DISTANCE = 3f;
+	public static float ALIEN_SUCKING_DISTANCE = 3f;
 	//this much energy is sucked from player when alien is within alien_sucking_distance
-	private float ALIEN_SUCKS_ENERGY = .25f;
+	public static float ALIEN_SUCKS_ENERGY = .25f;
 	
 	//Hook into unity
 	public GameObject learth;
@@ -91,10 +91,6 @@ public class Manager : MonoBehaviour {
 	public Texture tgray;
 	public Texture tblue;
 	
-	public GameObject al1;
-	public GameObject al2;
-	public GameObject al3;
-
     //energy gauge
     public Texture gaugeTexture;
 
@@ -105,15 +101,7 @@ public class Manager : MonoBehaviour {
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 	 	l.renderer.material.color = Color.red;	
-		//instantiate star storage
-		star_arr = new GameObject[0];
-		alien_arr = new GameObject[0];
-		
-		//create aliens (not yet added to level loading)
-		CreateAlien(1800,400);
-		CreateAlien(1800,100);
-		CreateAlien(1800,-100);
-		
+	 	
 		//set camera height for beginning a game
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
 		
@@ -164,6 +152,10 @@ public class Manager : MonoBehaviour {
 		for(int i = 0; i < coin_arr.Length; i++)
 			Destroy (coin_arr[i]);
 		
+		//destroy aliens
+		for(int i = 0; i < alien_arr.Length; i++)
+			Destroy(alien_arr[i]);
+		
 		//reset energy
 		energy = 20f;
 		
@@ -188,6 +180,7 @@ public class Manager : MonoBehaviour {
 		int rips  = int.Parse(sp[1]);
 		int coins = int.Parse(sp[2]);
 		int mstars = int.Parse (sp[3]);
+		int aliens = int.Parse(sp[4]);
 		
 		//create all stars specified in the text file
 		for(int i=0; i<stars;i++)
@@ -276,6 +269,14 @@ public class Manager : MonoBehaviour {
 				starcol, startex, float.Parse(args[3]), new Vector3(float.Parse (args[4]), float.Parse(args[5]),0), float.Parse(args[6]));
 			
 		}
+		
+		//create all aliens in the file
+		for(int i = 0; i < aliens; i++)
+		{	
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			CreateAlien(float.Parse(args[0]),float.Parse(args[1]));
+		}
 	}
 	
 	//puts learth in orbit given a valid radius
@@ -291,8 +292,6 @@ public class Manager : MonoBehaviour {
 	GameObject CreateAlien(float x, float y) 
 	{
 		GameObject alien_actual = Instantiate (alien, new Vector3(x,y,0),new Quaternion(0,0,0,0)) as GameObject;
-		alien_behavior ab = alien.GetComponent<alien_behavior>();
-		ab.learth = l;
 		
 		//expand and put in array
 		GameObject[] temp_arr = new GameObject[alien_arr.Length+1];
@@ -366,18 +365,6 @@ public class Manager : MonoBehaviour {
 		return starE;
 	}
 	
-	//puts Learth in orbit given an entrance point, an energy value, a velocity, a star, and a direction
-	public static void MoveLearthToOrbit(Vector3 entrance_point, Vector3 entrance_velocity, float lastEnergy, GameObject star, bool cwise )
-	{
-		energy = lastEnergy;
-		s = star;
-		cur_star = s;
-		Learth_Movement.isTangent = true;
-		l.transform.position = Vector3.Lerp(l.transform.position,entrance_point,100.0F);
-		Learth_Movement.velocity = entrance_velocity;
-		clockwise = cwise;
-	} 
-	
 	//call this anytime something kills the player
 	public static void Die()
 	{		
@@ -419,13 +406,6 @@ public class Manager : MonoBehaviour {
 				
 		/*********************END DEBUGGING CONTROLS*****************/
 		
-		//alieeeeens!
-		for(int i = 0; i<3; i++){
-			if(Mathf.Abs(Vector3.Distance(l.transform.position, alien_arr[0].transform.position)) < ALIEN_SUCKING_DISTANCE){
-				energy -= ALIEN_SUCKS_ENERGY;
-			}
-		}
-		
 		//Speed increases logarithmically with energy
 		speed = Mathf.Log(energy)*MOVEMENT_SPEED;
 		
@@ -434,13 +414,11 @@ public class Manager : MonoBehaviour {
 		{
 			energy -= BEND_COST;
 			Learth_Movement.lastPos.RotateAround(l.transform.position,Vector3.forward,Time.deltaTime*BEND_FACTOR);
-		//	Learth_Movement.lastPos.RotateAround(Learth_Movement.velocity,Vector3.forward,-1*Time.deltaTime*BEND_FACTOR);
 		}
 		else if (Input.GetKey(KeyCode.W))
 		{		
 			energy -= BEND_COST;
 			Learth_Movement.lastPos.RotateAround(l.transform.position,Vector3.forward,-1*Time.deltaTime*BEND_FACTOR);
-			//Learth_Movement.lastPos.RotateAround(Learth_Movement.velocity,Vector3.forward,Time.deltaTime*BEND_FACTOR);
 		}
 		
 		//temporary invincibility, logic implemented in Learth_Movement.cs 
@@ -449,6 +427,7 @@ public class Manager : MonoBehaviour {
 			l.renderer.material.color = Color.green;
 			energy -= INVINC_COST;
 		}
+		
 		//change learth color back to normal
 		if(Input.GetKeyUp (KeyCode.E))
 			l.renderer.material.color = Color.red;
