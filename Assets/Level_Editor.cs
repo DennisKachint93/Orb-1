@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.IO;
 
 public class Level_Editor : MonoBehaviour {
 	
@@ -26,6 +27,7 @@ public class Level_Editor : MonoBehaviour {
 	//actual objects used in script
 	public static GameObject l, s, e;
 	public GameObject[] star_arr;
+	public GameObject[] rip_arr;
 	public int numStars = 0;
 	
 	//star colors
@@ -74,6 +76,14 @@ public class Level_Editor : MonoBehaviour {
 		GameObject rip_actual = Instantiate (rip, new Vector3 (x, y, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 		rip_actual.transform.localScale += new Vector3(width,height,0);
 		rip_actual.transform.Rotate(new Vector3(0,0,rotation));
+		
+		//put rip in rip_arr for saving
+		GameObject[] temp_arr = new GameObject[rip_arr.Length+1];
+		for(int i=0;i<rip_arr.Length;i++)
+			temp_arr[i] = rip_arr[i];
+		rip_arr = temp_arr;
+		rip_arr[rip_arr.Length-1] = rip_actual;
+		
 		return rip_actual;
 	}
 	
@@ -115,17 +125,48 @@ public class Level_Editor : MonoBehaviour {
 			Camera.main.orthographicSize += CAM_MOVE_SPEED;
 		if(Input.GetKey(KeyCode.S) && Camera.main.orthographicSize >= CAM_MIN_DIST)
 			Camera.main.orthographicSize -= CAM_MOVE_SPEED;
+			
 		//after a specific button has been pressed, corresponding object is instantiated
 		if(Input.GetMouseButtonDown(0)) {
         	Vector3 p = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
 			if (createSR) {
 				//check to see that you aren't instantiating spacerips when you want to click a button	
-		if (Input.mousePosition.x > 10 && Input.mousePosition.x < 85 && Input.mousePosition.y < Screen.height - 10 && Input.mousePosition.y > Screen.height - 35);
-		else 
-			CreateSpaceRip (p.x, p.y, spaceRipX, spaceRipY);	
+				if (Input.mousePosition.x > 10 && Input.mousePosition.x < 85 && Input.mousePosition.y < Screen.height - 10 && Input.mousePosition.y > Screen.height - 35);
+				else  
+					CreateSpaceRip (p.x, p.y, spaceRipX, spaceRipY);	
 			}
 		}
 	}   
+	
+	//outputs level to a text file
+	void SaveLevel(string path) {
+		//check if file exists
+		if(File.Exists(path))
+		{
+			//output a GUI message alerting the user to pick a different name
+			
+		} else {
+			//write info to file
+			using (StreamWriter sw = File.CreateText(path))
+    		{
+				//write lengths header (update this line as saving is implemented for other elements)
+    			sw.WriteLine("0,"+rip_arr.Length+",0,0,0");
+				
+				//stars
+				//rips
+				for(int i = 0; i < rip_arr.Length;i++)
+				{
+					sw.WriteLine(rip_arr[i].transform.position.x+","+rip_arr[i].transform.position.y+",30,30,0");
+				}
+				//coins
+				//moving stars
+				//aliens
+				
+    		}
+				
+			
+		}
+	}
     
 	 void OnGUI() {        
 		
@@ -133,10 +174,7 @@ public class Level_Editor : MonoBehaviour {
 		//x and y scale of spacerip and then click to instantiate a new spacerip
         if (GUI.Button(button, "Space Rip")) {
 			createSR = false;
-			if (!spaceRipButton) 
-				spaceRipButton = true;
-			else 
-				spaceRipButton = false;
+			spaceRipButton = !spaceRipButton;
 		}
 		if (spaceRipButton && !createSR) {
 			GUI.Box(new Rect(SR_box_x, SR_box_y, SR_boxWidth, SR_boxHeight), "Space Rip");

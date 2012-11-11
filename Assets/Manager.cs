@@ -65,7 +65,6 @@ public class Manager : MonoBehaviour {
 	public GameObject[] alien_arr;
 	public int numStars = 0;
 	
-	//level related variables, not sure how this works with different scenes. might need another class for these
 	//positions past which learth will die. levels are always rectangles
 	float LEVEL_X_MAX = 10000;
 	float LEVEL_X_MIN = -1000;
@@ -113,7 +112,7 @@ public class Manager : MonoBehaviour {
 			}
 		}
 		//load a level
-		LoadLevel("Assets/level3.txt");
+		LoadLevel("Assets/testsave.txt");
 	}
 	
 	
@@ -492,7 +491,7 @@ public class Manager : MonoBehaviour {
 			energy -= FLYING_COST;
 			
 			//loop through array and calculate tangent vectors to every star
-			for (int i = 0; i < numStars; i++){
+			for (int i = 0; i < star_arr.Length ; i++){
 				s = star_arr[i];
 				Starscript sscript = s.GetComponent<Starscript>();
 				Vector3 l_movement = Learth_Movement.velocity;
