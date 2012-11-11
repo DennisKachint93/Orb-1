@@ -5,28 +5,14 @@ public class Learth_Movement : MonoBehaviour {
 	
 	
 	public static Vector3 velocity = new Vector3(1f, 1f, 0f);
-	//public static Vector3 lastPos;
 	public static Transform lastPos;
 	public static bool isTangent = false;
 	
 	//explosion prefab
 	//public GameObject explosion, e;
 	
-	//current and previous 3 positions at which the learth entered
-	public static Vector3[] last_stars = new Vector3[4];
-	//current and previous 3 velocity vectors of entrance points
-	public static Vector3[] last_stars_velocity = new Vector3[4];
-	//current and previous 3 star game objects
-	public static GameObject[] last_star_gos = new GameObject[4];
-	//current and previous 3 clockwise rotations
-	public static bool[] last_star_rots = new bool[4];
-	//current and previous 3 last energy values at previous 3 stars
-	public static float[] last_energies = new float[4];
 	
 	void Start () {
-		//initialize last stars array
-		for(int i=0;i<3;i++)
-			last_star_gos[i] = null;
 		
 		//initialize lastPos
 		lastPos = new GameObject().transform;

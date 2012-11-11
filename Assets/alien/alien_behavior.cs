@@ -11,7 +11,7 @@ public class alien_behavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//if aliens are on screen, move toward loearth
+		//if aliens are on screen, move toward learth
 		if(renderer.isVisible){
 			Vector2 to_ship = new Vector2(Manager.l.transform.position.x - transform.position.x, Manager.l.transform.position.y - transform.position.y);
 			transform.Translate(to_ship.x*.5f*Time.deltaTime, to_ship.y*.5f*Time.deltaTime, 0);

@@ -14,7 +14,7 @@ public class Manager : MonoBehaviour {
 	//the larger this number is, the sharper bends are
 	private float BEND_FACTOR = 10f;
 	//larger the number, the faster the learth moves overall
-	private float MOVEMENT_SPEED = 0.60f;
+	private float MOVEMENT_SPEED = 0.64f;
 	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
 	private float ORBIT_SPEED_FACTOR = .85f;
 	
@@ -123,7 +123,7 @@ public class Manager : MonoBehaviour {
 	 * each level is stored in a text file in the Assets directory ex: level3.txt
 	 * 
 	 * the first line of that file contains the number of each type of level design element to be specified, delimited by commas
-	 * ex: 1,0,0,2 == 1 static star, 0 space rips, 0 coins, 2 moving stars
+	 * ex: 1,0,0,2,0 == 1 static star, 0 space rips, 0 coins, 2 moving stars, 0 aliens
 	 * 
 	 * Following that are the arguments for each method call that will instantiate the specified elements
 	 * 
@@ -521,21 +521,6 @@ public class Manager : MonoBehaviour {
 						clockwise = false;
 					}
 					
-					//update last stars, last energy value, last entrances, last velocity vectors, and last rotations to include this star
-					for(int k=2; k>0;k--)
-					{
-						
-						Learth_Movement.last_stars[k] = Learth_Movement.last_stars[k-1];
-						Learth_Movement.last_energies[k] = Learth_Movement.last_energies[k-1];
-						Learth_Movement.last_stars_velocity[k] = Learth_Movement.last_stars_velocity[k-1];
-						Learth_Movement.last_star_gos[k] = Learth_Movement.last_star_gos[k-1];
-						Learth_Movement.last_star_rots[k] = Learth_Movement.last_star_rots[k-1];
-					}
-					Learth_Movement.last_stars[0] = l.transform.position;
-					Learth_Movement.last_energies[0] = energy;
-					Learth_Movement.last_stars_velocity[0] = l_movement;
-					Learth_Movement.last_star_gos[0] = s;
-					Learth_Movement.last_star_rots[0] = clockwise;
 					
 					//add appropriate energy value depending on color of star
 					if (sscript.c == Color.blue) {
