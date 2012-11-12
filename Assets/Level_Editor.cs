@@ -224,6 +224,19 @@ public class Level_Editor : MonoBehaviour {
 				startex = tyellow;
 				validcolor = true;
 			}
+<<<<<<< HEAD
+=======
+			Debug.Log ("isaycolor: "+isaycolor);
+			if(Input.GetMouseButtonDown(0) && validcolor){
+				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				starsize = float.Parse(isaysize);
+				GameObject starE = Instantiate (star, new Vector3(location.x, location.y,20), new Quaternion(0,0,0,0)) as GameObject;
+				Starscript starscript = starE.GetComponent<Starscript>();
+				starscript.c = starcol;
+				starscript.t = startex;
+				starscript.starSize = starsize; 
+			} 
+>>>>>>> 7368fde5dd41822f89b618ec33d53d0a7e10de34
 		}
 		
 	}

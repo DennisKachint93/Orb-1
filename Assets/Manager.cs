@@ -121,8 +121,11 @@ public class Manager : MonoBehaviour {
 		//initialize timer
 		start_time = Time.time;
 		
+		//create a revolving star
+		CreateRevolvingStar(200,0,0,0,Color.blue,tblue,35f,10f);
+		
 		//load a level
-		LoadLevel("Assets/Level3.txt");
+		LoadLevel("Assets/1star.txt");
 	}
 	
 	
@@ -300,6 +303,17 @@ public class Manager : MonoBehaviour {
 		Learth_Movement.isTangent = true;
 	}
 	
+	//instantiates a revolving star at the location and around the point provided
+	GameObject CreateRevolvingStar(float x, float y, float r_point_x, float r_point_y,Color color, Texture texture,float size, float speed)	
+	{		
+		GameObject rstar = CreateStar(x,y,color,texture,size);
+		Starscript scpt  = rstar.GetComponent<Starscript>();
+		scpt.is_revolving = true;
+		scpt.rpoint = new Vector3(r_point_x,r_point_y,0);
+		scpt.rspeed = speed;
+		return rstar;
+	}
+	
 	//instantiates an alien at the location provided
 	GameObject CreateAlien(float x, float y) 
 	{
@@ -408,10 +422,6 @@ public class Manager : MonoBehaviour {
 		//Y resets camera to learth's position
 		if(Input.GetKeyDown (KeyCode.Y))
 			Camera.main.transform.position = new Vector3(l.transform.position.x, l.transform.position.y, Camera.main.transform.position.z);
-		//U prints position and last position and their difference
-		if(Input.GetKeyDown(KeyCode.U))
-			Debug.Log("pos: "+l.transform.position+" last pos: "+Learth_Movement.lastPos.position+" dist: "
-				+Vector3.Distance(l.transform.position,Learth_Movement.lastPos.position));
 		//f increases energy by 1
 		if(Input.GetKeyDown(KeyCode.F))
 			energy++;
@@ -419,7 +429,7 @@ public class Manager : MonoBehaviour {
 		if(Input.GetKeyDown (KeyCode.H))
 			UnloadCurrentLevel();
 		if(Input.GetKeyDown(KeyCode.J))
-			LoadLevel("assets/level2.txt");
+			LoadLevel("assets/level3.txt");
 				
 		/*********************END DEBUGGING CONTROLS*****************/
 		
@@ -479,7 +489,14 @@ public class Manager : MonoBehaviour {
 			Starscript scpt = cur_star.GetComponent<Starscript>();
 			if(scpt.is_moving)
 				l.transform.Translate(scpt.dir.x*scpt.speed*Time.deltaTime,scpt.dir.y*scpt.speed*Time.deltaTime,0,Space.World);
-			
+					
+			//likewise, translate for a revolving star
+			if(scpt.is_revolving)
+			{
+				Vector3 vec = cur_star.transform.position - scpt.last_position;
+				l.transform.Translate(vec.x,vec.y,0,Space.World);
+				scpt.last_position = cur_star.transform.position;
+			}
 			
 			//rotate around star s
 			if (clockwise){
