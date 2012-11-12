@@ -134,7 +134,7 @@ public class Level_Editor : MonoBehaviour {
 			//if user has entered a valid color and star button has been pushed, instantiate star anywhere but on pop-up box location
 	               	if (starbut && validcolor) {
 				//check to see that you aren't instantiating stars when you click to change star color/size
-				if (Input.mousePosition.x > 90 && Input.mousePosition.x < 235 && Input.mousePosition.y < Screen.height - 45  && Input.mousePosition.y > Screen.height - 155);
+				if ((Input.mousePosition.x > 90 && Input.mousePosition.x < 235 && Input.mousePosition.y < Screen.height - 45  && Input.mousePosition.y > Screen.height - 155) || (Input.mousePosition.x > 10 && Input.mousePosition.x < 80 && Input.mousePosition.y < Screen.height - 45 && Input.mousePosition.y > Screen.height - 70));
 				//instantiate star with user-defined color and radius
 				else {
 					Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
