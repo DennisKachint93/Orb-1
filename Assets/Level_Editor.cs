@@ -41,17 +41,8 @@ public class Level_Editor : MonoBehaviour {
 	public Texture tblue;
 	
 	//Space rip controls position, size and boolean to begin space rip instantiation
-	public int SR_boxWidth;
-	public int SR_boxHeight;
-	public int SR_box_x;
-	public int SR_box_y;
-    public Rect button;
-	public bool createSR, spaceRipButton = false;
-	//User input strings of x and y scale of space rip (and corresponding ints)
-	public string spaceRipStringX = "10";
-	public string spaceRipStringY = "10";
-	public int spaceRipX;
-	public int spaceRipY;
+    	public Rect button;
+	public bool spaceRipButton = false;
 	
 	//current number of stars added
 	private int arr_size = 0;
@@ -60,11 +51,6 @@ public class Level_Editor : MonoBehaviour {
 		
 		//set camera height for level editing
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
-		//space rip gui -- input box 
-		SR_boxWidth = 115;
-		SR_boxHeight = 105;
-		SR_box_x = Screen.width/2 - SR_boxWidth/2;
-		SR_box_y = Screen.height/2 - SR_boxHeight/2;
 		//space rip gui -- button to create space rip
 		button = new Rect(10, 10, 75, 25);
 		
@@ -128,12 +114,12 @@ public class Level_Editor : MonoBehaviour {
 			
 		//after a specific button has been pressed, corresponding object is instantiated
 		if(Input.GetMouseButtonDown(0)) {
-        	Vector3 p = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-			if (createSR) {
+        		Vector3 p = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+			if (spaceRipButton) {
 				//check to see that you aren't instantiating spacerips when you want to click a button	
 				if (Input.mousePosition.x > 10 && Input.mousePosition.x < 85 && Input.mousePosition.y < Screen.height - 10 && Input.mousePosition.y > Screen.height - 35);
 				else  
-					CreateSpaceRip (p.x, p.y, spaceRipX, spaceRipY);	
+					CreateSpaceRip (p.x, p.y, 30, 30);	
 			}
 		}
 	}   
@@ -169,24 +155,9 @@ public class Level_Editor : MonoBehaviour {
 	}
     
 	 void OnGUI() {        
-		
-		//spacerip button and scale controls -- after pressing button, user can enter 
-		//x and y scale of spacerip and then click to instantiate a new spacerip
-        if (GUI.Button(button, "Space Rip")) {
-			createSR = false;
+		//spacerip button -- after pressing button, user can click to add space rips in locations 
+        	if (GUI.Button(button, "Space Rip")) {
 			spaceRipButton = !spaceRipButton;
-		}
-		if (spaceRipButton && !createSR) {
-			GUI.Box(new Rect(SR_box_x, SR_box_y, SR_boxWidth, SR_boxHeight), "Space Rip");
-			GUI.Label(new Rect(SR_box_x + 10, SR_box_y + 25, 60, 25), "SCALE x");
-			spaceRipStringX = GUI.TextField(new Rect(SR_box_x + 75, SR_box_y + 25, 25, 22), spaceRipStringX, 25);
-			bool parsed = int.TryParse(spaceRipStringX, out spaceRipX);
-			GUI.Label(new Rect(SR_box_x + 10, SR_box_y + 48, 60, 25), "SCALE y");
-			spaceRipStringY = GUI.TextField(new Rect(SR_box_x + 75, SR_box_y + 48, 25, 22), spaceRipStringY, 25);
-			parsed = int.TryParse(spaceRipStringY, out spaceRipY);
-			if (GUI.Button(new Rect(SR_box_x + 20, SR_box_y + 75, 70, 25), "Create")) {
-				createSR = true;
-			}
 		}
 		
 	}
