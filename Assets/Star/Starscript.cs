@@ -22,6 +22,14 @@ public class Starscript : MonoBehaviour {
 	public float speed = 0;
 	//is winner
 	public bool is_sink = false;
+	//is revolving 
+	public bool is_revolving = false;
+	//revolution point
+	public Vector3 rpoint;
+	//revolution speed
+	public float rspeed;
+	//position at last frame
+	public Vector3 last_position;
 	
 	void Start () {
 		if (isBlackHole) 
@@ -51,6 +59,16 @@ public class Starscript : MonoBehaviour {
 		if(is_moving)
 		{
 			transform.position += speed*new Vector3(dir.x*Time.deltaTime,dir.y*Time.deltaTime,0);
+		}
+		
+		//if star revolves, rotate around the specified point
+		if(is_revolving)
+		{
+			transform.RotateAround(rpoint,Vector3.forward,Time.deltaTime*rspeed);
+			
+			//maintain last position here so learth entry works
+			if(!Manager.cur_star.Equals(gameObject))
+				last_position = transform.position;
 		}
 
 	}
