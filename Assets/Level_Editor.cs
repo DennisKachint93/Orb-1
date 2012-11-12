@@ -40,6 +40,14 @@ public class Level_Editor : MonoBehaviour {
 	public Texture tgray;
 	public Texture tblue;
 	
+	public bool starbut = false;
+	public bool validcolor = false;
+	public Color starcol;
+	public float starsize;
+	public Texture startex;
+	public string isaycolor;
+	public string isaysize;
+	
 	//Space rip controls position, size and boolean to begin space rip instantiation
     	public Rect button;
 	public bool spaceRipButton = false;
@@ -158,6 +166,54 @@ public class Level_Editor : MonoBehaviour {
 		//spacerip button -- after pressing button, user can click to add space rips in locations 
         	if (GUI.Button(button, "Space Rip")) {
 			spaceRipButton = !spaceRipButton;
+		}
+		
+		if(GUI.Button(new Rect(10, 45, 70, 60), "star")){
+			starbut = true;
+		}
+		if(starbut){
+			GUI.Box (new Rect (100, 45, 200, 200), "");
+			GUI.Label ( new Rect (100, 50,100,20), "size");
+			isaysize = GUI.TextField(new Rect(160, 50, 100, 20), isaysize, 25);
+			GUI.Label ( new Rect (100, 80,100,20), "color");
+			isaycolor = GUI.TextField(new Rect(160, 80, 100, 20), isaycolor, 25);
+			if(GUI.Button(new Rect(130, 120, 80, 30), "Done")){
+				starbut = false;
+			}
+			if(isaycolor == "blue"){
+				starcol = Color.blue;
+				startex = tblue;
+				validcolor = true;
+			}
+			if(isaycolor == "red"){
+				starcol = Color.red;
+				startex = tred;
+				validcolor = true;
+			}
+			if(isaycolor == "white"){
+				starcol = Color.white;
+				startex = twhite;
+				validcolor = true;
+			}
+			if(isaycolor == "gray"){
+				starcol = Color.gray;
+				startex = tgray;
+				validcolor = true;
+			}
+			if(isaycolor == "yellow"){
+				starcol = Color.yellow;
+				startex = tyellow;
+				validcolor = true;
+			}
+			if(Input.GetMouseButtonDown(1) && validcolor){
+				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				starsize = float.Parse(isaysize);
+				GameObject starE = Instantiate (star, new Vector3(location.x, location.y,20), new Quaternion(0,0,0,0)) as GameObject;
+				Starscript starscript = starE.GetComponent<Starscript>();
+				starscript.c = starcol;
+				starscript.t = startex;
+				starscript.starSize = starsize; 
+			}
 		}
 		
 	}
