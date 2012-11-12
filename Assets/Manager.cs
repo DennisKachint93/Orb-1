@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.IO;
 
+
 public class Manager : MonoBehaviour {
 	
 	//Constants
@@ -16,7 +17,7 @@ public class Manager : MonoBehaviour {
 	//larger the number, the faster the learth moves overall
 	private float MOVEMENT_SPEED = 0.64f;
 	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
-	private float ORBIT_SPEED_FACTOR = .85f;
+	private float ORBIT_SPEED_FACTOR = .75f;
 	
 	/*CAMERA CONTROLS */
 	//the larger this number is, the more closely the camera follows learth while in orbit
@@ -34,19 +35,21 @@ public class Manager : MonoBehaviour {
 	
 	/*ENERGY CONTROLS */	
 	//How much energy is reduced each frame while bending
-	private float BEND_COST = .025f;
+	private float BEND_COST = .0025f;
 	//How much energy is reduced each frame while invincible
 	private float INVINC_COST = .05f;
 	//this much energy is subtracted each frame the learth is not in orbit
-	private float FLYING_COST = .0025f;
+	private float FLYING_COST = .025f;
 	//this much energy is subtracted each frame the learth is in orbit
-	private float ORBITING_COST = .000025f;
+	private float ORBITING_COST = .00025f;
 	//this much energy is subtracted when they player hits the space bar to launch from a star
 	private float LEAVING_COST = 0;
 	//when aliens are within distance, they start to suck your energy
 	public static float ALIEN_SUCKING_DISTANCE = 3f;
 	//this much energy is sucked from player when alien is within alien_sucking_distance
 	public static float ALIEN_SUCKS_ENERGY = .25f;
+	//starting energy
+	public static float STARTING_ENERGY = 35f;
 	
 	//Hook into unity
 	public GameObject learth;
@@ -73,7 +76,7 @@ public class Manager : MonoBehaviour {
 	
 	//learth-related variables
 	public static float speed = 0;
-	public static float energy = 24f;
+	public static float energy;
 	public static GameObject lastStar;
 	public static Vector3 tangent;
 	public static bool clockwise = false;
@@ -96,6 +99,9 @@ public class Manager : MonoBehaviour {
 	//currency
 	public static int currency = 0;
 	
+	//timer
+	public float start_time;
+	
 	void Start () {
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
@@ -111,8 +117,12 @@ public class Manager : MonoBehaviour {
 				p.transform.Rotate(270, 0, 0);
 			}
 		}
+		
+		//initialize timer
+		start_time = Time.time;
+		
 		//load a level
-		LoadLevel("Assets/testsave.txt");
+		LoadLevel("Assets/Level3.txt");
 	}
 	
 	
@@ -156,7 +166,7 @@ public class Manager : MonoBehaviour {
 			Destroy(alien_arr[i]);
 		
 		//reset energy
-		energy = 20f;
+		//energy = 20f;
 		
 		//reset currency (maybe don't do this for design reasons)
 		currency = 0;
@@ -172,6 +182,9 @@ public class Manager : MonoBehaviour {
 		char[] delim = {','};
 		StreamReader file = new StreamReader(fname);
 		string numels = file.ReadLine();
+		
+		//reset energy
+		energy = STARTING_ENERGY;
 		
 		//get numbers of each type of element
 		string[] sp = numels.Split(delim);
@@ -374,7 +387,12 @@ public class Manager : MonoBehaviour {
 	//reloads the scene and modifies whatever we want to modify when the scene gets reloaded
 	public static void ResetLevel() {
 		Application.LoadLevel(Application.loadedLevel);	
-		energy = 11;
+		energy = STARTING_ENERGY;
+	}
+	
+	void LaunchSpaceBomb()
+	{
+		
 	}
 	
 	void Update () {
@@ -408,6 +426,10 @@ public class Manager : MonoBehaviour {
 		//Speed increases logarithmically with energy
 		speed = Mathf.Log(energy)*MOVEMENT_SPEED;
 		
+		//speed increase exponentially with energy
+	//	speed = Mathf.Exp(energy/25)*MOVEMENT_SPEED;
+	
+		
 		//bending
 		if(Input.GetKey(KeyCode.Q))
 		{
@@ -436,7 +458,8 @@ public class Manager : MonoBehaviour {
 		if(energy < 1)
 		{
 			Die ();
-			energy = 6f;
+			if(energy > STARTING_ENERGY)
+				energy = STARTING_ENERGY;
 		}
 		
 		//if you travel outside the bounds of the level, you die
@@ -523,15 +546,15 @@ public class Manager : MonoBehaviour {
 					
 					//add appropriate energy value depending on color of star
 					if (sscript.c == Color.blue) {
-						energy += 5f;
+						energy += 15f;
 					} else if (sscript.c == Color.white){
-						energy += 3f;
+						energy += 9f;
 					} else if (sscript.c == Color.yellow) {
 						energy += 3f;
 					} else if (sscript.t == torange) {
 						energy += 2f;
 					} else if (sscript.c == Color.red) {
-						energy += 8f;
+						energy += 25f;
 					}
 					else {
 						energy -= 1f;
@@ -563,8 +586,10 @@ public class Manager : MonoBehaviour {
 	
 	void OnGUI() {
 		Starscript scpt = cur_star.GetComponent<Starscript>();
-		if(scpt.is_sink)
+		if(scpt.is_sink) {
 			GUI.Label(new Rect(10, Screen.height-80,150,50), "YOU WIN!");
+			GUI.Label (new Rect(10, Screen.height-95,150,50), "Time: "+(Time.time - start_time));
+		}
         GUI.Label(new Rect(10, Screen.height-65, 150, 50), "$pace Dollar$: "+currency);
 		GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
    		GUI.DrawTexture(new Rect(10, Screen.height-30, energy*10, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 

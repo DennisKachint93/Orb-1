@@ -44,6 +44,7 @@ public class Learth_Movement : MonoBehaviour {
 			}
 			if(collision.gameObject.name == "coin(Clone)") {
 				Manager.currency++;
+				Manager.energy += 3;
 				Destroy(collision.gameObject);
 			}
 			
