@@ -10,13 +10,13 @@ public class Level_Editor : MonoBehaviour {
 	
 	//These controls are for our convenience as level editiors -- same functions as in manager
 		//maximum distance from scene
-	private float CAM_MAX_DIST = 500;
+	private float CAM_MAX_DIST = 1000;
 		//minumum distance from scene
 	private float CAM_MIN_DIST = 50;
 		//how we can zoom in and out
 	private float CAM_MOVE_SPEED = 4;
 		//Camera orthographic size at start of level editing scene, not actual level we are creating, higher = see more
-	private float CAM_START_HEIGHT = 300;
+	private float CAM_START_HEIGHT = 500;
 	
 	//Hook into unity
 	public GameObject learth;
@@ -120,15 +120,32 @@ public class Level_Editor : MonoBehaviour {
 		if(Input.GetKey(KeyCode.S) && Camera.main.orthographicSize >= CAM_MIN_DIST)
 			Camera.main.orthographicSize -= CAM_MOVE_SPEED;
 			
-		//after a specific button has been pressed, corresponding object is instantiated
+		//after a specific button has been pressed, corresponding object is instantiated on mouse click
 		if(Input.GetMouseButtonDown(0)) {
         		Vector3 p = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+			//if space rip button is pressed, instantiate space rip on mouse click 
 			if (spaceRipButton) {
 				//check to see that you aren't instantiating spacerips when you want to click a button	
 				if (Input.mousePosition.x > 10 && Input.mousePosition.x < 85 && Input.mousePosition.y < Screen.height - 10 && Input.mousePosition.y > Screen.height - 35);
-				else  
+				else {  
 					CreateSpaceRip (p.x, p.y, 30, 30);	
+				}
 			}
+			//if user has entered a valid color and star button has been pushed, instantiate star anywhere but on pop-up box location
+	               	if (starbut && validcolor) {
+				//check to see that you aren't instantiating stars when you click to change star color/size
+				if (Input.mousePosition.x > 90 && Input.mousePosition.x < 235 && Input.mousePosition.y < Screen.height - 45  && Input.mousePosition.y > Screen.height - 155);
+				//instantiate star with user-defined color and radius
+				else {
+					Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                	        	starsize = float.Parse(isaysize);
+                	        	GameObject starE = Instantiate (star, new Vector3(location.x, location.y,20), new Quaternion(0,0,0,0)) as GameObject;
+                	        	Starscript starscript = starE.GetComponent<Starscript>();
+                       	 		starscript.c = starcol;
+                        		starscript.t = startex;
+                        		starscript.starSize = starsize;
+				}
+       		        }
 		}
 	}   
 	
@@ -167,16 +184,18 @@ public class Level_Editor : MonoBehaviour {
         	if (GUI.Button(button, "Space Rip")) {
 			spaceRipButton = !spaceRipButton;
 		}
-		
-		if(GUI.Button(new Rect(10, 45, 70, 60), "star")){
-			starbut = true;
+		//star button -- after pressing button, user can enter star size and color and then click to add space rips to locations
+		if(GUI.Button(new Rect(10, 45, 70, 25), "star")){
+			starbut = !starbut;
 		}
-		if(starbut){
-			GUI.Box (new Rect (100, 45, 200, 200), "");
-			GUI.Label ( new Rect (100, 50,100,20), "size");
-			isaysize = GUI.TextField(new Rect(160, 50, 100, 20), isaysize, 25);
-			GUI.Label ( new Rect (100, 80,100,20), "color");
-			isaycolor = GUI.TextField(new Rect(160, 80, 100, 20), isaycolor, 25);
+		//if star button has been clicked, pop up box to change star color/size
+ 		if(starbut){
+			GUI.Box (new Rect (90, 45, 145, 110), "");
+			GUI.Label ( new Rect (100,50,30,20), "size");
+			isaysize = GUI.TextField(new Rect(140, 52, 80, 20), isaysize, 25);
+			GUI.Label ( new Rect (100, 80,30,20), "color");
+			isaycolor = GUI.TextField(new Rect(140, 82, 80, 20), isaycolor, 25);
+			//if done button is clicked, don't instatiate any more stars
 			if(GUI.Button(new Rect(130, 120, 80, 30), "Done")){
 				starbut = false;
 			}
@@ -204,15 +223,6 @@ public class Level_Editor : MonoBehaviour {
 				starcol = Color.yellow;
 				startex = tyellow;
 				validcolor = true;
-			}
-			if(Input.GetMouseButtonDown(1) && validcolor){
-				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				starsize = float.Parse(isaysize);
-				GameObject starE = Instantiate (star, new Vector3(location.x, location.y,20), new Quaternion(0,0,0,0)) as GameObject;
-				Starscript starscript = starE.GetComponent<Starscript>();
-				starscript.c = starcol;
-				starscript.t = startex;
-				starscript.starSize = starsize; 
 			}
 		}
 		
