@@ -132,13 +132,14 @@ public class Level_Editor : MonoBehaviour {
 
 	
 	//instantiates star from prefab at given xy location and of given characteristics
-	GameObject CreateStar(float x, float y, Color color, Texture texture, float size, bool staticstar = true)
+	GameObject CreateStar(float x, float y, Color color, Texture texture, float size, bool staticstar = true, bool isBlackHole = false)
 	{
 		GameObject starE = Instantiate (star, new Vector3(x,y,20), new Quaternion(0,0,0,0)) as GameObject;
 		Starscript starscript = starE.GetComponent<Starscript>();
 		starscript.c = color;
 		starscript.t = texture;
 		starscript.starSize = size; 
+		starscript.isBlackHole = isBlackHole;
 		
 		if(staticstar)
 		{

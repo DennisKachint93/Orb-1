@@ -7,6 +7,7 @@ public class Learth_Movement : MonoBehaviour {
 	public static Vector3 velocity = new Vector3(1f, 1f, 0f);
 	public static Transform lastPos;
 	public static bool isTangent = false;
+	public static bool isMoving = true;
 	
 	//explosion prefab
 	//public GameObject explosion, e;
@@ -25,7 +26,7 @@ public class Learth_Movement : MonoBehaviour {
 		velocity = this.transform.position - lastPos.position;
 		lastPos.position = this.transform.position;
 		//regular non-orbiting movement
-		if (!isTangent) {
+		if (!isTangent && isMoving) {
 			this.transform.position += velocity.normalized*Manager.speed;	
 		}
 	}

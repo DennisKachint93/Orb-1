@@ -5,15 +5,19 @@ public class Starscript : MonoBehaviour {
 	
 	public float orbitRadius;
 	public GameObject radius;
-	public GameObject r;
+	public GameObject r, b;
 	public Color c;
 	public Texture t;
 	public float starSize = 15f;
 	public GameObject lightGameObject;
+	public GameObject blackHole;
 	public float duration = 20f;
 	public float offset;
 	public float random;
+	//black-hole related variables
 	public bool isBlackHole = false;
+	public float theta = 0;
+	public float currRadius;
 	//true if moving star
 	public bool is_moving = false;
 	//if moving, the direction to move in 
@@ -34,9 +38,14 @@ public class Starscript : MonoBehaviour {
 	public bool editor_freeze = false;
 	
 	void Start () {
-		if (isBlackHole) 
-			this.transform.localScale /= (starSize*10);
-		else	
+	currRadius = starSize;
+		if (isBlackHole) {
+			b = Instantiate(blackHole, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
+			b.transform.localScale *= starSize;
+			b.transform.Rotate(90,0,0);
+			this.transform.localScale /= 10;
+		}
+		else  	
 			this.transform.localScale *= starSize;
 		orbitRadius = starSize;
 		r = Instantiate(radius, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;
@@ -44,7 +53,6 @@ public class Starscript : MonoBehaviour {
 		random = Random.value;
 		//parent radius to star for destruction
 		r.transform.parent = this.transform;
-	
 	}
 	
 	void Update() {

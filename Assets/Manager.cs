@@ -31,9 +31,11 @@ public class Manager : MonoBehaviour {
 	//how fast the player can zoom in/out
 	private float CAM_MOVE_SPEED = 10;
 	//Camera orthographic size at start, higher = see more
-	private float CAM_START_HEIGHT = 400;
+	private float CAM_START_HEIGHT = 600;
 	
 	/*ENERGY CONTROLS */	
+	//starting energy
+	public static float STARTING_ENERGY = 35f;
 	//How much energy is reduced each frame while bending
 	private float BEND_COST = .0025f;
 	//How much energy is reduced each frame while invincible
@@ -48,8 +50,10 @@ public class Manager : MonoBehaviour {
 	public static float ALIEN_SUCKING_DISTANCE = 3f;
 	//this much energy is sucked from player when alien is within alien_sucking_distance
 	public static float ALIEN_SUCKS_ENERGY = .25f;
-	//starting energy
-	public static float STARTING_ENERGY = 35f;
+	//how fast black holes suck you into them when you are trapped
+	public float BLACK_HOLE_SUCKINESS = .05F;	
+	//energy it takes to escape a black hole on each press of space bar
+	public float BH_ESCAPE_ENERGY = 1;
 	
 	//Hook into unity
 	public GameObject learth;
@@ -81,7 +85,6 @@ public class Manager : MonoBehaviour {
 	public static Vector3 tangent;
 	public static bool clockwise = false;
 	public static int num_deaths = 0;
-	public int revisit = 0;
 	
 	//star colors and textures
 	public Color orange = new Color(1f, .6f, 0f, 1f);
@@ -418,6 +421,8 @@ public class Manager : MonoBehaviour {
 		starscript.c = color;
 		starscript.t = texture;
 		starscript.starSize = size; 
+		starscript.isBlackHole = false;
+		//starscript.isBlackHole = isBlackHole;
 		
 		//expand and copy star_arr - if loading a level takes too long, this can be optimized
 		GameObject[] temp_arr = new GameObject[star_arr.Length+1];
@@ -545,7 +550,25 @@ public class Manager : MonoBehaviour {
 				l.transform.Translate(vec.x,vec.y,0,Space.World);
 				scpt.last_position = cur_star.transform.position;
 			}
-			
+			//if star is a black hole, get sucked into center of black hole
+			if(scpt.isBlackHole) {
+				Learth_Movement.isMoving = false;
+				scpt.theta += .5f;
+				scpt.currRadius *= 20*30*Mathf.Pow(Mathf.Exp(1), 30*scpt.theta);
+				float x, y;
+				//x = 5*Mathf.Cos(scpt.theta)*Mathf.Pow(Mathf.Exp(1), 4*scpt.theta);
+				//y = 5*Mathf.Sin(scpt.theta)*Mathf.Pow(Mathf.Exp(1), 4*scpt.theta);
+				x = scpt.currRadius*Mathf.Cos(scpt.theta);
+				y = scpt.currRadius*Mathf.Sin(scpt.theta);
+				print(" theta " + scpt.theta + " radius " + scpt.currRadius);
+				//scpt.currRadius = 
+				//l.transform.Rotate(Vector3.forward, scpt.theta*Time.deltaTime);
+				l.transform.Translate(x,y,0);
+				//l.transform.position = Vector3.Lerp(l.transform.position, cur_star.transform.position, Time.deltaTime/BLACK_HOLE_SUCKINESS);
+			//	l.transform.localPosition.z += 0.5;
+			//	l.transform.Translate(transform.up*Time.deltaTime*speed,Space.World);
+			//	l.transform.position -= Learth_Movement.velocity.normalized*speed;
+			}			
 			//rotate around star s
 			if (clockwise){
 				l.transform.RotateAround(s.transform.position, Vector3.forward, 
@@ -555,22 +578,25 @@ public class Manager : MonoBehaviour {
 				l.transform.RotateAround(s.transform.position, 
 					Vector3.forward, (speed > 1 ? speed : 1)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime/ORBIT_SPEED_FACTOR));
 			}
-			if (Vector3.Distance (l.transform.position, tangent) < 2) {
-				revisit++;
-				if (revisit == 1) {
-					energy -= 1f;
-				}
-			}
-			else {
-				revisit = 0;
-			}
 			
 			//if space bar is pressed, accelerate away from star. 
 			if (Input.GetKeyDown(KeyCode.Space)) {
-				Learth_Movement.isTangent = false;
-				lastStar = s;			
-				energy -= LEAVING_COST;
-				Learth_Movement.lastPos.position = l.transform.position - Learth_Movement.velocity.normalized*speed;
+				if (scpt.isBlackHole) {
+					energy -= BH_ESCAPE_ENERGY;
+					l.transform.position = Vector3.Lerp(l.transform.position, scpt.orbitRadius*Learth_Movement.velocity.normalized, Time.deltaTime);
+					if (Vector3.Distance(l.transform.position, s.transform.position) >= scpt.orbitRadius) {
+						Learth_Movement.isTangent = false;
+						lastStar = s;
+						Learth_Movement.lastPos.position = l.transform.position - Learth_Movement.velocity.normalized*speed;
+
+					}				
+				}
+				else {
+					Learth_Movement.isTangent = false;
+					lastStar = s;			
+					energy -= LEAVING_COST;
+					Learth_Movement.lastPos.position = l.transform.position - Learth_Movement.velocity.normalized*speed;
+				}
 			}
 		}
 		//if earth is not tangent to any star
@@ -587,9 +613,18 @@ public class Manager : MonoBehaviour {
 				Vector3 projection = Vector3.Project (star_from_learth, l_movement);
 				tangent = projection + l.transform.position;
 				//if planet is within star's orbital radius, set isTangent to true
+				float innerOrbit, outerOrbit;
+				if (sscript.isBlackHole) {
+					innerOrbit = sscript.orbitRadius;
+					outerOrbit = 0;
+				}
+				else {
+					outerOrbit = RADIAL_ERROR;
+					innerOrbit = RADIAL_ERROR;
+				}
 				if (s != lastStar 
-					&& Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - RADIAL_ERROR) 
-					&& Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius + RADIAL_ERROR) 
+					&& Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - innerOrbit) 
+					&& Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius + outerOrbit) 
 					&& Vector3.Distance (tangent, l.transform.position) <= TAN_ERROR) 
 				{	
 					Learth_Movement.isTangent = true;
@@ -608,25 +643,26 @@ public class Manager : MonoBehaviour {
 						clockwise = false;
 					}
 					
-					
-					//add appropriate energy value depending on color of star
-					if (sscript.c == Color.blue) {
-						energy += 15f;
-					} else if (sscript.c == Color.white){
-						energy += 9f;
-					} else if (sscript.c == Color.yellow) {
-						energy += 3f;
-					} else if (sscript.t == torange) {
-						energy += 2f;
-					} else if (sscript.c == Color.red) {
-						energy += 25f;
+					if (!sscript.isBlackHole) {
+						//add appropriate energy value depending on color of star
+						if (sscript.c == Color.blue) {
+							energy += 15f;
+						} else if (sscript.c == Color.white){
+							energy += 9f;
+						} else if (sscript.c == Color.yellow) {
+							energy += 3f;
+						} else if (sscript.t == torange) {
+							energy += 2f;
+						} else if (sscript.c == Color.red) {
+							energy += 25f;
+						}
+						else {
+							energy -= 1f;
+						}
+						sscript.c = dgray;
+						sscript.t = tgray;
+						break;
 					}
-					else {
-						energy -= 1f;
-					}
-					sscript.c = dgray;
-					sscript.t = tgray;
-					break;
 				}
 			}
 		}
