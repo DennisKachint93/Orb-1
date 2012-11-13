@@ -84,19 +84,18 @@ public class Level_Editor : MonoBehaviour {
 	//instantiates star from prefab at given xy location and of given characteristics
 	GameObject CreateStar(float x, float y, Color color, Texture texture, float size)
 	{
-		GameObject starE = Instantiate (star, new Vector3(x,y,0), new Quaternion(0,0,0,0)) as GameObject;
+		GameObject starE = Instantiate (star, new Vector3(x,y,20), new Quaternion(0,0,0,0)) as GameObject;
 		Starscript starscript = starE.GetComponent<Starscript>();
 		starscript.c = color;
 		starscript.t = texture;
 		starscript.starSize = size; 
 		
 		//expand and copy star_arr - if loading a level takes too long, this can be optimized
-		GameObject[] temp_arr = new GameObject[arr_size+1];
-		for(int i=0;i<arr_size;i++)
+		GameObject[] temp_arr = new GameObject[star_arr.Length+1];
+		for(int i=0;i<star_arr.Length;i++)
 			temp_arr[i] = star_arr[i];
 		star_arr = temp_arr;
-		star_arr[arr_size] = starE;
-		arr_size++;
+		star_arr[star_arr.Length-1] = starE;
 		numStars++;
 		return starE;
 	}
@@ -119,6 +118,9 @@ public class Level_Editor : MonoBehaviour {
 			Camera.main.orthographicSize += CAM_MOVE_SPEED;
 		if(Input.GetKey(KeyCode.S) && Camera.main.orthographicSize >= CAM_MIN_DIST)
 			Camera.main.orthographicSize -= CAM_MOVE_SPEED;
+		//save with I
+		if(Input.GetKey (KeyCode.I))
+			SaveLevel("Assets/starsavetest.txt");
 			
 		//after a specific button has been pressed, corresponding object is instantiated on mouse click
 		if(Input.GetMouseButtonDown(0)) {
@@ -138,12 +140,13 @@ public class Level_Editor : MonoBehaviour {
 				//instantiate star with user-defined color and radius
 				else {
 					Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                	        	starsize = float.Parse(isaysize);
-                	        	GameObject starE = Instantiate (star, new Vector3(location.x, location.y,20), new Quaternion(0,0,0,0)) as GameObject;
+                	starsize = float.Parse(isaysize);
+					CreateStar(location.x,location.y,starcol,startex,starsize);
+                	 /*       	GameObject starE = Instantiate (star, new Vector3(location.x, location.y,20), new Quaternion(0,0,0,0)) as GameObject;
                 	        	Starscript starscript = starE.GetComponent<Starscript>();
                        	 		starscript.c = starcol;
                         		starscript.t = startex;
-                        		starscript.starSize = starsize;
+                        		starscript.starSize = starsize; */
 				}
        		        }
 		}
@@ -161,9 +164,21 @@ public class Level_Editor : MonoBehaviour {
 			using (StreamWriter sw = File.CreateText(path))
     		{
 				//write lengths header (update this line as saving is implemented for other elements)
-    			sw.WriteLine("0,"+rip_arr.Length+",0,0,0");
+    			sw.WriteLine(star_arr.Length+","+rip_arr.Length+",0,0,0");
 				
 				//stars
+				for(int i = 0; i < star_arr.Length;i++)
+				{
+					Starscript scpt = star_arr[i].GetComponent<Starscript>();
+					string color = "red";
+					if(scpt.c.Equals(Color.blue))
+					{
+						color = "blue";
+					}
+					//write to file
+					sw.WriteLine(star_arr[i].transform.position.x+","+star_arr[i].transform.position.y+","+color+","+scpt.starSize);
+				}
+				
 				//rips
 				for(int i = 0; i < rip_arr.Length;i++)
 				{

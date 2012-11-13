@@ -122,10 +122,10 @@ public class Manager : MonoBehaviour {
 		start_time = Time.time;
 		
 		//create a revolving star
-		CreateRevolvingStar(200,0,0,0,Color.blue,tblue,35f,10f);
+	//	CreateRevolvingStar(200,0,0,0,Color.blue,tblue,35f,10f);
 		
 		//load a level
-		LoadLevel("Assets/1star.txt");
+		LoadLevel("Assets/starsavetest.txt");
 	}
 	
 	
@@ -404,6 +404,7 @@ public class Manager : MonoBehaviour {
 		energy = STARTING_ENERGY;
 	}
 	
+	//launches a space bomb
 	void LaunchSpaceBomb()
 	{
 		

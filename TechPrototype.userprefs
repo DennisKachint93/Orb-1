@@ -1,9 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Level_Editor.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../17/TechPrototype/Assets/Level_Editor.cs">
     <Files>
-      <File FileName="Assets\Level_Editor.cs" Line="175" Column="30" />
-      <File FileName="..\..\Desktop\leveleditor.cs" Line="77" Column="4" />
+      <File FileName="../../17/TechPrototype/Assets/Level_Editor.cs" Line="150" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
