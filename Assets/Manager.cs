@@ -70,9 +70,9 @@ public class Manager : MonoBehaviour {
 	
 	//positions past which learth will die. levels are always rectangles
 	float LEVEL_X_MAX = 10000;
-	float LEVEL_X_MIN = -1000;
-	float LEVEL_Y_MAX = 1000;
-	float LEVEL_Y_MIN = -1000;
+	float LEVEL_X_MIN = -10000;
+	float LEVEL_Y_MAX = 10000;
+	float LEVEL_Y_MIN = -10000;
 	
 	//learth-related variables
 	public static float speed = 0;
@@ -102,7 +102,17 @@ public class Manager : MonoBehaviour {
 	//timer
 	public float start_time;
 	
+	//performance tools
+	public float updateInterval = 0.5F;
+    private float lastInterval;
+    private int frames = 0;
+    private float fps;
+	
 	void Start () {
+		//performance
+		lastInterval = Time.realtimeSinceStartup;
+        frames = 0;
+		
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 	 	l.renderer.material.color = Color.red;	
@@ -122,7 +132,7 @@ public class Manager : MonoBehaviour {
 		start_time = Time.time;
 		
 		//load a level
-		LoadLevel("Assets/starsavetest.txt");
+		LoadLevel("Assets/perf_test.txt");
 		
 		//start camera on top of learth
 		Camera.main.transform.position = new Vector3(l.transform.position.x,l.transform.position.y, Camera.main.transform.position.z);	
@@ -440,6 +450,14 @@ public class Manager : MonoBehaviour {
 	}
 	
 	void Update () {
+		//performance
+		++frames;
+        float timeNow = Time.realtimeSinceStartup;
+        if (timeNow > lastInterval + updateInterval) {
+            fps = frames / (timeNow - lastInterval);
+            frames = 0;
+            lastInterval = timeNow;
+        }
 		
 		/*********************DEBUGGING CONTROLS********************/
 		// resetting level with T before leaving first star orbit freezes the game 
@@ -632,6 +650,9 @@ public class Manager : MonoBehaviour {
 	}
 	
 	void OnGUI() {
+		//performance
+		//GUILayout.Label("" + fps.ToString("f2"));
+		GUI.Label(new Rect(10,10,150,50), "FPS: "+fps.ToString("f2"));
 		Starscript scpt = cur_star.GetComponent<Starscript>();
 		if(scpt.is_sink) {
 			GUI.Label(new Rect(10, Screen.height-80,150,50), "YOU WIN!");
