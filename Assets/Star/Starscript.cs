@@ -30,6 +30,8 @@ public class Starscript : MonoBehaviour {
 	public float rspeed;
 	//position at last frame
 	public Vector3 last_position;
+	//true if in level editor, so stars don't move
+	public bool editor_freeze = false;
 	
 	void Start () {
 		if (isBlackHole) 
@@ -56,13 +58,13 @@ public class Starscript : MonoBehaviour {
         	r.light.intensity = amplitude*offset + starSize/30;
         
 		//if star is a mover, move to destination point
-		if(is_moving)
+		if(is_moving && !editor_freeze)
 		{
 			transform.position += speed*new Vector3(dir.x*Time.deltaTime,dir.y*Time.deltaTime,0);
 		}
 		
 		//if star revolves, rotate around the specified point
-		if(is_revolving)
+		if(is_revolving && !editor_freeze)
 		{
 			transform.RotateAround(rpoint,Vector3.forward,Time.deltaTime*rspeed);
 			

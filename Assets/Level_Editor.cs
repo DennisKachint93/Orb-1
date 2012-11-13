@@ -53,6 +53,16 @@ public class Level_Editor : MonoBehaviour {
 	//Coin button
 	public bool coin_button = false;
 	
+	//linearly moving star button
+	public bool mstar_button = false;
+	public string isay_x_dir;
+	public string isay_y_dir;
+	public string isay_speed;
+	
+	//revolving star button
+	public bool rstar_button = false;
+	
+	
 	//Space rip controls position, size and boolean to begin space rip instantiation
     public Rect button;
 	public bool spaceRipButton = false;
@@ -116,6 +126,17 @@ public class Level_Editor : MonoBehaviour {
 		numStars++;
 		return starE;
 	}
+	
+	GameObject CreateMovingStar(float x, float y, Color color, Texture texture, float size, Vector3 dir, float speed)
+	{
+		GameObject mstar = CreateStar(x,y,color,texture,size);
+		Starscript scpt  = mstar.GetComponent<Starscript>();
+		scpt.is_moving = true;
+		scpt.dir = dir;
+		scpt.speed = speed;
+		scpt.editor_freeze = true;
+		return mstar;
+	}
 	/*
 	//puts Learth in orbit given an entrance point, an energy value, a velocity, a star, and a direction
 	public static void MoveLearthToOrbit(Vector3 entrance_point, Vector3 entrance_velocity, float lastEnergy, GameObject star, bool cwise )
@@ -162,6 +183,14 @@ public class Level_Editor : MonoBehaviour {
 					CreateStar(location.x,location.y,starcol,startex,starsize);
 				}
        		}
+       		
+			if(mstar_button && validcolor)
+			{
+					Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                	starsize = float.Parse(isaysize);
+                	CreateMovingStar(location.x, location.y,starcol,startex,starsize,
+						new Vector3(float.Parse(isay_x_dir),float.Parse (isay_y_dir),0),float.Parse(isay_speed));
+			}
 			
 			//if the coin button been pushed, make coins
 			if(coin_button)
@@ -186,7 +215,7 @@ public class Level_Editor : MonoBehaviour {
 			using (StreamWriter sw = File.CreateText(path))
     		{
 				//write lengths header (update this line as saving is implemented for other elements)
-    			sw.WriteLine(star_arr.Length+","+rip_arr.Length+",0,0,0");
+    			sw.WriteLine(star_arr.Length+","+rip_arr.Length+","+coin_arr.Length+",0,0,0");
 				
 				//stars
 				for(int i = 0; i < star_arr.Length;i++)
@@ -207,6 +236,10 @@ public class Level_Editor : MonoBehaviour {
 					sw.WriteLine(rip_arr[i].transform.position.x+","+rip_arr[i].transform.position.y+",30,30,0");
 				}
 				//coins
+				for(int i = 0; i < coin_arr.Length; i++)
+				{
+					sw.WriteLine(coin_arr[i].transform.position.x+","+coin_arr[i].transform.position.y);	
+				}
 				//moving stars
 				//aliens
 				
@@ -229,8 +262,14 @@ public class Level_Editor : MonoBehaviour {
 		if(GUI.Button (new Rect(10,75,70,25), "coin")) {
 			coin_button = !coin_button;
 		}
+		//moving star button
+		if(GUI.Button (new Rect(10,105,70,25), "mstar")) {
+			mstar_button = !mstar_button;
+		}
+		
+		
 		//if star button has been clicked, pop up box to change star color/size
- 		if(starbut){
+ 		if(starbut || mstar_button){
 			GUI.Box (new Rect (90, 45, 145, 110), "");
 			GUI.Label ( new Rect (100,50,30,20), "size");
 			isaysize = GUI.TextField(new Rect(140, 52, 80, 20), isaysize, 25);
@@ -265,6 +304,16 @@ public class Level_Editor : MonoBehaviour {
 				startex = tyellow;
 				validcolor = true;
 			}
+		}
+		//if moving star, get direction of movement
+		if(mstar_button){
+			GUI.Box (new Rect (90, 145, 145, 110), "");
+			GUI.Label ( new Rect (100,150,30,20), "xdir");
+			isay_x_dir = GUI.TextField(new Rect(140, 152, 80, 20), isay_x_dir, 25);
+			GUI.Label ( new Rect (100, 180,30,20), "ydir");
+			isay_y_dir = GUI.TextField(new Rect(140, 182, 80, 20), isay_y_dir, 25);
+			GUI.Label(new Rect(100,210,30,20), "mspeed");
+			isay_speed = GUI.TextField(new Rect(140, 282, 80, 20), isay_speed, 25);
 		}
 		
 	}
