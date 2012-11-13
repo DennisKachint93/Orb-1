@@ -22,12 +22,13 @@ public class Level_Editor : MonoBehaviour {
 	public GameObject learth;
 	public GameObject star;		
 	public GameObject rip;
-	//public GameObject coin;
+	public GameObject coin;
 	
 	//actual objects used in script
 	public static GameObject l, s, e;
 	public GameObject[] star_arr;
 	public GameObject[] rip_arr;
+	public GameObject[] coin_arr;
 	public int numStars = 0;
 	
 	//star colors
@@ -40,6 +41,7 @@ public class Level_Editor : MonoBehaviour {
 	public Texture tgray;
 	public Texture tblue;
 	
+	
 	public bool starbut = false;
 	public bool validcolor = false;
 	public Color starcol;
@@ -48,12 +50,13 @@ public class Level_Editor : MonoBehaviour {
 	public string isaycolor;
 	public string isaysize;
 	
+	//Coin button
+	public bool coin_button = false;
+	
 	//Space rip controls position, size and boolean to begin space rip instantiation
-    	public Rect button;
+    public Rect button;
 	public bool spaceRipButton = false;
 	
-	//current number of stars added
-	private int arr_size = 0;
 	
 	void Start () {
 		
@@ -80,6 +83,20 @@ public class Level_Editor : MonoBehaviour {
 		
 		return rip_actual;
 	}
+	
+	GameObject CreateCoin(float x, float y)
+	{
+		GameObject coin_actual = Instantiate(coin, new Vector3(x, y, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		
+		//put rip in rip_arr for unloading
+		GameObject[] temp_arr = new GameObject[coin_arr.Length+1];
+		for(int i=0;i<coin_arr.Length;i++)
+			temp_arr[i] = coin_arr[i];
+		coin_arr = temp_arr;
+		coin_arr[coin_arr.Length-1] = coin_actual;
+		return coin_actual;
+	}
+
 	
 	//instantiates star from prefab at given xy location and of given characteristics
 	GameObject CreateStar(float x, float y, Color color, Texture texture, float size)
@@ -124,7 +141,7 @@ public class Level_Editor : MonoBehaviour {
 			
 		//after a specific button has been pressed, corresponding object is instantiated on mouse click
 		if(Input.GetMouseButtonDown(0)) {
-        		Vector3 p = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+        	Vector3 p = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
 			//if space rip button is pressed, instantiate space rip on mouse click 
 			if (spaceRipButton) {
 				//check to see that you aren't instantiating spacerips when you want to click a button	
@@ -134,23 +151,28 @@ public class Level_Editor : MonoBehaviour {
 				}
 			}
 			//if user has entered a valid color and star button has been pushed, instantiate star anywhere but on pop-up box location
-	               	if (starbut && validcolor) {
+	        if (starbut && validcolor) {
 				//check to see that you aren't instantiating stars when you click to change star color/size
+				
 				if ((Input.mousePosition.x > 90 && Input.mousePosition.x < 235 && Input.mousePosition.y < Screen.height - 45  && Input.mousePosition.y > Screen.height - 155) || (Input.mousePosition.x > 10 && Input.mousePosition.x < 80 && Input.mousePosition.y < Screen.height - 45 && Input.mousePosition.y > Screen.height - 70));
 				//instantiate star with user-defined color and radius
 				else {
 					Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 	starsize = float.Parse(isaysize);
 					CreateStar(location.x,location.y,starcol,startex,starsize);
-                	 /*       	GameObject starE = Instantiate (star, new Vector3(location.x, location.y,20), new Quaternion(0,0,0,0)) as GameObject;
-                	        	Starscript starscript = starE.GetComponent<Starscript>();
-                       	 		starscript.c = starcol;
-                        		starscript.t = startex;
-                        		starscript.starSize = starsize; */
 				}
-       		        }
+       		}
+			
+			//if the coin button been pushed, make coins
+			if(coin_button)
+			{
+					Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+					CreateCoin(location.x,location.y);
+			}
+			
 		}
 	}   
+	
 	
 	//outputs level to a text file
 	void SaveLevel(string path) {
@@ -202,6 +224,10 @@ public class Level_Editor : MonoBehaviour {
 		//star button -- after pressing button, user can enter star size and color and then click to add space rips to locations
 		if(GUI.Button(new Rect(10, 45, 70, 25), "star")){
 			starbut = !starbut;
+		}
+		//coin button
+		if(GUI.Button (new Rect(10,75,70,25), "coin")) {
+			coin_button = !coin_button;
 		}
 		//if star button has been clicked, pop up box to change star color/size
  		if(starbut){
