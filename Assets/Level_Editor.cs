@@ -29,6 +29,7 @@ public class Level_Editor : MonoBehaviour {
 	public GameObject[] star_arr;
 	public GameObject[] rip_arr;
 	public GameObject[] coin_arr;
+	public GameObject[] mstar_arr;
 	public int numStars = 0;
 	
 	//star colors
@@ -109,7 +110,7 @@ public class Level_Editor : MonoBehaviour {
 
 	
 	//instantiates star from prefab at given xy location and of given characteristics
-	GameObject CreateStar(float x, float y, Color color, Texture texture, float size)
+	GameObject CreateStar(float x, float y, Color color, Texture texture, float size, bool staticstar = true)
 	{
 		GameObject starE = Instantiate (star, new Vector3(x,y,20), new Quaternion(0,0,0,0)) as GameObject;
 		Starscript starscript = starE.GetComponent<Starscript>();
@@ -117,6 +118,8 @@ public class Level_Editor : MonoBehaviour {
 		starscript.t = texture;
 		starscript.starSize = size; 
 		
+		if(staticstar)
+		{
 		//expand and copy star_arr - if loading a level takes too long, this can be optimized
 		GameObject[] temp_arr = new GameObject[star_arr.Length+1];
 		for(int i=0;i<star_arr.Length;i++)
@@ -124,17 +127,24 @@ public class Level_Editor : MonoBehaviour {
 		star_arr = temp_arr;
 		star_arr[star_arr.Length-1] = starE;
 		numStars++;
+		}
 		return starE;
 	}
 	
 	GameObject CreateMovingStar(float x, float y, Color color, Texture texture, float size, Vector3 dir, float speed)
 	{
-		GameObject mstar = CreateStar(x,y,color,texture,size);
+		GameObject mstar = CreateStar(x,y,color,texture,size,false);
 		Starscript scpt  = mstar.GetComponent<Starscript>();
 		scpt.is_moving = true;
 		scpt.dir = dir;
 		scpt.speed = speed;
 		scpt.editor_freeze = true;
+		
+		GameObject[] temp_arr = new GameObject[mstar_arr.Length+1];
+		for(int i=0;i<mstar_arr.Length;i++)
+			temp_arr[i] = mstar_arr[i];
+		mstar_arr = temp_arr;
+		mstar_arr[mstar_arr.Length-1] = mstar;
 		return mstar;
 	}
 	/*
@@ -184,12 +194,13 @@ public class Level_Editor : MonoBehaviour {
 				}
        		}
        		
+			//if user has entered a valid color and the moving star button is clicked, create a moving star
 			if(mstar_button && validcolor)
 			{
 					Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 	starsize = float.Parse(isaysize);
                 	CreateMovingStar(location.x, location.y,starcol,startex,starsize,
-						new Vector3(float.Parse(isay_x_dir),float.Parse (isay_y_dir),0),float.Parse(isay_speed));
+					new Vector3(float.Parse(isay_x_dir),float.Parse (isay_y_dir),0),float.Parse(isay_speed));
 			}
 			
 			//if the coin button been pushed, make coins
@@ -215,7 +226,7 @@ public class Level_Editor : MonoBehaviour {
 			using (StreamWriter sw = File.CreateText(path))
     		{
 				//write lengths header (update this line as saving is implemented for other elements)
-    			sw.WriteLine(star_arr.Length+","+rip_arr.Length+","+coin_arr.Length+",0,0,0");
+    			sw.WriteLine(star_arr.Length+","+rip_arr.Length+","+coin_arr.Length+","+mstar_arr.Length+",0,0");
 				
 				//stars
 				for(int i = 0; i < star_arr.Length;i++)
@@ -226,8 +237,9 @@ public class Level_Editor : MonoBehaviour {
 					{
 						color = "blue";
 					}
-					//write to file
-					sw.WriteLine(star_arr[i].transform.position.x+","+star_arr[i].transform.position.y+","+color+","+scpt.starSize);
+					//write to file if star is a static
+					if(!scpt.is_moving && !scpt.is_revolving)
+						sw.WriteLine(star_arr[i].transform.position.x+","+star_arr[i].transform.position.y+","+color+","+scpt.starSize);
 				}
 				
 				//rips
@@ -241,7 +253,21 @@ public class Level_Editor : MonoBehaviour {
 					sw.WriteLine(coin_arr[i].transform.position.x+","+coin_arr[i].transform.position.y);	
 				}
 				//moving stars
+				for(int i = 0; i < mstar_arr.Length; i++)
+				{
+					Debug.Log ("trying to write a star");
+					Starscript scpt = mstar_arr[i].GetComponent<Starscript>();
+					string color = "red";
+					if(scpt.c.Equals(Color.blue))
+					{
+						color = "blue";
+					}
+					sw.WriteLine(mstar_arr[i].transform.position.x+","+mstar_arr[i].transform.position.y+","+color+","+scpt.orbitRadius
+						+","+scpt.dir.x+","+scpt.dir.y+","+scpt.speed);
+				}
+				
 				//aliens
+				//revolving stars
 				
     		}
 				

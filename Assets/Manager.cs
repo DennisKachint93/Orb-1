@@ -290,7 +290,7 @@ public class Manager : MonoBehaviour {
 			CreateAlien(float.Parse(args[0]),float.Parse(args[1]));
 		}
 		
-		//create 
+		//create a revolving star 
 		for(int i = 0; i < rstars; i++)
 		{
 			line = file.ReadLine();
