@@ -154,7 +154,7 @@ public class Level_Editor : MonoBehaviour {
 	//instantiates a revolving star at the location and around the point provided
 	GameObject CreateRevolvingStar(float x, float y, float r_point_x, float r_point_y,Color color, Texture texture,float size, float speed)	
 	{		
-		GameObject rstar = CreateStar(x,y,color,texture,size);
+		GameObject rstar = CreateStar(x,y,color,texture,size, false);
 		Starscript scpt  = rstar.GetComponent<Starscript>();
 		scpt.is_revolving = true;
 		scpt.rpoint = new Vector3(r_point_x,r_point_y,0);
@@ -255,7 +255,7 @@ public class Level_Editor : MonoBehaviour {
 			using (StreamWriter sw = File.CreateText(path))
     		{
 				//write lengths header (update this line as saving is implemented for other elements)
-    			sw.WriteLine(star_arr.Length+","+rip_arr.Length+","+coin_arr.Length+","+mstar_arr.Length+",0,0");
+    			sw.WriteLine(star_arr.Length+","+rip_arr.Length+","+coin_arr.Length+","+mstar_arr.Length+",0,"+rstar_arr.Length);
 				
 				//stars
 				for(int i = 0; i < star_arr.Length;i++)
@@ -284,7 +284,7 @@ public class Level_Editor : MonoBehaviour {
 				//moving stars
 				for(int i = 0; i < mstar_arr.Length; i++)
 				{
-					Debug.Log ("trying to write a star");
+				//	Debug.Log ("trying to write a star");
 					Starscript scpt = mstar_arr[i].GetComponent<Starscript>();
 					string color = "red";
 					if(scpt.c.Equals(Color.blue))
@@ -297,7 +297,18 @@ public class Level_Editor : MonoBehaviour {
 				
 				//aliens
 				//revolving stars
-				
+				for(int i = 0; i < rstar_arr.Length; i++)
+				{
+					Starscript scpt = rstar_arr[i].GetComponent<Starscript>();
+					string color = "red";
+					if(scpt.c.Equals(Color.blue))
+					{
+						color = "blue";
+					}
+					sw.WriteLine(rstar_arr[i].transform.position.x+","+rstar_arr[i].transform.position.y+","+scpt.rpoint.x+","
+						+scpt.rpoint.y+","+color+","+scpt.orbitRadius+","+scpt.rspeed);
+					
+				}
     		}
 				
 			
