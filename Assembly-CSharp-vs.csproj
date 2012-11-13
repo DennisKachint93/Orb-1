@@ -50,6 +50,7 @@
      <Compile Include="Assets\Star\Starscript.cs" />
      <Compile Include="Assets\alien\alien_behavior.cs" />
      <None Include="Assets\level2.txt" />
+     <None Include="Assets\starsavetest.txt" />
      <None Include="Assets\Level1.txt" />
      <None Include="Assets\Shaders\Particle Add.shader" />
      <None Include="Assets\1star.txt" />

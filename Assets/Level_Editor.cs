@@ -23,6 +23,7 @@ public class Level_Editor : MonoBehaviour {
 	public GameObject star;		
 	public GameObject rip;
 	public GameObject coin;
+	public GameObject alien;
 	
 	//actual objects used in script
 	public static GameObject l, s, e;
@@ -31,6 +32,7 @@ public class Level_Editor : MonoBehaviour {
 	public GameObject[] coin_arr;
 	public GameObject[] mstar_arr;
 	public GameObject[] rstar_arr;
+	public GameObject[] alien_arr;
 	public int numStars = 0;
 	
 	//star colors
@@ -65,6 +67,9 @@ public class Level_Editor : MonoBehaviour {
 	public bool rstar_button = false;
 	public string isay_x_rpoint;
 	public string isay_y_rpoint;
+	
+	//alien button
+	public bool alien_button = false;
 	
 	
 	//Space rip controls position, size and boolean to begin space rip instantiation
@@ -109,6 +114,20 @@ public class Level_Editor : MonoBehaviour {
 		coin_arr = temp_arr;
 		coin_arr[coin_arr.Length-1] = coin_actual;
 		return coin_actual;
+	}
+	
+	GameObject CreateAlien(float x, float y) 
+	{
+		GameObject alien_actual = Instantiate (alien, new Vector3(x,y,0),new Quaternion(0,0,0,0)) as GameObject;
+		
+		//expand and put in array
+		GameObject[] temp_arr = new GameObject[alien_arr.Length+1];
+		for(int i=0;i<alien_arr.Length;i++)
+			temp_arr[i] = alien_arr[i];
+		alien_arr = temp_arr;
+		alien_arr[alien_arr.Length-1] = alien_actual;
+		
+		return alien_actual;
 	}
 
 	
@@ -219,24 +238,32 @@ public class Level_Editor : MonoBehaviour {
 			//if user has entered a valid color and the moving star button is clicked, create a moving star
 			if(mstar_button && validcolor)
 			{
-					Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                	starsize = float.Parse(isaysize);
-                	CreateMovingStar(location.x, location.y,starcol,startex,starsize,
-					new Vector3(float.Parse(isay_x_dir),float.Parse (isay_y_dir),0),float.Parse(isay_speed));
+				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            	starsize = float.Parse(isaysize);
+            	CreateMovingStar(location.x, location.y,starcol,startex,starsize,
+				new Vector3(float.Parse(isay_x_dir),float.Parse (isay_y_dir),0),float.Parse(isay_speed));
 			}
 			
 			//if the coin button been pushed, make coins
 			if(coin_button)
 			{
-					Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-					CreateCoin(location.x,location.y);
+				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				CreateCoin(location.x,location.y);
 			}
+			
+			//revolving star
 			if(rstar_button && validcolor)
 			{
-					Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                	starsize = float.Parse(isaysize);
-                	CreateRevolvingStar(location.x, location.y,float.Parse(isay_x_rpoint),float.Parse(isay_y_rpoint),starcol,
-						startex,starsize,float.Parse(isay_speed));
+				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            	starsize = float.Parse(isaysize);
+            	CreateRevolvingStar(location.x, location.y,float.Parse(isay_x_rpoint),float.Parse(isay_y_rpoint),starcol,
+					startex,starsize,float.Parse(isay_speed));
+			}
+			
+			//aliens
+			if(alien_button) {
+				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				CreateAlien(location.x,location.y);					
 			}
 			
 		}
@@ -255,7 +282,7 @@ public class Level_Editor : MonoBehaviour {
 			using (StreamWriter sw = File.CreateText(path))
     		{
 				//write lengths header (update this line as saving is implemented for other elements)
-    			sw.WriteLine(star_arr.Length+","+rip_arr.Length+","+coin_arr.Length+","+mstar_arr.Length+",0,"+rstar_arr.Length);
+    			sw.WriteLine(star_arr.Length+","+rip_arr.Length+","+coin_arr.Length+","+mstar_arr.Length+","+alien_arr.Length+","+rstar_arr.Length);
 				
 				//stars
 				for(int i = 0; i < star_arr.Length;i++)
@@ -265,6 +292,12 @@ public class Level_Editor : MonoBehaviour {
 					if(scpt.c.Equals(Color.blue))
 					{
 						color = "blue";
+					} else if(scpt.c.Equals(Color.white))
+					{
+						color = "white";
+					} else if (scpt.c.Equals(Color.yellow))
+					{
+						color = "yellow";
 					}
 					//write to file if star is a static
 					if(!scpt.is_moving && !scpt.is_revolving)
@@ -290,12 +323,23 @@ public class Level_Editor : MonoBehaviour {
 					if(scpt.c.Equals(Color.blue))
 					{
 						color = "blue";
+					} else if(scpt.c.Equals(Color.white))
+					{
+						color = "white";
+					} else if (scpt.c.Equals(Color.yellow))
+					{
+						color = "yellow";
 					}
 					sw.WriteLine(mstar_arr[i].transform.position.x+","+mstar_arr[i].transform.position.y+","+color+","+scpt.orbitRadius
 						+","+scpt.dir.x+","+scpt.dir.y+","+scpt.speed);
 				}
 				
 				//aliens
+				for(int i = 0; i < alien_arr.Length; i++)
+				{
+					sw.WriteLine(alien_arr[i].transform.position.x+","+alien_arr[i].transform.position.y);
+				}
+				
 				//revolving stars
 				for(int i = 0; i < rstar_arr.Length; i++)
 				{
@@ -303,7 +347,13 @@ public class Level_Editor : MonoBehaviour {
 					string color = "red";
 					if(scpt.c.Equals(Color.blue))
 					{
-						color = "blue";
+						color = "blue";					
+					} else if(scpt.c.Equals(Color.white))
+					{
+						color = "white";
+					} else if (scpt.c.Equals(Color.yellow))
+					{
+						color = "yellow";
 					}
 					sw.WriteLine(rstar_arr[i].transform.position.x+","+rstar_arr[i].transform.position.y+","+scpt.rpoint.x+","
 						+scpt.rpoint.y+","+color+","+scpt.orbitRadius+","+scpt.rspeed);
@@ -335,6 +385,10 @@ public class Level_Editor : MonoBehaviour {
 		//revolving star button
 		if(GUI.Button (new Rect(10,135,70,25), "rstar")) {
 			rstar_button = !rstar_button;
+		}
+		//alien button
+		if(GUI.Button(new Rect (10,165,70,25), "alien")) {
+			alien_button = !alien_button;
 		}
 		
 		

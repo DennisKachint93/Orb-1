@@ -123,6 +123,9 @@ public class Manager : MonoBehaviour {
 		
 		//load a level
 		LoadLevel("Assets/starsavetest.txt");
+		
+		//start camera on top of learth
+		Camera.main.transform.position = new Vector3(l.transform.position.x,l.transform.position.y, Camera.main.transform.position.z);	
 	}
 	
 	
