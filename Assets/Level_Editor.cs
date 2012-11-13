@@ -30,6 +30,7 @@ public class Level_Editor : MonoBehaviour {
 	public GameObject[] rip_arr;
 	public GameObject[] coin_arr;
 	public GameObject[] mstar_arr;
+	public GameObject[] rstar_arr;
 	public int numStars = 0;
 	
 	//star colors
@@ -62,6 +63,8 @@ public class Level_Editor : MonoBehaviour {
 	
 	//revolving star button
 	public bool rstar_button = false;
+	public string isay_x_rpoint;
+	public string isay_y_rpoint;
 	
 	
 	//Space rip controls position, size and boolean to begin space rip instantiation
@@ -147,6 +150,25 @@ public class Level_Editor : MonoBehaviour {
 		mstar_arr[mstar_arr.Length-1] = mstar;
 		return mstar;
 	}
+	
+	//instantiates a revolving star at the location and around the point provided
+	GameObject CreateRevolvingStar(float x, float y, float r_point_x, float r_point_y,Color color, Texture texture,float size, float speed)	
+	{		
+		GameObject rstar = CreateStar(x,y,color,texture,size);
+		Starscript scpt  = rstar.GetComponent<Starscript>();
+		scpt.is_revolving = true;
+		scpt.rpoint = new Vector3(r_point_x,r_point_y,0);
+		scpt.rspeed = speed;
+		scpt.editor_freeze = true;
+		
+		GameObject[] temp_arr = new GameObject[rstar_arr.Length+1];
+		for(int i=0;i<rstar_arr.Length;i++)
+			temp_arr[i] = rstar_arr[i];
+		rstar_arr = temp_arr;
+		rstar_arr[rstar_arr.Length-1] = rstar;
+		
+		return rstar;
+	}
 	/*
 	//puts Learth in orbit given an entrance point, an energy value, a velocity, a star, and a direction
 	public static void MoveLearthToOrbit(Vector3 entrance_point, Vector3 entrance_velocity, float lastEnergy, GameObject star, bool cwise )
@@ -208,6 +230,13 @@ public class Level_Editor : MonoBehaviour {
 			{
 					Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 					CreateCoin(location.x,location.y);
+			}
+			if(rstar_button && validcolor)
+			{
+					Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                	starsize = float.Parse(isaysize);
+                	CreateRevolvingStar(location.x, location.y,float.Parse(isay_x_rpoint),float.Parse(isay_y_rpoint),starcol,
+						startex,starsize,float.Parse(isay_speed));
 			}
 			
 		}
@@ -292,10 +321,14 @@ public class Level_Editor : MonoBehaviour {
 		if(GUI.Button (new Rect(10,105,70,25), "mstar")) {
 			mstar_button = !mstar_button;
 		}
+		//revolving star button
+		if(GUI.Button (new Rect(10,135,70,25), "rstar")) {
+			rstar_button = !rstar_button;
+		}
 		
 		
 		//if star button has been clicked, pop up box to change star color/size
- 		if(starbut || mstar_button){
+ 		if(starbut || mstar_button || rstar_button){
 			GUI.Box (new Rect (90, 45, 145, 110), "");
 			GUI.Label ( new Rect (100,50,30,20), "size");
 			isaysize = GUI.TextField(new Rect(140, 52, 80, 20), isaysize, 25);
@@ -331,7 +364,7 @@ public class Level_Editor : MonoBehaviour {
 				validcolor = true;
 			}
 		}
-		//if moving star, get direction of movement
+		//if moving star, get direction of movement and speed
 		if(mstar_button){
 			GUI.Box (new Rect (90, 145, 145, 110), "");
 			GUI.Label ( new Rect (100,150,30,20), "xdir");
@@ -340,6 +373,17 @@ public class Level_Editor : MonoBehaviour {
 			isay_y_dir = GUI.TextField(new Rect(140, 182, 80, 20), isay_y_dir, 25);
 			GUI.Label(new Rect(100,210,30,20), "mspeed");
 			isay_speed = GUI.TextField(new Rect(140, 282, 80, 20), isay_speed, 25);
+		}
+		//if revolving star, get rotation point and speed
+		if(rstar_button) {
+			GUI.Box (new Rect (90, 145, 145, 110), "");
+			GUI.Label ( new Rect (100,150,30,20), "rev point x");
+			isay_x_rpoint = GUI.TextField(new Rect(140, 152, 80, 20), isay_x_rpoint, 25);
+			GUI.Label ( new Rect (100, 180,30,20), "rev point y");
+			isay_y_rpoint = GUI.TextField(new Rect(140, 182, 80, 20), isay_y_rpoint, 25);
+			GUI.Label(new Rect(100,210,30,20), "speed");
+			isay_speed = GUI.TextField(new Rect(140, 282, 80, 20), isay_speed, 25);
+			
 		}
 		
 	}
