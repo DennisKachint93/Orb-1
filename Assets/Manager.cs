@@ -121,9 +121,6 @@ public class Manager : MonoBehaviour {
 		//initialize timer
 		start_time = Time.time;
 		
-		//create a revolving star
-	//	CreateRevolvingStar(200,0,0,0,Color.blue,tblue,35f,10f);
-		
 		//load a level
 		LoadLevel("Assets/starsavetest.txt");
 	}
@@ -196,6 +193,7 @@ public class Manager : MonoBehaviour {
 		int coins = int.Parse(sp[2]);
 		int mstars = int.Parse (sp[3]);
 		int aliens = int.Parse(sp[4]);
+		int rstars = int.Parse (sp[5]);
 		
 		//create all stars specified in the text file
 		for(int i=0; i<stars;i++)
@@ -282,7 +280,6 @@ public class Manager : MonoBehaviour {
 			//make the star
 			CreateMovingStar(float.Parse(args[0]),float.Parse(args[1]), 
 				starcol, startex, float.Parse(args[3]), new Vector3(float.Parse (args[4]), float.Parse(args[5]),0), float.Parse(args[6]));
-			
 		}
 		
 		//create all aliens in the file
@@ -292,6 +289,35 @@ public class Manager : MonoBehaviour {
 			string[] args = line.Split(delim);
 			CreateAlien(float.Parse(args[0]),float.Parse(args[1]));
 		}
+		
+		//create 
+		for(int i = 0; i < rstars; i++)
+		{
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			
+			//get color and texture objects
+			Color starcol = Color.white;
+			Texture startex = twhite;
+			if(args[4] == "blue"){
+				starcol = Color.blue;
+				startex = tblue;
+				
+			} else if(args[4] == "white") {
+				starcol = Color.white;
+				startex = twhite;
+			} else if(args[4] == "red") {
+				starcol = Color.red;
+				startex = tred;
+			} else if (args[4] == "yellow") {
+				starcol = Color.yellow;
+				startex = tyellow;
+			}
+			
+			CreateRevolvingStar(float.Parse (args[0]),float.Parse(args[1]),float.Parse(args[2]),float.Parse(args[3]),
+				starcol, startex, float.Parse(args[5]),float.Parse (args[6]));
+		}
+		
 	}
 	
 	//puts learth in orbit given a valid radius
