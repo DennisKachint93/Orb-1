@@ -142,8 +142,8 @@ public class Manager : MonoBehaviour {
 		//initialize timer
 		start_time = Time.time;
 		
-		//load a level
-		LoadLevel("Assets/Level3.txt");
+		//load next level
+		LoadLevel(gscpt.level_order[gscpt.cur_level]);
 		
 		//start camera on top of learth
 		Camera.main.transform.position = new Vector3(l.transform.position.x,l.transform.position.y, Camera.main.transform.position.z);	

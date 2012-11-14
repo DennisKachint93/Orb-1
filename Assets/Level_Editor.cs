@@ -210,7 +210,7 @@ public class Level_Editor : MonoBehaviour {
 			Camera.main.orthographicSize -= CAM_MOVE_SPEED;
 		//save with I
 		if(Input.GetKey (KeyCode.I))
-			SaveLevel("Assets/perf_test.txt");
+			SaveLevel("Levels/3.txt");
 			
 		//after a specific button has been pressed, corresponding object is instantiated on mouse click
 		if(Input.GetMouseButtonDown(0)) {
