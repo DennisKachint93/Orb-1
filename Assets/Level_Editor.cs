@@ -351,7 +351,7 @@ public class Level_Editor : MonoBehaviour {
     
 	 void OnGUI() {        
 		//toolbar area
-		GUI.backgroundColor = Color.blue;
+		GUI.backgroundColor = Color.red;
 		GUI.Box(new Rect(0, 0, 93, Screen.height), "");
 		//spacerip button -- after pressing button, user can click to add space rips in locations 
         if (GUI.Button(new Rect(10, 15, 75, 25), "Space Rip")) {

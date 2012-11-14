@@ -2,7 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class Menu : MonoBehaviour {
-
+	
+	//dennis
+	public Texture dennis;
 
 	//State saving object
 	GameObject game_state;
@@ -32,11 +34,7 @@ public class Menu : MonoBehaviour {
 		//state object keeps track of levels
 		gscpt.level_order = level_order;
 		
-		//default starting level is 0, but you could set it to something else here
-		
-		
-		//load game (for debugging purposes. you should actually choose game, editor, level, etc. here
-		Application.LoadLevel("Scene1");
+
 		
 	}
 	
@@ -44,4 +42,14 @@ public class Menu : MonoBehaviour {
 	void Update () {
 		
 	}
+		
+	void OnGUI () {
+		GUI.backgroundColor = Color.red;
+		GUI.Box(new Rect(50, 50, Screen.width/2-100, 7*Screen.height/8), dennis);
+		if(GUI.Button(new Rect(3*Screen.width/4 + 8, Screen.height/2, 60, 25), "Play!"))	
+			Application.LoadLevel("Scene1");
+		if(GUI.Button(new Rect(3*Screen.width/4, Screen.height/2 + 35, 80, 25), "Level Editor"))	
+			Application.LoadLevel("Level_Editor");
+	}
+	
 }
