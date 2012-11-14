@@ -123,7 +123,6 @@ public class Manager : MonoBehaviour {
 		//Proof that state is changed in menu and preserved in manager		
 		game_state = GameObject.Find("game_state");
 		Game_State gscpt = game_state.GetComponent<Game_State>();
-		Debug.Log("game state: "+gscpt.flag);
 		
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
