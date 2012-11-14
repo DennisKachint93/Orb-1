@@ -26,11 +26,11 @@ public class Game_State : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		
+		//DO NO WRITE ANY CODE HERE. I'M SERIOUS.	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		//DO NO WRITE ANY CODE HERE. I'M SERIOUS.	
 	}
 }

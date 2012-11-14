@@ -50,6 +50,7 @@
      <Compile Include="Assets\Manager.cs" />
      <Compile Include="Assets\Menu.cs" />
      <Compile Include="Assets\Outfitter.cs" />
+     <Compile Include="Assets\Powerups\Super_Bending.cs" />
      <Compile Include="Assets\Star\Starscript.cs" />
      <Compile Include="Assets\alien\alien_behavior.cs" />
      <None Include="Assets\level2.txt" />
