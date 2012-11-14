@@ -498,9 +498,10 @@ public class Manager : MonoBehaviour {
 		//Speed increases logarithmically with energy
 		speed = Mathf.Log(energy)*MOVEMENT_SPEED;
 		
-		//speed increase exponentially with energy
-	//	speed = Mathf.Exp(energy/25)*MOVEMENT_SPEED;
-	
+		//end level if reach sink
+		Starscript starscpt = cur_star.GetComponent<Starscript>();
+		if(starscpt.is_sink)
+			Application.LoadLevel("Ship_Outfitter");
 		
 		//bending
 		if(Input.GetKey(KeyCode.Q))

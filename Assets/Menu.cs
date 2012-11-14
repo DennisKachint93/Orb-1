@@ -32,7 +32,7 @@ public class Menu : MonoBehaviour {
 		//state object keeps track of levels
 		gscpt.level_order = level_order;
 		
-		//default level position is 0, but you could set it to something else here
+		//default starting level is 0, but you could set it to something else here
 		
 		
 		//load game (for debugging purposes. you should actually choose game, editor, level, etc. here
