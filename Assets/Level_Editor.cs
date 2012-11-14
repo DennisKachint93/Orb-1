@@ -9,13 +9,15 @@ public class Level_Editor : MonoBehaviour {
 	public float energy;
 	
 	//These controls are for our convenience as level editiors -- same functions as in manager
-		//maximum distance from scene
+	//maximum distance from scene
 	private float CAM_MAX_DIST = 1000;
-		//minumum distance from scene
+	//minumum distance from scene
 	private float CAM_MIN_DIST = 50;
-		//how we can zoom in and out
+	//maximum "size" of scene in terms of camera's ability to move
+	private float SCENE_BOUNDARY = 2000;
+	//how we can zoom in and out
 	private float CAM_MOVE_SPEED = 4;
-		//Camera orthographic size at start of level editing scene, not actual level we are creating, higher = see more
+	//Camera orthographic size at start of level editing scene, not actual level we are creating, higher = see more
 	private float CAM_START_HEIGHT = 500;
 	
 	//Hook into unity
@@ -72,8 +74,7 @@ public class Level_Editor : MonoBehaviour {
 	public bool alien_button = false;
 	
 	
-	//Space rip controls position, size and boolean to begin space rip instantiation
-    public Rect button;
+	//Space rip button
 	public bool spaceRipButton = false;
 	
 	
@@ -81,8 +82,6 @@ public class Level_Editor : MonoBehaviour {
 		
 		//set camera height for level editing
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
-		//space rip gui -- button to create space rip
-		button = new Rect(10, 10, 75, 25);
 		
 	}
 	
@@ -189,51 +188,35 @@ public class Level_Editor : MonoBehaviour {
 		
 		return rstar;
 	}
-	/*
-	//puts Learth in orbit given an entrance point, an energy value, a velocity, a star, and a direction
-	public static void MoveLearthToOrbit(Vector3 entrance_point, Vector3 entrance_velocity, float lastEnergy, GameObject star, bool cwise )
-	{
-		energy = lastEnergy;
-		s = star;
-		cur_star = s;
-		Learth_Movement.isTangent = true;
-		l.transform.position = Vector3.Lerp(l.transform.position,entrance_point,100.0F);
-		Learth_Movement.velocity = entrance_velocity;
-		clockwise = cwise;
-	} */
 	
 	void Update () {
-		//A moves the camera farther, S moves the camera closer
+		//A moves the camera farther,  S moves the camera closer, arrow keys move camera position up, down, left and right
 		if(Input.GetKey(KeyCode.A) && Camera.main.orthographicSize <= CAM_MAX_DIST)
 			Camera.main.orthographicSize += CAM_MOVE_SPEED;
 		if(Input.GetKey(KeyCode.S) && Camera.main.orthographicSize >= CAM_MIN_DIST)
 			Camera.main.orthographicSize -= CAM_MOVE_SPEED;
-		//save with I
-		if(Input.GetKey (KeyCode.I))
-			SaveLevel("Levels/3.txt");
+		if(Input.GetKey(KeyCode.RightArrow) && Camera.main.transform.position.x < SCENE_BOUNDARY) 
+			Camera.main.transform.Translate(new Vector3(CAM_MOVE_SPEED, 0, 0));
+		if(Input.GetKey(KeyCode.LeftArrow) && Camera.main.transform.position.x > -SCENE_BOUNDARY) 
+			Camera.main.transform.Translate(new Vector3(-CAM_MOVE_SPEED, 0, 0));
+		if(Input.GetKey(KeyCode.UpArrow) && Camera.main.transform.position.y > -SCENE_BOUNDARY) 
+			Camera.main.transform.Translate(new Vector3(0, CAM_MOVE_SPEED, 0));
+		if(Input.GetKey(KeyCode.DownArrow) && Camera.main.transform.position.y < SCENE_BOUNDARY) 
+			Camera.main.transform.Translate(new Vector3(0, -CAM_MOVE_SPEED, 0));
 			
 		//after a specific button has been pressed, corresponding object is instantiated on mouse click
-		if(Input.GetMouseButtonDown(0)) {
+		if(Input.GetMouseButtonDown(0) && Input.mousePosition.x > 93) {
         	Vector3 p = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
 			//if space rip button is pressed, instantiate space rip on mouse click 
 			if (spaceRipButton) {
-				//check to see that you aren't instantiating spacerips when you want to click a button	
-				if (Input.mousePosition.x > 10 && Input.mousePosition.x < 85 && Input.mousePosition.y < Screen.height - 10 && Input.mousePosition.y > Screen.height - 35);
-				else {  
-					CreateSpaceRip (p.x, p.y, 30, 30);	
-				}
+				CreateSpaceRip (p.x, p.y, 30, 30);	
 			}
 			//if user has entered a valid color and star button has been pushed, instantiate star anywhere but on pop-up box location
-	        if (starbut && validcolor) {
-				//check to see that you aren't instantiating stars when you click to change star color/size
-				
-				if ((Input.mousePosition.x > 90 && Input.mousePosition.x < 235 && Input.mousePosition.y < Screen.height - 45  && Input.mousePosition.y > Screen.height - 155) || (Input.mousePosition.x > 10 && Input.mousePosition.x < 80 && Input.mousePosition.y < Screen.height - 45 && Input.mousePosition.y > Screen.height - 70));
+	        if (starbut && validcolor) {				
 				//instantiate star with user-defined color and radius
-				else {
-					Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                	starsize = float.Parse(isaysize);
-					CreateStar(location.x,location.y,starcol,startex,starsize);
-				}
+				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                starsize = float.Parse(isaysize);
+				CreateStar(location.x,location.y,starcol,startex,starsize);
        		}
        		
 			//if user has entered a valid color and the moving star button is clicked, create a moving star
@@ -367,43 +350,76 @@ public class Level_Editor : MonoBehaviour {
 	}
     
 	 void OnGUI() {        
+		//toolbar area
+		GUI.backgroundColor = Color.blue;
+		GUI.Box(new Rect(0, 0, 93, Screen.height), "");
 		//spacerip button -- after pressing button, user can click to add space rips in locations 
-        	if (GUI.Button(button, "Space Rip")) {
+        if (GUI.Button(new Rect(10, 15, 75, 25), "Space Rip")) {
 			spaceRipButton = !spaceRipButton;
+			starbut = false;
+			coin_button = false;
+			mstar_button = false;
+			rstar_button = false;
+			alien_button = false;
 		}
 		//star button -- after pressing button, user can enter star size and color and then click to add space rips to locations
 		if(GUI.Button(new Rect(10, 45, 70, 25), "star")){
 			starbut = !starbut;
+			spaceRipButton = false;
+			coin_button = false;
+			mstar_button = false;
+			rstar_button = false;
+			alien_button = false;
 		}
 		//coin button
 		if(GUI.Button (new Rect(10,75,70,25), "coin")) {
 			coin_button = !coin_button;
+			spaceRipButton = false;
+			starbut = false;
+			mstar_button = false;
+			rstar_button = false;
+			alien_button = false;
 		}
 		//moving star button
 		if(GUI.Button (new Rect(10,105,70,25), "mstar")) {
 			mstar_button = !mstar_button;
+			spaceRipButton = false;
+			starbut = false;
+			rstar_button = false;
+			coin_button = false;
+			alien_button = false;
 		}
 		//revolving star button
 		if(GUI.Button (new Rect(10,135,70,25), "rstar")) {
 			rstar_button = !rstar_button;
+			spaceRipButton = false;
+			starbut = false;
+			coin_button = false;
+			mstar_button = false;
+			alien_button = false;
 		}
 		//alien button
 		if(GUI.Button(new Rect (10,165,70,25), "alien")) {
 			alien_button = !alien_button;
+			spaceRipButton = false;
+			starbut = false;
+			rstar_button = false;
+			coin_button = false;
+			mstar_button = false;
 		}
 		
-		
+		int ystart = 240; //starting y value of pop-up box
 		//if star button has been clicked, pop up box to change star color/size
  		if(starbut || mstar_button || rstar_button){
-			GUI.Box (new Rect (90, 45, 145, 110), "");
-			GUI.Label ( new Rect (100,50,30,20), "size");
-			isaysize = GUI.TextField(new Rect(140, 52, 80, 20), isaysize, 25);
-			GUI.Label ( new Rect (100, 80,30,20), "color");
-			isaycolor = GUI.TextField(new Rect(140, 82, 80, 20), isaycolor, 25);
-			//if done button is clicked, don't instatiate any more stars
-			if(GUI.Button(new Rect(130, 120, 80, 30), "Done")){
+			if(GUI.Button(new Rect(25, ystart+10, 45, 30), "Done")){
 				starbut = false;
+				mstar_button = false;
+				rstar_button = false;
 			}
+			GUI.Label ( new Rect (10,ystart+50,25,20), "size");
+			isaysize = GUI.TextField(new Rect(45, ystart+52, 40, 20), isaysize, 25);
+			GUI.Label ( new Rect (10, ystart+80,30,20), "color");
+			isaycolor = GUI.TextField(new Rect(45, ystart+82, 40, 20), isaycolor, 25);
 			if(isaycolor == "blue"){
 				starcol = Color.blue;
 				startex = tblue;
@@ -430,27 +446,30 @@ public class Level_Editor : MonoBehaviour {
 				validcolor = true;
 			}
 		}
+
 		//if moving star, get direction of movement and speed
 		if(mstar_button){
-			GUI.Box (new Rect (90, 145, 145, 110), "");
-			GUI.Label ( new Rect (100,150,30,20), "xdir");
-			isay_x_dir = GUI.TextField(new Rect(140, 152, 80, 20), isay_x_dir, 25);
-			GUI.Label ( new Rect (100, 180,30,20), "ydir");
-			isay_y_dir = GUI.TextField(new Rect(140, 182, 80, 20), isay_y_dir, 25);
-			GUI.Label(new Rect(100,210,30,20), "mspeed");
-			isay_speed = GUI.TextField(new Rect(140, 282, 80, 20), isay_speed, 25);
+			GUI.Label ( new Rect (10,ystart+110,25,20), "xdir");
+			isay_x_dir = GUI.TextField(new Rect(45, ystart+112, 40, 20), isay_x_dir, 25);
+			GUI.Label ( new Rect (10, ystart+140,25,20), "ydir");
+			isay_y_dir = GUI.TextField(new Rect(45, ystart+142, 40, 20), isay_y_dir, 25);
+			GUI.Label(new Rect(10,ystart+170,25,20), "mspeed");
+			isay_speed = GUI.TextField(new Rect(45, ystart+172, 40, 20), isay_speed, 25);
 		}
 		//if revolving star, get rotation point and speed
 		if(rstar_button) {
-			GUI.Box (new Rect (90, 145, 145, 110), "");
-			GUI.Label ( new Rect (100,150,30,20), "rev point x");
-			isay_x_rpoint = GUI.TextField(new Rect(140, 152, 80, 20), isay_x_rpoint, 25);
-			GUI.Label ( new Rect (100, 180,30,20), "rev point y");
-			isay_y_rpoint = GUI.TextField(new Rect(140, 182, 80, 20), isay_y_rpoint, 25);
-			GUI.Label(new Rect(100,210,30,20), "speed");
-			isay_speed = GUI.TextField(new Rect(140, 282, 80, 20), isay_speed, 25);
+			GUI.Label ( new Rect (10,ystart+110,25,20), "rev point x");
+			isay_x_rpoint = GUI.TextField(new Rect(45, ystart+112, 40, 20), isay_x_rpoint, 25);
+			GUI.Label ( new Rect (10, ystart+140,25,20), "rev point y");
+			isay_y_rpoint = GUI.TextField(new Rect(45, ystart+142, 40, 20), isay_y_rpoint, 25);
+			GUI.Label(new Rect(10,ystart+170,25,20), "speed");
+			isay_speed = GUI.TextField(new Rect(45, ystart+172, 40, 20), isay_speed, 25);
 			
 		}
+	
+	//save button
+	if(GUI.Button(new Rect(10, Screen.height - 30, 70, 25), "Save"))
+		SaveLevel("Levels/3.txt");
 		
 	}
 		
