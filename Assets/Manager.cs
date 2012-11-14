@@ -85,6 +85,7 @@ public class Manager : MonoBehaviour {
 	public static Vector3 tangent;
 	public static bool clockwise = false;
 	public static int num_deaths = 0;
+	public static Vector3 blackHoleEntry;
 	
 	//star colors and textures
 	public Color orange = new Color(1f, .6f, 0f, 1f);
@@ -135,7 +136,7 @@ public class Manager : MonoBehaviour {
 		start_time = Time.time;
 		
 		//load a level
-		LoadLevel("Assets/perf_test.txt");
+		LoadLevel("Assets/Level3.txt");
 		
 		//start camera on top of learth
 		Camera.main.transform.position = new Vector3(l.transform.position.x,l.transform.position.y, Camera.main.transform.position.z);	
@@ -236,7 +237,7 @@ public class Manager : MonoBehaviour {
 			}
 			
 			//make the star
-			GameObject newstar = CreateStar(float.Parse(args[0]),float.Parse(args[1]), starcol, startex, float.Parse(args[3]));
+			GameObject newstar = CreateStar(float.Parse(args[0]),float.Parse(args[1]), starcol, startex, float.Parse(args[3])); // bool.Parse(args[4]));
 			
 			//learth starts in orbit around first star specified
 			if(i == 0)
@@ -414,15 +415,15 @@ public class Manager : MonoBehaviour {
 	}
 
 	//instantiates star from prefab at given xy location and of given characteristics
-	GameObject CreateStar(float x, float y, Color color, Texture texture, float size)
+	GameObject CreateStar(float x, float y, Color color, Texture texture, float size, bool isBlackHole = false)
 	{
 		GameObject starE = Instantiate (star, new Vector3(x,y,0), new Quaternion(0,0,0,0)) as GameObject;
 		Starscript starscript = starE.GetComponent<Starscript>();
 		starscript.c = color;
 		starscript.t = texture;
 		starscript.starSize = size; 
-		starscript.isBlackHole = false;
-		//starscript.isBlackHole = isBlackHole;
+		//starscript.isBlackHole = false;
+		starscript.isBlackHole = isBlackHole;
 		
 		//expand and copy star_arr - if loading a level takes too long, this can be optimized
 		GameObject[] temp_arr = new GameObject[star_arr.Length+1];
@@ -438,6 +439,7 @@ public class Manager : MonoBehaviour {
 	//call this anytime something kills the player
 	public static void Die()
 	{		
+		Learth_Movement.isMoving = true;
 		Starscript scpt = lastStar.GetComponent<Starscript>();
 		GoToOrbit(lastStar,scpt.orbitRadius);
 	}
@@ -552,43 +554,56 @@ public class Manager : MonoBehaviour {
 			}
 			//if star is a black hole, get sucked into center of black hole
 			if(scpt.isBlackHole) {
-				Learth_Movement.isMoving = false;
-				scpt.theta += .5f;
-				scpt.currRadius *= 20*30*Mathf.Pow(Mathf.Exp(1), 30*scpt.theta);
-				float x, y;
+				//if learth is still moving, on this frame it entered black hole, so record its entry point
+				if (Learth_Movement.isMoving) {
+					blackHoleEntry = l.transform.position;
+					scpt.currRadius = Vector3.Distance(blackHoleEntry, cur_star.transform.position);
+					print ("currrrr " + scpt.currRadius + "theat " + scpt.theta);
+					Learth_Movement.isMoving = false;
+				}
+				l.transform.RotateAround(s.transform.position, Vector3.forward, 60*Time.deltaTime);
+				//l.transform.Rotate(Mathf.Cos(60*Time.deltaTime*Mathf.PI/180), Mathf.Sin(60*Time.deltaTime*Mathf.PI/180), 0);
+				l.transform.Rotate (-60*Time.deltaTime, -60*Time.deltaTime, 0);
+				l.transform.Translate(-Vector3.forward);
+			
+			//	scpt.theta += .01f;
+			//	float x, y;
 				//x = 5*Mathf.Cos(scpt.theta)*Mathf.Pow(Mathf.Exp(1), 4*scpt.theta);
 				//y = 5*Mathf.Sin(scpt.theta)*Mathf.Pow(Mathf.Exp(1), 4*scpt.theta);
-				x = scpt.currRadius*Mathf.Cos(scpt.theta);
-				y = scpt.currRadius*Mathf.Sin(scpt.theta);
-				print(" theta " + scpt.theta + " radius " + scpt.currRadius);
+			//	x = .1f*scpt.currRadius*Mathf.Cos(scpt.theta);
+				//y = .1f*scpt.currRadius*Mathf.Sin(scpt.theta);
+			//	print(" theta " + scpt.theta + " radius " + scpt.currRadius);
+			//	l.transform.position = new Vector3(x, y, 0);
+				scpt.currRadius -= .1f;
+					//*= .8f*Mathf.Pow(Mathf.Exp(1), scpt.theta);
 				//scpt.currRadius = 
 				//l.transform.Rotate(Vector3.forward, scpt.theta*Time.deltaTime);
-				l.transform.Translate(x,y,0);
+				//l.transform.Translate(x,y,0);
 				//l.transform.position = Vector3.Lerp(l.transform.position, cur_star.transform.position, Time.deltaTime/BLACK_HOLE_SUCKINESS);
 			//	l.transform.localPosition.z += 0.5;
 			//	l.transform.Translate(transform.up*Time.deltaTime*speed,Space.World);
 			//	l.transform.position -= Learth_Movement.velocity.normalized*speed;
 			}			
+			else { 
 			//rotate around star s
-			if (clockwise){
-				l.transform.RotateAround(s.transform.position, Vector3.forward, 
-					-(speed > 1 ? speed : 1)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime)*ORBIT_SPEED_FACTOR);
-			}
-			else  {
-				l.transform.RotateAround(s.transform.position, 
+				if (clockwise){
+					l.transform.RotateAround(s.transform.position, Vector3.forward, 
+						-(speed > 1 ? speed : 1)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime)*ORBIT_SPEED_FACTOR);
+				}
+				else  {
+					l.transform.RotateAround(s.transform.position, 
 					Vector3.forward, (speed > 1 ? speed : 1)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime/ORBIT_SPEED_FACTOR));
+				}
 			}
-			
-			//if space bar is pressed, accelerate away from star. 
+				//if space bar is pressed, accelerate away from star. 
 			if (Input.GetKeyDown(KeyCode.Space)) {
 				if (scpt.isBlackHole) {
 					energy -= BH_ESCAPE_ENERGY;
-					l.transform.position = Vector3.Lerp(l.transform.position, scpt.orbitRadius*Learth_Movement.velocity.normalized, Time.deltaTime);
+			 		l.transform.position = Vector3.Lerp(l.transform.position, scpt.orbitRadius*Learth_Movement.velocity.normalized, Time.deltaTime);
 					if (Vector3.Distance(l.transform.position, s.transform.position) >= scpt.orbitRadius) {
 						Learth_Movement.isTangent = false;
 						lastStar = s;
 						Learth_Movement.lastPos.position = l.transform.position - Learth_Movement.velocity.normalized*speed;
-
 					}				
 				}
 				else {
