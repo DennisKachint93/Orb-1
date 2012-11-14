@@ -44,9 +44,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Game_State.cs" />
      <Compile Include="Assets\Learth\Learth_Movement.cs" />
      <Compile Include="Assets\Level_Editor.cs" />
      <Compile Include="Assets\Manager.cs" />
+     <Compile Include="Assets\Menu.cs" />
      <Compile Include="Assets\Star\Starscript.cs" />
      <Compile Include="Assets\alien\alien_behavior.cs" />
      <None Include="Assets\level2.txt" />
