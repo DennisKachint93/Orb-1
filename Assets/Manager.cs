@@ -62,6 +62,8 @@ public class Manager : MonoBehaviour {
 	public GameObject coin;
 	public GameObject plane;
 	public GameObject alien;
+	public GameObject bomb;
+		
 	public static GameObject cur_star;
 	
 	//actual objects used in script

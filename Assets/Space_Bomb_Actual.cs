@@ -1,17 +1,16 @@
 using UnityEngine;
 using System.Collections;
 
-public class Super_Bending : MonoBehaviour {
+public class Space_Bomb_Actual : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//Increase bend constant in manager
-		Manager.BEND_FACTOR = 12;
+		Debug.Log("bomb deployed");
+	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log ("bending in place");
 	
 	}
 }

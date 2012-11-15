@@ -41,6 +41,9 @@ public class Outfitter : MonoBehaviour {
 		GUI.Label (new Rect(10,25,200,25), "Tier 1");
 		if(GUI.Button(new Rect(10, 45, 200, 25), "Super Bending ("+BENDING_PRICE+" coins)")){
 			if(gscpt.num_coins >= BENDING_PRICE){
+				//Destroy old powerup
+				Destroy (gscpt.tier_1_upgrade);
+				
 				//create a new gameobject to replace the old one
 				GameObject pwrup = new GameObject();
 				//add the script that defines your power up 
@@ -48,10 +51,13 @@ public class Outfitter : MonoBehaviour {
 				//assign the gameobject to the proper tier in game_state
 				gscpt.tier_1_upgrade = pwrup;
 				gscpt.num_coins -= BENDING_PRICE;
+				DontDestroyOnLoad(pwrup);
 			}
 		}
 		if(GUI.Button (new Rect(10,75,200,25), "Extra Speed ("+SPEED_PRICE+" coins)")) {
 			if(gscpt.num_coins >= SPEED_PRICE){
+				//Destroy old powerup
+				Destroy (gscpt.tier_1_upgrade);
 				//create a new gameobject to replace the old one
 				GameObject pwrup = new GameObject();
 				//add the script that defines your power up 
@@ -59,10 +65,13 @@ public class Outfitter : MonoBehaviour {
 				//assign the gameobject to the proper tier in game_state
 				gscpt.tier_1_upgrade = pwrup;
 				gscpt.num_coins -= SPEED_PRICE;
+				DontDestroyOnLoad(pwrup);
 			}
 		}
 		if(GUI.Button (new Rect(10,105,200,25), "Easy Entry ("+EASY_ENTRY_PRICE+" coins)")) {
 			if(gscpt.num_coins >= EASY_ENTRY_PRICE){
+				//Destroy old powerup
+				Destroy (gscpt.tier_1_upgrade);
 				//create a new gameobject to replace the old one
 				GameObject pwrup = new GameObject();
 				//add the script that defines your power up 
@@ -70,19 +79,23 @@ public class Outfitter : MonoBehaviour {
 				//assign the gameobject to the proper tier in game_state
 				gscpt.tier_1_upgrade = pwrup;
 				gscpt.num_coins -= EASY_ENTRY_PRICE;
+				DontDestroyOnLoad(pwrup);
 			}
 		}
 		
 		GUI.Label (new Rect(10,145,200,25), "Tier 2");
 		if(GUI.Button (new Rect(10,170,200,25), "Space Bomb ("+SPACE_BOMB_PRICE+" coins)")) {
 			if(gscpt.num_coins >= SPACE_BOMB_PRICE){
+				//Destroy old powerup
+				Destroy (gscpt.tier_1_upgrade);
 				//create a new gameobject to replace the old one
 				GameObject pwrup = new GameObject();
 				//add the script that defines your power up 
-				pwrup.AddComponent("Easy_Entry");
+				pwrup.AddComponent("Space_Bomb");
 				//assign the gameobject to the proper tier in game_state
-				gscpt.tier_1_upgrade = pwrup;
+				gscpt.tier_2_upgrade = pwrup;
 				gscpt.num_coins -= SPACE_BOMB_PRICE;
+				DontDestroyOnLoad(pwrup);
 			}
 		}
 		
