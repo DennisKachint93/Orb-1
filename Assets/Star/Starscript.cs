@@ -50,8 +50,7 @@ public class Starscript : MonoBehaviour {
 			this.transform.localScale *= starSize;
 		orbitRadius = starSize;
 		r = Instantiate(radius, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;
-		r.light.range = 2*orbitRadius;
-		//+ 1/2 radial error
+		r.light.range = 2*orbitRadius + .5f*Manager.RADIAL_ERROR;
 		random = Random.value;
 		//parent radius to star for destruction
 		r.transform.parent = this.transform;
@@ -67,8 +66,8 @@ public class Starscript : MonoBehaviour {
         	float amplitude = Mathf.Cos(phi) * 0.5F + 0.5F;
         	r.light.intensity = amplitude*offset + starSize/30;
         
-		//if star is a mover, move to destination point
-		if(is_moving && !editor_freeze)
+		//if star is a mover, the actual game is playing, and the star is visible move to destination point
+		if(is_moving && !editor_freeze && renderer.isVisible)
 		{
 			transform.position += speed*new Vector3(dir.x*Time.deltaTime,dir.y*Time.deltaTime,0);
 		}

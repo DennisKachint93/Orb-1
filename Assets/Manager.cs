@@ -9,9 +9,9 @@ public class Manager : MonoBehaviour {
 
 	/*GAMEPLAY CONTROLS */
 	//Larger the error, the wider legal orbit radius 
-	private int RADIAL_ERROR = 10;
+	public static int RADIAL_ERROR = 10;
 	//larger the tan error, the easier it is to enter a star at a legal radius
-	private float TAN_ERROR = 8;
+	public static float TAN_ERROR = 8;
 	//the larger this number is, the sharper bends are
 	public static float BEND_FACTOR = 2;
 	//larger the number, the faster the learth moves overall
@@ -113,7 +113,7 @@ public class Manager : MonoBehaviour {
     private float fps;
 	
 	GameObject game_state;
-	
+	Game_State gscpt;	
 	
 	void Start () {
 		//performance
@@ -124,6 +124,7 @@ public class Manager : MonoBehaviour {
 		game_state = GameObject.Find("game_state");
 //		Debug.Log(game_state);
 //		Game_State gscpt = game_state.GetComponent<Game_State>();
+//		gscpt = game_state.GetComponent<Game_State>();
 		
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
@@ -483,11 +484,6 @@ public class Manager : MonoBehaviour {
 		//f increases energy by 1
 		if(Input.GetKeyDown(KeyCode.F))
 			energy++;
-		//H unloads the current level
-		if(Input.GetKeyDown (KeyCode.H))
-			UnloadCurrentLevel();
-		if(Input.GetKeyDown(KeyCode.J))
-			LoadLevel("assets/level3.txt");
 				
 		/*********************END DEBUGGING CONTROLS*****************/
 		
@@ -496,8 +492,10 @@ public class Manager : MonoBehaviour {
 		
 		//end level if reach sink
 		Starscript starscpt = cur_star.GetComponent<Starscript>();
-		if(starscpt.is_sink)
+		if(starscpt.is_sink) {
+			gscpt.num_coins += currency;
 			Application.LoadLevel("Ship_Outfitter");
+		}
 		
 		//bending
 		if(Input.GetKey(KeyCode.Q))
