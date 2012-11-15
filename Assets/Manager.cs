@@ -113,7 +113,7 @@ public class Manager : MonoBehaviour {
     private float fps;
 	
 	GameObject game_state;
-	
+	Game_State gscpt;	
 	
 	void Start () {
 		//performance
@@ -122,7 +122,7 @@ public class Manager : MonoBehaviour {
 		
 		//Proof that state is changed in menu and preserved in manager		
 		game_state = GameObject.Find("game_state");
-		Game_State gscpt = game_state.GetComponent<Game_State>();
+		gscpt = game_state.GetComponent<Game_State>();
 		
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
@@ -495,8 +495,10 @@ public class Manager : MonoBehaviour {
 		
 		//end level if reach sink
 		Starscript starscpt = cur_star.GetComponent<Starscript>();
-		if(starscpt.is_sink)
+		if(starscpt.is_sink) {
+			gscpt.num_coins += currency;
 			Application.LoadLevel("Ship_Outfitter");
+		}
 		
 		//bending
 		if(Input.GetKey(KeyCode.Q))

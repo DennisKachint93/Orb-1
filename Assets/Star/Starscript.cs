@@ -68,7 +68,7 @@ public class Starscript : MonoBehaviour {
         	r.light.intensity = amplitude*offset + starSize/30;
         
 		//if star is a mover, move to destination point
-		if(is_moving && !editor_freeze)
+		if(is_moving && !editor_freeze && renderer.isVisible)
 		{
 			transform.position += speed*new Vector3(dir.x*Time.deltaTime,dir.y*Time.deltaTime,0);
 		}
