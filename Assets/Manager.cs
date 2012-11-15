@@ -47,9 +47,9 @@ public class Manager : MonoBehaviour {
 	//this much energy is subtracted when they player hits the space bar to launch from a star
 	private float LEAVING_COST = 0;
 	//when aliens are within distance, they start to suck your energy
-	public static float ALIEN_SUCKING_DISTANCE = 3f;
+	public static float ALIEN_SUCKING_DISTANCE = 40f;
 	//this much energy is sucked from player when alien is within alien_sucking_distance
-	public static float ALIEN_SUCKS_ENERGY = .25f;
+	public static float ALIEN_SUCKS_ENERGY = .025f;
 	//how fast black holes suck you into them when you are trapped
 	public float BLACK_HOLE_SUCKINESS = .05F;	
 	//energy it takes to escape a black hole on each press of space bar
@@ -122,7 +122,8 @@ public class Manager : MonoBehaviour {
 		
 		//Proof that state is changed in menu and preserved in manager		
 		game_state = GameObject.Find("game_state");
-		Game_State gscpt = game_state.GetComponent<Game_State>();
+//		Debug.Log(game_state);
+//		Game_State gscpt = game_state.GetComponent<Game_State>();
 		
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
@@ -143,8 +144,8 @@ public class Manager : MonoBehaviour {
 		start_time = Time.time;
 		
 		//load next level
-		LoadLevel(gscpt.level_order[gscpt.cur_level]);
-		
+//		LoadLevel(gscpt.level_order[gscpt.cur_level]);
+		LoadLevel("Assets/Level3.txt");		
 		//start camera on top of learth
 		Camera.main.transform.position = new Vector3(l.transform.position.x,l.transform.position.y, Camera.main.transform.position.z);	
 	}
