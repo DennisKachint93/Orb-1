@@ -18,6 +18,7 @@ public class Outfitter : MonoBehaviour {
 	private int SPACE_JUMP_PRICE = 10;
 	private int DIR_SHIFT_PRICE = 10;
 	
+	//lizard person
 	public Texture gorn;
 	
 	
@@ -26,8 +27,6 @@ public class Outfitter : MonoBehaviour {
 		game_state = GameObject.Find("game_state");
 		gscpt = game_state.GetComponent<Game_State>();
 		
-		//increment level counter
-		gscpt.cur_level++;
 		
 	}
 	

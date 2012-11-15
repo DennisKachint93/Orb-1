@@ -493,7 +493,13 @@ public class Manager : MonoBehaviour {
 		//end level if reach sink
 		Starscript starscpt = cur_star.GetComponent<Starscript>();
 		if(starscpt.is_sink) {
+			//add currency to num_coins 
 			gscpt.num_coins += currency;
+			
+			//increment level counter
+			gscpt.cur_level++;
+			
+			//open the ship outfitter
 			Application.LoadLevel("Ship_Outfitter");
 		}
 		
