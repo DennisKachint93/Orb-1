@@ -124,7 +124,7 @@ public class Manager : MonoBehaviour {
 		game_state = GameObject.Find("game_state");
 //		Debug.Log(game_state);
 //		Game_State gscpt = game_state.GetComponent<Game_State>();
-//		gscpt = game_state.GetComponent<Game_State>();
+		gscpt = game_state.GetComponent<Game_State>();
 		
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
@@ -145,8 +145,8 @@ public class Manager : MonoBehaviour {
 		start_time = Time.time;
 		
 		//load next level
-//		LoadLevel(gscpt.level_order[gscpt.cur_level]);
-		LoadLevel("Assets/Level3.txt");		
+		LoadLevel(gscpt.level_order[gscpt.cur_level]);
+//		LoadLevel("Assets/Level3.txt");		
 		//start camera on top of learth
 		Camera.main.transform.position = new Vector3(l.transform.position.x,l.transform.position.y, Camera.main.transform.position.z);	
 	}
@@ -711,7 +711,7 @@ public class Manager : MonoBehaviour {
 			GUI.Label(new Rect(10, Screen.height-80,150,50), "YOU WIN!");
 			GUI.Label (new Rect(10, Screen.height-95,150,50), "Time: "+(Time.time - start_time));
 		}
-        GUI.Label(new Rect(10, Screen.height-65, 150, 50), "$pace Dollar$: "+currency);
+        GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins+currency));
 		GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
    		GUI.DrawTexture(new Rect(10, Screen.height-30, energy*10, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
 	}

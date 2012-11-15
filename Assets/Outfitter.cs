@@ -38,7 +38,7 @@ public class Outfitter : MonoBehaviour {
 	void OnGUI() {	
 		GUI.Label(new Rect(10,10,200,25), "Space Coins: "+gscpt.num_coins);
 		//tier 1 buttons
-		if(GUI.Button(new Rect(10, 45, 200, 25), "Bending ("+BENDING_PRICE+" coins)")){
+		if(GUI.Button(new Rect(10, 45, 200, 25), "Beastly Bending ("+BENDING_PRICE+" coins)")){
 			if(gscpt.num_coins >= BENDING_PRICE){
 				//create a new gameobject to replace the old one
 				GameObject pwrup = new GameObject();
@@ -60,7 +60,7 @@ public class Outfitter : MonoBehaviour {
 				gscpt.num_coins -= SPEED_PRICE;
 			}
 		}
-		if(GUI.Button (new Rect(10,105,200,25), "Easier Entry ("+EASY_ENTRY_PRICE+" coins)")) {
+		if(GUI.Button (new Rect(10,105,200,25), "Easy Entry ("+EASY_ENTRY_PRICE+" coins)")) {
 			if(gscpt.num_coins >= EASY_ENTRY_PRICE){
 				//create a new gameobject to replace the old one
 				GameObject pwrup = new GameObject();

@@ -26,11 +26,9 @@ public class alien_behavior : MonoBehaviour {
 			rotate = true;*/
 			transform.Translate(Learth_Movement.velocity.x, Learth_Movement.velocity.y, 0);
 			rotate = true;
-			Debug.Log("happening");
 		}
 		else{
 			rotate = false;
 		}
-		Debug.Log("rotate: "+rotate+" last postion learth: "+Learth_Movement.lastPos.position);
 	}
 }
