@@ -9,6 +9,9 @@ public class Menu : MonoBehaviour {
 	//State saving object
 	GameObject game_state;
 	
+	//gamestate script
+	Game_State gscpt;
+	
 	//called before start
 	void Awake() {
 		game_state = new GameObject();
@@ -21,7 +24,7 @@ public class Menu : MonoBehaviour {
 	void Start () {
 		//add script to state object
 		game_state.AddComponent("Game_State");
-		Game_State gscpt = game_state.GetComponent<Game_State>();
+		gscpt = game_state.GetComponent<Game_State>();
 		game_state.name="game_state";
 		
 		//set default ship settings here
@@ -47,8 +50,10 @@ public class Menu : MonoBehaviour {
 	void OnGUI () {
 		GUI.backgroundColor = Color.red;
 		GUI.Box(new Rect(50, 50, Screen.width/2-100, 7*Screen.height/8), dennis);
-		if(GUI.Button(new Rect(3*Screen.width/4 + 8, Screen.height/2, 60, 25), "Play!"))	
+		if(GUI.Button(new Rect(3*Screen.width/4 + 8, Screen.height/2, 60, 25), "Play!")) {
+			gscpt.in_game = true;
 			Application.LoadLevel("Scene1");
+		}	
 		if(GUI.Button(new Rect(3*Screen.width/4, Screen.height/2 + 35, 80, 25), "Level Editor"))	
 			Application.LoadLevel("Level_Editor");
 	}

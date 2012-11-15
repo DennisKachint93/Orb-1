@@ -124,9 +124,10 @@ public class Manager : MonoBehaviour {
 		
 		//Proof that state is changed in menu and preserved in manager		
 		game_state = GameObject.Find("game_state");
-//		Debug.Log(game_state);
-//		Game_State gscpt = game_state.GetComponent<Game_State>();
 		gscpt = game_state.GetComponent<Game_State>();
+		
+		//let powerups know that it's time to active
+		gscpt.in_game = true;
 		
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
@@ -500,6 +501,9 @@ public class Manager : MonoBehaviour {
 			
 			//increment level counter
 			gscpt.cur_level++;
+			
+			//set in game to false
+			gscpt.in_game = false;
 			
 			//open the ship outfitter
 			Application.LoadLevel("Ship_Outfitter");

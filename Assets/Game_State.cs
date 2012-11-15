@@ -18,6 +18,9 @@ public class Game_State : MonoBehaviour {
 	//number of lives (?)
 	public int lives = 5;
 	
+	//whether or not we're in game
+	public bool in_game = false;
+	
 	//these are where upgrades are stored when bought in the ship_outfitter
 	//as much as possible, upgrade behavior should be done in scripts attached to these gameobjects 
 	public GameObject tier_1_upgrade;
