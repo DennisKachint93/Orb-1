@@ -38,7 +38,13 @@ public class Space_Bomb : MonoBehaviour {
 				if(!bomb_out)
 				{
 					sbomb = Instantiate(manager.bomb,Manager.l.transform.position,new Quaternion(0,0,0,0)) as GameObject;
-					//bomb_out = true;
+					Space_Bomb_Actual sba = sbomb.GetComponent<Space_Bomb_Actual>();
+					//set velocity and lastpos vectors to match learth's current ones
+					sba.velocity = new Vector3(Learth_Movement.velocity.x,Learth_Movement.velocity.y,0);
+					sba.lastPos = new GameObject().transform;
+					sba.lastPos.position = new Vector3(Learth_Movement.lastPos.position.x,Learth_Movement.lastPos.position.y,0); 
+					//only one bomb allowed out at a time
+					bomb_out = true;
 				} 
 				//if a bomb is out, pressing d again detonates it
 				else {
