@@ -18,6 +18,7 @@ public class Outfitter : MonoBehaviour {
 	private int SPACE_JUMP_PRICE = 10;
 	private int DIR_SHIFT_PRICE = 10;
 	
+	public Texture gorn;
 	
 	
 	// Use this for initialization
@@ -76,5 +77,8 @@ public class Outfitter : MonoBehaviour {
 		if(GUI.Button (new Rect(10,Screen.height-30,200,25), "Play next level")) {
 			Application.LoadLevel("scene1");
 		}
+		
+		//lizard person
+		GUI.Box(new Rect(250, 50, 512, 512), gorn);
 	}
 }
