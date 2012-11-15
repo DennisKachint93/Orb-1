@@ -13,7 +13,7 @@ public class Manager : MonoBehaviour {
 	//larger the tan error, the easier it is to enter a star at a legal radius
 	private float TAN_ERROR = 8;
 	//the larger this number is, the sharper bends are
-	public static float BEND_FACTOR = 7.5f;
+	public static float BEND_FACTOR = 2;
 	//larger the number, the faster the learth moves overall
 	private float MOVEMENT_SPEED = 0.64f;
 	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
@@ -37,7 +37,7 @@ public class Manager : MonoBehaviour {
 	//starting energy
 	public static float STARTING_ENERGY = 35f;
 	//How much energy is reduced each frame while bending
-	private float BEND_COST = .0025f;
+	public static float BEND_COST = 0;
 	//How much energy is reduced each frame while invincible
 	private float INVINC_COST = .05f;
 	//this much energy is subtracted each frame the learth is not in orbit

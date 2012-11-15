@@ -34,7 +34,8 @@ public class Menu : MonoBehaviour {
 		//state object keeps track of levels
 		gscpt.level_order = level_order;
 		
-
+		//starting coins
+		gscpt.num_coins = 10;
 		
 	}
 	
