@@ -482,11 +482,6 @@ public class Manager : MonoBehaviour {
 		//f increases energy by 1
 		if(Input.GetKeyDown(KeyCode.F))
 			energy++;
-		//H unloads the current level
-		if(Input.GetKeyDown (KeyCode.H))
-			UnloadCurrentLevel();
-		if(Input.GetKeyDown(KeyCode.J))
-			LoadLevel("assets/level3.txt");
 				
 		/*********************END DEBUGGING CONTROLS*****************/
 		

@@ -67,7 +67,7 @@ public class Starscript : MonoBehaviour {
         	float amplitude = Mathf.Cos(phi) * 0.5F + 0.5F;
         	r.light.intensity = amplitude*offset + starSize/30;
         
-		//if star is a mover, move to destination point
+		//if star is a mover, the actual game is playing, and the star is visible move to destination point
 		if(is_moving && !editor_freeze && renderer.isVisible)
 		{
 			transform.position += speed*new Vector3(dir.x*Time.deltaTime,dir.y*Time.deltaTime,0);
