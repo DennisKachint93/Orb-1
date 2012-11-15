@@ -15,7 +15,7 @@ public class Manager : MonoBehaviour {
 	//the larger this number is, the sharper bends are
 	public static float BEND_FACTOR = 2;
 	//larger the number, the faster the learth moves overall
-	private float MOVEMENT_SPEED = 0.64f;
+	public static float MOVEMENT_SPEED = 0.64f;
 	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
 	private float ORBIT_SPEED_FACTOR = .75f;
 	
