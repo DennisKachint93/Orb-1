@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Outfitter : MonoBehaviour {
 
-		GameObject game_state;
+	GameObject game_state;
 	Game_State gscpt;
 	
 	private int BENDING_PRICE = 6;

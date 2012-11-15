@@ -1,10 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Outfitter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Easy_Entry.cs">
     <Files>
-      <File FileName="Assets/Manager.cs" Line="16" Column="37" />
-      <File FileName="Assets/Outfitter.cs" Line="35" Column="3" />
-      <File FileName="Assets/Menu.cs" Line="39" Column="2" />
+      <File FileName="Assets\Easy_Entry.cs" Line="15" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
