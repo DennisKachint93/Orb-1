@@ -44,7 +44,6 @@ public class Outfitter : MonoBehaviour {
 			if(gscpt.num_coins >= BENDING_PRICE){
 				//Destroy old powerup
 				Destroy (gscpt.tier_1_upgrade);
-				
 				//create a new gameobject to replace the old one
 				GameObject pwrup = new GameObject();
 				//add the script that defines your power up 
@@ -89,7 +88,7 @@ public class Outfitter : MonoBehaviour {
 		if(GUI.Button (new Rect(10,170,200,25), "Space Bombs ("+SPACE_BOMB_PRICE+" coins)")) {
 			if(gscpt.num_coins >= SPACE_BOMB_PRICE){
 				//Destroy old powerup
-				Destroy (gscpt.tier_1_upgrade);
+				Destroy (gscpt.tier_2_upgrade);
 				//create a new gameobject to replace the old one
 				GameObject pwrup = new GameObject();
 				//add the script that defines your power up 

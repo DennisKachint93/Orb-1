@@ -9,6 +9,11 @@ public class Super_Bending : MonoBehaviour {
 		Manager.BEND_FACTOR = 12;
 		//bend cost
 		Manager.BEND_COST = .025f;
+		
+		//reset stuff
+		Manager.CONSTANT_SPEED = 1f;
+		Manager.RADIAL_ERROR = 10;
+		Manager.TAN_ERROR = 8;
 	}
 	
 	// Update is called once per frame

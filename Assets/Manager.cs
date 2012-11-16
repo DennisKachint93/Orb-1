@@ -43,7 +43,7 @@ public class Manager : MonoBehaviour {
 	//How much energy is reduced each frame while invincible
 	private float INVINC_COST = .2f;
 	//this much energy is subtracted each frame the learth is not in orbit
-	private float FLYING_COST = .035f;
+	private float FLYING_COST = .027f;
 	//this much energy is subtracted each frame the learth is in orbit
 	private float ORBITING_COST = .00025f;
 	//this much energy is subtracted when they player hits the space bar to launch from a star
@@ -127,7 +127,8 @@ public class Manager : MonoBehaviour {
     private float fps;
 	
 	GameObject game_state;
-	Game_State gscpt;	
+	Game_State gscpt;
+	
 	
 	void Start () {
 		//performance
@@ -163,6 +164,7 @@ public class Manager : MonoBehaviour {
 		LoadLevel(gscpt.level_order[gscpt.cur_level]);
 		//start camera on top of learth
 		Camera.main.transform.position = new Vector3(l.transform.position.x,l.transform.position.y, Camera.main.transform.position.z);	
+	
 	}
 	
 	
@@ -703,7 +705,7 @@ public class Manager : MonoBehaviour {
 						} else if (sscript.c == Color.white){
 							energy += 9f;
 						} else if (sscript.c == Color.yellow) {
-							energy += 3f;
+							energy += 10f;
 						} else if (sscript.t == torange) {
 							energy += 2f;
 						} else if (sscript.c == Color.red) {
