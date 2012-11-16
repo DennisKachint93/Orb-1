@@ -11,12 +11,12 @@ public class Outfitter : MonoBehaviour {
 	private int EASY_ENTRY_PRICE = 10;
 	
 	private int SHIELD_PRICE = 1;
-	private int ALIEN_GUN_PRICE = 12;
+//	private int ALIEN_GUN_PRICE = 12;
 	private int SPACE_BOMB_PRICE = 1;
 	private int BLACK_HOLE_HELPER_PRICE = 3;
 	
 	private int BOOST_PRICE = 10;
-	private int SPACE_JUMP_PRICE = 10;
+//	private int SPACE_JUMP_PRICE = 10;
 	private int DIR_SHIFT_PRICE = 10;
 	
 	//lizard person
@@ -128,6 +128,36 @@ public class Outfitter : MonoBehaviour {
 				DontDestroyOnLoad(pwrup);
 			}
 		}		
+		GUI.Label (new Rect(10,270,200,25), "Tier 3");
+		if(GUI.Button (new Rect(10,295,200,25), "Boost ("+BOOST_PRICE+" coins)")) {
+			if(gscpt.num_coins >= BOOST_PRICE) {
+				//Destroy old powerup
+				Destroy (gscpt.tier_3_upgrade);
+				//create a new gameobject to replace the old one
+				GameObject pwrup = new GameObject();
+				//add the script that defines your power up 
+				pwrup.AddComponent("boost");
+				//assign the gameobject to the proper tier in game_state
+				gscpt.tier_3_upgrade = pwrup;
+				gscpt.num_coins -= BOOST_PRICE;
+				DontDestroyOnLoad(pwrup);
+			}
+		}		
+		if(GUI.Button (new Rect(10,325,200,25), "Rapid Directional Shift ("+DIR_SHIFT_PRICE+" coins)")) {
+			if(gscpt.num_coins >= DIR_SHIFT_PRICE) {
+				//Destroy old powerup
+				Destroy (gscpt.tier_3_upgrade);
+				//create a new gameobject to replace the old one
+				GameObject pwrup = new GameObject();
+				//add the script that defines your power up 
+				pwrup.AddComponent("direction_shift");
+				//assign the gameobject to the proper tier in game_state
+				gscpt.tier_3_upgrade = pwrup;
+				gscpt.num_coins -= DIR_SHIFT_PRICE;
+				DontDestroyOnLoad(pwrup);
+			}
+		}		
+		
 		
 		//load next level button
 		if(GUI.Button (new Rect(10,Screen.height-30,200,25), "Play next level")) {

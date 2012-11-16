@@ -56,6 +56,8 @@ public class Manager : MonoBehaviour {
 	public int BLACK_HOLE_SUCKINESS = 5;	
 	//energy it takes to escape a black hole on each press of space bar
 	public float BH_ESCAPE_ENERGY = 1;
+	//cost of a directional shift
+	public float DIR_SHIFT_COST = 25;
 	//determines whether shield is activeable
 	public static bool SHIELD = false;
     //determines whether boost is activatable
@@ -482,7 +484,6 @@ public class Manager : MonoBehaviour {
             frames = 0;
             lastInterval = timeNow;
         }
-	Debug.Log(star_arr.Length);
 		
 		/*********************DEBUGGING CONTROLS********************/
 		// resetting level with T before leaving first star orbit freezes the game 
@@ -520,15 +521,19 @@ public class Manager : MonoBehaviour {
 			Application.LoadLevel("Ship_Outfitter");
 		}
 		//direction shift
-                if(Input.GetKeyUp(KeyCode.D) && DIRECTION_SHIFT){
+                if(Input.GetKeyUp(KeyCode.Z) && DIRECTION_SHIFT){
                         Learth_Movement.lastPos.RotateAround(l.transform.position, Vector3.forward, 90);
+						energy -= DIR_SHIFT_COST;
                 }
-                if(Input.GetKeyUp(KeyCode.G) && DIRECTION_SHIFT){
+                if(Input.GetKeyUp(KeyCode.X) && DIRECTION_SHIFT){
                       Learth_Movement.lastPos.RotateAround(l.transform.position, Vector3.forward, -90);
+					energy -= DIR_SHIFT_COST;
                 }
 		//boost
 		if(Input.GetKeyUp(KeyCode.C) && BOOST){
-			energy += 30;
+			//one time major energy boost
+			energy += 50;
+			BOOST = false;
 		}	
 
 		//bending
