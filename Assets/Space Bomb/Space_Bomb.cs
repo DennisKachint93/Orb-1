@@ -19,12 +19,16 @@ public class Space_Bomb : MonoBehaviour {
 	
 	//game state
 	Game_State gscpt;
+	
+	private float last_bomb ;
+	private float cool_down = 5;
 
 	// Use this for initialization
 	void Start () {
 		GameObject gs = GameObject.Find("game_state");
 		gscpt = gs.GetComponent<Game_State>();
 		bomb_out = false;
+		last_bomb = Time.time - cool_down;
 	}
 	
 	// Update is called once per frame
@@ -35,8 +39,11 @@ public class Space_Bomb : MonoBehaviour {
 			if(Input.GetKeyDown(KeyCode.D))
 			{
 				//if a bomb is not out, instantiate space bomb actual at learth's position
-				if(!bomb_out)
+				if(!bomb_out && (Time.time-last_bomb) > cool_down)
 				{
+					//update last bomb time
+					last_bomb = Time.time;
+					//make bomb
 					sbomb = Instantiate(manager.bomb,Manager.l.transform.position,new Quaternion(0,0,0,0)) as GameObject;
 					Space_Bomb_Actual sba = sbomb.GetComponent<Space_Bomb_Actual>();
 					//set velocity and lastpos vectors to match learth's current ones
