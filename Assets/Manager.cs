@@ -50,8 +50,8 @@ public class Manager : MonoBehaviour {
 	public static float ALIEN_SUCKING_DISTANCE = 40f;
 	//this much energy is sucked from player when alien is within alien_sucking_distance
 	public static float ALIEN_SUCKS_ENERGY = .025f;
-	//how fast black holes suck you into them when you are trapped
-	public float BLACK_HOLE_SUCKINESS = .05F;	
+	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
+	public int BLACK_HOLE_SUCKINESS = 5;	
 	//energy it takes to escape a black hole on each press of space bar
 	public float BH_ESCAPE_ENERGY = 1;
 	
@@ -231,7 +231,7 @@ public class Manager : MonoBehaviour {
 			string [] args = line.Split(delim);
 			
 			//get color and texture objects
-			Color starcol = Color.white;
+			Color starcol = Color.black;
 			Texture startex = twhite;
 			if(args[2] == "blue"){
 				starcol = Color.blue;
@@ -249,7 +249,7 @@ public class Manager : MonoBehaviour {
 			}
 			
 			//make the star
-			GameObject newstar = CreateStar(float.Parse(args[0]),float.Parse(args[1]), starcol, startex, float.Parse(args[3])); // bool.Parse(args[4]));
+			GameObject newstar = CreateStar(float.Parse(args[0]),float.Parse(args[1]), starcol, startex, float.Parse(args[3]), bool.Parse(args[4]));
 			
 			//learth starts in orbit around first star specified
 			if(i == 0)
@@ -568,55 +568,30 @@ public class Manager : MonoBehaviour {
 			}
 			//if star is a black hole, get sucked into center of black hole
 			if(scpt.isBlackHole) {
-				//if learth is still moving, on this frame it entered black hole, so record its entry point
-				if (Learth_Movement.isMoving) {
-					blackHoleEntry = l.transform.position;
-					scpt.currRadius = Vector3.Distance(blackHoleEntry, cur_star.transform.position);
-					print ("currrrr " + scpt.currRadius + "theat " + scpt.theta);
-					Learth_Movement.isMoving = false;
-				}
-				l.transform.RotateAround(s.transform.position, Vector3.forward, 60*Time.deltaTime);
-				//l.transform.Rotate(Mathf.Cos(60*Time.deltaTime*Mathf.PI/180), Mathf.Sin(60*Time.deltaTime*Mathf.PI/180), 0);
-				l.transform.Rotate (-60*Time.deltaTime, -60*Time.deltaTime, 0);
-				l.transform.Translate(-Vector3.forward);
-			
-			//	scpt.theta += .01f;
-			//	float x, y;
-				//x = 5*Mathf.Cos(scpt.theta)*Mathf.Pow(Mathf.Exp(1), 4*scpt.theta);
-				//y = 5*Mathf.Sin(scpt.theta)*Mathf.Pow(Mathf.Exp(1), 4*scpt.theta);
-			//	x = .1f*scpt.currRadius*Mathf.Cos(scpt.theta);
-				//y = .1f*scpt.currRadius*Mathf.Sin(scpt.theta);
-			//	print(" theta " + scpt.theta + " radius " + scpt.currRadius);
-			//	l.transform.position = new Vector3(x, y, 0);
-				scpt.currRadius -= .1f;
-					//*= .8f*Mathf.Pow(Mathf.Exp(1), scpt.theta);
-				//scpt.currRadius = 
-				//l.transform.Rotate(Vector3.forward, scpt.theta*Time.deltaTime);
-				//l.transform.Translate(x,y,0);
-				//l.transform.position = Vector3.Lerp(l.transform.position, cur_star.transform.position, Time.deltaTime/BLACK_HOLE_SUCKINESS);
-			//	l.transform.localPosition.z += 0.5;
-			//	l.transform.Translate(transform.up*Time.deltaTime*speed,Space.World);
-			//	l.transform.position -= Learth_Movement.velocity.normalized*speed;
+				speed *= 1.5f;
+				Vector3 perp = l.transform.position - cur_star.transform.position;
+				perp.Normalize();
+				l.transform.position -= perp/BLACK_HOLE_SUCKINESS;
 			}			
-			else { 
 			//rotate around star s
-				if (clockwise){
+			if (clockwise){
 					l.transform.RotateAround(s.transform.position, Vector3.forward, 
 						-(speed > 1 ? speed : 1)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime)*ORBIT_SPEED_FACTOR);
-				}
-				else  {
-					l.transform.RotateAround(s.transform.position, 
-					Vector3.forward, (speed > 1 ? speed : 1)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime/ORBIT_SPEED_FACTOR));
-				}
 			}
-				//if space bar is pressed, accelerate away from star. 
+			else  {
+				l.transform.RotateAround(s.transform.position, 
+				Vector3.forward, (speed > 1 ? speed : 1)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime/ORBIT_SPEED_FACTOR));
+			}
+			
+			//if space bar is pressed, accelerate away from star. 
 			if (Input.GetKeyDown(KeyCode.Space)) {
 				if (scpt.isBlackHole) {
 					energy -= BH_ESCAPE_ENERGY;
-			 		l.transform.position = Vector3.Lerp(l.transform.position, scpt.orbitRadius*Learth_Movement.velocity.normalized, Time.deltaTime);
-					if (Vector3.Distance(l.transform.position, s.transform.position) >= scpt.orbitRadius) {
+			 		//l.transform.position = Vector3.Lerp(l.transform.position, l.transform.position +30*speed*Learth_Movement.velocity.normalized, 30*Time.deltaTime);
+			 		l.transform.position += 20*speed*Learth_Movement.velocity.normalized;
+			 		print(Vector3.Distance(l.transform.position, s.transform.position) + " radius " + scpt.orbitRadius);
+					if (Vector3.Distance(l.transform.position, s.transform.position) >= scpt.orbitRadius/2) {
 						Learth_Movement.isTangent = false;
-						lastStar = s;
 						Learth_Movement.lastPos.position = l.transform.position - Learth_Movement.velocity.normalized*speed;
 					}				
 				}
@@ -645,7 +620,7 @@ public class Manager : MonoBehaviour {
 				float innerOrbit, outerOrbit;
 				if (sscript.isBlackHole) {
 					innerOrbit = sscript.orbitRadius;
-					outerOrbit = 0;
+					outerOrbit = sscript.orbitRadius/2;
 				}
 				else {
 					outerOrbit = RADIAL_ERROR;
@@ -653,7 +628,7 @@ public class Manager : MonoBehaviour {
 				}
 				if (s != lastStar 
 					&& Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - innerOrbit) 
-					&& Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius + outerOrbit) 
+					&& Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius - outerOrbit) 
 					&& Vector3.Distance (tangent, l.transform.position) <= TAN_ERROR) 
 				{	
 					Learth_Movement.isTangent = true;
@@ -690,8 +665,8 @@ public class Manager : MonoBehaviour {
 						}
 						sscript.c = dgray;
 						sscript.t = tgray;
-						break;
 					}
+					break;
 				}
 			}
 		}

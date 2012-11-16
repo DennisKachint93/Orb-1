@@ -16,8 +16,6 @@ public class Starscript : MonoBehaviour {
 	public float random;
 	//black-hole related variables
 	public bool isBlackHole = false;
-	public float theta;
-	public float currRadius;
 	//true if moving star
 	public bool is_moving = false;
 	//if moving, the direction to move in 
@@ -40,13 +38,12 @@ public class Starscript : MonoBehaviour {
 	private Vector3 bomb_dir;
 	
 	void Start () {
-	theta = 720*Mathf.PI/180;
-	currRadius = starSize;
 		if (isBlackHole) {
 			b = Instantiate(blackHole, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
 			b.transform.localScale *= starSize;
 			b.transform.Rotate(90,0,0);
 			this.transform.localScale /= 10;
+			b.transform.parent = this.transform;
 		}
 		else  	
 			this.transform.localScale *= starSize;

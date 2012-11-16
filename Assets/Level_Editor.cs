@@ -77,6 +77,9 @@ public class Level_Editor : MonoBehaviour {
 	//Space rip button
 	public bool spaceRipButton = false;
 	
+	//black hole button
+	public bool blackHoleButton = false;
+	
 	
 	void Start () {
 		
@@ -130,7 +133,7 @@ public class Level_Editor : MonoBehaviour {
 	}
 
 	
-	//instantiates star from prefab at given xy location and of given characteristics
+	//instantiates star or black hole from prefab at given xy location and of given characteristics
 	GameObject CreateStar(float x, float y, Color color, Texture texture, float size, bool staticstar = true, bool isBlackHole = false)
 	{
 		GameObject starE = Instantiate (star, new Vector3(x,y,20), new Quaternion(0,0,0,0)) as GameObject;
@@ -250,6 +253,12 @@ public class Level_Editor : MonoBehaviour {
 				CreateAlien(location.x,location.y);					
 			}
 			
+			if(blackHoleButton) {				
+				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                starsize = float.Parse(isaysize);
+				CreateStar(location.x,location.y,starcol,startex,starsize,true,true);
+			}
+			
 		}
 	}   
 	
@@ -272,7 +281,7 @@ public class Level_Editor : MonoBehaviour {
 				for(int i = 0; i < star_arr.Length;i++)
 				{
 					Starscript scpt = star_arr[i].GetComponent<Starscript>();
-					string color = "red";
+					string color = "black";
 					if(scpt.c.Equals(Color.blue))
 					{
 						color = "blue";
@@ -282,10 +291,17 @@ public class Level_Editor : MonoBehaviour {
 					} else if (scpt.c.Equals(Color.yellow))
 					{
 						color = "yellow";
+					} else if(scpt.c.Equals(Color.red))
+					{
+						color = "red";
+					} 					
+					string black_hole = "false";
+					if(scpt.isBlackHole) {
+						black_hole = "true";
 					}
 					//write to file if star is a static
 					if(!scpt.is_moving && !scpt.is_revolving)
-						sw.WriteLine(star_arr[i].transform.position.x+","+star_arr[i].transform.position.y+","+color+","+scpt.starSize);
+						sw.WriteLine(star_arr[i].transform.position.x+","+star_arr[i].transform.position.y+","+color+","+scpt.starSize+","+black_hole);
 				}
 				
 				//rips
@@ -361,6 +377,7 @@ public class Level_Editor : MonoBehaviour {
 			mstar_button = false;
 			rstar_button = false;
 			alien_button = false;
+			blackHoleButton = false;			
 		}
 		//star button -- after pressing button, user can enter star size and color and then click to add space rips to locations
 		if(GUI.Button(new Rect(10, 45, 70, 25), "star")){
@@ -370,6 +387,7 @@ public class Level_Editor : MonoBehaviour {
 			mstar_button = false;
 			rstar_button = false;
 			alien_button = false;
+			blackHoleButton = false;			
 		}
 		//coin button
 		if(GUI.Button (new Rect(10,75,70,25), "coin")) {
@@ -379,6 +397,7 @@ public class Level_Editor : MonoBehaviour {
 			mstar_button = false;
 			rstar_button = false;
 			alien_button = false;
+			blackHoleButton = false;		
 		}
 		//moving star button
 		if(GUI.Button (new Rect(10,105,70,25), "mstar")) {
@@ -388,6 +407,7 @@ public class Level_Editor : MonoBehaviour {
 			rstar_button = false;
 			coin_button = false;
 			alien_button = false;
+			blackHoleButton = false;		
 		}
 		//revolving star button
 		if(GUI.Button (new Rect(10,135,70,25), "rstar")) {
@@ -397,6 +417,7 @@ public class Level_Editor : MonoBehaviour {
 			coin_button = false;
 			mstar_button = false;
 			alien_button = false;
+			blackHoleButton = false;		
 		}
 		//alien button
 		if(GUI.Button(new Rect (10,165,70,25), "alien")) {
@@ -406,43 +427,61 @@ public class Level_Editor : MonoBehaviour {
 			rstar_button = false;
 			coin_button = false;
 			mstar_button = false;
+			blackHoleButton = false;
 		}
+		//black hole button
+		if(GUI.Button(new Rect (10, 195, 75, 25), "black hole")) {
+			blackHoleButton = !blackHoleButton;
+			spaceRipButton = false;
+			starbut = false;
+			rstar_button = false;
+			coin_button = false;
+			mstar_button = false;			
+	 }	
 		
 		int ystart = 240; //starting y value of pop-up box
 		//if star button has been clicked, pop up box to change star color/size
- 		if(starbut || mstar_button || rstar_button){
+ 		if(starbut || mstar_button || rstar_button || blackHoleButton){
 			if(GUI.Button(new Rect(25, ystart+10, 45, 30), "Done")){
 				starbut = false;
 				mstar_button = false;
 				rstar_button = false;
+				blackHoleButton = false;
 			}
 			GUI.Label ( new Rect (10,ystart+50,25,20), "size");
 			isaysize = GUI.TextField(new Rect(45, ystart+52, 40, 20), isaysize, 25);
-			GUI.Label ( new Rect (10, ystart+80,30,20), "color");
-			isaycolor = GUI.TextField(new Rect(45, ystart+82, 40, 20), isaycolor, 25);
-			if(isaycolor == "blue"){
-				starcol = Color.blue;
-				startex = tblue;
-				validcolor = true;
+			if (!blackHoleButton) {
+				GUI.Label ( new Rect (10, ystart+80,30,20), "color");
+				isaycolor = GUI.TextField(new Rect(45, ystart+82, 40, 20), isaycolor, 25);
+				if(isaycolor == "blue"){
+					starcol = Color.blue;
+					startex = tblue;
+					validcolor = true;
+				}
+				if(isaycolor == "red"){
+					starcol = Color.red;
+					startex = tred;
+					validcolor = true;
+				}
+				if(isaycolor == "white"){
+					starcol = Color.white;
+					startex = twhite;
+					validcolor = true;
+				}
+				if(isaycolor == "gray"){
+					starcol = Color.gray;
+					startex = tgray;
+					validcolor = true;
+				}
+				if(isaycolor == "yellow"){
+					starcol = Color.yellow;
+					startex = tyellow;
+					validcolor = true;
+				}
 			}
-			if(isaycolor == "red"){
-				starcol = Color.red;
-				startex = tred;
-				validcolor = true;
-			}
-			if(isaycolor == "white"){
-				starcol = Color.white;
+			else {
+				starcol = Color.black;
 				startex = twhite;
-				validcolor = true;
-			}
-			if(isaycolor == "gray"){
-				starcol = Color.gray;
-				startex = tgray;
-				validcolor = true;
-			}
-			if(isaycolor == "yellow"){
-				starcol = Color.yellow;
-				startex = tyellow;
 				validcolor = true;
 			}
 		}
@@ -463,13 +502,20 @@ public class Level_Editor : MonoBehaviour {
 			GUI.Label ( new Rect (10, ystart+140,25,20), "rev point y");
 			isay_y_rpoint = GUI.TextField(new Rect(45, ystart+142, 40, 20), isay_y_rpoint, 25);
 			GUI.Label(new Rect(10,ystart+170,25,20), "speed");
-			isay_speed = GUI.TextField(new Rect(45, ystart+172, 40, 20), isay_speed, 25);
-			
+			isay_speed = GUI.TextField(new Rect(45, ystart+172, 40, 20), isay_speed, 25);	
 		}
-	
+		if(rstar_button) {
+			GUI.Label ( new Rect (10,ystart+110,25,20), "rev point x");
+			isay_x_rpoint = GUI.TextField(new Rect(45, ystart+112, 40, 20), isay_x_rpoint, 25);
+			GUI.Label ( new Rect (10, ystart+140,25,20), "rev point y");
+			isay_y_rpoint = GUI.TextField(new Rect(45, ystart+142, 40, 20), isay_y_rpoint, 25);
+			GUI.Label(new Rect(10,ystart+170,25,20), "speed");
+			isay_speed = GUI.TextField(new Rect(45, ystart+172, 40, 20), isay_speed, 25);	
+		}	
+		
 	//save button
 	if(GUI.Button(new Rect(10, Screen.height - 30, 70, 25), "Save"))
-		SaveLevel("Levels/med1.txt");
+		SaveLevel("Levels/blackholes.txt");
 	}
 		
 }
