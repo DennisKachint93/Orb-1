@@ -143,6 +143,9 @@ public class Level_Editor : MonoBehaviour {
 		starscript.starSize = size; 
 		starscript.isBlackHole = isBlackHole;
 		
+		if(isBlackHole)
+			Starscript.BLACK_HOLE_HELPER = true;
+		
 		if(staticstar)
 		{
 		//expand and copy star_arr - if loading a level takes too long, this can be optimized
@@ -515,7 +518,7 @@ public class Level_Editor : MonoBehaviour {
 		
 	//save button
 	if(GUI.Button(new Rect(10, Screen.height - 30, 70, 25), "Save"))
-		SaveLevel("Levels/demo-3.txt");
+		SaveLevel("Levels/demo-4.txt");
 	}
 		
 }

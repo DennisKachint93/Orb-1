@@ -57,7 +57,7 @@ public class Manager : MonoBehaviour {
 	//energy it takes to escape a black hole on each press of space bar
 	public float BH_ESCAPE_ENERGY = 1;
 	//cost of a directional shift
-	public float DIR_SHIFT_COST = 25;
+	public float DIR_SHIFT_COST = 15;
 	//determines whether shield is activeable
 	public static bool SHIELD = false;
     //determines whether boost is activatable
