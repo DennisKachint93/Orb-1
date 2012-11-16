@@ -11,8 +11,6 @@ public class Space_Bomb_Actual : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		Debug.Log("bomb deployed");
-	//	lastPos = new GameObject().transform;
 	}
 	
 	// Update is called once per frame
@@ -21,14 +19,17 @@ public class Space_Bomb_Actual : MonoBehaviour {
 		velocity = this.transform.position - lastPos.position;
 		lastPos.position = this.transform.position;
 		//regular movement
-		this.transform.position += velocity.normalized*Manager.speed*2;	
+		this.transform.position += velocity.normalized*Manager.speed*1.3f;	
 	}
 	
 	//called by Space_Bomb power up, this pushes everything out of the way (or blows it up)
 	public void Detonate() {
 		GameObject range_actual = Instantiate(range,transform.position,new Quaternion(0,0,0,0)) as GameObject;
-	//	range_actual.transform.parent = transform;
+		//set start size
 		range_actual.transform.localScale += new Vector3(25,25,3);
+		//make invisible
+		range_actual.renderer.enabled = false;
+		//destroy the bullet
 		Destroy (gameObject);
 	}
 }

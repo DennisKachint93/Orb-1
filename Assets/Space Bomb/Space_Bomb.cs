@@ -22,7 +22,6 @@ public class Space_Bomb : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log ("Space bomb armed");
 		GameObject gs = GameObject.Find("game_state");
 		gscpt = gs.GetComponent<Game_State>();
 	}
@@ -62,7 +61,6 @@ public class Space_Bomb : MonoBehaviour {
 				GameObject m = GameObject.Find("manager");
 				manager = m.GetComponent<Manager>();
 				in_game = true;
-				Debug.Log("found manager");
 			}
 		}
 	}

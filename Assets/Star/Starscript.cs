@@ -43,8 +43,6 @@ public class Starscript : MonoBehaviour {
 	public Vector3 last_position;
 	//true if in level editor, so stars don't move
 	public bool editor_freeze = false;
-	//direction when hit by a space bomb
-	private Vector3 bomb_dir;
 	
 	void Start () {
 		if (isBlackHole) {
@@ -70,7 +68,6 @@ public class Starscript : MonoBehaviour {
 		//parent radius to star for destruction
 		r.transform.parent = this.transform;
 		
-		bomb_dir = new Vector3(Random.Range(-1f,1f),Random.Range(-1f,1f),0);
 	}
 	
 	void Update() {
@@ -101,17 +98,13 @@ public class Starscript : MonoBehaviour {
 
 	}
 	
-/*	void OnCollisionStay(Collision c)
+	
+	void OnCollisionStay(Collision c)
 	{
-		
+		//if colliding with a space bomb explosion, move away from the center of the explosion	
 		if(c.transform.name == "space_bomb_range(Clone)")
 		{
-			Debug.Log ("collision in star");
-			Destroy(gameObject);
-			//transform.Translate(100*Time.deltaTime * new Vector3(0,1,0));
-		//	transform.Translate(100 * Time.deltaTime*(c.transform.position - transform.position).normalized);
-		//	transform.Translate(100*Time.deltaTime*bomb_dir);
+			transform.Translate(200 * Time.deltaTime*(transform.position - c.transform.position).normalized,Space.World);
 		}
-	} */
-	
+	}
 }
