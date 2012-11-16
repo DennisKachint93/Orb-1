@@ -31,10 +31,10 @@ public class Menu : MonoBehaviour {
 		
 		//levels that will be played in order
 		string[] level_order = new string[3] {
-											"Levels/demo-1.txt",
+											"Levels/demo-3.txt",
 											//"Assets/blackHoleTest.txt",
 											//"Levels/blackholes.txt",
-											"Levels/demo-3.txt",
+											"Levels/demo-1.txt",
 											"Levels/3.txt"};
 		//state object keeps track of levels
 		gscpt.level_order = level_order;
@@ -54,7 +54,7 @@ public class Menu : MonoBehaviour {
 		GUI.Box(new Rect(50, 50, Screen.width/2-100, 7*Screen.height/8), dennis);
 		if(GUI.Button(new Rect(3*Screen.width/4 + 8, Screen.height/2, 60, 25), "Play!")) {
 			gscpt.in_game = true;
-			Application.LoadLevel("Scene1");
+			Application.LoadLevel("Ship_Outfitter");
 		}	
 		if(GUI.Button(new Rect(3*Screen.width/4, Screen.height/2 + 35, 80, 25), "Level Editor"))	
 			Application.LoadLevel("Level_Editor");

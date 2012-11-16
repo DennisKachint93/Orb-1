@@ -11,7 +11,6 @@ public class Super_Bending : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log ("bending in place");
 	
 	}
 }

@@ -15,17 +15,17 @@ public class Manager : MonoBehaviour {
 	//the larger this number is, the sharper bends are
 	public static float BEND_FACTOR = 4;
 	//larger the number, the faster the learth moves overall
-	public static float MOVEMENT_SPEED = 0.64f;
+	public static float MOVEMENT_SPEED = 0.72f;
 	//speed you move at without energy
-	public static float CONSTANT_SPEED = 2f;
+	public static float CONSTANT_SPEED = 1f;
 	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
-	private float ORBIT_SPEED_FACTOR = .75f;
+	private float ORBIT_SPEED_FACTOR = .55f;
 	
 	/*CAMERA CONTROLS */
 	//the larger this number is, the more closely the camera follows learth while in orbit
 	private float ORBIT_LERP = 3f;
 	//the larger this number is, the more closely the camera follows learth while not in orbit
-	private float TRAVEL_LERP = 20f;
+	private float TRAVEL_LERP = 5f;
 	//How far the player is allowed to move the camera
 	private float CAM_MAX_DIST = 5000;
 	//How close the player is allowed to move the camera
@@ -41,7 +41,7 @@ public class Manager : MonoBehaviour {
 	//How much energy is reduced each frame while bending
 	public static float BEND_COST = 0;
 	//How much energy is reduced each frame while invincible
-	private float INVINC_COST = .05f;
+	private float INVINC_COST = .2f;
 	//this much energy is subtracted each frame the learth is not in orbit
 	private float FLYING_COST = .025f;
 	//this much energy is subtracted each frame the learth is in orbit
