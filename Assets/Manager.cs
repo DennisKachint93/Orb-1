@@ -43,7 +43,7 @@ public class Manager : MonoBehaviour {
 	//How much energy is reduced each frame while invincible
 	private float INVINC_COST = .2f;
 	//this much energy is subtracted each frame the learth is not in orbit
-	private float FLYING_COST = .025f;
+	private float FLYING_COST = .035f;
 	//this much energy is subtracted each frame the learth is in orbit
 	private float ORBITING_COST = .00025f;
 	//this much energy is subtracted when they player hits the space bar to launch from a star
@@ -516,6 +516,12 @@ public class Manager : MonoBehaviour {
 			//open the ship outfitter
 			Application.LoadLevel("Ship_Outfitter");
 			
+		}
+		//O goes to outfitter before previous level
+		if(Input.GetKeyDown(KeyCode.O))
+		{
+			gscpt.in_game = false;
+			Application.LoadLevel("Ship_Outfitter");
 		}
 				
 		/*********************END DEBUGGING CONTROLS*****************/

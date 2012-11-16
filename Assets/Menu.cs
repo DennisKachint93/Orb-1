@@ -31,10 +31,9 @@ public class Menu : MonoBehaviour {
 		//set default ship settings here
 		
 		//levels that will be played in order
-		string[] level_order = new string[3] {
+		string[] level_order = new string[4] {
+											"Levels/demo-6.txt",
 											"Levels/demo-5.txt",
-											//"Assets/blackHoleTest.txt",
-											//"Levels/blackholes.txt",
 											"Levels/demo-3.txt",
 											"Levels/demo-4.txt"};
 		//state object keeps track of levels
