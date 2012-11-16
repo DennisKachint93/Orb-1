@@ -504,6 +504,19 @@ public class Manager : MonoBehaviour {
 		//f increases energy by 1
 		if(Input.GetKeyDown(KeyCode.F))
 			energy++;
+		//P advances to next level
+		if(Input.GetKeyDown(KeyCode.P))
+		{
+			//increment level counter
+			gscpt.cur_level++;
+			
+			//set in game to false
+			gscpt.in_game = false;
+			
+			//open the ship outfitter
+			Application.LoadLevel("Ship_Outfitter");
+			
+		}
 				
 		/*********************END DEBUGGING CONTROLS*****************/
 		
