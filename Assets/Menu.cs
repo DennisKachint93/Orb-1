@@ -5,6 +5,7 @@ public class Menu : MonoBehaviour {
 	
 	//dennis
 	public Texture dennis;
+	public Texture title;
 
 	//State saving object
 	GameObject game_state;
@@ -40,7 +41,7 @@ public class Menu : MonoBehaviour {
 		gscpt.level_order = level_order;
 		
 		//starting coins
-		gscpt.num_coins = 10;
+		gscpt.num_coins = 100;
 		
 	}
 	
@@ -52,6 +53,7 @@ public class Menu : MonoBehaviour {
 	void OnGUI () {
 		GUI.backgroundColor = Color.red;
 		GUI.Box(new Rect(50, 50, Screen.width/2-100, 7*Screen.height/8), dennis);
+		GUI.Box(new Rect(Screen.width/2, 50, 512,256 ), title);
 		if(GUI.Button(new Rect(3*Screen.width/4 + 8, Screen.height/2, 60, 25), "Play!")) {
 			gscpt.in_game = true;
 			Application.LoadLevel("Ship_Outfitter");

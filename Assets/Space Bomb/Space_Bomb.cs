@@ -22,7 +22,8 @@ public class Space_Bomb : MonoBehaviour {
 	
 	private float last_bomb ;
 	private float cool_down = 5;
-
+	private bool detonating = false;
+	
 	// Use this for initialization
 	void Start () {
 		GameObject gs = GameObject.Find("game_state");
@@ -52,9 +53,11 @@ public class Space_Bomb : MonoBehaviour {
 					sba.lastPos.position = new Vector3(Learth_Movement.lastPos.position.x,Learth_Movement.lastPos.position.y,0); 
 					//only one bomb allowed out at a time
 					bomb_out = true;
+					detonating = false;
 				} 
 				//if a bomb is out, pressing d again detonates it
-				else {
+				else if(!detonating) {
+					detonating = true;
 					Space_Bomb_Actual sba = sbomb.GetComponent<Space_Bomb_Actual>();
 					sba.Detonate();
 					bomb_out = false;
