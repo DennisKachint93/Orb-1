@@ -3,14 +3,23 @@ using System.Collections;
 
 public class Starscript : MonoBehaviour {
 	
-	public float orbitRadius;
+	//boolean determined by having this powerup
+	public static bool BLACK_HOLE_HELPER = false;
+
+	//light effect for star radius
 	public GameObject radius;
-	public GameObject r, b;
+	public GameObject lightGameObject;
+	//used to highlight black holes in powerup
+	public GameObject BHhelper;
+	//black hole prefab
+	public GameObject blackHole;
+	//actual game objects instantiated
+	public GameObject r, b, h;
+	//star properties
 	public Color c;
 	public Texture t;
 	public float starSize = 15f;
-	public GameObject lightGameObject;
-	public GameObject blackHole;
+	public float orbitRadius;
 	public float duration = 20f;
 	public float offset;
 	public float random;
@@ -44,6 +53,13 @@ public class Starscript : MonoBehaviour {
 			b.transform.Rotate(90,0,0);
 			this.transform.localScale /= 10;
 			b.transform.parent = this.transform;
+			if (BLACK_HOLE_HELPER) {
+				print("true!");
+				h = Instantiate(BHhelper, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
+				h.transform.localScale *= starSize;
+				h.transform.Rotate(90,0,0);
+				h.transform.parent = this.transform;
+			}
 		}
 		else  	
 			this.transform.localScale *= starSize;

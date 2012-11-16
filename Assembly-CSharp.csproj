@@ -50,6 +50,7 @@
      <Compile Include="Assets\Manager.cs" />
      <Compile Include="Assets\Menu.cs" />
      <Compile Include="Assets\Outfitter.cs" />
+     <Compile Include="Assets\Powerups\Black_Hole_Helper.cs" />
      <Compile Include="Assets\Powerups\Easy_Entry.cs" />
      <Compile Include="Assets\Powerups\Super_Bending.cs" />
      <Compile Include="Assets\Powerups\Super_Speed.cs" />
@@ -61,16 +62,16 @@
      <Compile Include="Assets\Space Bomb\space_bomb_detonation.cs" />
      <Compile Include="Assets\Star\Starscript.cs" />
      <Compile Include="Assets\alien\alien_behavior.cs" />
-     <None Include="Assets\level2.txt" />
-     <None Include="Assets\blackHoleTest.txt" />
-     <None Include="Assets\Level1.txt" />
-     <None Include="Assets\starsavetest.txt" />
+     <None Include="Assets\Test Text Files\level2.txt" />
+     <None Include="Assets\Test Text Files\blackHoleTest.txt" />
+     <None Include="Assets\Test Text Files\Level1.txt" />
+     <None Include="Assets\Test Text Files\starsavetest.txt" />
      <None Include="Assets\Shaders\Particle Add.shader" />
-     <None Include="Assets\1star.txt" />
-     <None Include="Assets\testsave.txt" />
-     <None Include="Assets\bending_test_level.txt" />
-     <None Include="Assets\Level3.txt" />
-     <None Include="Assets\perf_test.txt" />
+     <None Include="Assets\Test Text Files\1star.txt" />
+     <None Include="Assets\Test Text Files\testsave.txt" />
+     <None Include="Assets\Test Text Files\bending_test_level.txt" />
+     <None Include="Assets\Test Text Files\Level3.txt" />
+     <None Include="Assets\Test Text Files\perf_test.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

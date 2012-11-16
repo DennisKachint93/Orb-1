@@ -13,6 +13,7 @@ public class Outfitter : MonoBehaviour {
 	private int SHIELD_PRICE = 8;
 	private int ALIEN_GUN_PRICE = 12;
 	private int SPACE_BOMB_PRICE = 1;
+	private int BLACK_HOLE_HELPER_PRICE = 3;
 	
 	private int BOOST_PRICE = 10;
 	private int SPACE_JUMP_PRICE = 10;
@@ -99,6 +100,20 @@ public class Outfitter : MonoBehaviour {
 			}
 		}
 		
+		if(GUI.Button (new Rect(10,200,200,25), "Black Hole Helper ("+BLACK_HOLE_HELPER_PRICE+" coins)")) {
+			if(gscpt.num_coins >= BLACK_HOLE_HELPER_PRICE){
+				//Destroy old powerup
+				Destroy (gscpt.tier_1_upgrade);
+				//create a new gameobject to replace the old one
+				GameObject pwrup = new GameObject();
+				//add the script that defines your power up 
+				pwrup.AddComponent("Black_Hole_Helper");
+				//assign the gameobject to the proper tier in game_state
+				gscpt.tier_2_upgrade = pwrup;
+				gscpt.num_coins -= BLACK_HOLE_HELPER_PRICE;
+				DontDestroyOnLoad(pwrup);
+			}
+		}		
 		
 		//load next level button
 		if(GUI.Button (new Rect(10,Screen.height-30,200,25), "Play next level")) {
