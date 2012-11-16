@@ -24,6 +24,7 @@ public class Space_Bomb : MonoBehaviour {
 	void Start () {
 		GameObject gs = GameObject.Find("game_state");
 		gscpt = gs.GetComponent<Game_State>();
+		bomb_out = false;
 	}
 	
 	// Update is called once per frame

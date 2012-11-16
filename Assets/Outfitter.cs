@@ -27,6 +27,7 @@ public class Outfitter : MonoBehaviour {
 	void Start () {
 		game_state = GameObject.Find("game_state");
 		gscpt = game_state.GetComponent<Game_State>();
+		gscpt.in_game = false;
 	}
 	
 	// Update is called once per frame
