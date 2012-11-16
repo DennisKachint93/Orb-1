@@ -16,14 +16,16 @@ public class Manager : MonoBehaviour {
 	public static float BEND_FACTOR = 2;
 	//larger the number, the faster the learth moves overall
 	public static float MOVEMENT_SPEED = 0.64f;
+	//speed you move at without energy
+	public static float CONSTANT_SPEED = 2f;
 	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
 	private float ORBIT_SPEED_FACTOR = .75f;
 	
 	/*CAMERA CONTROLS */
 	//the larger this number is, the more closely the camera follows learth while in orbit
-	private float ORBIT_LERP = .06f;
+	private float ORBIT_LERP = 3f;
 	//the larger this number is, the more closely the camera follows learth while not in orbit
-	private float TRAVEL_LERP = 0.6F;
+	private float TRAVEL_LERP = 30f;
 	//How far the player is allowed to move the camera
 	private float CAM_MAX_DIST = 5000;
 	//How close the player is allowed to move the camera
@@ -54,7 +56,15 @@ public class Manager : MonoBehaviour {
 	public int BLACK_HOLE_SUCKINESS = 5;	
 	//energy it takes to escape a black hole on each press of space bar
 	public float BH_ESCAPE_ENERGY = 1;
-	
+	//determines whether shield is activeable
+	public static bool SHIELD = false;
+        //determines whether boost is activatable
+        public static bool BOOST = false;
+        //lets you shift directions
+        public static bool DIRECTION_SHIFT = false;	
+ 
+
+
 	//Hook into unity
 	public GameObject learth;
 	public GameObject star;		
@@ -472,6 +482,7 @@ public class Manager : MonoBehaviour {
             frames = 0;
             lastInterval = timeNow;
         }
+	Debug.Log(star_arr.Length);
 		
 		/*********************DEBUGGING CONTROLS********************/
 		// resetting level with T before leaving first star orbit freezes the game 
@@ -491,7 +502,7 @@ public class Manager : MonoBehaviour {
 		/*********************END DEBUGGING CONTROLS*****************/
 		
 		//Speed increases logarithmically with energy
-		speed = Mathf.Log(energy)*MOVEMENT_SPEED;
+		speed = Mathf.Log(energy)*MOVEMENT_SPEED + CONSTANT_SPEED;
 		
 		//end level if reach sink
 		Starscript starscpt = cur_star.GetComponent<Starscript>();
@@ -508,7 +519,18 @@ public class Manager : MonoBehaviour {
 			//open the ship outfitter
 			Application.LoadLevel("Ship_Outfitter");
 		}
-		
+		//direction shift
+                if(Input.GetKeyUp(KeyCode.D) && DIRECTION_SHIFT){
+                        Learth_Movement.lastPos.RotateAround(l.transform.position, Vector3.forward, 90);
+                }
+                if(Input.GetKeyUp(KeyCode.G) && DIRECTION_SHIFT){
+                      Learth_Movement.lastPos.RotateAround(l.transform.position, Vector3.forward, -90);
+                }
+		//boost
+		if(Input.GetKeyUp(KeyCode.C) && BOOST){
+			energy += 30;
+		}	
+
 		//bending
 		if(Input.GetKey(KeyCode.Q))
 		{
@@ -522,7 +544,7 @@ public class Manager : MonoBehaviour {
 		}
 		
 		//temporary invincibility, logic implemented in Learth_Movement.cs 
-		if(Input.GetKey(KeyCode.E))
+		if(Input.GetKey(KeyCode.E) && SHIELD)
 		{
 			l.renderer.material.color = Color.green;
 			energy -= INVINC_COST;
@@ -623,7 +645,7 @@ public class Manager : MonoBehaviour {
 					outerOrbit = sscript.orbitRadius/2;
 				}
 				else {
-					outerOrbit = RADIAL_ERROR;
+					outerOrbit = -RADIAL_ERROR;
 					innerOrbit = RADIAL_ERROR;
 				}
 				if (s != lastStar 
@@ -674,7 +696,7 @@ public class Manager : MonoBehaviour {
 		//camera follows learth
 		Camera.main.transform.position = Learth_Movement.isTangent ? 
 				Vector3.Lerp(Camera.main.transform.position, 
-				new Vector3(l.transform.position.x,l.transform.position.y,Camera.main.transform.position.z),ORBIT_LERP*Time.deltaTime)
+				new Vector3(cur_star.transform.position.x,cur_star.transform.position.y,Camera.main.transform.position.z),ORBIT_LERP*Time.deltaTime)
 				:
 				Vector3.Lerp(Camera.main.transform.position, 
 				new Vector3(l.transform.position.x,l.transform.position.y,Camera.main.transform.position.z),TRAVEL_LERP*Time.deltaTime)

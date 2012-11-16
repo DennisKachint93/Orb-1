@@ -44,19 +44,22 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Easy_Entry.cs" />
      <Compile Include="Assets\Game_State.cs" />
      <Compile Include="Assets\Learth\Learth_Movement.cs" />
      <Compile Include="Assets\Level_Editor.cs" />
      <Compile Include="Assets\Manager.cs" />
      <Compile Include="Assets\Menu.cs" />
      <Compile Include="Assets\Outfitter.cs" />
+     <Compile Include="Assets\Powerups\Easy_Entry.cs" />
      <Compile Include="Assets\Powerups\Super_Bending.cs" />
+     <Compile Include="Assets\Powerups\Super_Speed.cs" />
+     <Compile Include="Assets\Powerups\boost.cs" />
+     <Compile Include="Assets\Powerups\direction_shift.cs" />
+     <Compile Include="Assets\Powerups\shield.cs" />
      <Compile Include="Assets\Space Bomb\Space_Bomb.cs" />
      <Compile Include="Assets\Space Bomb\Space_Bomb_Actual.cs" />
      <Compile Include="Assets\Space Bomb\space_bomb_detonation.cs" />
      <Compile Include="Assets\Star\Starscript.cs" />
-     <Compile Include="Assets\Super_Speed.cs" />
      <Compile Include="Assets\alien\alien_behavior.cs" />
      <None Include="Assets\level2.txt" />
      <None Include="Assets\blackHoleTest.txt" />

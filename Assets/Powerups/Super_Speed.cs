@@ -4,7 +4,7 @@ using System.Collections;
 public class Super_Speed : MonoBehaviour {
 
 	void Start () {
-		Manager.MOVEMENT_SPEED = .78f;	
+		Manager.CONSTANT_SPEED = 5f;	
 	}
 	
 	void Update () {

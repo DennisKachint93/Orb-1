@@ -49,7 +49,7 @@ public class Starscript : MonoBehaviour {
 			this.transform.localScale *= starSize;
 		orbitRadius = starSize;
 		r = Instantiate(radius, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;
-		r.light.range = 2*orbitRadius + .5f*Manager.RADIAL_ERROR;
+		r.light.range = 2*orbitRadius + 2*Manager.RADIAL_ERROR;
 		random = Random.value;
 		//parent radius to star for destruction
 		r.transform.parent = this.transform;
