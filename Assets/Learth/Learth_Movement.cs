@@ -33,7 +33,7 @@ public class Learth_Movement : MonoBehaviour {
 	
 	void OnCollisionEnter (Collision collision)
 	{
-		if(!Input.GetKey(KeyCode.E) || !Manager.SHIELD)
+		if(!Input.GetKey(KeyCode.D) || !Manager.SHIELD)
 		{
 			//if learth collides with a space rip, die
 			if(collision.gameObject.name == "Space_Rip(Clone)") {

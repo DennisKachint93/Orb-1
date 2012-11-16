@@ -58,10 +58,10 @@ public class Manager : MonoBehaviour {
 	public float BH_ESCAPE_ENERGY = 1;
 	//determines whether shield is activeable
 	public static bool SHIELD = false;
-        //determines whether boost is activatable
-        public static bool BOOST = false;
-        //lets you shift directions
-        public static bool DIRECTION_SHIFT = false;	
+    //determines whether boost is activatable
+    public static bool BOOST = false;
+    //lets you shift directions
+    public static bool DIRECTION_SHIFT = false;	
  
 
 
@@ -544,14 +544,14 @@ public class Manager : MonoBehaviour {
 		}
 		
 		//temporary invincibility, logic implemented in Learth_Movement.cs 
-		if(Input.GetKey(KeyCode.E) && SHIELD)
+		if(Input.GetKey(KeyCode.D) && SHIELD)
 		{
 			l.renderer.material.color = Color.green;
 			energy -= INVINC_COST;
 		}
 		
 		//change learth color back to normal
-		if(Input.GetKeyUp (KeyCode.E))
+		if(Input.GetKeyUp (KeyCode.D))
 			l.renderer.material.color = Color.red;
 		
 		//Death conditions

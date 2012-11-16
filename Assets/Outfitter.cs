@@ -10,7 +10,7 @@ public class Outfitter : MonoBehaviour {
 	private int SPEED_PRICE = 8;
 	private int EASY_ENTRY_PRICE = 10;
 	
-	private int SHIELD_PRICE = 8;
+	private int SHIELD_PRICE = 1;
 	private int ALIEN_GUN_PRICE = 12;
 	private int SPACE_BOMB_PRICE = 1;
 	private int BLACK_HOLE_HELPER_PRICE = 3;
@@ -27,8 +27,6 @@ public class Outfitter : MonoBehaviour {
 	void Start () {
 		game_state = GameObject.Find("game_state");
 		gscpt = game_state.GetComponent<Game_State>();
-		
-		
 	}
 	
 	// Update is called once per frame
@@ -84,6 +82,7 @@ public class Outfitter : MonoBehaviour {
 			}
 		}
 		
+		//tier two buttons
 		GUI.Label (new Rect(10,145,200,25), "Tier 2");
 		if(GUI.Button (new Rect(10,170,200,25), "Space Bomb ("+SPACE_BOMB_PRICE+" coins)")) {
 			if(gscpt.num_coins >= SPACE_BOMB_PRICE){
@@ -103,7 +102,7 @@ public class Outfitter : MonoBehaviour {
 		if(GUI.Button (new Rect(10,200,200,25), "Black Hole Helper ("+BLACK_HOLE_HELPER_PRICE+" coins)")) {
 			if(gscpt.num_coins >= BLACK_HOLE_HELPER_PRICE){
 				//Destroy old powerup
-				Destroy (gscpt.tier_1_upgrade);
+				Destroy (gscpt.tier_2_upgrade);
 				//create a new gameobject to replace the old one
 				GameObject pwrup = new GameObject();
 				//add the script that defines your power up 
@@ -111,6 +110,21 @@ public class Outfitter : MonoBehaviour {
 				//assign the gameobject to the proper tier in game_state
 				gscpt.tier_2_upgrade = pwrup;
 				gscpt.num_coins -= BLACK_HOLE_HELPER_PRICE;
+				DontDestroyOnLoad(pwrup);
+			}
+		}		
+		
+		if(GUI.Button (new Rect(10,230,200,25), "Shield ("+SHIELD_PRICE+" coins)")) {
+			if(gscpt.num_coins >= SHIELD_PRICE) {
+				//Destroy old powerup
+				Destroy (gscpt.tier_2_upgrade);
+				//create a new gameobject to replace the old one
+				GameObject pwrup = new GameObject();
+				//add the script that defines your power up 
+				pwrup.AddComponent("shield");
+				//assign the gameobject to the proper tier in game_state
+				gscpt.tier_2_upgrade = pwrup;
+				gscpt.num_coins -= SHIELD_PRICE;
 				DontDestroyOnLoad(pwrup);
 			}
 		}		
