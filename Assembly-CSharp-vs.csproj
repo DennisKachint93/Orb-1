@@ -60,6 +60,7 @@
      <Compile Include="Assets\Space Bomb\Space_Bomb.cs" />
      <Compile Include="Assets\Space Bomb\Space_Bomb_Actual.cs" />
      <Compile Include="Assets\Space Bomb\space_bomb_detonation.cs" />
+     <Compile Include="Assets\Space Rip\Space_Rip.cs" />
      <Compile Include="Assets\Star\Starscript.cs" />
      <Compile Include="Assets\alien\alien_behavior.cs" />
      <None Include="Assets\Test Text Files\level2.txt" />
