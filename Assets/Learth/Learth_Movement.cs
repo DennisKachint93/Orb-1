@@ -29,6 +29,9 @@ public class Learth_Movement : MonoBehaviour {
 		if (!isTangent && isMoving) {
 			this.transform.position += velocity.normalized*Manager.speed;	
 		}
+	
+		if(Manager.energy < 1)
+			Application.LoadLevel("Scene1");
 	}
 	
 	void OnCollisionEnter (Collision collision)

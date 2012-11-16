@@ -466,6 +466,9 @@ public class Manager : MonoBehaviour {
 	public static void Die()
 	{		
 		Learth_Movement.isMoving = true;
+		if(energy > STARTING_ENERGY)
+		energy = STARTING_ENERGY;
+		
 		Starscript scpt = lastStar.GetComponent<Starscript>();
 		GoToOrbit(lastStar,scpt.orbitRadius);
 	}
@@ -563,12 +566,10 @@ public class Manager : MonoBehaviour {
 		
 		//Death conditions
 		//if you run out of energy, you die, but you get a little energy back
-		if(energy < 1)
+	/*	if(energy < 1)
 		{
 			Die ();
-			if(energy > STARTING_ENERGY)
-				energy = STARTING_ENERGY;
-		}
+		} */
 		
 		//if you travel outside the bounds of the level, you die
 		if(l.transform.position.x > LEVEL_X_MAX
