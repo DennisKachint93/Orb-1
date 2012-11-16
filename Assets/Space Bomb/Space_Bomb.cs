@@ -48,7 +48,8 @@ public class Space_Bomb : MonoBehaviour {
 				} 
 				//if a bomb is out, pressing d again detonates it
 				else {
-					Destroy(sbomb); 
+					Space_Bomb_Actual sba = sbomb.GetComponent<Space_Bomb_Actual>();
+					sba.Detonate();
 					bomb_out = false;
 				}
 			

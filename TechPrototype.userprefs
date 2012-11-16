@@ -1,13 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Space_Bomb.cs">
-    <Files>
-      <File FileName="Assets/Outfitter.cs" Line="82" Column="35" />
-      <File FileName="Assets/Manager.cs" Line="502" Column="28" />
-      <File FileName="Assets/Menu.cs" Line="49" Column="27" />
-      <File FileName="Assets/Space_Bomb.cs" Line="7" Column="16" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
