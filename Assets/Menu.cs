@@ -31,10 +31,10 @@ public class Menu : MonoBehaviour {
 		
 		//levels that will be played in order
 		string[] level_order = new string[3] {
-											"Levels/lptest.txt",
+											"Levels/bhdbg.txt",
 											//"Assets/blackHoleTest.txt",
 											//"Levels/blackholes.txt",
-											"Levels/blackholes.txt",
+											"Levels/demo-2.txt",
 											"Levels/3.txt"};
 		//state object keeps track of levels
 		gscpt.level_order = level_order;

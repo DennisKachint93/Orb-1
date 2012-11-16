@@ -13,7 +13,7 @@ public class Manager : MonoBehaviour {
 	//larger the tan error, the easier it is to enter a star at a legal radius
 	public static float TAN_ERROR = 8;
 	//the larger this number is, the sharper bends are
-	public static float BEND_FACTOR = 2;
+	public static float BEND_FACTOR = 4;
 	//larger the number, the faster the learth moves overall
 	public static float MOVEMENT_SPEED = 0.64f;
 	//speed you move at without energy
@@ -25,7 +25,7 @@ public class Manager : MonoBehaviour {
 	//the larger this number is, the more closely the camera follows learth while in orbit
 	private float ORBIT_LERP = 3f;
 	//the larger this number is, the more closely the camera follows learth while not in orbit
-	private float TRAVEL_LERP = 30f;
+	private float TRAVEL_LERP = 20f;
 	//How far the player is allowed to move the camera
 	private float CAM_MAX_DIST = 5000;
 	//How close the player is allowed to move the camera
@@ -161,7 +161,6 @@ public class Manager : MonoBehaviour {
 		
 		//load next level
 		LoadLevel(gscpt.level_order[gscpt.cur_level]);
-//		LoadLevel("Assets/Level3.txt");		
 		//start camera on top of learth
 		Camera.main.transform.position = new Vector3(l.transform.position.x,l.transform.position.y, Camera.main.transform.position.z);	
 	}
@@ -270,6 +269,9 @@ public class Manager : MonoBehaviour {
 			if(i == stars-1){
 				Starscript scpt = newstar.GetComponent<Starscript>();
 				scpt.is_sink = true;
+			} else {
+				Starscript scpt = newstar.GetComponent<Starscript>();
+				scpt.is_sink = false;
 			}
 				
 		}
