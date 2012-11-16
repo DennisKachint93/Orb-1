@@ -725,8 +725,8 @@ public class Manager : MonoBehaviour {
 		GUI.Label(new Rect(10,10,150,50), "FPS: "+fps.ToString("f2"));
 		Starscript scpt = cur_star.GetComponent<Starscript>();
 		if(scpt.is_sink) {
-			GUI.Label(new Rect(10, Screen.height-80,150,50), "YOU WIN!");
-			GUI.Label (new Rect(10, Screen.height-95,150,50), "Time: "+(Time.time - start_time));
+		/*	GUI.Label(new Rect(10, Screen.height-80,150,50), "YOU WIN!");
+			GUI.Label (new Rect(10, Screen.height-95,150,50), "Time: "+(Time.time - start_time)); */
 		}
         GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins+currency));
 		GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");

@@ -7,6 +7,8 @@ public class Super_Bending : MonoBehaviour {
 	void Start () {
 		//Increase bend constant in manager
 		Manager.BEND_FACTOR = 12;
+		//bend cost
+		Manager.BEND_COST = .025f;
 	}
 	
 	// Update is called once per frame
