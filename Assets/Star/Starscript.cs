@@ -3,18 +3,40 @@ using System.Collections;
 
 public class Starscript : MonoBehaviour {
 	
+	/* BLACK HOLES */
 	//boolean determined by having this powerup
 	public static bool BLACK_HOLE_HELPER = false;
-
-	//light effect for star radius
-	public GameObject radius;
-	public GameObject lightGameObject;
-	//used to highlight black holes in powerup
-	public GameObject BHhelper;
+	//boolean to determine if star is black hole
+	public bool isBlackHole = false;	
 	//black hole prefab
 	public GameObject blackHole;
-	//actual game objects instantiated
-	public GameObject r, b, h;
+	//black hole helper prefab -- used to highlight black holes in powerup
+	public GameObject BHhelper;
+	//actual black hole and helper objects instantiated
+	public GameObject b, h;
+	
+	/* MOVING STARS */
+	//true if moving star
+	public bool is_moving = false;
+	//if moving, the direction to move in 
+	public Vector3 dir = new Vector3(0,0,0);
+	//speed of move
+	public float speed = 0;
+
+	/* REVOLVING STARS */
+	//is revolving 
+	public bool is_revolving = false;
+	//revolution point
+	public Vector3 rpoint;
+	//revolution speed
+	public float rspeed;
+	
+	/* ALL STARS */
+	//light effect for star radius	
+	public GameObject radius;
+	public GameObject lightGameObject;
+	//actual radius object instantiated
+	public GameObject r;
 	//star properties
 	public Color c;
 	public Texture t;
@@ -23,62 +45,57 @@ public class Starscript : MonoBehaviour {
 	public float duration = 20f;
 	public float offset;
 	public float random;
-	//black-hole related variables
-	public bool isBlackHole = false;
-	//true if moving star
-	public bool is_moving = false;
-	//if moving, the direction to move in 
-	public Vector3 dir = new Vector3(0,0,0);
-	//speed of move
-	public float speed = 0;
 	//is winner
-	public bool is_sink = false;
-	//is revolving 
-	public bool is_revolving = false;
-	//revolution point
-	public Vector3 rpoint;
-	//revolution speed
-	public float rspeed;
+	public bool is_sink = false;	
 	//position at last frame
 	public Vector3 last_position;
 	//true if in level editor, so stars don't move
 	public bool editor_freeze = false;
 	
 	void Start () {
+		//if the star is a black hole, instantiate cylinder to represent the black hole
 		if (isBlackHole) {
 			b = Instantiate(blackHole, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
 			b.transform.localScale *= starSize;
 			b.transform.Rotate(90,0,0);
-			this.transform.localScale /= 10;
-			b.transform.parent = this.transform;
+			//decrease size of star to represent the center of a black hole
+			this.transform.localScale /= 10;			
+			//parent black hole object to star
+			b.transform.parent = this.transform;			
+			//if powerup is selected, instantated black hole helper object behind the black hole object at the same size and scale
 			if (BLACK_HOLE_HELPER) {
-				print("true!");
 				h = Instantiate(BHhelper, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
 				h.transform.localScale *= starSize;
 				h.transform.Rotate(90,0,0);
+				//parent helper object to star 
 				h.transform.parent = this.transform;
 			}
 		}
+		//if the star is not a black hole, scale it to size specified
 		else  	
 			this.transform.localScale *= starSize;
+		//radius of learth's entry is the size of the star	
 		orbitRadius = starSize;
+		//instantiate light halo at star's position the size of the orbit radius including radial error 
 		r = Instantiate(radius, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;
 		r.light.range = 2*orbitRadius + 2*Manager.RADIAL_ERROR;
-		random = Random.value;
 		//parent radius to star for destruction
 		r.transform.parent = this.transform;
-		
+		//random value for star's random rotation
+		random = Random.value;		
 	}
 	
 	void Update() {
+		//rotate star on its axis at a fixed random rate
 		transform.RotateAround(this.transform.position, Vector3.forward, 50*Time.deltaTime*random);
+		//texture and color star
 		renderer.material.mainTexture = t;
-        	r.light.color = c;
-		//make stars glow
+        r.light.color = c;
+		//make star glow and pulse 
 		offset = starSize/5;
-        	float phi = Time.time / duration + offset;
-        	float amplitude = Mathf.Cos(phi) * 0.5F + 0.5F;
-        	r.light.intensity = amplitude*offset + starSize/30;
+        float phi = Time.time / duration + offset;
+        float amplitude = Mathf.Cos(phi) * 0.5F + 0.5F;
+        r.light.intensity = amplitude*offset + starSize/30;
         
 		//if star is a mover, the actual game is playing, and the star is visible move to destination point
 		if(is_moving && !editor_freeze && renderer.isVisible)
