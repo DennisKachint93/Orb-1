@@ -7,8 +7,6 @@ public class Space_Bomb_Actual : MonoBehaviour {
 	public Transform lastPos;
 	
 	
-	
-	
 	//hook for range
 	public GameObject range;
 	
