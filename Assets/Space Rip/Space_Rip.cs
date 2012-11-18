@@ -14,6 +14,7 @@ public class Space_Rip : MonoBehaviour {
 	}
 	void OnCollisionStay(Collision c)
 	{
+		Debug.Log("hit by bomb");
 		//if colliding with a space bomb explosion, move away from the center of the explosion	
 		if(c.transform.name == "space_bomb_range(Clone)")
 		{

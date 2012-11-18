@@ -6,6 +6,9 @@ public class Space_Bomb_Actual : MonoBehaviour {
 	public Vector3 velocity;
 	public Transform lastPos;
 	
+	
+	
+	
 	//hook for range
 	public GameObject range;
 	
