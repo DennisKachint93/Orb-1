@@ -11,7 +11,7 @@ public class Manager : MonoBehaviour {
 	public static void ResetConstants() {
 		/*GAMEPLAY CONTROLS */
 		//Larger the error, the wider legal orbit radius 
-		   RADIAL_ERROR = 10;
+		   RADIAL_ERROR = 50;
 		//larger the tan error, the easier it is to enter a star at a legal radius
 		   TAN_ERROR = 8;
 		//the larger this number is, the sharper bends are
