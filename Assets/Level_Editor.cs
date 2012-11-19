@@ -69,7 +69,6 @@ public class Level_Editor : MonoBehaviour {
 	//alien button
 	public bool alien_button = false;
 	
-	
 	//Space rip button
 	public bool spaceRipButton = false;
 	
@@ -514,18 +513,10 @@ public class Level_Editor : MonoBehaviour {
 			GUI.Label(new Rect(10,ystart+170,25,20), "speed");
 			isay_speed = GUI.TextField(new Rect(45, ystart+172, 40, 20), isay_speed, 25);	
 		}
-	/*	if(rstar_button) {
-			GUI.Label ( new Rect (10,ystart+110,25,20), "rev point x");
-			isay_x_rpoint = GUI.TextField(new Rect(45, ystart+112, 40, 20), isay_x_rpoint, 25);
-			GUI.Label ( new Rect (10, ystart+140,25,20), "rev point y");
-			isay_y_rpoint = GUI.TextField(new Rect(45, ystart+142, 40, 20), isay_y_rpoint, 25);
-			GUI.Label(new Rect(10,ystart+170,25,20), "speed");
-			isay_speed = GUI.TextField(new Rect(45, ystart+172, 40, 20), isay_speed, 25);	
-		}	*/
 		
 	//save button
 	if(GUI.Button(new Rect(10, Screen.height - 30, 70, 25), "Save"))
-		SaveLevel("Levels/rev_le_test.txt");
+		SaveLevel("Levels/rev_kill_bug_test.txt");
 	}
 		
 }

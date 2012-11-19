@@ -135,6 +135,11 @@ public class Manager : MonoBehaviour {
 	GameObject game_state;
 	Game_State gscpt;
 	
+	static void SetConstantsToDefaul()
+	{
+		
+	}
+	
 	
 	void Start () {
 		//performance
@@ -630,7 +635,7 @@ public class Manager : MonoBehaviour {
 				//prevents incorrect movement in the case that the last position variable in the star hasn't been set correctly
 				//this happens the first time you try to translate with a star
 				//this is kind of a bad solution, but it will work until we have time to reevaluate the movement code
-				if(!(Mathf.Abs(vec.x) > 3))
+				if(!(Mathf.Abs(vec.x) > 10))
 					l.transform.Translate(vec.x,vec.y,0,Space.World);
 				
 				//set last position

@@ -11,7 +11,7 @@ public class Easy_Entry : MonoBehaviour {
 		//reset other tier 1 variables
 		Manager.BEND_COST = 0;
 		Manager.BEND_FACTOR = 4;
-		Manager.CONSTANT_SPEED = 1f;
+		Manager.CONSTANT_SPEED = 5f;
 	}
 	
 	void Update () {

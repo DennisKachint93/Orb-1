@@ -11,7 +11,7 @@ public class Super_Bending : MonoBehaviour {
 		Manager.BEND_COST = .025f;
 		
 		//reset stuff
-		Manager.CONSTANT_SPEED = 1f;
+		Manager.CONSTANT_SPEED = 5f;
 		Manager.RADIAL_ERROR = 10;
 		Manager.TAN_ERROR = 8;
 	}
