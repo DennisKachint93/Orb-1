@@ -65,10 +65,6 @@ public class Level_Editor : MonoBehaviour {
 	public string isay_y_dir;
 	public string isay_speed;
 	
-	//revolving star button
-	public bool rstar_button = false;
-	public string isay_x_rpoint;
-	public string isay_y_rpoint;
 	
 	//alien button
 	public bool alien_button = false;
@@ -80,6 +76,12 @@ public class Level_Editor : MonoBehaviour {
 	//black hole button
 	public bool blackHoleButton = false;
 	
+	//revolving star button
+	public bool rstar_button = false;
+	//true if waiting for revolution center point
+	private bool waiting_for_point = false;
+	//location stored while waiting for point to revolve around
+	private Vector3 rev_s_location;
 	
 	void Start () {
 		
@@ -211,6 +213,7 @@ public class Level_Editor : MonoBehaviour {
 			Camera.main.transform.Translate(new Vector3(0, -CAM_MOVE_SPEED, 0));
 			
 		//after a specific button has been pressed, corresponding object is instantiated on mouse click
+		
 		if(Input.GetMouseButtonDown(0) && Input.mousePosition.x > 93) {
         	Vector3 p = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
 			//if space rip button is pressed, instantiate space rip on mouse click 
@@ -242,13 +245,21 @@ public class Level_Editor : MonoBehaviour {
 			}
 			
 			//revolving star
-			if(rstar_button && validcolor)
+			//behavior if placing star location
+			if(rstar_button && validcolor && !waiting_for_point)
 			{
-				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				rev_s_location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				waiting_for_point = true;				
+			} 
+			//behavior for placing rotation point
+			else if(rstar_button && validcolor && waiting_for_point) {
             	starsize = float.Parse(isaysize);
-            	CreateRevolvingStar(location.x, location.y,float.Parse(isay_x_rpoint),float.Parse(isay_y_rpoint),starcol,
+ 		       	Vector3 rotation_point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            	CreateRevolvingStar(rev_s_location.x, rev_s_location.y,rotation_point.x,rotation_point.y,starcol,
 					startex,starsize,float.Parse(isay_speed));
+				waiting_for_point = false;
 			}
+			
 			
 			//aliens
 			if(alien_button) {
@@ -500,25 +511,21 @@ public class Level_Editor : MonoBehaviour {
 		}
 		//if revolving star, get rotation point and speed
 		if(rstar_button) {
-			GUI.Label ( new Rect (10,ystart+110,25,20), "rev point x");
-			isay_x_rpoint = GUI.TextField(new Rect(45, ystart+112, 40, 20), isay_x_rpoint, 25);
-			GUI.Label ( new Rect (10, ystart+140,25,20), "rev point y");
-			isay_y_rpoint = GUI.TextField(new Rect(45, ystart+142, 40, 20), isay_y_rpoint, 25);
 			GUI.Label(new Rect(10,ystart+170,25,20), "speed");
 			isay_speed = GUI.TextField(new Rect(45, ystart+172, 40, 20), isay_speed, 25);	
 		}
-		if(rstar_button) {
+	/*	if(rstar_button) {
 			GUI.Label ( new Rect (10,ystart+110,25,20), "rev point x");
 			isay_x_rpoint = GUI.TextField(new Rect(45, ystart+112, 40, 20), isay_x_rpoint, 25);
 			GUI.Label ( new Rect (10, ystart+140,25,20), "rev point y");
 			isay_y_rpoint = GUI.TextField(new Rect(45, ystart+142, 40, 20), isay_y_rpoint, 25);
 			GUI.Label(new Rect(10,ystart+170,25,20), "speed");
 			isay_speed = GUI.TextField(new Rect(45, ystart+172, 40, 20), isay_speed, 25);	
-		}	
+		}	*/
 		
 	//save button
 	if(GUI.Button(new Rect(10, Screen.height - 30, 70, 25), "Save"))
-		SaveLevel("Levels/revolving_test.txt");
+		SaveLevel("Levels/rev_le_test.txt");
 	}
 		
 }
