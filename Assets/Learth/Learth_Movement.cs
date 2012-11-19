@@ -21,6 +21,7 @@ public class Learth_Movement : MonoBehaviour {
 	}	
 	
 	void Update () {
+		
 		//calculate velocity every frame
 		velocity = this.transform.position - lastPos.position;
 		lastPos.position = this.transform.position;

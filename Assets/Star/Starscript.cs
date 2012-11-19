@@ -107,10 +107,6 @@ public class Starscript : MonoBehaviour {
 		if(is_revolving && !editor_freeze)
 		{
 			transform.RotateAround(rpoint,Vector3.forward,Time.deltaTime*rspeed);
-			
-			//maintain last position here so learth entry works
-			if(!Manager.cur_star.Equals(gameObject))
-				last_position = transform.position;
 		}
 
 	}

@@ -130,6 +130,7 @@ public class Manager : MonoBehaviour {
     private float lastInterval;
     private int frames = 0;
     private float fps;
+    
 	
 	GameObject game_state;
 	Game_State gscpt;
@@ -473,10 +474,12 @@ public class Manager : MonoBehaviour {
 	public static void Die()
 	{	
 		if(energy > STARTING_ENERGY)
-		energy = STARTING_ENERGY;
+			energy = STARTING_ENERGY;
 		
 		Starscript scpt = lastStar.GetComponent<Starscript>();
 		GoToOrbit(lastStar,scpt.orbitRadius);
+		
+		
 	}
 	
 	//reloads the scene and modifies whatever we want to modify when the scene gets reloaded
@@ -487,6 +490,7 @@ public class Manager : MonoBehaviour {
 	
 	
 	void Update () {
+		
 		//performance
 		++frames;
         float timeNow = Time.realtimeSinceStartup;
@@ -529,6 +533,9 @@ public class Manager : MonoBehaviour {
 			gscpt.in_game = false;
 			Application.LoadLevel("Ship_Outfitter");
 		}
+		//l prints learth's current position
+		if(Input.GetKeyDown(KeyCode.L))
+			Debug.Log ("dbg Learth position: "+l.transform.position);
 				
 		/*********************END DEBUGGING CONTROLS*****************/
 		
@@ -617,8 +624,16 @@ public class Manager : MonoBehaviour {
 			//likewise, translate for a revolving star
 			if(scpt.is_revolving)
 			{
+				//difference in star positions since last frame
 				Vector3 vec = cur_star.transform.position - scpt.last_position;
-				l.transform.Translate(vec.x,vec.y,0,Space.World);
+				
+				//prevents incorrect movement in the case that the last position variable in the star hasn't been set correctly
+				//this happens the first time you try to translate with a star
+				//this is kind of a bad solution, but it will work until we have time to reevaluate the movement code
+				if(!(Mathf.Abs(vec.x) > 3))
+					l.transform.Translate(vec.x,vec.y,0,Space.World);
+				
+				//set last position
 				scpt.last_position = cur_star.transform.position;
 			}
 			//if star is a black hole and you haven't traveled boost distance after pressing space bar, get sucked into center of black hole
@@ -658,6 +673,10 @@ public class Manager : MonoBehaviour {
 						Learth_Movement.lastPos.position = l.transform.position - Learth_Movement.velocity.normalized*speed;
 					}				
 				}
+				//if star is revolving, reset last position
+			//	if(scpt.is_revolving)
+					
+				
 				//if star is a normal star, shoot out of orbit immediately with energy cost
 				else {
 					Learth_Movement.isTangent = false;
