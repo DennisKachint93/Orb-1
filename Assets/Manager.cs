@@ -5,9 +5,79 @@ using System.IO;
 
 public class Manager : MonoBehaviour {
 	
+	/***********************************************************************************************/
+	/*********************IF YOU WANT TO CHANGE CONSTANTS, CHANGE THEM HERE*************************/
+	/***********************************************************************************************/
+	public static void ResetConstants() {
+		/*GAMEPLAY CONTROLS */
+		//Larger the error, the wider legal orbit radius 
+		   RADIAL_ERROR = 10;
+		//larger the tan error, the easier it is to enter a star at a legal radius
+		   TAN_ERROR = 8;
+		//the larger this number is, the sharper bends are
+		   BEND_FACTOR = 4;
+		//larger the number, the faster the learth moves overall
+		   MOVEMENT_SPEED = 0.72f;
+		//speed you move at without energy
+		   CONSTANT_SPEED = 5f;
+		//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
+		  ORBIT_SPEED_FACTOR = .55f;
+		
+		/*CAMERA CONTROLS */
+		//the larger this number is, the more closely the camera follows learth while in orbit
+		  ORBIT_LERP = 3f;
+		//the larger this number is, the more closely the camera follows learth while not in orbit
+		  TRAVEL_LERP = 5f;
+		//How far the player is allowed to move the camera
+		  CAM_MAX_DIST = 5000;
+		//How close the player is allowed to move the camera
+		  CAM_MIN_DIST = 50;
+		//how fast the player can zoom in/out
+		  CAM_MOVE_SPEED = 10;
+		//Camera orthographic size at start, higher = see more
+		  CAM_START_HEIGHT = 600;
+		
+		/*ENERGY CONTROLS */	
+		//starting energy
+		   STARTING_ENERGY = 35f;
+		//How much energy is reduced each frame while bending
+		   BEND_COST = 0;
+		//How much energy is reduced each frame while invincible
+		  INVINC_COST = .2f;
+		//this much energy is subtracted each frame the learth is not in orbit
+		  FLYING_COST = .027f;
+		//this much energy is subtracted each frame the learth is in orbit
+		  ORBITING_COST = .00025f;
+		//this much energy is subtracted when they player hits the space bar to launch from a star
+		  LEAVING_COST = 0;
+		//cost of a directional shift
+		  DIR_SHIFT_COST = 15;
+		//determines whether shield is activeable
+		   SHIELD = false;
+	    //determines whether boost is activatable
+	       BOOST = false;
+	    //lets you shift directions
+	       DIRECTION_SHIFT = false;	
+	 
+	 	/*BLACK HOLE CONSTANTS*/
+	 	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
+		  BLACK_HOLE_SUCKINESS = 5f;	
+		//energy it takes to escape a black hole on each press of space bar
+		  BH_ESCAPE_ENERGY = .2f;
+		//distance you travel when you press space to escape a black hole
+		  BH_ESCAPE_DISTANCE = 300f;
+		
+		/*ALIEN CONSTANTS*/
+		//when aliens are within distance, they start to suck your energy
+		   ALIEN_SUCKING_DISTANCE = 40f;
+		//this much energy is sucked from player when alien is within alien_sucking_distance
+		   ALIEN_SUCKS_ENERGY = .025f;	
+	}
+	
+	
+	
 	//Constants
-
-	/*GAMEPLAY CONTROLS */
+	/*DON'T CHANGE ANY OF THESE. IT WILL HAVE NO EFFECT. TO ADD A NEW CONSTANT, DECLARE IT HERE AND INITIALIZE IN ResetConstants()*/
 	//Larger the error, the wider legal orbit radius 
 	public static int RADIAL_ERROR = 10;
 	//larger the tan error, the easier it is to enter a star at a legal radius
@@ -19,21 +89,21 @@ public class Manager : MonoBehaviour {
 	//speed you move at without energy
 	public static float CONSTANT_SPEED = 1f;
 	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
-	private float ORBIT_SPEED_FACTOR = .55f;
+	private static float ORBIT_SPEED_FACTOR = .55f;
 	
 	/*CAMERA CONTROLS */
 	//the larger this number is, the more closely the camera follows learth while in orbit
-	private float ORBIT_LERP = 3f;
+	private static float ORBIT_LERP = 3f;
 	//the larger this number is, the more closely the camera follows learth while not in orbit
-	private float TRAVEL_LERP = 5f;
+	private static float TRAVEL_LERP = 5f;
 	//How far the player is allowed to move the camera
-	private float CAM_MAX_DIST = 5000;
+	private static float CAM_MAX_DIST = 5000;
 	//How close the player is allowed to move the camera
-	private float CAM_MIN_DIST = 50;
+	private static float CAM_MIN_DIST = 50;
 	//how fast the player can zoom in/out
-	private float CAM_MOVE_SPEED = 10;
+	private static float CAM_MOVE_SPEED = 10;
 	//Camera orthographic size at start, higher = see more
-	private float CAM_START_HEIGHT = 600;
+	private static float CAM_START_HEIGHT = 600;
 	
 	/*ENERGY CONTROLS */	
 	//starting energy
@@ -41,15 +111,15 @@ public class Manager : MonoBehaviour {
 	//How much energy is reduced each frame while bending
 	public static float BEND_COST = 0;
 	//How much energy is reduced each frame while invincible
-	private float INVINC_COST = .2f;
+	private static float INVINC_COST = .2f;
 	//this much energy is subtracted each frame the learth is not in orbit
-	private float FLYING_COST = .027f;
+	private static float FLYING_COST = .027f;
 	//this much energy is subtracted each frame the learth is in orbit
-	private float ORBITING_COST = .00025f;
+	private static float ORBITING_COST = .00025f;
 	//this much energy is subtracted when they player hits the space bar to launch from a star
-	private float LEAVING_COST = 0;
+	private static float LEAVING_COST = 0;
 	//cost of a directional shift
-	public float DIR_SHIFT_COST = 15;
+	public static float DIR_SHIFT_COST = 15;
 	//determines whether shield is activeable
 	public static bool SHIELD = false;
     //determines whether boost is activatable
@@ -59,11 +129,11 @@ public class Manager : MonoBehaviour {
  
  	/*BLACK HOLE CONSTANTS*/
  	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
-	private float BLACK_HOLE_SUCKINESS = 5f;	
+	private static float BLACK_HOLE_SUCKINESS = 5f;	
 	//energy it takes to escape a black hole on each press of space bar
-	private float BH_ESCAPE_ENERGY = .2f;
+	private static float BH_ESCAPE_ENERGY = .2f;
 	//distance you travel when you press space to escape a black hole
-	private float BH_ESCAPE_DISTANCE = 300f;
+	private static float BH_ESCAPE_DISTANCE = 300f;
 	
 	/*ALIEN CONSTANTS*/
 	//when aliens are within distance, they start to suck your energy
@@ -135,16 +205,15 @@ public class Manager : MonoBehaviour {
 	GameObject game_state;
 	Game_State gscpt;
 	
-	static void SetConstantsToDefaul()
-	{
-		
-	}
 	
 	
 	void Start () {
 		//performance
 		lastInterval = Time.realtimeSinceStartup;
         frames = 0;
+        
+		//reset constants
+	//	ResetConstants();
 		
 		//Proof that state is changed in menu and preserved in manager		
 		game_state = GameObject.Find("game_state");
