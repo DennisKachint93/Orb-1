@@ -10,13 +10,13 @@ public class Level_Editor : MonoBehaviour {
 	
 	//These controls are for our convenience as level editiors -- same functions as in manager
 	//maximum distance from scene
-	private float CAM_MAX_DIST = 10000;
+	private float CAM_MAX_DIST = 100000;
 	//minumum distance from scene
 	private float CAM_MIN_DIST = 50;
 	//maximum "size" of scene in terms of camera's ability to move
-	private float SCENE_BOUNDARY = 20000;
-	//how we can zoom in and out
-	private float CAM_MOVE_SPEED = 4;
+	private float SCENE_BOUNDARY = 200000;
+	//how we can zoom in and out and move arrow keys
+	private float CAM_MOVE_SPEED = 50;
 	//Camera orthographic size at start of level editing scene, not actual level we are creating, higher = see more
 	private float CAM_START_HEIGHT = 500;
 	
@@ -516,7 +516,7 @@ public class Level_Editor : MonoBehaviour {
 		
 	//save button
 	if(GUI.Button(new Rect(10, Screen.height - 30, 70, 25), "Save"))
-		SaveLevel("Levels/stream-4.txt");
+		SaveLevel("Levels/usa4ever.txt");
 	}
 		
 }
