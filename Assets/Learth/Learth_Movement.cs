@@ -7,12 +7,18 @@ public class Learth_Movement : MonoBehaviour {
 	public static Vector3 velocity = new Vector3(1f, 1f, 0f);
 	public static Transform lastPos;
 	public static bool isTangent = false;
+	Game_State gscpt;
 	
 	//explosion prefab
 	//public GameObject explosion, e;
 	
 	
 	void Start () {
+		
+		//get gamestate
+		
+		GameObject game_state = GameObject.Find("game_state");
+		gscpt = game_state.GetComponent<Game_State>();
 		
 		//initialize lastPos
 		lastPos = new GameObject().transform;
@@ -47,7 +53,7 @@ public class Learth_Movement : MonoBehaviour {
 				Manager.Die();	
 			}
 			if(collision.gameObject.name == "coin(Clone)") {
-				Manager.currency++;
+				gscpt.num_coins++;
 				Manager.energy += 3;
 				Destroy(collision.gameObject);
 			}

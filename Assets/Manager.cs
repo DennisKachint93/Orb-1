@@ -161,10 +161,10 @@ public class Manager : MonoBehaviour {
 	public int numStars = 0;
 	
 	//positions past which learth will die. levels are always rectangles
-	float LEVEL_X_MAX = 10000;
-	float LEVEL_X_MIN = -10000;
-	float LEVEL_Y_MAX = 10000;
-	float LEVEL_Y_MIN = -10000;
+	float LEVEL_X_MAX = 100000;
+	float LEVEL_X_MIN = -100000;
+	float LEVEL_Y_MAX = 100000;
+	float LEVEL_Y_MIN = -100000;
 	
 	//learth-related variables
 	public static float speed = 0;
@@ -189,8 +189,6 @@ public class Manager : MonoBehaviour {
     //energy gauge
     public Texture gaugeTexture;
 
-	//currency
-	public static int currency = 0;
 	
 	//timer
 	public float start_time;
@@ -290,8 +288,6 @@ public class Manager : MonoBehaviour {
 		//reset energy
 		//energy = 20f;
 		
-		//reset currency (maybe don't do this for design reasons)
-		currency = 0;
 		
 		//make sure learth is not tangent 
 		Learth_Movement.isTangent = false;
@@ -619,8 +615,6 @@ public class Manager : MonoBehaviour {
 		//end level if reach sink
 		Starscript starscpt = cur_star.GetComponent<Starscript>();
 		if(starscpt.is_sink) {
-			//add currency to num_coins 
-			gscpt.num_coins += currency;
 			
 			//increment level counter
 			gscpt.cur_level++;
@@ -862,7 +856,7 @@ public class Manager : MonoBehaviour {
 		/*	GUI.Label(new Rect(10, Screen.height-80,150,50), "YOU WIN!");
 			GUI.Label (new Rect(10, Screen.height-95,150,50), "Time: "+(Time.time - start_time)); */
 		}
-        GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins+currency));
+        GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
 		GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
    		GUI.DrawTexture(new Rect(10, Screen.height-30, energy*10, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
 	}
