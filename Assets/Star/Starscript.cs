@@ -63,7 +63,7 @@ public class Starscript : MonoBehaviour {
 			//parent black hole object to star
 			b.transform.parent = this.transform;			
 			//if powerup is selected, instantated black hole helper object behind the black hole object at the same size and scale
-			if (BLACK_HOLE_HELPER) {
+			if (Manager.BLACK_HOLE_HELPER || BLACK_HOLE_HELPER) {
 				h = Instantiate(BHhelper, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
 				h.transform.localScale *= starSize;
 				h.transform.Rotate(90,0,0);

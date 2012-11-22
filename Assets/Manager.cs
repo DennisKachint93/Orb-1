@@ -11,67 +11,71 @@ public class Manager : MonoBehaviour {
 	public static void ResetConstants() {
 		/*GAMEPLAY CONTROLS */
 		//Larger the error, the wider legal orbit radius 
-		   RADIAL_ERROR = 50;
+		RADIAL_ERROR = 50;
 		//larger the tan error, the easier it is to enter a star at a legal radius
-		   TAN_ERROR = 8;
+		TAN_ERROR = 8;
 		//the larger this number is, the sharper bends are
-		   BEND_FACTOR = 4;
+		BEND_FACTOR = 4;
 		//larger the number, the faster the learth moves overall
-		   MOVEMENT_SPEED = 0.72f;
+		MOVEMENT_SPEED = 0.72f;
 		//speed you move at without energy
-		   CONSTANT_SPEED = 5f;
+		CONSTANT_SPEED = 5f;
 		//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
-		  ORBIT_SPEED_FACTOR = .5f;
+		ORBIT_SPEED_FACTOR = .5f;
 		
 		/*CAMERA CONTROLS */
 		//the larger this number is, the more closely the camera follows learth while in orbit
-		  ORBIT_LERP = 3f;
+		ORBIT_LERP = 3f;
 		//the larger this number is, the more closely the camera follows learth while not in orbit
-		  TRAVEL_LERP = 5f;
+		TRAVEL_LERP = 5f;
 		//How far the player is allowed to move the camera
-		  CAM_MAX_DIST = 5000;
+		CAM_MAX_DIST = 5000;
 		//How close the player is allowed to move the camera
-		  CAM_MIN_DIST = 50;
+		CAM_MIN_DIST = 50;
 		//how fast the player can zoom in/out
-		  CAM_MOVE_SPEED = 10;
+		CAM_MOVE_SPEED = 10;
 		//Camera orthographic size at start, higher = see more
-		  CAM_START_HEIGHT = 600;
+		CAM_START_HEIGHT = 600;
 		
 		/*ENERGY CONTROLS */	
 		//starting energy
-		   STARTING_ENERGY = 35f;
+		STARTING_ENERGY = 35f;
 		//How much energy is reduced each frame while bending
-		   BEND_COST = 0;
+		BEND_COST = 0;
 		//How much energy is reduced each frame while invincible
-		  INVINC_COST = .2f;
+		INVINC_COST = .2f;
 		//this much energy is subtracted each frame the learth is not in orbit
-		  FLYING_COST = .027f;
+		FLYING_COST = .027f;
 		//this much energy is subtracted each frame the learth is in orbit
-		  ORBITING_COST = .00025f;
+		ORBITING_COST = .00025f;
 		//this much energy is subtracted when they player hits the space bar to launch from a star
-		  LEAVING_COST = 0;
+		LEAVING_COST = 0;
 		//cost of a directional shift
-		  DIR_SHIFT_COST = 15;
+		DIR_SHIFT_COST = 15;
 		//determines whether shield is activeable
-		   SHIELD = false;
+		SHIELD = false;
 	    //determines whether boost is activatable
-	       BOOST = false;
+	    BOOST = false;
 	    //lets you shift directions
-	       DIRECTION_SHIFT = false;	
+	    DIRECTION_SHIFT = false;	
 	 
 	 	/*BLACK HOLE CONSTANTS*/
 	 	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
-		  BLACK_HOLE_SUCKINESS = 5f;	
+		BLACK_HOLE_SUCKINESS = 5f;	
 		//energy it takes to escape a black hole on each press of space bar
-		  BH_ESCAPE_ENERGY = .2f;
+		BH_ESCAPE_ENERGY = .2f;
 		//distance you travel when you press space to escape a black hole
-		  BH_ESCAPE_DISTANCE = 300f;
+		BH_ESCAPE_DISTANCE = 300f;
 		
 		/*ALIEN CONSTANTS*/
 		//when aliens are within distance, they start to suck your energy
-		   ALIEN_SUCKING_DISTANCE = 40f;
+		ALIEN_SUCKING_DISTANCE = 40f;
 		//this much energy is sucked from player when alien is within alien_sucking_distance
-		   ALIEN_SUCKS_ENERGY = .025f;	
+		ALIEN_SUCKS_ENERGY = .025f;	
+		   
+		//black hole helper
+		BLACK_HOLE_HELPER = false;
+		
 	}
 	
 	
@@ -199,9 +203,12 @@ public class Manager : MonoBehaviour {
     private int frames = 0;
     private float fps;
     
-	
+	//game state
 	GameObject game_state;
 	Game_State gscpt;
+	
+	//black hole helper
+	public static bool BLACK_HOLE_HELPER = false;
 	
 	
 	
