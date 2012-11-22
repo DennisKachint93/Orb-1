@@ -514,9 +514,13 @@ public class Level_Editor : MonoBehaviour {
 			isay_speed = GUI.TextField(new Rect(45, ystart+172, 40, 20), isay_speed, 25);	
 		}
 		
-	//save button
-	if(GUI.Button(new Rect(10, Screen.height - 30, 70, 25), "Save"))
-		SaveLevel("Levels/turning_stream.txt");
+		//return to main menu	
+		if(GUI.Button(new Rect(10, Screen.height - 60, 100, 25), "Main Menu"))
+			Application.LoadLevel("Main_Menu");
+	
+		//save button
+		if(GUI.Button(new Rect(10, Screen.height - 30, 100, 25), "Save"))
+			SaveLevel("Levels/turning_stream.txt");
 	}
 		
 }
