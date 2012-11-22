@@ -54,8 +54,6 @@ public class Manager : MonoBehaviour {
 		DIR_SHIFT_COST = 15;
 		//determines whether shield is activeable
 		SHIELD = false;
-	    //lets you shift directions
-	    DIRECTION_SHIFT = false;	
 	 
 	 	/*BLACK HOLE CONSTANTS*/
 	 	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
@@ -213,10 +211,7 @@ public class Manager : MonoBehaviour {
 		lastInterval = Time.realtimeSinceStartup;
         frames = 0;
         
-		//reset constants
-	//	ResetConstants();
-		
-		//Proof that state is changed in menu and preserved in manager		
+		//find the gamestate object	
 		game_state = GameObject.Find("game_state");
 		gscpt = game_state.GetComponent<Game_State>();
 		
@@ -623,15 +618,6 @@ public class Manager : MonoBehaviour {
 			//open the ship outfitter
 			Application.LoadLevel("Ship_Outfitter");
 		}
-		//direction shift
-                if(Input.GetKeyUp(KeyCode.Z) && DIRECTION_SHIFT){
-                        Learth_Movement.lastPos.RotateAround(l.transform.position, Vector3.forward, 90);
-						energy -= DIR_SHIFT_COST;
-                }
-                if(Input.GetKeyUp(KeyCode.X) && DIRECTION_SHIFT){
-                      Learth_Movement.lastPos.RotateAround(l.transform.position, Vector3.forward, -90);
-					energy -= DIR_SHIFT_COST;
-                }
 
 		//bending
 		if(Input.GetKey(KeyCode.Q))
