@@ -97,17 +97,17 @@ public class Manager : MonoBehaviour {
 	
 	/*CAMERA CONTROLS */
 	//the larger this number is, the more closely the camera follows learth while in orbit
-	private static float ORBIT_LERP = 3f;
+	public static float ORBIT_LERP = 3f;
 	//the larger this number is, the more closely the camera follows learth while not in orbit
-	private static float TRAVEL_LERP = 5f;
+	public static float TRAVEL_LERP = 5f;
 	//How far the player is allowed to move the camera
-	private static float CAM_MAX_DIST = 5000;
+	public static float CAM_MAX_DIST = 5000;
 	//How close the player is allowed to move the camera
-	private static float CAM_MIN_DIST = 50;
+	public static float CAM_MIN_DIST = 50;
 	//how fast the player can zoom in/out
-	private static float CAM_MOVE_SPEED = 10;
+	public static float CAM_MOVE_SPEED = 10;
 	//Camera orthographic size at start, higher = see more
-	private static float CAM_START_HEIGHT = 600;
+	public static float CAM_START_HEIGHT = 600;
 	
 	/*ENERGY CONTROLS */	
 	//starting energy
@@ -232,7 +232,7 @@ public class Manager : MonoBehaviour {
 	 	l.renderer.material.color = Color.red;	
 	 	
 		//set camera height for beginning a game
-		Camera.main.orthographicSize = CAM_START_HEIGHT;
+	//	Camera.main.orthographicSize = CAM_START_HEIGHT;
 		
 		//instantiate background based on level constraints --this is going to change.
 		for (int i = -2500; i < (int)LEVEL_X_MAX; i+=2500) {
@@ -247,8 +247,9 @@ public class Manager : MonoBehaviour {
 		
 		//load next level
 		LoadLevel(gscpt.level_order[gscpt.cur_level]);
+		
 		//start camera on top of learth
-		Camera.main.transform.position = new Vector3(l.transform.position.x,l.transform.position.y, Camera.main.transform.position.z);	
+//		Camera.main.transform.position = new Vector3(l.transform.position.x,l.transform.position.y, Camera.main.transform.position.z);	
 	
 	}
 	
@@ -748,10 +749,6 @@ public class Manager : MonoBehaviour {
 						Learth_Movement.lastPos.position = l.transform.position - Learth_Movement.velocity.normalized*speed;
 					}				
 				}
-				//if star is revolving, reset last position
-			//	if(scpt.is_revolving)
-					
-				
 				//if star is a normal star, shoot out of orbit immediately with energy cost
 				else {
 					Learth_Movement.isTangent = false;
@@ -835,28 +832,10 @@ public class Manager : MonoBehaviour {
 				}
 			}
 		}
-	
-		//camera follows learth
-		Camera.main.transform.position = Learth_Movement.isTangent ? 
-				Vector3.Lerp(Camera.main.transform.position, 
-				new Vector3(cur_star.transform.position.x,cur_star.transform.position.y,Camera.main.transform.position.z),ORBIT_LERP*Time.deltaTime)
-				:
-				Vector3.Lerp(Camera.main.transform.position, 
-				new Vector3(l.transform.position.x,l.transform.position.y,Camera.main.transform.position.z),TRAVEL_LERP*Time.deltaTime)
-				;
-		
-		//A moves the camera farther, S moves the camera closer
-		if(Input.GetKey(KeyCode.A) && Camera.main.orthographicSize <= CAM_MAX_DIST)
-			Camera.main.orthographicSize += CAM_MOVE_SPEED;
-		if(Input.GetKey(KeyCode.S) && Camera.main.orthographicSize >= CAM_MIN_DIST)
-			Camera.main.orthographicSize -= CAM_MOVE_SPEED;
-		
-	
 	}
 	
 	void OnGUI() {
 		//performance
-		//GUILayout.Label("" + fps.ToString("f2"));
 		GUI.Label(new Rect(10,10,150,50), "FPS: "+fps.ToString("f2"));
 		Starscript scpt = cur_star.GetComponent<Starscript>();
 		if(scpt.is_sink) {

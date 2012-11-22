@@ -47,6 +47,7 @@
      <Compile Include="Assets\Game_State.cs" />
      <Compile Include="Assets\Learth\Learth_Movement.cs" />
      <Compile Include="Assets\Level_Editor.cs" />
+     <Compile Include="Assets\Main_Game_Camera.cs" />
      <Compile Include="Assets\Manager.cs" />
      <Compile Include="Assets\Menu.cs" />
      <Compile Include="Assets\Outfitter.cs" />
