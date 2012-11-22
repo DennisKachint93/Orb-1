@@ -54,8 +54,6 @@ public class Manager : MonoBehaviour {
 		DIR_SHIFT_COST = 15;
 		//determines whether shield is activeable
 		SHIELD = false;
-	    //determines whether boost is activatable
-	    BOOST = false;
 	    //lets you shift directions
 	    DIRECTION_SHIFT = false;	
 	 
@@ -126,8 +124,6 @@ public class Manager : MonoBehaviour {
 	public static float DIR_SHIFT_COST = 15;
 	//determines whether shield is activeable
 	public static bool SHIELD = false;
-    //determines whether boost is activatable
-    public static bool BOOST = false;
     //lets you shift directions
     public static bool DIRECTION_SHIFT = false;	
  
@@ -231,9 +227,6 @@ public class Manager : MonoBehaviour {
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 	 	l.renderer.material.color = Color.red;	
 	 	
-		//set camera height for beginning a game
-	//	Camera.main.orthographicSize = CAM_START_HEIGHT;
-		
 		//instantiate background based on level constraints --this is going to change.
 		for (int i = -2500; i < (int)LEVEL_X_MAX; i+=2500) {
 			for (int j = -4000; j < 4000; j+=1250) {
@@ -248,9 +241,6 @@ public class Manager : MonoBehaviour {
 		//load next level
 		LoadLevel(gscpt.level_order[gscpt.cur_level]);
 		
-		//start camera on top of learth
-//		Camera.main.transform.position = new Vector3(l.transform.position.x,l.transform.position.y, Camera.main.transform.position.z);	
-	
 	}
 	
 	
@@ -642,12 +632,6 @@ public class Manager : MonoBehaviour {
                       Learth_Movement.lastPos.RotateAround(l.transform.position, Vector3.forward, -90);
 					energy -= DIR_SHIFT_COST;
                 }
-		//boost
-		if(Input.GetKeyUp(KeyCode.C) && BOOST){
-			//one time major energy boost
-			energy += 50;
-			BOOST = false;
-		}	
 
 		//bending
 		if(Input.GetKey(KeyCode.Q))
