@@ -31,9 +31,10 @@ public class Menu : MonoBehaviour {
 		//set default ship settings here
 		
 		//levels that will be played in order
-		string[] level_order = new string[2] {
+		string[] level_order = new string[3] {
+											"Levels/turning_stream.txt",
 											"Levels/usa4ever.txt",
-											"Levels/stream-7.txt"
+											"Levels/falling_stars.txt"
 																};
 		//state object keeps track of levels
 		gscpt.level_order = level_order;

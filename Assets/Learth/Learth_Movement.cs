@@ -28,6 +28,9 @@ public class Learth_Movement : MonoBehaviour {
 	
 	void Update () {
 		
+		//debug
+		Debug.Log ("frame dif: "+Vector3.Distance(transform.position,lastPos.position));
+		
 		//calculate velocity every frame
 		velocity = this.transform.position - lastPos.position;
 		lastPos.position = this.transform.position;

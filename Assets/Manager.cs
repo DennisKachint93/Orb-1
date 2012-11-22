@@ -21,7 +21,7 @@ public class Manager : MonoBehaviour {
 		//speed you move at without energy
 		   CONSTANT_SPEED = 5f;
 		//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
-		  ORBIT_SPEED_FACTOR = .55f;
+		  ORBIT_SPEED_FACTOR = .5f;
 		
 		/*CAMERA CONTROLS */
 		//the larger this number is, the more closely the camera follows learth while in orbit
@@ -444,7 +444,7 @@ public class Manager : MonoBehaviour {
 	//puts learth in orbit given a valid radius
 	public static void GoToOrbit(GameObject star, float radius)
 	{
-		l.transform.position = new Vector3(star.transform.position.x+radius,star.transform.position.y,0);
+		l.transform.position = new Vector3(star.transform.position.x+radius+RADIAL_ERROR,star.transform.position.y,0);
 		cur_star = star;
 		s = star;
 		Learth_Movement.isTangent = true;

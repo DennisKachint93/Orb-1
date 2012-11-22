@@ -516,7 +516,7 @@ public class Level_Editor : MonoBehaviour {
 		
 	//save button
 	if(GUI.Button(new Rect(10, Screen.height - 30, 70, 25), "Save"))
-		SaveLevel("Levels/usa4ever.txt");
+		SaveLevel("Levels/turning_stream.txt");
 	}
 		
 }
