@@ -56,6 +56,9 @@ public class Level_Editor : MonoBehaviour {
 	public string isaycolor;
 	public string isaysize;
 	
+	//filename text box
+	public string isay_fname;
+	
 	//Coin button
 	public bool coin_button = false;
 	
@@ -81,6 +84,9 @@ public class Level_Editor : MonoBehaviour {
 	private bool waiting_for_point = false;
 	//location stored while waiting for point to revolve around
 	private Vector3 rev_s_location;
+	
+	//save button
+	private bool save_button = false;
 	
 	void Start () {
 		
@@ -513,14 +519,23 @@ public class Level_Editor : MonoBehaviour {
 			GUI.Label(new Rect(10,ystart+170,25,20), "speed");
 			isay_speed = GUI.TextField(new Rect(45, ystart+172, 40, 20), isay_speed, 25);	
 		}
+		//if save button, open text box for filename
+		if(save_button) {
+			GUI.Label(new Rect(10,Screen.height - 150, 100, 25), "Filename:");
+			isay_fname = GUI.TextField(new Rect(45, Screen.height - 120, 100, 25), isay_fname, 25);
+			if(GUI.Button(new Rect(10, Screen.height - 90,100,25), "save to file")) {
+				SaveLevel(isay_fname);
+				save_button = false;
+			}
+		}
 		
 		//return to main menu	
 		if(GUI.Button(new Rect(10, Screen.height - 60, 100, 25), "Main Menu"))
 			Application.LoadLevel("Main_Menu");
 	
 		//save button
-		if(GUI.Button(new Rect(10, Screen.height - 30, 100, 25), "Save"))
-			SaveLevel("Levels/turning_stream.txt");
+		if(GUI.Button(new Rect(10, Screen.height - 170, 100, 25), "Name file"))
+			save_button = true;
 	}
 		
 }
