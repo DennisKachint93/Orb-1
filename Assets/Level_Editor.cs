@@ -38,15 +38,18 @@ public class Level_Editor : MonoBehaviour {
 	public int numStars = 0;
 	
 	//star colors
-	public Color orange = new Color(1f, .6f, 0f, 1f);
+	public Color orange = new Color(.9f, .45f, 0f, 1f);
 	public Color dgray = new Color(.1f, .1f, .1f, 1f);
+	public Color aqua = new Color(0, .4f, .8f, 1f);
+	public Color purple = new Color(.4f, 0, .4f, 1f);	
+	public Color green = new Color(0,.4f, 0, 1f);
 	public Texture tred;
 	public Texture torange;
 	public Texture tyellow;
-	public Texture twhite;
-	public Texture tgray;
+	public Texture tgreen;
 	public Texture tblue;
-	
+	public Texture taqua;
+	public Texture tpurple;	
 	
 	public bool starbut = false;
 	public bool validcolor = false;
@@ -300,20 +303,22 @@ public class Level_Editor : MonoBehaviour {
 				for(int i = 0; i < star_arr.Length;i++)
 				{
 					Starscript scpt = star_arr[i].GetComponent<Starscript>();
-					string color = "black";
-					if(scpt.c.Equals(Color.blue))
-					{
-						color = "blue";
-					} else if(scpt.c.Equals(Color.white))
-					{
-						color = "white";
-					} else if (scpt.c.Equals(Color.yellow))
-					{
-						color = "yellow";
-					} else if(scpt.c.Equals(Color.red))
-					{
+					string color = "black";	
+					if(scpt.c.Equals(Color.red)){
 						color = "red";
-					} 					
+					} else if(scpt.c.Equals(orange)){
+						color = "orange";
+					} else if (scpt.c.Equals(Color.yellow)){
+						color = "yellow";
+					} else if(scpt.c.Equals(green)){
+						color = "green";
+					} else if(scpt.c.Equals(Color.blue)){
+						color = "blue";
+					} else if (scpt.c.Equals(aqua)){
+						color = "aqua";
+					} else if(scpt.c.Equals(purple)){
+						color = "purple";
+					} 								
 					string black_hole = "false";
 					if(scpt.isBlackHole) {
 						black_hole = "true";
@@ -338,17 +343,22 @@ public class Level_Editor : MonoBehaviour {
 				{
 				//	Debug.Log ("trying to write a star");
 					Starscript scpt = mstar_arr[i].GetComponent<Starscript>();
-					string color = "red";
-					if(scpt.c.Equals(Color.blue))
-					{
-						color = "blue";
-					} else if(scpt.c.Equals(Color.white))
-					{
-						color = "white";
-					} else if (scpt.c.Equals(Color.yellow))
-					{
+					string color = "black";
+					if(scpt.c.Equals(Color.red)){
+						color = "red";
+					} else if(scpt.c.Equals(orange)){
+						color = "orange";
+					} else if (scpt.c.Equals(Color.yellow)){
 						color = "yellow";
-					}
+					} else if(scpt.c.Equals(green)){
+						color = "green";
+					} else if(scpt.c.Equals(Color.blue)){
+						color = "blue";
+					} else if (scpt.c.Equals(aqua)){
+						color = "aqua";
+					} else if(scpt.c.Equals(purple)){
+						color = "purple";
+					} 	
 					sw.WriteLine(mstar_arr[i].transform.position.x+","+mstar_arr[i].transform.position.y+","+color+","+scpt.orbitRadius
 						+","+scpt.dir.x+","+scpt.dir.y+","+scpt.speed);
 				}
@@ -363,17 +373,22 @@ public class Level_Editor : MonoBehaviour {
 				for(int i = 0; i < rstar_arr.Length; i++)
 				{
 					Starscript scpt = rstar_arr[i].GetComponent<Starscript>();
-					string color = "red";
-					if(scpt.c.Equals(Color.blue))
-					{
-						color = "blue";					
-					} else if(scpt.c.Equals(Color.white))
-					{
-						color = "white";
-					} else if (scpt.c.Equals(Color.yellow))
-					{
+					string color = "black";
+					if(scpt.c.Equals(Color.red)){
+						color = "red";
+					} else if(scpt.c.Equals(orange)){
+						color = "orange";
+					} else if (scpt.c.Equals(Color.yellow)){
 						color = "yellow";
-					}
+					} else if(scpt.c.Equals(green)){
+						color = "green";
+					} else if(scpt.c.Equals(Color.blue)){
+						color = "blue";
+					} else if (scpt.c.Equals(aqua)){
+						color = "aqua";
+					} else if(scpt.c.Equals(purple)){
+						color = "purple";
+					} 	
 					sw.WriteLine(rstar_arr[i].transform.position.x+","+rstar_arr[i].transform.position.y+","+scpt.rpoint.x+","
 						+scpt.rpoint.y+","+color+","+scpt.orbitRadius+","+scpt.rspeed);
 					
@@ -472,35 +487,45 @@ public class Level_Editor : MonoBehaviour {
 			if (!blackHoleButton) {
 				GUI.Label ( new Rect (10, ystart+80,30,20), "color");
 				isaycolor = GUI.TextField(new Rect(45, ystart+82, 40, 20), isaycolor, 25);
-				if(isaycolor == "blue"){
-					starcol = Color.blue;
-					startex = tblue;
-					validcolor = true;
-				}
 				if(isaycolor == "red"){
 					starcol = Color.red;
 					startex = tred;
 					validcolor = true;
 				}
-				if(isaycolor == "white"){
-					starcol = Color.white;
-					startex = twhite;
-					validcolor = true;
-				}
-				if(isaycolor == "gray"){
-					starcol = Color.gray;
-					startex = tgray;
+				if(isaycolor == "orange"){
+					starcol = orange;
+					startex = torange;
 					validcolor = true;
 				}
 				if(isaycolor == "yellow"){
 					starcol = Color.yellow;
 					startex = tyellow;
 					validcolor = true;
+				}				
+				if(isaycolor == "green"){
+					starcol = green;
+					startex = tgreen;
+					validcolor = true;
+				}
+				if(isaycolor == "blue"){
+					starcol = Color.blue;
+					startex = tblue;
+					validcolor = true;
+				}
+				if(isaycolor == "aqua"){
+					starcol = aqua;
+					startex = taqua;
+					validcolor = true;
+				}
+				if(isaycolor == "purple"){
+					starcol = purple;
+					startex = tpurple;
+					validcolor = true;
 				}
 			}
 			else {
 				starcol = Color.black;
-				startex = twhite;
+				startex = tblue;
 				validcolor = true;
 			}
 		}

@@ -124,6 +124,14 @@ public class Manager : MonoBehaviour {
 	public static bool SHIELD = false;
     //lets you shift directions
     public static bool DIRECTION_SHIFT = false;	
+	//energy value for specific star colors
+	public static float RED_ENERGY = 5f;
+	public static float ORANGE_ENERGY = 10f;
+	public static float YELLOW_ENERGY = 15f;
+	public static float GREEN_ENERGY = 20f;
+	public static float BLUE_ENERGY = 25f;
+	public static float AQUA_ENERGY = 30f;
+	public static float PURPLE_ENERGY = 35f;
  
  	/*BLACK HOLE CONSTANTS*/
  	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
@@ -175,14 +183,19 @@ public class Manager : MonoBehaviour {
 	public static int num_deaths = 0;
 	
 	//star colors and textures
-	public Color orange = new Color(1f, .6f, 0f, 1f);
+	public Color orange = new Color(.9f, .45f, 0f, 1f);
 	public Color dgray = new Color(.1f, .1f, .1f, 1f);
+	public Color aqua = new Color(0, .4f, .8f, 1f);
+	public Color purple = new Color(.4f, 0, .4f, 1f);
+	public Color green = new Color(0,.4f, 0, 1f);
 	public Texture tred;
 	public Texture torange;
 	public Texture tyellow;
-	public Texture twhite;
-	public Texture tgray;
+	public Texture tgreen;
 	public Texture tblue;
+	public Texture taqua;
+	public Texture tpurple;	
+	public Texture tgray;
 	
     //energy gauge
     public Texture gaugeTexture;
@@ -314,20 +327,28 @@ public class Manager : MonoBehaviour {
 			
 			//get color and texture objects
 			Color starcol = Color.black;
-			Texture startex = twhite;
-			if(args[2] == "blue"){
-				starcol = Color.blue;
-				startex = tblue;
-				
-			} else if(args[2] == "white") {
-				starcol = Color.white;
-				startex = twhite;
-			} else if(args[2] == "red") {
+			Texture startex = tgray;
+			if(args[2] == "red") {
 				starcol = Color.red;
 				startex = tred;
+			} else if (args[2] == "orange") {
+				starcol = orange;
+				startex = torange;
 			} else if (args[2] == "yellow") {
 				starcol = Color.yellow;
 				startex = tyellow;
+			} else if (args[2] == "green") {
+				starcol = green;
+				startex = tgreen;
+			} else if(args[2] == "blue"){
+				starcol = Color.blue;
+				startex = tblue;
+			} else if(args[2] == "aqua") {
+				starcol = aqua;
+				startex = taqua;
+			} else if(args[2] == "purple") {
+				starcol = purple;
+				startex = tpurple;
 			}
 			
 			//make the star
@@ -374,21 +395,29 @@ public class Manager : MonoBehaviour {
 			string [] args = line.Split(delim);
 			
 			//get color and texture objects
-			Color starcol = Color.white;
-			Texture startex = twhite;
-			if(args[2] == "blue"){
-				starcol = Color.blue;
-				startex = tblue;
-				
-			} else if(args[2] == "white") {
-				starcol = Color.white;
-				startex = twhite;
-			} else if(args[2] == "red") {
+			Color starcol = Color.black;
+			Texture startex = tgray;
+			if(args[2] == "red") {
 				starcol = Color.red;
 				startex = tred;
+			} else if (args[2] == "orange") {
+				starcol = orange;
+				startex = torange;
 			} else if (args[2] == "yellow") {
 				starcol = Color.yellow;
 				startex = tyellow;
+			} else if (args[2] == "green") {
+				starcol = green;
+				startex = tgreen;
+			} else if(args[2] == "blue"){
+				starcol = Color.blue;
+				startex = tblue;
+			} else if(args[2] == "aqua") {
+				starcol = aqua;
+				startex = taqua;
+			} else if(args[2] == "purple") {
+				starcol = purple;
+				startex = tpurple;
 			}
 			
 			//make the star
@@ -411,21 +440,29 @@ public class Manager : MonoBehaviour {
 			string[] args = line.Split(delim);
 			
 			//get color and texture objects
-			Color starcol = Color.white;
-			Texture startex = twhite;
-			if(args[4] == "blue"){
-				starcol = Color.blue;
-				startex = tblue;
-				
-			} else if(args[4] == "white") {
-				starcol = Color.white;
-				startex = twhite;
-			} else if(args[4] == "red") {
+			Color starcol = Color.black;
+			Texture startex = tgray;
+			if(args[2] == "red") {
 				starcol = Color.red;
 				startex = tred;
-			} else if (args[4] == "yellow") {
+			} else if (args[2] == "orange") {
+				starcol = orange;
+				startex = torange;
+			} else if (args[2] == "yellow") {
 				starcol = Color.yellow;
 				startex = tyellow;
+			} else if (args[2] == "green") {
+				starcol = green;
+				startex = tgreen;
+			} else if(args[2] == "blue"){
+				starcol = Color.blue;
+				startex = tblue;
+			} else if(args[2] == "aqua") {
+				starcol = aqua;
+				startex = taqua;
+			} else if(args[2] == "purple") {
+				starcol = purple;
+				startex = tpurple;
 			}
 			
 			CreateRevolvingStar(float.Parse (args[0]),float.Parse(args[1]),float.Parse(args[2]),float.Parse(args[3]),
@@ -781,19 +818,20 @@ public class Manager : MonoBehaviour {
 					
 					if (!sscript.isBlackHole) {
 						//add appropriate energy value depending on color of star
-						if (sscript.c == Color.blue) {
-							energy += 15f;
-						} else if (sscript.c == Color.white){
-							energy += 9f;
+						if(sscript.c == Color.red) {
+							energy += RED_ENERGY;
+						} else if (sscript.c == orange) {
+							energy += ORANGE_ENERGY;
 						} else if (sscript.c == Color.yellow) {
-							energy += 10f;
-						} else if (sscript.t == torange) {
-							energy += 2f;
-						} else if (sscript.c == Color.red) {
-							energy += 25f;
-						}
-						else {
-							energy -= 1f;
+							energy += YELLOW_ENERGY;
+						} else if (sscript.c == green) {
+							energy += GREEN_ENERGY;
+						} else if(sscript.c == Color.blue){
+							energy += BLUE_ENERGY;
+						} else if(sscript.c == aqua) {
+							energy += AQUA_ENERGY;
+						} else if(sscript.c == purple) {
+							energy += PURPLE_ENERGY;
 						}
 						sscript.c = dgray;
 						sscript.t = tgray;

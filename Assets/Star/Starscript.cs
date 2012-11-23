@@ -42,7 +42,7 @@ public class Starscript : MonoBehaviour {
 	public Texture t;
 	public float starSize = 15f;
 	public float orbitRadius;
-	public float duration = 20f;
+	public float duration = 1f;
 	public float offset;
 	public float random;
 	//is winner
@@ -92,10 +92,11 @@ public class Starscript : MonoBehaviour {
 		renderer.material.mainTexture = t;
         r.light.color = c;
 		//make star glow and pulse 
-		offset = starSize/5;
-        float phi = Time.time / duration + offset;
-        float amplitude = Mathf.Cos(phi) * 0.5F + 0.5F;
-        r.light.intensity = amplitude*offset + starSize/30;
+		/*offset = starSize/5;
+        float phi = Time.time / duration*2*Mathf.PI;
+        float amplitude = Mathf.Cos(phi)*.5f+.5f;*/
+        r.light.intensity = 2f;//amplitude + offset;
+		//print(r.light.intensity);
         
 		//if star is a mover, the actual game is playing, and the star is visible move to destination point
 		if(is_moving && !editor_freeze && renderer.isVisible)
