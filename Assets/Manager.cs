@@ -157,6 +157,7 @@ public class Manager : MonoBehaviour {
 	public GameObject bomb;
 		
 	public static GameObject cur_star;
+	public GameObject star_background_star;
 	
 	//actual objects used in script
 	public static GameObject l, s, e, p;
@@ -234,20 +235,20 @@ public class Manager : MonoBehaviour {
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
 	 	l.renderer.material.color = Color.red;	
-	 	
-		//instantiate background based on level constraints --this is going to change.
-	for (int i = -2500; i < (int)LEVEL_X_MAX; i+=2500) {
-			for (int j = -4000; j < 4000; j+=2500) {
-				p = Instantiate (plane, new Vector3(i, j, 100), transform.rotation) as GameObject;
-				p.transform.Rotate(270, 0, 0);
-			}
-		}
 		
 		//initialize timer
 		start_time = Time.time;
 		
 		//load next level
 		LoadLevel(gscpt.level_order[gscpt.cur_level]);
+		
+		//instantiate background based on level constraints --this is going to change.
+		for (int i = (int)LEVEL_X_MIN; i < (int)LEVEL_X_MAX-2500; i+=2500) {
+			for (int j = (int)LEVEL_Y_MIN; j < (int)LEVEL_Y_MAX-2500; j+=2500) {
+				p = Instantiate (plane, new Vector3(i, j, 100), transform.rotation) as GameObject;
+				p.transform.Rotate(270, 0, 0);
+			}
+		}
 		
 	}
 	
@@ -355,7 +356,7 @@ public class Manager : MonoBehaviour {
 			GameObject newstar = CreateStar(float.Parse(args[0]),float.Parse(args[1]), starcol, startex, float.Parse(args[3]), bool.Parse(args[4]));
 			
 			//learth starts in orbit around first star specified
-			if(i == 0)
+			if(i == 0) 
 				GoToOrbit(newstar,float.Parse(args[3]));	
 			//last star is the sink
 			if(i == stars-1){
@@ -442,25 +443,25 @@ public class Manager : MonoBehaviour {
 			//get color and texture objects
 			Color starcol = Color.black;
 			Texture startex = tgray;
-			if(args[2] == "red") {
+			if(args[4] == "red") {
 				starcol = Color.red;
 				startex = tred;
-			} else if (args[2] == "orange") {
+			} else if (args[4] == "orange") {
 				starcol = orange;
 				startex = torange;
-			} else if (args[2] == "yellow") {
+			} else if (args[4] == "yellow") {
 				starcol = Color.yellow;
 				startex = tyellow;
-			} else if (args[2] == "green") {
+			} else if (args[4] == "green") {
 				starcol = green;
 				startex = tgreen;
-			} else if(args[2] == "blue"){
+			} else if(args[4] == "blue"){
 				starcol = Color.blue;
 				startex = tblue;
-			} else if(args[2] == "aqua") {
+			} else if(args[4] == "aqua") {
 				starcol = aqua;
 				startex = taqua;
-			} else if(args[2] == "purple") {
+			} else if(args[4] == "purple") {
 				starcol = purple;
 				startex = tpurple;
 			}
