@@ -236,8 +236,8 @@ public class Manager : MonoBehaviour {
 	 	l.renderer.material.color = Color.red;	
 	 	
 		//instantiate background based on level constraints --this is going to change.
-		for (int i = -2500; i < (int)LEVEL_X_MAX; i+=2500) {
-			for (int j = -4000; j < 4000; j+=1250) {
+	for (int i = -2500; i < (int)LEVEL_X_MAX; i+=2500) {
+			for (int j = -4000; j < 4000; j+=2500) {
 				p = Instantiate (plane, new Vector3(i, j, 100), transform.rotation) as GameObject;
 				p.transform.Rotate(270, 0, 0);
 			}

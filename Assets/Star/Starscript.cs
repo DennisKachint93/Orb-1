@@ -87,7 +87,7 @@ public class Starscript : MonoBehaviour {
 	
 	void Update() {
 		//rotate star on its axis at a fixed random rate
-		transform.RotateAround(this.transform.position, Vector3.forward, 50*Time.deltaTime*random);
+		transform.RotateAround(this.transform.position, Vector3.forward, starSize*Time.deltaTime*random);
 		//texture and color star
 		renderer.material.mainTexture = t;
         r.light.color = c;
