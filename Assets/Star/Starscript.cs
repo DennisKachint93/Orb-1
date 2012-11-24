@@ -55,6 +55,7 @@ public class Starscript : MonoBehaviour {
 	void Start () {
 		//if the star is a black hole, instantiate cylinder to represent the black hole
 		if (isBlackHole) {
+		//	this.tag = "blackhole";
 			b = Instantiate(blackHole, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
 			b.transform.localScale *= starSize;
 			b.transform.Rotate(90,0,0);
@@ -71,8 +72,8 @@ public class Starscript : MonoBehaviour {
 				h.transform.parent = this.transform;
 			}
 		}
-		//if the star is not a black hole, scale it to size specified
-		else  	
+		//if the star is not a black hole, scale it to size specified and tag it as a star
+		else
 			this.transform.localScale *= starSize;
 		//radius of learth's entry is the size of the star	
 		orbitRadius = starSize;
@@ -116,9 +117,11 @@ public class Starscript : MonoBehaviour {
 	void OnCollisionStay(Collision c)
 	{
 		//if colliding with a space bomb explosion, move away from the center of the explosion	
-		if(c.transform.name == "space_bomb_range(Clone)")
-		{
+		if(c.transform.name == "space_bomb_range(Clone)") 
 			transform.Translate(200 * Time.deltaTime*(transform.position - c.transform.position).normalized,Space.World);
-		}
+		//else if (c.transform.tag == "blackhole") {
+				
+	//	}
 	}
+	
 }

@@ -167,11 +167,11 @@ public class Manager : MonoBehaviour {
 	public GameObject[] alien_arr;
 	public int numStars = 0;
 	
-	//positions past which learth will die. levels are always rectangles
-	float LEVEL_X_MAX = 100000;
-	float LEVEL_X_MIN = -100000;
-	float LEVEL_Y_MAX = 100000;
-	float LEVEL_Y_MIN = -100000;
+	//positions past which learth will die. levels are always rectangles. 
+	float level_x_max = -200000;
+	float level_x_min = 200000;
+	float level_y_max = -200000;
+	float level_y_min = 200000;
 	
 	//learth-related variables
 	public static float speed = 0;
@@ -243,8 +243,8 @@ public class Manager : MonoBehaviour {
 		LoadLevel(gscpt.level_order[gscpt.cur_level]);
 		
 		//instantiate background based on level constraints --this is going to change.
-		for (int i = (int)LEVEL_X_MIN; i < (int)LEVEL_X_MAX-2500; i+=2500) {
-			for (int j = (int)LEVEL_Y_MIN; j < (int)LEVEL_Y_MAX-2500; j+=2500) {
+		for (int i = (int)level_x_min-2500; i <= (int)level_x_max+2500; i+=2500) {
+			for (int j = (int)level_y_min-2500; j <= (int)level_y_max+2500; j+=2500) {
 				p = Instantiate (plane, new Vector3(i, j, 100), transform.rotation) as GameObject;
 				p.transform.Rotate(270, 0, 0);
 			}
@@ -252,6 +252,17 @@ public class Manager : MonoBehaviour {
 		
 	}
 	
+	//check to see if location of object determines level boundaries
+	public void checkBoundaries(float x, float y) {
+		if(x < level_x_min)
+			level_x_min = x;
+		if(x > level_x_max)
+			level_x_max = x;
+		if(y < level_y_min)
+			level_y_min = y;
+		if(y > level_y_max)
+			level_y_max = y;
+	}
 	
 	/* HOW LEVELS WORK
 	 * in case you want to make/change a level
@@ -366,7 +377,7 @@ public class Manager : MonoBehaviour {
 				Starscript scpt = newstar.GetComponent<Starscript>();
 				scpt.is_sink = false;
 			}
-				
+			checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
 		}
 		
 		
@@ -378,6 +389,7 @@ public class Manager : MonoBehaviour {
 			string[] args = line.Split(delim);
 			
 			CreateSpaceRip(float.Parse(args[0]),float.Parse(args[1]),float.Parse(args[2]),float.Parse(args[3]),float.Parse(args[4]));
+			checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
 		}
 		
 		//create all coins specified in the text file
@@ -387,6 +399,7 @@ public class Manager : MonoBehaviour {
 			string[] args = line.Split(delim);
 			
 			CreateCoin(float.Parse(args[0]),float.Parse(args[1]));
+			checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
 		}
 		
 		//create all moving stars specified in the text file
@@ -424,6 +437,7 @@ public class Manager : MonoBehaviour {
 			//make the star
 			CreateMovingStar(float.Parse(args[0]),float.Parse(args[1]), 
 				starcol, startex, float.Parse(args[3]), new Vector3(float.Parse (args[4]), float.Parse(args[5]),0), float.Parse(args[6]));
+			checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
 		}
 		
 		//create all aliens in the file
@@ -432,6 +446,7 @@ public class Manager : MonoBehaviour {
 			line = file.ReadLine();
 			string[] args = line.Split(delim);
 			CreateAlien(float.Parse(args[0]),float.Parse(args[1]));
+			checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
 		}
 		
 		//create a revolving star 
@@ -468,6 +483,8 @@ public class Manager : MonoBehaviour {
 			
 			CreateRevolvingStar(float.Parse (args[0]),float.Parse(args[1]),float.Parse(args[2]),float.Parse(args[3]),
 				starcol, startex, float.Parse(args[5]),float.Parse (args[6]));
+			checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
+			checkBoundaries(float.Parse(args[2]), float.Parse(args[3]));
 		}
 		
 	}
@@ -570,6 +587,14 @@ public class Manager : MonoBehaviour {
 		numStars++;
 		return starE;
 	}
+	/*
+	//call this to destroy a star and remove it (previously at position x in array) from the star array
+	public void destroyStar(GameObject s, int x) {
+		Destroy(s);
+		numStars--;
+		for (int i = x; i < star_arr.Length-1; i++) 
+			star_arr[i] = star_arr[i+1];
+	}*/
 	
 	//call this anytime something kills the player
 	public static void Die()
@@ -688,10 +713,10 @@ public class Manager : MonoBehaviour {
 		} */
 		
 		//if you travel outside the bounds of the level, you die
-		if(l.transform.position.x > LEVEL_X_MAX
-			|| l.transform.position.x < LEVEL_X_MIN
-			|| l.transform.position.y > LEVEL_Y_MAX
-			|| l.transform.position.y < LEVEL_Y_MIN)
+		if(l.transform.position.x > level_x_max
+			|| l.transform.position.x < level_x_min
+			|| l.transform.position.y > level_y_max
+			|| l.transform.position.y < level_y_min)
 			Die ();
 		
 		
@@ -781,63 +806,65 @@ public class Manager : MonoBehaviour {
 			//loop through array and calculate tangent vectors to every star
 			for (int i = 0; i < star_arr.Length ; i++){
 				s = star_arr[i];
-				Starscript sscript = s.GetComponent<Starscript>();
-				Vector3 l_movement = Learth_Movement.velocity;
-				Vector3 star_from_learth = s.transform.position - l.transform.position;
-				Vector3 projection = Vector3.Project (star_from_learth, l_movement);
-				tangent = projection + l.transform.position;
-				//if planet is within star's orbital radius, set isTangent to true
-				float innerOrbit, outerOrbit;
-				if (sscript.isBlackHole) {
-					innerOrbit = sscript.orbitRadius;
-					outerOrbit = sscript.orbitRadius/2;
-				}
-				else {
-					outerOrbit = -RADIAL_ERROR;
-					innerOrbit = RADIAL_ERROR;
-				}
-				if (s != lastStar 
+				if (s != null) {
+					Starscript sscript = s.GetComponent<Starscript>();
+					Vector3 l_movement = Learth_Movement.velocity;
+					Vector3 star_from_learth = s.transform.position - l.transform.position;
+					Vector3 projection = Vector3.Project (star_from_learth, l_movement);
+					tangent = projection + l.transform.position;
+					//if planet is within star's orbital radius, set isTangent to true
+					float innerOrbit, outerOrbit;
+					if (sscript.isBlackHole) {
+						innerOrbit = sscript.orbitRadius;
+						outerOrbit = sscript.orbitRadius/2;
+					}
+					else {
+						outerOrbit = -RADIAL_ERROR;
+						innerOrbit = RADIAL_ERROR;
+					}
+					if (s != lastStar 
 					&& Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - innerOrbit) 
 					&& Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius - outerOrbit) 
 					&& Vector3.Distance (tangent, l.transform.position) <= TAN_ERROR) 
-				{	
-					Learth_Movement.isTangent = true;
-					cur_star = s;
-					//determine direction of orbit
-					if (tangent.y < s.transform.position.y && l_movement.x < 0) { 
-						clockwise = true;
-					}
-					else if (tangent.y > s.transform.position.y  && l_movement.x > 0) {
-						clockwise = true;
-					}		
-					else if (tangent.x < s.transform.position.x && l_movement.y > 0) {
-						clockwise = true;
-					}
-					else {
-						clockwise = false;
-					}
-					
-					if (!sscript.isBlackHole) {
-						//add appropriate energy value depending on color of star
-						if(sscript.c == Color.red) {
-							energy += RED_ENERGY;
-						} else if (sscript.c == orange) {
-							energy += ORANGE_ENERGY;
-						} else if (sscript.c == Color.yellow) {
-							energy += YELLOW_ENERGY;
-						} else if (sscript.c == green) {
-							energy += GREEN_ENERGY;
-						} else if(sscript.c == Color.blue){
-							energy += BLUE_ENERGY;
-						} else if(sscript.c == aqua) {
-							energy += AQUA_ENERGY;
-						} else if(sscript.c == purple) {
-							energy += PURPLE_ENERGY;
+					{	
+						Learth_Movement.isTangent = true;
+						cur_star = s;
+						//determine direction of orbit
+						if (tangent.y < s.transform.position.y && l_movement.x < 0) { 
+							clockwise = true;
 						}
-						sscript.c = dgray;
-						sscript.t = tgray;
+						else if (tangent.y > s.transform.position.y  && l_movement.x > 0) {
+							clockwise = true;
+						}		
+						else if (tangent.x < s.transform.position.x && l_movement.y > 0) {
+							clockwise = true;
+						}
+						else {
+							clockwise = false;
+						}
+						
+						if (!sscript.isBlackHole) {
+							//add appropriate energy value depending on color of star
+							if(sscript.c == Color.red) {
+								energy += RED_ENERGY;
+							} else if (sscript.c == orange) {
+								energy += ORANGE_ENERGY;
+							} else if (sscript.c == Color.yellow) {
+								energy += YELLOW_ENERGY;
+							} else if (sscript.c == green) {
+								energy += GREEN_ENERGY;
+							} else if(sscript.c == Color.blue){
+								energy += BLUE_ENERGY;
+							} else if(sscript.c == aqua) {
+								energy += AQUA_ENERGY;
+							} else if(sscript.c == purple) {
+								energy += PURPLE_ENERGY;
+							}
+							sscript.c = dgray;
+							sscript.t = tgray;
+						}
+						break;
 					}
-					break;
 				}
 			}
 		}
