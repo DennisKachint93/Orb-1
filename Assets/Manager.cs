@@ -492,7 +492,6 @@ public class Manager : MonoBehaviour {
 	//puts learth in orbit given a valid radius
 	public static void GoToOrbit(GameObject star, float radius)
 	{
-		Debug.Break();
 		l.transform.position = new Vector3(star.transform.position.x+radius+RADIAL_ERROR,star.transform.position.y,0);
 		cur_star = star;
 		s = star;
