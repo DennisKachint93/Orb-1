@@ -492,6 +492,7 @@ public class Manager : MonoBehaviour {
 	//puts learth in orbit given a valid radius
 	public static void GoToOrbit(GameObject star, float radius)
 	{
+		Debug.Break();
 		l.transform.position = new Vector3(star.transform.position.x+radius+RADIAL_ERROR,star.transform.position.y,0);
 		cur_star = star;
 		s = star;
@@ -598,7 +599,8 @@ public class Manager : MonoBehaviour {
 	
 	//call this anytime something kills the player
 	public static void Die()
-	{	
+	{
+		Debug.Log("die!");
 		if(energy > STARTING_ENERGY)
 			energy = STARTING_ENERGY;
 		
@@ -713,11 +715,14 @@ public class Manager : MonoBehaviour {
 		} */
 		
 		//if you travel outside the bounds of the level, you die
-		if(l.transform.position.x > level_x_max
-			|| l.transform.position.x < level_x_min
-			|| l.transform.position.y > level_y_max
-			|| l.transform.position.y < level_y_min)
+		//max/mins are calcualted based on star centers, not rotations, so you die immediately if you start at the edge without the +/- 100s
+		if(l.transform.position.x > level_x_max+100
+			|| l.transform.position.x < level_x_min-100
+			|| l.transform.position.y > level_y_max+100
+			|| l.transform.position.y < level_y_min-100)
+		{
 			Die ();
+		}
 		
 		
 		//if learth is tangent to star s
