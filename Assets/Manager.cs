@@ -54,6 +54,10 @@ public class Manager : MonoBehaviour {
 		DIR_SHIFT_COST = 15;
 		//determines whether shield is activeable
 		SHIELD = false;
+		//determines whether you can jump
+		SPACE_JUMP = false;
+		//how far you jump
+		SPACE_DIST = 100;		
 	 
 	 	/*BLACK HOLE CONSTANTS*/
 	 	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
@@ -122,8 +126,12 @@ public class Manager : MonoBehaviour {
 	public static float DIR_SHIFT_COST = 15;
 	//determines whether shield is activeable
 	public static bool SHIELD = false;
-    //lets you shift directions
-    public static bool DIRECTION_SHIFT = false;	
+	//lets you shift directions
+	public static bool DIRECTION_SHIFT = false;	
+	//lets you space jump
+	public static bool SPACE_JUMP = false;
+	//how far you jump?
+	public static int SPACE_DIST = 100;
 	//energy value for specific star colors
 	public static float RED_ENERGY = 5f;
 	public static float ORANGE_ENERGY = 10f;
@@ -705,7 +713,15 @@ public class Manager : MonoBehaviour {
 		//change learth color back to normal
 		if(Input.GetKeyUp (KeyCode.D))
 			l.renderer.material.color = Color.red;
-		
+
+		//space jump
+		if(SPACE_JUMP && Input.GetKeyUp(KeyCode.LeftShift)){
+                        Vector3 jump = Learth_Movement.velocity * SPACE_DIST;
+
+                        l.transform.position = new Vector3(l.transform.position.x+jump.x, l.transform.position.y+jump.y, l.transform.position.z+jump.z
+);
+                        Learth_Movement.lastPos.transform.Translate(jump);
+                }
 		//Death conditions
 		//if you run out of energy, you die, but you get a little energy back
 	/*	if(energy < 1)
