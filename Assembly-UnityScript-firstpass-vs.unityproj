@@ -37,17 +37,26 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Standard Assets\Detonator\Sample Supporting Emitters\Detonator Spray Helper.js" />
      <Compile Include="Assets\Standard Assets\Detonator\TestScene\DetonatorTest.js" />
+     <None Include="Assets\Test Text Files\level2.txt" />
+     <None Include="Assets\Test Text Files\blackHoleTest.txt" />
+     <None Include="Assets\Test Text Files\Level1.txt" />
      <None Include="Assets\Standard Assets\Detonator\Resources\Detonator\Textures\HeatDistort.shader" />
+     <None Include="Assets\Test Text Files\starsavetest.txt" />
      <None Include="Assets\Shaders\Particle Add.shader" />
+     <None Include="Assets\Test Text Files\1star.txt" />
+     <None Include="Assets\Test Text Files\testsave.txt" />
+     <None Include="Assets\Test Text Files\bending_test_level.txt" />
+     <None Include="Assets\Test Text Files\Level3.txt" />
+     <None Include="Assets\Test Text Files\perf_test.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

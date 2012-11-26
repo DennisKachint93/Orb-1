@@ -51,6 +51,15 @@ public class Starscript : MonoBehaviour {
 	public Vector3 last_position;
 	//true if in level editor, so stars don't move
 	public bool editor_freeze = false;
+	//exploding star related variables
+	public bool isExplodingStar=true;
+ 	public  double  timer=0;
+	public double explodetimer=0;
+ 	public bool  onoff;
+	public double resblink=.4;
+	public double blinkspeed=.4;
+	public double blowuptime=5;
+	public Transform explosion;
 	
 	void Start () {
 		//if the star is a black hole, instantiate cylinder to represent the black hole
@@ -119,9 +128,36 @@ public class Starscript : MonoBehaviour {
 		//if colliding with a space bomb explosion, move away from the center of the explosion	
 		if(c.transform.name == "space_bomb_range(Clone)") 
 			transform.Translate(200 * Time.deltaTime*(transform.position - c.transform.position).normalized,Space.World);
-		//else if (c.transform.tag == "blackhole") {
-				
-	//	}
 	}
-	
+	public void BoomTime()
+	{
+		//Starts explosion blinker
+			if (Time.time > timer)
+			{
+				timer = Time.time + blinkspeed;
+				onoff = !onoff;
+				this.renderer.material.color = onoff ? Color.black : Color.white;
+				blinkspeed=blinkspeed*.9;
+			}
+		
+	}
+	public bool waitsec(double time)
+	{
+		//Alarm clock which returns true if explode timer is greater than however long you want
+		explodetimer=explodetimer+Time.deltaTime;
+		return explodetimer>time;
+		
+	}
+	public void removeStar()
+	{
+		//Explodes the star, and makes it impossible to be targeted again
+		Instantiate(explosion, transform.position, transform.rotation);
+		collider.enabled=false;
+		orbitRadius=0;
+		is_moving=false;
+		renderer.enabled=false;
+		r.light.enabled=false;
+	}
 }
+
+

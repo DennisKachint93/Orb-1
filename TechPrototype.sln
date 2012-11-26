@@ -1,7 +1,11 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
+Project("{C067521A-F171-779C-AB71-2D9220732734}") = "TechPrototype", "Assembly-CSharp-firstpass.csproj", "{A53D5610-92C0-0973-B758-962B25077A68}"
+EndProject
 Project("{C067521A-F171-779C-AB71-2D9220732734}") = "TechPrototype", "Assembly-CSharp.csproj", "{A3619938-506E-2550-91B6-6FD35843B749}"
+EndProject
+Project("{C067521A-F171-779C-AB71-2D9220732734}") = "TechPrototype", "Assembly-UnityScript-firstpass.unityproj", "{9B75E4A2-6CC5-5B38-D7E7-EA127BFBEBF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,15 +13,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A53D5610-92C0-0973-B758-962B25077A68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A53D5610-92C0-0973-B758-962B25077A68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A53D5610-92C0-0973-B758-962B25077A68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A53D5610-92C0-0973-B758-962B25077A68}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A3619938-506E-2550-91B6-6FD35843B749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A3619938-506E-2550-91B6-6FD35843B749}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3619938-506E-2550-91B6-6FD35843B749}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3619938-506E-2550-91B6-6FD35843B749}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B75E4A2-6CC5-5B38-D7E7-EA127BFBEBF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B75E4A2-6CC5-5B38-D7E7-EA127BFBEBF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B75E4A2-6CC5-5B38-D7E7-EA127BFBEBF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B75E4A2-6CC5-5B38-D7E7-EA127BFBEBF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																																																																																																																																																																														GlobalSection(MonoDevelopProperties) = preSolution
+																																																																																																																																																																																																																	GlobalSection(MonoDevelopProperties) = preSolution
 =======
 																																																																																																																																																			GlobalSection(MonoDevelopProperties) = preSolution
 >>>>>>> f8cdba397148ca7a489fc08b02142c4196f3550b

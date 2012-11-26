@@ -323,7 +323,7 @@ public class Manager : MonoBehaviour {
 	public void LoadLevel(string fname) 
 	{
 		string line;
-		char[] delim = {','};
+		char[] delim = {','} ;
 		StreamReader file = new StreamReader(fname);
 		string numels = file.ReadLine();
 		
@@ -351,22 +351,22 @@ public class Manager : MonoBehaviour {
 			if(args[2] == "red") {
 				starcol = Color.red;
 				startex = tred;
-			} else if (args[2] == "orange") {
+			}  else if (args[2] == "orange") {
 				starcol = orange;
 				startex = torange;
-			} else if (args[2] == "yellow") {
+			}  else if (args[2] == "yellow") {
 				starcol = Color.yellow;
 				startex = tyellow;
-			} else if (args[2] == "green") {
+			}  else if (args[2] == "green") {
 				starcol = green;
 				startex = tgreen;
-			} else if(args[2] == "blue"){
+			}  else if(args[2] == "blue"){
 				starcol = Color.blue;
 				startex = tblue;
-			} else if(args[2] == "aqua") {
+			}  else if(args[2] == "aqua") {
 				starcol = aqua;
 				startex = taqua;
-			} else if(args[2] == "purple") {
+			}  else if(args[2] == "purple") {
 				starcol = purple;
 				startex = tpurple;
 			}
@@ -381,7 +381,7 @@ public class Manager : MonoBehaviour {
 			if(i == stars-1){
 				Starscript scpt = newstar.GetComponent<Starscript>();
 				scpt.is_sink = true;
-			} else {
+			}  else {
 				Starscript scpt = newstar.GetComponent<Starscript>();
 				scpt.is_sink = false;
 			}
@@ -422,22 +422,22 @@ public class Manager : MonoBehaviour {
 			if(args[2] == "red") {
 				starcol = Color.red;
 				startex = tred;
-			} else if (args[2] == "orange") {
+			}  else if (args[2] == "orange") {
 				starcol = orange;
 				startex = torange;
-			} else if (args[2] == "yellow") {
+			}  else if (args[2] == "yellow") {
 				starcol = Color.yellow;
 				startex = tyellow;
-			} else if (args[2] == "green") {
+			}  else if (args[2] == "green") {
 				starcol = green;
 				startex = tgreen;
-			} else if(args[2] == "blue"){
+			}  else if(args[2] == "blue"){
 				starcol = Color.blue;
 				startex = tblue;
-			} else if(args[2] == "aqua") {
+			}  else if(args[2] == "aqua") {
 				starcol = aqua;
 				startex = taqua;
-			} else if(args[2] == "purple") {
+			}  else if(args[2] == "purple") {
 				starcol = purple;
 				startex = tpurple;
 			}
@@ -469,22 +469,22 @@ public class Manager : MonoBehaviour {
 			if(args[4] == "red") {
 				starcol = Color.red;
 				startex = tred;
-			} else if (args[4] == "orange") {
+			}  else if (args[4] == "orange") {
 				starcol = orange;
 				startex = torange;
-			} else if (args[4] == "yellow") {
+			}  else if (args[4] == "yellow") {
 				starcol = Color.yellow;
 				startex = tyellow;
-			} else if (args[4] == "green") {
+			}  else if (args[4] == "green") {
 				starcol = green;
 				startex = tgreen;
-			} else if(args[4] == "blue"){
+			}  else if(args[4] == "blue"){
 				starcol = Color.blue;
 				startex = tblue;
-			} else if(args[4] == "aqua") {
+			}  else if(args[4] == "aqua") {
 				starcol = aqua;
 				startex = taqua;
-			} else if(args[4] == "purple") {
+			}  else if(args[4] == "purple") {
 				starcol = purple;
 				startex = tpurple;
 			}
@@ -575,7 +575,7 @@ public class Manager : MonoBehaviour {
 	}
 
 	//instantiates star from prefab at given xy location and of given characteristics
-	GameObject CreateStar(float x, float y, Color color, Texture texture, float size, bool isBlackHole = false)
+	GameObject CreateStar(float x, float y, Color color, Texture texture, float size, bool isBlackHole = false, bool isExplodingStar=false)
 	{
 		GameObject starE = Instantiate (star, new Vector3(x,y,0), new Quaternion(0,0,0,0)) as GameObject;
 		Starscript starscript = starE.GetComponent<Starscript>();
@@ -602,7 +602,7 @@ public class Manager : MonoBehaviour {
 		numStars--;
 		for (int i = x; i < star_arr.Length-1; i++) 
 			star_arr[i] = star_arr[i+1];
-	}*/
+	} */
 	
 	//call this anytime something kills the player
 	public static void Die()
@@ -727,7 +727,7 @@ public class Manager : MonoBehaviour {
 	/*	if(energy < 1)
 		{
 			Die ();
-		} */
+		}  */
 		
 		//if you travel outside the bounds of the level, you die
 		//max/mins are calcualted based on star centers, not rotations, so you die immediately if you start at the edge without the +/- 100s
@@ -786,6 +786,22 @@ public class Manager : MonoBehaviour {
 				Vector3.forward, (speed > 1 ? speed : 1)/(Vector3.Distance(l.transform.position, s.transform.position)*Time.deltaTime/ORBIT_SPEED_FACTOR));
 			}
 			
+			//EXPLODING STAR 
+				if(scpt.isExplodingStar)
+				{
+					//Stars Exploding timer begins
+					scpt.BoomTime();
+					//waits 5 seconds
+					if(scpt.waitsec(scpt.blowuptime))
+					{
+						//make learth accelerate away from star and removestar
+						Learth_Movement.isTangent = false;
+						Learth_Movement.lastPos.position=scpt.transform.position;
+						scpt.removeStar();
+					}
+					
+			}
+			
 			//if space bar is pressed, accelerate away from star. 
 			if (Input.GetKeyDown(KeyCode.Space)) {
 				//if star is a black hole, then lerp your way out
@@ -804,6 +820,12 @@ public class Manager : MonoBehaviour {
 				}
 				//if star is a normal star, shoot out of orbit immediately with energy cost
 				else {
+					if(scpt.isExplodingStar){
+						//reset all Exploding Star variables if left on time
+						scpt.explodetimer=0;
+						scpt.renderer.enabled=true;
+						scpt.blinkspeed=scpt.resblink;
+					}
 					Learth_Movement.isTangent = false;
 					lastStar = s;			
 					energy -= LEAVING_COST;
@@ -867,17 +889,17 @@ public class Manager : MonoBehaviour {
 							//add appropriate energy value depending on color of star
 							if(sscript.c == Color.red) {
 								energy += RED_ENERGY;
-							} else if (sscript.c == orange) {
+							}  else if (sscript.c == orange) {
 								energy += ORANGE_ENERGY;
-							} else if (sscript.c == Color.yellow) {
+							}  else if (sscript.c == Color.yellow) {
 								energy += YELLOW_ENERGY;
-							} else if (sscript.c == green) {
+							}  else if (sscript.c == green) {
 								energy += GREEN_ENERGY;
-							} else if(sscript.c == Color.blue){
+							}  else if(sscript.c == Color.blue){
 								energy += BLUE_ENERGY;
-							} else if(sscript.c == aqua) {
+							}  else if(sscript.c == aqua) {
 								energy += AQUA_ENERGY;
-							} else if(sscript.c == purple) {
+							}  else if(sscript.c == purple) {
 								energy += PURPLE_ENERGY;
 							}
 							sscript.c = dgray;
@@ -905,3 +927,4 @@ public class Manager : MonoBehaviour {
 		
 }
 	
+

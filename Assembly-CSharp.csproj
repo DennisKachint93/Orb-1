@@ -68,6 +68,7 @@
      <None Include="Assets\Test Text Files\level2.txt" />
      <None Include="Assets\Test Text Files\blackHoleTest.txt" />
      <None Include="Assets\Test Text Files\Level1.txt" />
+     <None Include="Assets\Standard Assets\Detonator\Resources\Detonator\Textures\HeatDistort.shader" />
      <None Include="Assets\Test Text Files\starsavetest.txt" />
      <None Include="Assets\Shaders\Particle Add.shader" />
      <None Include="Assets\Test Text Files\1star.txt" />
@@ -75,6 +76,12 @@
      <None Include="Assets\Test Text Files\bending_test_level.txt" />
      <None Include="Assets\Test Text Files\Level3.txt" />
      <None Include="Assets\Test Text Files\perf_test.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{A53D5610-92C0-0973-B758-962B25077A68}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+    <ProjectReference Include="Assembly-UnityScript-firstpass.unityproj">
+      <Project>{9B75E4A2-6CC5-5B38-D7E7-EA127BFBEBF4}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
