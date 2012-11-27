@@ -28,8 +28,6 @@ public class Space_Bomb_Actual : MonoBehaviour {
 		GameObject range_actual = Instantiate(range,transform.position,new Quaternion(0,0,0,0)) as GameObject;
 		//set start size
 		range_actual.transform.localScale += new Vector3(25,25,3);
-		//make invisible
-		range_actual.renderer.enabled = false;
 		//destroy the bullet
 		Destroy (gameObject);
 	}

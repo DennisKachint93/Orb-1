@@ -61,6 +61,9 @@ public class Starscript : MonoBehaviour {
 	public double blowuptime=5;
 	public Transform explosion;
 	
+	//becomes true once hit so that the explosion objected is instantiated only once
+	public bool has_been_bombed = false;
+	
 	
 	void Start () {
 		//if the star is a black hole, instantiate cylinder to represent the black hole
@@ -124,12 +127,21 @@ public class Starscript : MonoBehaviour {
 
 	}
 	
-	
-	void OnCollisionStay(Collision c)
+
+
+	void OnCollisionEnter(Collision c)
 	{
-		//if colliding with a space bomb explosion, move away from the center of the explosion	
-		if(c.transform.name == "space_bomb_range(Clone)") 
-			transform.Translate(200 * Time.deltaTime*(transform.position - c.transform.position).normalized,Space.World);
+		//if the star is hit by a bomb detonation, explode	
+		if(c.transform.name == "space_bomb_range(Clone)" && !has_been_bombed) {
+			//if learth is close enough, send it flying in the opposite direction and give it some energy
+			if(Vector3.Distance(transform.position,Learth_Movement.velocity + Learth_Movement.lastPos.position) < 250) {
+				Learth_Movement.lastPos.position=transform.position;
+				Manager.energy += 50;
+			}
+			removeStar();
+			has_been_bombed = true;
+			Learth_Movement.isTangent = false;
+		}
 	}
 	public void BoomTime()
 	{
@@ -159,6 +171,8 @@ public class Starscript : MonoBehaviour {
 		is_moving=false;
 		renderer.enabled=false;
 		r.light.enabled=false;
+		//move under the board so you definitely can't orbit it
+		transform.position = new Vector3(0,0,-500);
 	}
 }
 

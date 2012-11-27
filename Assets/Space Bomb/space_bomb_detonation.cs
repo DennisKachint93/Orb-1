@@ -13,7 +13,7 @@ public class space_bomb_detonation : MonoBehaviour {
 	void Update () {
 		
 		//once the explosion becomes bigger than 2000, stop, otherwise grow
-		if(transform.localScale.x > 1000) {
+		if(transform.localScale.x > 300) {
 			Destroy(gameObject);	
 		} else {
 			transform.localScale += new Vector3(30,30,0);
