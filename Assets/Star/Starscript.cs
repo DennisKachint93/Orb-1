@@ -61,6 +61,7 @@ public class Starscript : MonoBehaviour {
 	public double blowuptime=5;
 	public Transform explosion;
 	
+	
 	void Start () {
 		//if the star is a black hole, instantiate cylinder to represent the black hole
 		if (isBlackHole) {
@@ -119,6 +120,7 @@ public class Starscript : MonoBehaviour {
 		{
 			transform.RotateAround(rpoint,Vector3.forward,Time.deltaTime*rspeed);
 		}
+		
 
 	}
 	
@@ -136,7 +138,7 @@ public class Starscript : MonoBehaviour {
 			{
 				timer = Time.time + blinkspeed;
 				onoff = !onoff;
-				this.renderer.material.color = onoff ? Color.black : Color.white;
+				this.renderer.material.color = onoff ? Color.white : Color.red;
 				blinkspeed=blinkspeed*.9;
 			}
 		

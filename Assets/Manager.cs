@@ -787,20 +787,23 @@ public class Manager : MonoBehaviour {
 			}
 			
 			//EXPLODING STAR 
-				if(scpt.isExplodingStar)
+			if(scpt.isExplodingStar)
+			{
+				//Stars Exploding timer begins
+				scpt.BoomTime();
+				//waits 5 seconds
+				if(scpt.waitsec(scpt.blowuptime))
 				{
-					//Stars Exploding timer begins
-					scpt.BoomTime();
-					//waits 5 seconds
-					if(scpt.waitsec(scpt.blowuptime))
-					{
-						//make learth accelerate away from star and removestar
-						Learth_Movement.isTangent = false;
-						Learth_Movement.lastPos.position=scpt.transform.position;
-						scpt.removeStar();
-					}
-					
+					//make learth accelerate away from star and removestar
+					Learth_Movement.isTangent = false;
+					Learth_Movement.lastPos.position=scpt.transform.position;
+					scpt.removeStar();
+				}
+				
 			}
+			
+			
+			
 			
 			//if space bar is pressed, accelerate away from star. 
 			if (Input.GetKeyDown(KeyCode.Space)) {
@@ -823,7 +826,7 @@ public class Manager : MonoBehaviour {
 					if(scpt.isExplodingStar){
 						//reset all Exploding Star variables if left on time
 						scpt.explodetimer=0;
-						scpt.renderer.enabled=true;
+						scpt.renderer.material.color = Color.white;
 						scpt.blinkspeed=scpt.resblink;
 					}
 					Learth_Movement.isTangent = false;
