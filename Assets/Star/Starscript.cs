@@ -134,7 +134,7 @@ public class Starscript : MonoBehaviour {
 		//if the star is hit by a bomb detonation, explode	
 		if(c.transform.name == "space_bomb_range(Clone)" && !has_been_bombed) {
 			//if learth is close enough, send it flying in the opposite direction and give it some energy
-			if(Vector3.Distance(transform.position,Learth_Movement.velocity + Learth_Movement.lastPos.position) < 250) {
+			if(Vector3.Distance(transform.position,Learth_Movement.velocity + Learth_Movement.lastPos.position) < 350) {
 				Learth_Movement.lastPos.position=transform.position;
 				Learth_Movement.isTangent = false;
 				Manager.energy += 50;

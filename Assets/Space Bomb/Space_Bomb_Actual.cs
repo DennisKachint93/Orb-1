@@ -20,7 +20,7 @@ public class Space_Bomb_Actual : MonoBehaviour {
 		velocity = this.transform.position - lastPos.position;
 		lastPos.position = this.transform.position;
 		//regular movement
-		this.transform.position += velocity.normalized*Manager.speed*1.3f;	
+		this.transform.position += velocity.normalized*Manager.speed*0.75f;	
 	}
 	
 	//called by Space_Bomb power up, this pushes everything out of the way (or blows it up)
