@@ -136,6 +136,7 @@ public class Starscript : MonoBehaviour {
 			//if learth is close enough, send it flying in the opposite direction and give it some energy
 			if(Vector3.Distance(transform.position,Learth_Movement.velocity + Learth_Movement.lastPos.position) < 250) {
 				Learth_Movement.lastPos.position=transform.position;
+				Learth_Movement.isTangent = false;
 				Manager.energy += 50;
 			}
 			removeStar();
