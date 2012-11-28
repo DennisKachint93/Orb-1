@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Space Rip/Space_Rip.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Manager.cs">
     <Files>
       <File FileName="Assets/Space Rip/Space_Rip.cs" Line="1" Column="1" />
+      <File FileName="Assets/Manager.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
