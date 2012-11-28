@@ -5,6 +5,7 @@ public class Super_Bending : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Manager.SUPER_BENDING = true;
 		//Increase bend constant in manager
 		Manager.BEND_FACTOR = 12;
 		//bend cost

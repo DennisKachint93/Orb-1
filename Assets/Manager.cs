@@ -65,12 +65,13 @@ public class Manager : MonoBehaviour {
 		
 		/*ALIEN CONSTANTS*/
 		//when aliens are within distance, they start to suck your energy
-		ALIEN_SUCKING_DISTANCE = 40f;
+		ALIEN_SUCKING_DISTANCE = 100f;
 		//this much energy is sucked from player when alien is within alien_sucking_distance
 		ALIEN_SUCKS_ENERGY = .025f;	
 		   
 		//black hole helper
 		BLACK_HOLE_HELPER = false;
+
 		
 	}
 	
@@ -120,10 +121,6 @@ public class Manager : MonoBehaviour {
 	private static float LEAVING_COST = 0;
 	//cost of a directional shift
 	public static float DIR_SHIFT_COST = 15;
-	//determines whether shield is activeable
-	public static bool SHIELD = false;
-	//lets you shift directions
-	public static bool DIRECTION_SHIFT = false;	
 	//energy value for specific star colors
 	public static float RED_ENERGY = 5f;
 	public static float ORANGE_ENERGY = 10f;
@@ -132,7 +129,30 @@ public class Manager : MonoBehaviour {
 	public static float BLUE_ENERGY = 25f;
 	public static float AQUA_ENERGY = 30f;
 	public static float PURPLE_ENERGY = 35f;
- 
+
+	//POWERUP BOOLEANS
+        public static bool SHIELD = false;
+	//lets you shift directions
+        public static bool DIRECTION_SHIFT = false;
+	//determines whether learth gun is on
+	public static bool LEARTH_GUN = false;
+	//black hole helper
+        public static bool BLACK_HOLE_HELPER = false;
+	//easy entry
+	public static bool EASY_ENTRY = false;
+	//super_bending
+	public static bool SUPER_BENDING = false;
+	//super speed
+	public static bool SUPER_SPEED = false;
+	//boost
+	public static bool BOOST = false;
+	//direction shift
+//	public static bool DIRECTION_SHIFT = false;
+	//space jump
+	public static bool SPACE_JUMP = false;	
+
+	public static int LEARTH_GUN_DISTANCE = 500;
+ 	
  	/*BLACK HOLE CONSTANTS*/
  	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
 	private static float BLACK_HOLE_SUCKINESS = 5f;	
@@ -143,7 +163,7 @@ public class Manager : MonoBehaviour {
 	
 	/*ALIEN CONSTANTS*/
 	//when aliens are within distance, they start to suck your energy
-	public static float ALIEN_SUCKING_DISTANCE = 40f;
+	public static float ALIEN_SUCKING_DISTANCE = 100f;
 	//this much energy is sucked from player when alien is within alien_sucking_distance
 	public static float ALIEN_SUCKS_ENERGY = .025f;	
 
@@ -155,7 +175,8 @@ public class Manager : MonoBehaviour {
 	public GameObject plane;
 	public GameObject alien;
 	public GameObject bomb;
-		
+	public GameObject learth_bullet;	
+	
 	public static GameObject cur_star;
 	public GameObject star_background_star;
 	
@@ -164,7 +185,7 @@ public class Manager : MonoBehaviour {
 	public GameObject[] star_arr;
 	public GameObject[] rip_arr;
 	public GameObject[] coin_arr;
-	public GameObject[] alien_arr;
+	public static  GameObject[] alien_arr = new GameObject[0];
 	public int numStars = 0;
 	
 	//positions past which learth will die. levels are always rectangles. 
@@ -214,11 +235,12 @@ public class Manager : MonoBehaviour {
 	//game state
 	GameObject game_state;
 	Game_State gscpt;
+	//time for guns
+	private float checktime = 0f;
+	private float timebetween = 1.5f;	
 	
-	//black hole helper
-	public static bool BLACK_HOLE_HELPER = false;
-	
-	
+	//true if being attackign
+	public static bool is_being_attacked = false;
 	
 	void Start () {
 		//performance
@@ -704,6 +726,22 @@ public class Manager : MonoBehaviour {
 		//change learth color back to normal
 		if(Input.GetKeyUp (KeyCode.D))
 			l.renderer.material.color = Color.red;
+		//gun
+		is_being_attacked = false;
+		for(int j = 0; j<alien_arr.Length; j++){
+                        if(alien_arr[j] != null && Vector3.Distance(l.transform.position, alien_arr[j].transform.position) < LEARTH_GUN_DISTANCE &&
+                                (Time.time - checktime)>timebetween && LEARTH_GUN)
+                        {
+                                GameObject learth_bul = Instantiate(learth_bullet, l.transform.position, Quaternion.identity) as GameObject;
+                                bullet_behav bstuff = learth_bul.GetComponent<bullet_behav>();
+                                bstuff.SetTarget(alien_arr[j].transform.position);
+                        	checktime = Time.time;
+			}
+			if(alien_arr[j] != null && Vector3.Distance(l.transform.position, alien_arr[j].transform.position) < ALIEN_SUCKING_DISTANCE)
+			{
+				is_being_attacked = true;
+			} 
+                }
 
 		//Death conditions
 		//if you run out of energy, you die, but you get a little energy back

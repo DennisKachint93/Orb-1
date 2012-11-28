@@ -21,9 +21,6 @@ public class alien_behavior : MonoBehaviour {
 		if(Mathf.Abs (Vector3.Distance(this.transform.position,Manager.l.transform.position)) < Manager.ALIEN_SUCKING_DISTANCE)
 		{
 			Manager.energy -= Manager.ALIEN_SUCKS_ENERGY;
-           /*             transform.Translate(Learth_Movement.lastPos.position.x - Manager.l.transform.position.x,Learth_Movement.lastPos.position.y-Manager.l.transform.position.y,0,Space.World);
-             		transform.RotateAround(Manager.l.transform.position, Vector3.forward, Time.deltaTime*60);
-			rotate = true;*/
 			transform.Translate(Learth_Movement.velocity.x, Learth_Movement.velocity.y, 0);
 			rotate = true;
 		}
