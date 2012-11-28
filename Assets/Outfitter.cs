@@ -80,7 +80,7 @@ public class Outfitter : MonoBehaviour {
 				gscpt.capac_on = true;
 				GameObject pwerup = new GameObject();
 				pwerup.AddComponent("boost");
-				gscpt.boost_fitting = pwerup;
+				gscpt.capac_fitting = pwerup;
 				gscpt.num_coins -= BOOST_PRICE;
 				DontDestroyOnLoad(pwerup);	
 			}
@@ -90,7 +90,7 @@ public class Outfitter : MonoBehaviour {
 			if(GUI.Button(new Rect(550, 135, 200, 25), "1 Charge ("+SINGLE_BOOST_PRICE+" coins)")){
 				if(gscpt.num_coins >= SINGLE_BOOST_PRICE) {
 					gscpt.num_coins -= SINGLE_BOOST_PRICE;
-					gscpt.boost_ammo++;
+					gscpt.capac_ammo++;
 				}
 			}
 		}
@@ -116,6 +116,15 @@ public class Outfitter : MonoBehaviour {
 				}
 			}
 		}
+		
+		
+		//ammo stats
+		if(gscpt.bomb_on)
+			GUI.Label(new Rect(10,Screen.height-130,150,50),"Bombs: "+gscpt.bomb_ammo);
+		if(gscpt.capac_on)
+			GUI.Label(new Rect(10,Screen.height-100,150,50),"Charges: "+gscpt.capac_ammo);
+		if(gscpt.jump_on)
+			GUI.Label(new Rect(10,Screen.height-160,150,50),"Jumps: "+gscpt.jump_ammo);
 		
 		
 		
@@ -151,7 +160,7 @@ public class Outfitter : MonoBehaviour {
 				DontDestroyOnLoad(pwrup);
 				t1_bought = true;
 			}
-		}
+		} 
 		if(GUI.Button (new Rect(10,75,200,25), "Easy Entry ("+EASY_ENTRY_PRICE+" coins)")) {
 			if(gscpt.num_coins >= EASY_ENTRY_PRICE && !t1_bought){
 				//Destroy old powerup
@@ -170,21 +179,6 @@ public class Outfitter : MonoBehaviour {
 		
 		//tier two buttons
 		GUI.Label (new Rect(10,145,200,25), "Tier 2");
-		if(GUI.Button (new Rect(10,170,200,25), "Space Bombs ("+SPACE_BOMB_PRICE+" coins)")) {
-			if(gscpt.num_coins >= SPACE_BOMB_PRICE && !t2_bought){
-				//Destroy old powerup
-				Destroy (gscpt.tier_2_upgrade);
-				//create a new gameobject to replace the old one
-				GameObject pwrup = new GameObject();
-				//add the script that defines your power up 
-				pwrup.AddComponent("Space_Bomb");
-				//assign the gameobject to the proper tier in game_state
-				gscpt.tier_2_upgrade = pwrup;
-				gscpt.num_coins -= SPACE_BOMB_PRICE;
-				DontDestroyOnLoad(pwrup);
-				t2_bought = true;
-			}
-		}
 		
 		if(GUI.Button (new Rect(10,230,200,25), "Black Hole Detection ("+BLACK_HOLE_HELPER_PRICE+" coins)")) {
 			if(gscpt.num_coins >= BLACK_HOLE_HELPER_PRICE && !t2_bought){
@@ -218,21 +212,6 @@ public class Outfitter : MonoBehaviour {
 			}
 		}		
 		GUI.Label (new Rect(10,270,200,25), "Tier 3");
-		if(GUI.Button (new Rect(10,325,200,25), "Boost ("+BOOST_PRICE+" coins)")) {
-			if(gscpt.num_coins >= BOOST_PRICE && !t3_bought) {
-				//Destroy old powerup
-				Destroy (gscpt.tier_3_upgrade);
-				//create a new gameobject to replace the old one
-				GameObject pwrup = new GameObject();
-				//add the script that defines your power up 
-				pwrup.AddComponent("boost");
-				//assign the gameobject to the proper tier in game_state
-				gscpt.tier_3_upgrade = pwrup;
-				gscpt.num_coins -= BOOST_PRICE;
-				DontDestroyOnLoad(pwrup);
-				t3_bought = true;
-			}
-		}		
 		if(GUI.Button (new Rect(10,295,200,25), "Fast Corner ("+DIR_SHIFT_PRICE+" coins)")) {
 			if(gscpt.num_coins >= DIR_SHIFT_PRICE && !t3_bought) {
 				//Destroy old powerup

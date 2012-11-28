@@ -599,7 +599,6 @@ public class Manager : MonoBehaviour {
 	//call this anytime something kills the player
 	public static void Die()
 	{
-		Debug.Log("die!");
 		if(energy > STARTING_ENERGY)
 			energy = STARTING_ENERGY;
 		
@@ -907,6 +906,16 @@ public class Manager : MonoBehaviour {
 		/*	GUI.Label(new Rect(10, Screen.height-80,150,50), "YOU WIN!");
 			GUI.Label (new Rect(10, Screen.height-95,150,50), "Time: "+(Time.time - start_time)); */
 		}
+		
+		//ammo stats
+		if(gscpt.bomb_on)
+			GUI.Label(new Rect(10,Screen.height-130,150,50),"Bombs: "+gscpt.bomb_ammo);
+		if(gscpt.capac_on)
+			GUI.Label(new Rect(10,Screen.height-100,150,50),"Charges: "+gscpt.capac_ammo);
+		if(gscpt.jump_on)
+			GUI.Label(new Rect(10,Screen.height-160,150,50),"Jumps: "+gscpt.jump_ammo);
+		
+		
         GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
 		GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
    		GUI.DrawTexture(new Rect(10, Screen.height-30, energy*3, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
