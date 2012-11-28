@@ -13,9 +13,11 @@ public class Outfitter : MonoBehaviour {
 	private int SHIELD_PRICE = 5;
 //	private int ALIEN_GUN_PRICE = 12;
 	private int SPACE_BOMB_PRICE = 10;
+	private int SINGLE_BOMB_PRICE = 5;
 	private int BLACK_HOLE_HELPER_PRICE = 3;
 	
 	private int BOOST_PRICE = 3;
+	private int SINGLE_BOOST_PRICE = 5;
 //	private int SPACE_JUMP_PRICE = 10;
 	private int DIR_SHIFT_PRICE = 5;
 	
@@ -46,6 +48,52 @@ public class Outfitter : MonoBehaviour {
 	}
 	
 	void OnGUI() {	
+		
+		//bombs
+		if(GUI.Button(new Rect(500, 45, 200, 25), "Bomb License ("+SPACE_BOMB_PRICE+" coins)")){
+			if(gscpt.num_coins >= SPACE_BOMB_PRICE){
+				gscpt.bomb_on = true;
+				GameObject pwerup = new GameObject();
+				pwerup.AddComponent("Space_Bomb");
+				gscpt.bomb_fitting = pwerup;
+				gscpt.num_coins -= SPACE_BOMB_PRICE;
+				DontDestroyOnLoad(pwerup);	
+			}
+		}
+		if(gscpt.bomb_on)
+		{
+			if(GUI.Button(new Rect(550, 75, 200, 25), "1 Bomb ("+SINGLE_BOMB_PRICE+" coins)")){
+				if(gscpt.num_coins >= SINGLE_BOMB_PRICE) {
+					gscpt.num_coins -= SINGLE_BOMB_PRICE;
+					gscpt.bomb_ammo++;
+				}
+			}
+		}
+		
+		//capacitor/boost
+		if(GUI.Button(new Rect(500, 105, 200, 25), "Capacitor ("+BOOST_PRICE+" coins)")){
+			if(gscpt.num_coins >= BOOST_PRICE){
+			
+				gscpt.capac_on = true;
+				GameObject pwerup = new GameObject();
+				pwerup.AddComponent("boost");
+				gscpt.bomb_fitting = pwerup;
+				gscpt.num_coins -= BOOST_PRICE;
+				DontDestroyOnLoad(pwerup);	
+			}
+		}
+		if(gscpt.capac_on)
+		{
+			if(GUI.Button(new Rect(550, 135, 200, 25), "1 Charge ("+SINGLE_BOOST_PRICE+" coins)")){
+				if(gscpt.num_coins >= SINGLE_BOOST_PRICE) {
+					gscpt.num_coins -= SINGLE_BOOST_PRICE;
+					gscpt.boost_ammo++;
+				}
+			}
+		}
+		
+		
+		
 		GUI.Label(new Rect(10,10,200,25), "Space Coins: "+gscpt.num_coins);
 		//tier 1 buttons
 		GUI.Label (new Rect(10,25,200,25), "Tier 1");
@@ -186,6 +234,6 @@ public class Outfitter : MonoBehaviour {
 		}
 		
 		//lizard person
-		GUI.Box(new Rect(250, 50, 512, 512), gorn);
+		//GUI.Box(new Rect(250, 50, 512, 512), gorn);
 	}
 }
