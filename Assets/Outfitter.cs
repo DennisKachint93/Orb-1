@@ -16,6 +16,9 @@ public class Outfitter : MonoBehaviour {
 	private int SINGLE_BOMB_PRICE = 5;
 	private int BLACK_HOLE_HELPER_PRICE = 3;
 	
+	private int JUMP_PRICE = 10;
+	private int SINGLE_JUMP_PRICE = 5;
+	
 	private int BOOST_PRICE = 3;
 	private int SINGLE_BOOST_PRICE = 5;
 //	private int SPACE_JUMP_PRICE = 10;
@@ -77,7 +80,7 @@ public class Outfitter : MonoBehaviour {
 				gscpt.capac_on = true;
 				GameObject pwerup = new GameObject();
 				pwerup.AddComponent("boost");
-				gscpt.bomb_fitting = pwerup;
+				gscpt.boost_fitting = pwerup;
 				gscpt.num_coins -= BOOST_PRICE;
 				DontDestroyOnLoad(pwerup);	
 			}
@@ -88,6 +91,28 @@ public class Outfitter : MonoBehaviour {
 				if(gscpt.num_coins >= SINGLE_BOOST_PRICE) {
 					gscpt.num_coins -= SINGLE_BOOST_PRICE;
 					gscpt.boost_ammo++;
+				}
+			}
+		}
+		
+		//space jump
+		if(GUI.Button(new Rect(500, 165, 200, 25), "Jump Unit ("+JUMP_PRICE+" coins)")){
+			if(gscpt.num_coins >= JUMP_PRICE){
+			
+				gscpt.jump_on = true;
+				GameObject pwerup = new GameObject();
+				pwerup.AddComponent("space_jump");
+				gscpt.jump_fitting = pwerup;
+				gscpt.num_coins -= JUMP_PRICE;
+				DontDestroyOnLoad(pwerup);	
+			}
+		}
+		if(gscpt.jump_on)
+		{
+			if(GUI.Button(new Rect(550, 195, 200, 25), "1 Charge ("+SINGLE_JUMP_PRICE+" coins)")){
+				if(gscpt.num_coins >= SINGLE_JUMP_PRICE) {
+					gscpt.num_coins -= SINGLE_JUMP_PRICE;
+					gscpt.jump_ammo++;
 				}
 			}
 		}
