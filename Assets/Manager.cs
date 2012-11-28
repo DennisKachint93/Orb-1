@@ -925,7 +925,7 @@ public class Manager : MonoBehaviour {
 		}
         GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
 		GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
-   		GUI.DrawTexture(new Rect(10, Screen.height-30, energy*10, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
+   		GUI.DrawTexture(new Rect(10, Screen.height-30, energy*3, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
 	}
 		
 }
