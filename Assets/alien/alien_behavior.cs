@@ -3,14 +3,24 @@ using System.Collections;
 
 public class alien_behavior : MonoBehaviour {
 	public bool rotate = false;
-
+	
+	private float start_time;
+	
+	private float ALIEN_LIFE_SPAN = 30;
 	// Use this for initialization
 	void Start () {
-		
+		start_time = Time.time;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
+		//die after life span
+		if(Time.time - start_time >= ALIEN_LIFE_SPAN)
+		{
+			DestroyAlien();
+		}
+		
 		//if aliens are on screen, move toward learth
 		if(renderer.isVisible && !rotate){
 			Vector2 to_ship = new Vector2(Manager.l.transform.position.x - transform.position.x, Manager.l.transform.position.y - transform.position.y);
@@ -34,7 +44,12 @@ public class alien_behavior : MonoBehaviour {
 		//if the alien is hit by the alien defence gun, kill it
 		if(c.transform.name == "learth_bullet(Clone)")
 		{
-			Destroy(gameObject);
+			DestroyAlien();
 		}
+	}
+	
+	void DestroyAlien()
+	{
+		Destroy(gameObject);
 	}
 }
