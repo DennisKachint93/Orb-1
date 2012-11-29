@@ -7,13 +7,25 @@ public class Starscript : MonoBehaviour {
 	//boolean determined by having this powerup
 	public static bool BLACK_HOLE_HELPER = false;
 	//boolean to determine if star is black hole
-	public bool isBlackHole = false;	
+	public bool isBlackHole = false;
+	//true if star is being sucked into a black hole
+	public bool spiral = false;
 	//black hole prefab
 	public GameObject blackHole;
 	//black hole helper prefab -- used to highlight black holes in powerup
 	public GameObject BHhelper;
 	//actual black hole and helper objects instantiated
 	public GameObject b, h;
+	//when spiraling into black hole, lastPos identifies position before the incident
+	public Vector3 lastPos;
+	//identifies direction of spiral into black hole
+	public bool clockwise;
+	//identifies which black hole star is spiraling into
+	public GameObject BHspiral;
+	//how fast a star will get sucked into a black hole
+	public float BLACK_HOLE_SUCKINESS = 150;
+	//speed when entering a black hole
+	public float speed_of_entry;
 	
 	/* MOVING STARS */
 	//true if moving star
@@ -52,7 +64,7 @@ public class Starscript : MonoBehaviour {
 	//true if in level editor, so stars don't move
 	public bool editor_freeze = false;
 	//exploding star related variables
-	public bool isExplodingStar=true;
+	public bool isExplodingStar=false;
  	public  double  timer=0;
 	public double explodetimer=0;
  	public bool  onoff;
@@ -60,6 +72,10 @@ public class Starscript : MonoBehaviour {
 	public double blinkspeed=.4;
 	public double blowuptime=5;
 	public Transform explosion;
+	public int BIG_EXPLOSION = 2;
+	public int SMALL_EXPLOSION = 1;
+	public int NO_EXPLOSION = 0;
+	
 	
 	//becomes true once hit so that the explosion objected is instantiated only once
 	public bool has_been_bombed = false;
@@ -68,21 +84,21 @@ public class Starscript : MonoBehaviour {
 	void Start () {
 		//if the star is a black hole, instantiate cylinder to represent the black hole
 		if (isBlackHole) {
-		//	this.tag = "blackhole";
 			b = Instantiate(blackHole, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
 			b.transform.localScale *= starSize;
 			b.transform.Rotate(90,0,0);
 			//decrease size of star to represent the center of a black hole
 			this.transform.localScale /= 10;			
 			//parent black hole object to star
-			b.transform.parent = this.transform;			
+			b.transform.parent = this.transform;	
+			b.tag = "blackhole";
 			//if powerup is selected, instantated black hole helper object behind the black hole object at the same size and scale
 			if (Manager.BLACK_HOLE_HELPER || BLACK_HOLE_HELPER) {
 				h = Instantiate(BHhelper, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
 				h.transform.localScale *= starSize;
 				h.transform.Rotate(90,0,0);
-				//parent helper object to star 
-				h.transform.parent = this.transform;
+				//parent helper object to black hole 
+				h.transform.parent = b.transform;
 			}
 		}
 		//if the star is not a black hole, scale it to size specified and tag it as a star
@@ -91,7 +107,7 @@ public class Starscript : MonoBehaviour {
 		//radius of learth's entry is the size of the star	
 		orbitRadius = starSize;
 		//instantiate light halo at star's position the size of the orbit radius including radial error 
-		r = Instantiate(radius, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;
+		r = Instantiate(radius, new Vector3 (this.transform.position.x, this.transform.position.y, 90f), new Quaternion (0, 0, 0, 0)) as GameObject;
 		r.light.range = 2*orbitRadius + 2*Manager.RADIAL_ERROR;
 		//parent radius to star for destruction
 		r.transform.parent = this.transform;
@@ -105,12 +121,7 @@ public class Starscript : MonoBehaviour {
 		//texture and color star
 		renderer.material.mainTexture = t;
         r.light.color = c;
-		//make star glow and pulse 
-		/*offset = starSize/5;
-        float phi = Time.time / duration*2*Mathf.PI;
-        float amplitude = Mathf.Cos(phi)*.5f+.5f;*/
-        r.light.intensity = 2f;//amplitude + offset;
-		//print(r.light.intensity);
+        r.light.intensity = 2f;
         
 		//if star is a mover, the actual game is playing, and the star is visible move to destination point
 		if(is_moving && !editor_freeze && renderer.isVisible)
@@ -124,11 +135,62 @@ public class Starscript : MonoBehaviour {
 			transform.RotateAround(rpoint,Vector3.forward,Time.deltaTime*rspeed);
 		}
 		
-
+		if(spiral) {
+			speed = Mathf.Lerp(speed_of_entry, BLACK_HOLE_SUCKINESS, .5f*Time.deltaTime);
+			if(is_revolving || is_moving){
+				//change revolving stars to moving stars in the direction they were previously moving
+				if (is_revolving) {
+					is_revolving = false;
+					is_moving = true;
+					dir = this.transform.position - lastPos;
+					speed = rspeed;
+				}
+				intoBlackHole();
+			}
+			else {
+				if(clockwise) {
+					this.transform.RotateAround(BHspiral.transform.position, Vector3.forward, -BLACK_HOLE_SUCKINESS*Time.deltaTime);
+				}else {
+					this.transform.RotateAround(BHspiral.transform.position, Vector3.forward, BLACK_HOLE_SUCKINESS*Time.deltaTime);
+				}
+				Vector3 perp = this.transform.position - BHspiral.transform.position;
+				perp = new Vector3(perp.x, perp.y, 0);
+				perp.Normalize();
+				this.transform.position -= perp;
+				this.transform.localScale *= .995f;
+				r.light.range *= .995f;
+				if (Mathf.Abs(transform.position.x - BHspiral.transform.position.x) <= 1f 
+				  && Mathf.Abs(transform.position.y - BHspiral.transform.position.y) <= 1f) {
+					removeStar(NO_EXPLOSION);
+				}
+			}
+		}
 	}
 	
-
-
+	void intoBlackHole() {
+		//find tangent to star's movement
+		Vector3 movement = this.transform.position - lastPos;
+		Vector3 star_from_BH = BHspiral.transform.position - this.transform.position;
+		Vector3 projection = Vector3.Project (star_from_BH, movement);
+		Vector3 tangent = projection + this.transform.position;
+		//determine if star is tangent to point to be sucked into black hole
+		if (Vector3.Distance(tangent, this.transform.position) <= 10f) {
+			//disable previous movement
+			is_moving = false;
+			is_revolving = false;
+			//determine direction to be sucked in
+			if (tangent.y < BHspiral.transform.position.y && movement.x < 0) { 
+				clockwise = true;
+			}else if (tangent.y > BHspiral.transform.position.y && movement.x > 0) {
+				clockwise = true;
+			}else if (tangent.x < BHspiral.transform.position.x && movement.y > 0) {
+				clockwise = true;
+			}else {
+				clockwise = false;
+			}			
+		}
+	}
+	
 	void OnCollisionEnter(Collision c)
 	{
 		//if the star is hit by a bomb detonation, explode	
@@ -139,9 +201,18 @@ public class Starscript : MonoBehaviour {
 				Learth_Movement.isTangent = false;
 				Manager.energy += 50;
 			}
-			removeStar();
+			removeStar(BIG_EXPLOSION);
 			has_been_bombed = true;
 			Learth_Movement.isTangent = false;
+		}
+		else if (!spiral && !isBlackHole && c.transform.tag == "blackhole"){
+			spiral = true;
+			lastPos = this.transform.position;
+			BHspiral = c.gameObject;
+			if(is_moving) 
+				speed_of_entry = speed;
+			if(is_revolving) 
+				speed_of_entry = rspeed;
 		}
 	}
 	public void BoomTime()
@@ -163,10 +234,11 @@ public class Starscript : MonoBehaviour {
 		return explodetimer>time;
 		
 	}
-	public void removeStar()
+	public void removeStar(int explosion_type)
 	{
 		//Explodes the star, and makes it impossible to be targeted again
-		Instantiate(explosion, transform.position, transform.rotation);
+		if(explosion_type == BIG_EXPLOSION)
+			Instantiate(explosion, transform.position, transform.rotation);
 		collider.enabled=false;
 		orbitRadius=0;
 		is_moving=false;

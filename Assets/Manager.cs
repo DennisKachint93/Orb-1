@@ -609,14 +609,6 @@ public class Manager : MonoBehaviour {
 		numStars++;
 		return starE;
 	}
-	/*
-	//call this to destroy a star and remove it (previously at position x in array) from the star array
-	public void destroyStar(GameObject s, int x) {
-		Destroy(s);
-		numStars--;
-		for (int i = x; i < star_arr.Length-1; i++) 
-			star_arr[i] = star_arr[i+1];
-	} */
 	
 	//call this anytime something kills the player
 	public static void Die()
@@ -772,7 +764,7 @@ public class Manager : MonoBehaviour {
 				l.transform.Translate(scpt.dir.x*scpt.speed*Time.deltaTime,scpt.dir.y*scpt.speed*Time.deltaTime,0,Space.World);
 					
 			//likewise, translate for a revolving star
-			if(scpt.is_revolving)
+			if(scpt.is_revolving || scpt.spiral)
 			{
 				//difference in star positions since last frame
 				Vector3 vec = cur_star.transform.position - scpt.last_position;
@@ -818,7 +810,7 @@ public class Manager : MonoBehaviour {
 					//make learth accelerate away from star and removestar
 					Learth_Movement.isTangent = false;
 					Learth_Movement.lastPos.position=scpt.transform.position;
-					scpt.removeStar();
+					scpt.removeStar(scpt.BIG_EXPLOSION);
 				}
 				
 			}
