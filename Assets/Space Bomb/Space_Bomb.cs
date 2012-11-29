@@ -43,6 +43,7 @@ public class Space_Bomb : MonoBehaviour {
 				//if a bomb is not out, instantiate space bomb actual at learth's position
 				if(!bomb_out && (Time.time-last_bomb) > cool_down && gscpt.bomb_ammo > 0)
 				{
+					gscpt.bombs_dropped++;
 					//update last bomb time
 					last_bomb = Time.time;
 					//decrement ammo supply

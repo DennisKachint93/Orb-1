@@ -11,7 +11,7 @@ public class Manager : MonoBehaviour {
 	public static void ResetConstants() {
 		/*GAMEPLAY CONTROLS */
 		//Larger the error, the wider legal orbit radius 
-		RADIAL_ERROR = 45;
+		RADIAL_ERROR = 60;
 		//larger the tan error, the easier it is to enter a star at a legal radius
 		TAN_ERROR = 8;
 		//the larger this number is, the sharper bends are
@@ -27,7 +27,7 @@ public class Manager : MonoBehaviour {
 		//the larger this number is, the more closely the camera follows learth while in orbit
 		ORBIT_LERP = 3f;
 		//the larger this number is, the more closely the camera follows learth while not in orbit
-		TRAVEL_LERP = 5f;
+		TRAVEL_LERP = 2.5f;
 		//How far the player is allowed to move the camera
 		CAM_MAX_DIST = 5000;
 		//How close the player is allowed to move the camera
@@ -217,7 +217,7 @@ public class Manager : MonoBehaviour {
     
 	//game state
 	GameObject game_state;
-	Game_State gscpt;
+	static Game_State gscpt;
 	
 	//true if being attackign
 	public static bool is_being_attacked = false;
@@ -596,6 +596,7 @@ public class Manager : MonoBehaviour {
 	//call this anytime something kills the player
 	public static void Die()
 	{
+		gscpt.times_died++;
 		if(energy > STARTING_ENERGY)
 			energy = STARTING_ENERGY;
 		
@@ -668,6 +669,9 @@ public class Manager : MonoBehaviour {
 		//end level if reach sink
 		Starscript starscpt = cur_star.GetComponent<Starscript>();
 		if(starscpt.is_sink) {
+		
+			//record delivered energy
+			gscpt.energy_delivered = energy;
 			
 			//increment level counter
 			gscpt.cur_level++;

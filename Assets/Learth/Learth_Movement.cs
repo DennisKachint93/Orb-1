@@ -53,7 +53,8 @@ public class Learth_Movement : MonoBehaviour {
 				Manager.Die();	
 			}
 			if(collision.gameObject.name == "coin(Clone)") {
-				gscpt.num_coins++;
+				//gscpt.num_coins++;
+				gscpt.coins_collected++;
 				Manager.energy += 3;
 				Destroy(collision.gameObject);
 			}

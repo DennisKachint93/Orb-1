@@ -34,25 +34,43 @@ public class Game_State : MonoBehaviour {
 	public GameObject gun_fitting;
 	
 	//set to true once correspondign powerup is purchased to allow purchase of ammo/boosts/etc.
-	public bool bomb_on = false;
+	public bool bomb_on  = false;
 	public bool capac_on = false;
-	public bool jump_on = false;
-	public bool gun_on = false;
+	public bool jump_on  = false;
+	public bool gun_on   = false;
 	
 	//ammunition (and default values)
-	public int bomb_ammo = 3;
+	public int bomb_ammo  = 3;
 	public int capac_ammo = 3;
-	public int jump_ammo = 3;
-	public int gun_ammo = 30;
+	public int jump_ammo  = 3;
+	public int gun_ammo   = 30;
+	
+	//Values used for scoring
+	public float coins_collected  = 0;
+	public float aliens_killed    = 0;
+	public float energy_delivered = 0;
+	public float times_died       = 0;
+	public float bombs_dropped    = 0;
+	public float stars_destroyed  = 0;
 	
 	
 	// Use this for initialization
 	void Start () {
-		//DO NO WRITE ANY CODE HERE. I'M SERIOUS.	
+		//DO NO WRITE ANY CODE HERE.	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		//DO NO WRITE ANY CODE HERE. I'M SERIOUS.	
+		//DO NO WRITE ANY CODE HERE.
+	}
+	
+	//resets scoring values
+	public void ResetScore() {
+		coins_collected  = 0;
+		aliens_killed    = 0;
+		energy_delivered = 0;
+		times_died       = 0;
+		bombs_dropped 	 = 0;
+		stars_destroyed  = 0;
 	}
 }

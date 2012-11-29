@@ -76,12 +76,17 @@ public class Starscript : MonoBehaviour {
 	public int SMALL_EXPLOSION = 1;
 	public int NO_EXPLOSION = 0;
 	
+	//game state
+	Game_State gscpt;
 	
 	//becomes true once hit so that the explosion objected is instantiated only once
 	public bool has_been_bombed = false;
 	
 	
 	void Start () {
+		GameObject go = GameObject.Find("game_state");
+		gscpt = go.GetComponent<Game_State>();
+		
 		//if the star is a black hole, instantiate cylinder to represent the black hole
 		if (isBlackHole) {
 			b = Instantiate(blackHole, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
@@ -236,6 +241,8 @@ public class Starscript : MonoBehaviour {
 	}
 	public void removeStar(int explosion_type)
 	{
+		gscpt.stars_destroyed++;
+		
 		//Explodes the star, and makes it impossible to be targeted again
 		if(explosion_type == BIG_EXPLOSION)
 			Instantiate(explosion, transform.position, transform.rotation);

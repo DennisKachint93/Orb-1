@@ -9,9 +9,16 @@ public class alien_behavior : MonoBehaviour {
 	public Transform explosion;
 	
 	private float ALIEN_LIFE_SPAN = 30;
+	
+	Game_State gscpt;
 	// Use this for initialization
 	void Start () {
 		start_time = Time.time;
+		
+		GameObject go = GameObject.Find ("game_state");
+		gscpt = go.GetComponent<Game_State>();
+		
+		
 	}
 	
 	// Update is called once per frame
@@ -46,6 +53,7 @@ public class alien_behavior : MonoBehaviour {
 		//if the alien is hit by the alien defence gun, kill it
 		if(c.transform.name == "learth_bullet(Clone)")
 		{
+			gscpt.aliens_killed++;
 			DestroyAlien();
 		}
 	}

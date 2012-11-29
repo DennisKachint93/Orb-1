@@ -6,31 +6,31 @@ public class Outfitter : MonoBehaviour {
 	GameObject game_state;
 	Game_State gscpt;
 	
-	private int BENDING_PRICE = 10;
+/*	private int BENDING_PRICE = 10;
 	private int SPEED_PRICE = 3;
 	private int EASY_ENTRY_PRICE = 5;
 	
-	private int SHIELD_PRICE = 5;
-	private int ALIEN_GUN_PRICE = 12;
-	private int SINGLE_GUN_PRICE = 5;
-	private int SPACE_BOMB_PRICE = 10;
-	private int SINGLE_BOMB_PRICE = 5;
-	private int BLACK_HOLE_HELPER_PRICE = 3;
+	private int SHIELD_PRICE = 5; */
+	private int ALIEN_GUN_PRICE = 800;
+	private int SINGLE_GUN_PRICE = 25;
+	private int SPACE_BOMB_PRICE = 750;
+	private int SINGLE_BOMB_PRICE = 50;
+//	private int BLACK_HOLE_HELPER_PRICE = 3;
 	
-	private int JUMP_PRICE = 10;
-	private int SINGLE_JUMP_PRICE = 5;
+	private int JUMP_PRICE = 500;
+	private int SINGLE_JUMP_PRICE = 80;
 	
-	private int BOOST_PRICE = 3;
-	private int SINGLE_BOOST_PRICE = 5;
-	private int DIR_SHIFT_PRICE = 5;
+	private int BOOST_PRICE = 2000;
+	private int SINGLE_BOOST_PRICE = 100;
+	//private int DIR_SHIFT_PRICE = 5;
 	
 	//lizard person
 	public Texture gorn;
 	
 	//true if you've already picked your powerup from that tier
-	private bool t1_bought = false;
+/*	private bool t1_bought = false;
 	private bool t2_bought = false;
-	private bool t3_bought = false;
+	private bool t3_bought = false; */
 	
 
 	
@@ -109,7 +109,7 @@ public class Outfitter : MonoBehaviour {
 		}
 		if(gscpt.jump_on)
 		{
-			if(GUI.Button(new Rect(Screen.width/2+50, 195, 200, 25), "1 Charge ("+SINGLE_JUMP_PRICE+" coins)")){
+			if(GUI.Button(new Rect(Screen.width/2+50, 195, 200, 25), "1 Jump ("+SINGLE_JUMP_PRICE+" coins)")){
 				if(gscpt.num_coins >= SINGLE_JUMP_PRICE) {
 					gscpt.num_coins -= SINGLE_JUMP_PRICE;
 					gscpt.jump_ammo++;
@@ -152,19 +152,18 @@ public class Outfitter : MonoBehaviour {
 		
 		
 		//coin stuff	
-//		GUI.Label(new Rect(Screen.width/4,45,200,25), "Space Coins: "+gscpt.num_coins);
-		GUI.Label(new Rect(Screen.width/4,45,200,25), "SPACE SHOP");
-		GUI.Label(new Rect(Screen.width/4,75,200,25), "Previous mission");
-		GUI.Label(new Rect(Screen.width/4,85,200,25), "-----------------------------------");
-		GUI.Label(new Rect(Screen.width/4,105,200,25), "Energy Delivery Payment: ");
-		GUI.Label(new Rect(Screen.width/4,125,200,25), "Alien Population Control Payment:");
-		GUI.Label(new Rect(Screen.width/4,145,200,25), "Income From Sale Of Space Gold: ");
-		GUI.Label(new Rect(Screen.width/4,175,200,25), "Orb Repairs: ");
-		GUI.Label(new Rect(Screen.width/4,195,200,25), "Space Pollution Fees: ");
-		GUI.Label(new Rect(Screen.width/4,210,200,25), "-----------------------------------");
-		GUI.Label(new Rect(Screen.width/4,225,200,25), "Previous Balance: ");
-		GUI.Label(new Rect(Screen.width/4,245,200,25), "Net Earnings/Loss Of Mission: ");
-		GUI.Label(new Rect(Screen.width/4,265,200,25), "Current Balance: ");
+		GUI.Label(new Rect(Screen.width/4,45,400,25), "SPACE SHOP");
+		GUI.Label(new Rect(Screen.width/4,75,400,25), "Previous mission");
+		GUI.Label(new Rect(Screen.width/4,85,400,25), "-----------------------------------");
+		GUI.Label(new Rect(Screen.width/4,105,400,25), "Energy Delivery Payment: "+gscpt.energy_delivered);
+		GUI.Label(new Rect(Screen.width/4,125,400,25), "Alien Extermination Payment: "+gscpt.aliens_killed);
+		GUI.Label(new Rect(Screen.width/4,145,400,25), "Income From Sale Of Space Gold: "+gscpt.coins_collected);
+		GUI.Label(new Rect(Screen.width/4,175,400,25), "Orb Repairs: ("+gscpt.times_died+")");
+		GUI.Label(new Rect(Screen.width/4,195,400,25), "Space Pollution Fees: ("+(gscpt.bombs_dropped+gscpt.stars_destroyed)+")");
+		GUI.Label(new Rect(Screen.width/4,210,400,25), "-----------------------------------");
+		GUI.Label(new Rect(Screen.width/4,225,400,25), "Previous Balance: "+gscpt.num_coins);
+		GUI.Label(new Rect(Screen.width/4,245,400,25), "Net Earnings/Loss Of Mission: ");
+		GUI.Label(new Rect(Screen.width/4,265,400,25), "Current Balance: "+gscpt.num_coins);
 		
 		
 		
@@ -272,8 +271,8 @@ public class Outfitter : MonoBehaviour {
 		
 		//load next level button
 		if(GUI.Button (new Rect(10,Screen.height-30,200,25), "Play next level")) {
+			gscpt.ResetScore();
 			Application.LoadLevel("scene1");
-			
 		}
 		
 		//lizard person
