@@ -76,6 +76,9 @@ public class Starscript : MonoBehaviour {
 	public int SMALL_EXPLOSION = 1;
 	public int NO_EXPLOSION = 0;
 	
+	//true if destroyed so learth will not return to this star on death
+	public bool is_destroyed = false;
+	
 	//game state
 	Game_State gscpt;
 	
@@ -253,6 +256,7 @@ public class Starscript : MonoBehaviour {
 		r.light.enabled=false;
 		//move under the board so you definitely can't orbit it
 		transform.position = new Vector3(0,0,-500);
+		is_destroyed = true;
 	}
 }
 

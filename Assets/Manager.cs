@@ -11,7 +11,7 @@ public class Manager : MonoBehaviour {
 	public static void ResetConstants() {
 		/*GAMEPLAY CONTROLS */
 		//Larger the error, the wider legal orbit radius 
-		RADIAL_ERROR = 60;
+		RADIAL_ERROR = 55;
 		//larger the tan error, the easier it is to enter a star at a legal radius
 		TAN_ERROR = 8;
 		//the larger this number is, the sharper bends are
@@ -180,7 +180,12 @@ public class Manager : MonoBehaviour {
 	//learth-related variables
 	public static float speed = 0;
 	public static float energy;
+	
+	//store 3 last stars (refactor this into an array)
 	public static GameObject lastStar;
+	public static GameObject _lastStar;
+	public static GameObject __lastStar;
+	
 	public static Vector3 tangent;
 	public static bool clockwise = false;
 	public static bool escaping_black_hole = false;
@@ -600,8 +605,25 @@ public class Manager : MonoBehaviour {
 		if(energy > STARTING_ENERGY)
 			energy = STARTING_ENERGY;
 		
+		//check the last 3 stars and go to the first one that hasn't been destroyed
+		//if they've all been destroyed, reload the level
+		//this can probably be written better
 		Starscript scpt = lastStar.GetComponent<Starscript>();
-		GoToOrbit(lastStar,scpt.orbitRadius);
+		if(!scpt.is_destroyed) {
+			GoToOrbit(lastStar,scpt.orbitRadius);
+		} else {
+			Starscript _scpt = _lastStar.GetComponent<Starscript>();
+			if(!_scpt.is_destroyed) {
+				GoToOrbit(_lastStar,_scpt.orbitRadius);
+			} else {
+				Starscript __scpt = __lastStar.GetComponent<Starscript>();
+				if(!__scpt.is_destroyed) {
+					GoToOrbit(__lastStar,__scpt.orbitRadius);
+				} else {
+					Application.LoadLevel(Application.loadedLevel);
+				}
+			}
+		}
 		
 		
 	}
@@ -821,6 +843,8 @@ public class Manager : MonoBehaviour {
 						scpt.blinkspeed=scpt.resblink;
 					}
 					Learth_Movement.isTangent = false;
+					__lastStar = _lastStar;
+					_lastStar = lastStar;
 					lastStar = s;			
 					energy -= LEAVING_COST;
 					Learth_Movement.lastPos.position = l.transform.position - Learth_Movement.velocity.normalized*speed;
