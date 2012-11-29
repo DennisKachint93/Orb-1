@@ -6,6 +6,8 @@ public class alien_behavior : MonoBehaviour {
 	
 	private float start_time;
 	
+	public Transform explosion;
+	
 	private float ALIEN_LIFE_SPAN = 30;
 	// Use this for initialization
 	void Start () {
@@ -49,7 +51,8 @@ public class alien_behavior : MonoBehaviour {
 	}
 	
 	void DestroyAlien()
-	{
+	{	
+		Instantiate(explosion,transform.position,transform.rotation);
 		Destroy(gameObject);
 	}
 }
