@@ -15,7 +15,6 @@ public class space_jump : MonoBehaviour {
 	void Start () {
 		GameObject gs = GameObject.Find("game_state");
 		gscpt = gs.GetComponent<Game_State>();
-		Manager.SPACE_JUMP = true;
 		
 		
 	}
@@ -32,6 +31,7 @@ public class space_jump : MonoBehaviour {
 			Vector3 jump = Learth_Movement.velocity * SPACE_DIST;
 			Manager.l.transform.position = new Vector3(Manager.l.transform.position.x+jump.x, 
 					Manager.l.transform.position.y+jump.y, Manager.l.transform.position.z+jump.z);
+					
 			Learth_Movement.lastPos.transform.Translate(jump);
 			Instantiate(manager.space_jump_effect,Manager.l.transform.position,Manager.l.transform.rotation);
 			gscpt.jump_ammo--;

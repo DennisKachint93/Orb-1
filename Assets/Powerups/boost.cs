@@ -12,12 +12,11 @@ public class boost : MonoBehaviour {
 	void Start () {
 		GameObject gs = GameObject.Find("game_state");
 		gscpt = gs.GetComponent<Game_State>();
-		Manager.BOOST = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {		
-		if(Input.GetKeyDown(KeyCode.C) && gscpt.capac_ammo > 0 && Manager.BOOST){
+		if(Input.GetKeyDown(KeyCode.C) && gscpt.capac_ammo > 0 ){
 			//one shot major energy boost
 			Manager.energy += BOOST_SIZE;
 			

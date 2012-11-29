@@ -10,6 +10,9 @@ public class alien_gun : MonoBehaviour {
 	
 	private bool in_game = false;
 	
+	//range in which learth gun will fire on aliens
+	private float LEARTH_GUN_DISTANCE = 500;
+	
 	
 	Game_State gscpt;
 	
@@ -28,7 +31,7 @@ public class alien_gun : MonoBehaviour {
 			//check all aliens, if one is close enough to shoot, shoot at it 
 			for(int j = 0; j<Manager.alien_arr.Length; j++){
 		        if(Manager.alien_arr[j] != null 
-					&& Vector3.Distance(Manager.l.transform.position, Manager.alien_arr[j].transform.position) < Manager.LEARTH_GUN_DISTANCE 
+					&& Vector3.Distance(Manager.l.transform.position, Manager.alien_arr[j].transform.position) < LEARTH_GUN_DISTANCE 
 					&& (Time.time - checktime)>timebetween
 					&& gscpt.gun_ammo > 0)
 	            {

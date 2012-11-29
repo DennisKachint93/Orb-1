@@ -130,28 +130,11 @@ public class Manager : MonoBehaviour {
 	public static float AQUA_ENERGY = 30f;
 	public static float PURPLE_ENERGY = 35f;
 
-	//POWERUP BOOLEANS
-        public static bool SHIELD = false;
-	//lets you shift directions
-        public static bool DIRECTION_SHIFT = false;
-	//determines whether learth gun is on
-	public static bool LEARTH_GUN = false;
-	//black hole helper
-        public static bool BLACK_HOLE_HELPER = false;
-	//easy entry
-	public static bool EASY_ENTRY = false;
-	//super_bending
-	public static bool SUPER_BENDING = false;
-	//super speed
-	public static bool SUPER_SPEED = false;
-	//boost
-	public static bool BOOST = false;
-	//direction shift
-//	public static bool DIRECTION_SHIFT = false;
-	//space jump
-	public static bool SPACE_JUMP = false;	
-
-	public static int LEARTH_GUN_DISTANCE = 500;
+	//POWERUP BOOLEANS (these are special cases. try to avoid using powerup booleans. use a new script.)
+    public static bool SHIELD = false;
+    public static bool BLACK_HOLE_HELPER = false;
+	
+	
  	
  	/*BLACK HOLE CONSTANTS*/
  	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
