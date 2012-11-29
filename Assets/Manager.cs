@@ -724,10 +724,10 @@ public class Manager : MonoBehaviour {
 		
 		//if you travel outside the bounds of the level, you die
 		//max/mins are calcualted based on star centers, not rotations, so you die immediately if you start at the edge without the +/- 100s
-		if(l.transform.position.x > level_x_max+100
-			|| l.transform.position.x < level_x_min-100
-			|| l.transform.position.y > level_y_max+100
-			|| l.transform.position.y < level_y_min-100)
+		if(l.transform.position.x > level_x_max+1000
+			|| l.transform.position.x < level_x_min-1000
+			|| l.transform.position.y > level_y_max+1000
+			|| l.transform.position.y < level_y_min-1000)
 		{
 			Die ();
 		}

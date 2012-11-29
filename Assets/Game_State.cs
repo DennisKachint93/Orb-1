@@ -53,6 +53,8 @@ public class Game_State : MonoBehaviour {
 	public float bombs_dropped    = 0;
 	public float stars_destroyed  = 0;
 	
+
+	
 	
 	// Use this for initialization
 	void Start () {

@@ -32,7 +32,10 @@ public class Outfitter : MonoBehaviour {
 	private bool t2_bought = false;
 	private bool t3_bought = false; */
 	
-
+	//previous balance, stored so we can display it after it gets updated
+	public int prev_balance;
+	public int mission_net;
+	
 	
 	// Use this for initialization
 	void Start () {
@@ -43,6 +46,14 @@ public class Outfitter : MonoBehaviour {
 		
 		//reset changes from previous level's powerups
 		Manager.ResetConstants();
+		
+		//calculate total score
+		prev_balance = gscpt.num_coins;
+	//	float gain = (gscpt.energy_delivered/2 + gscpt.aliens_killed*4 + gscpt.coins_collected*4);
+	//	float loss = (gscpt.times_died*3 + gscpt.bombs_dropped*3 + gscpt.stars_destroyed*3);
+		
+		mission_net = (int)((gscpt.energy_delivered/2 + gscpt.aliens_killed*4 + gscpt.coins_collected*4) - (gscpt.times_died*3 + gscpt.bombs_dropped*3 + gscpt.stars_destroyed*3));
+		gscpt.num_coins += mission_net;
 	}
 	
 	// Update is called once per frame
@@ -148,6 +159,8 @@ public class Outfitter : MonoBehaviour {
 			GUI.Label(new Rect(10,Screen.height-160,150,50),"Jumps: "+gscpt.jump_ammo);
 		if(gscpt.gun_on)
 			GUI.Label(new Rect(10,Screen.height-190,150,50),"Torpedos: "+gscpt.gun_ammo);
+		
+		
 			
 		
 		
@@ -155,14 +168,14 @@ public class Outfitter : MonoBehaviour {
 		GUI.Label(new Rect(Screen.width/4,45,400,25), "SPACE SHOP");
 		GUI.Label(new Rect(Screen.width/4,75,400,25), "Previous mission");
 		GUI.Label(new Rect(Screen.width/4,85,400,25), "-----------------------------------");
-		GUI.Label(new Rect(Screen.width/4,105,400,25), "Energy Delivery Payment: "+gscpt.energy_delivered);
-		GUI.Label(new Rect(Screen.width/4,125,400,25), "Alien Extermination Payment: "+gscpt.aliens_killed);
-		GUI.Label(new Rect(Screen.width/4,145,400,25), "Income From Sale Of Space Gold: "+gscpt.coins_collected);
-		GUI.Label(new Rect(Screen.width/4,175,400,25), "Orb Repairs: ("+gscpt.times_died+")");
-		GUI.Label(new Rect(Screen.width/4,195,400,25), "Space Pollution Fees: ("+(gscpt.bombs_dropped+gscpt.stars_destroyed)+")");
+		GUI.Label(new Rect(Screen.width/4,105,400,25), "Energy Delivery Payment: "+(int)(gscpt.energy_delivered/2));
+		GUI.Label(new Rect(Screen.width/4,125,400,25), "Alien Extermination Payment: "+(gscpt.aliens_killed*4));
+		GUI.Label(new Rect(Screen.width/4,145,400,25), "Income From Sale Of Space Gold: "+(gscpt.coins_collected*4));
+		GUI.Label(new Rect(Screen.width/4,175,400,25), "Orb Repairs: ("+(3*gscpt.times_died)+")");
+		GUI.Label(new Rect(Screen.width/4,195,400,25), "Space Pollution Fees: ("+(3*gscpt.bombs_dropped+3*gscpt.stars_destroyed)+")");
 		GUI.Label(new Rect(Screen.width/4,210,400,25), "-----------------------------------");
-		GUI.Label(new Rect(Screen.width/4,225,400,25), "Previous Balance: "+gscpt.num_coins);
-		GUI.Label(new Rect(Screen.width/4,245,400,25), "Net Earnings/Loss Of Mission: ");
+		GUI.Label(new Rect(Screen.width/4,225,400,25), "Previous Balance: "+prev_balance);
+		GUI.Label(new Rect(Screen.width/4,245,400,25), "Net Earnings/Loss Of Mission: "+mission_net);
 		GUI.Label(new Rect(Screen.width/4,265,400,25), "Current Balance: "+gscpt.num_coins);
 		
 		
