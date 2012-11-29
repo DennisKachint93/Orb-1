@@ -60,6 +60,7 @@
      <Compile Include="Assets\Powerups\direction_shift.cs" />
      <Compile Include="Assets\Powerups\shield.cs" />
      <Compile Include="Assets\Powerups\space_jump.cs" />
+     <Compile Include="Assets\Sound_Cart.cs" />
      <Compile Include="Assets\Space Bomb\Space_Bomb.cs" />
      <Compile Include="Assets\Space Bomb\Space_Bomb_Actual.cs" />
      <Compile Include="Assets\Space Bomb\space_bomb_detonation.cs" />

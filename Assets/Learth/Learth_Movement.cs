@@ -8,6 +8,7 @@ public class Learth_Movement : MonoBehaviour {
 	public static Transform lastPos;
 	public static bool isTangent = false;
 	Game_State gscpt;
+	Sound_Cart scscpt;
 	
 	//explosion prefab
 	//public GameObject explosion, e;
@@ -16,9 +17,12 @@ public class Learth_Movement : MonoBehaviour {
 	void Start () {
 		
 		//get gamestate
-		
 		GameObject game_state = GameObject.Find("game_state");
 		gscpt = game_state.GetComponent<Game_State>();
+		
+		//get sound cart
+		GameObject go = GameObject.Find ("Sound_Cart");
+		scscpt = go.GetComponent<Sound_Cart>();
 		
 		//initialize lastPos
 		lastPos = new GameObject().transform;
@@ -54,6 +58,11 @@ public class Learth_Movement : MonoBehaviour {
 			}
 			if(collision.gameObject.name == "coin(Clone)") {
 				//gscpt.num_coins++;
+				//scscpt.audio.PlayOneShot(scscpt.alien_explosion);
+				//scscpt.audio.clip = scscpt.coin_capture;
+				//scscpt.audio.Play();
+				//scscpt.audio.PlayOneShot(scscpt.coin_capture);
+				scscpt.coin_collected.Play();
 				gscpt.coins_collected++;
 				Manager.energy += 3;
 				Destroy(collision.gameObject);

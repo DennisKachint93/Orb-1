@@ -68,7 +68,8 @@ public class alien_behavior : MonoBehaviour {
 	{	
 		GameObject go = GameObject.Find("Sound_Cart");
 		Sound_Cart scscpt = go.GetComponent<Sound_Cart>();
-		scscpt.audio.PlayOneShot(scscpt.alien_explosion);
+		//scscpt.audio.PlayOneShot(scscpt.alien_explosion);
+		//scscpt.alien_expl.Play();
 		Instantiate(explosion,transform.position,transform.rotation);
 		Destroy(gameObject);
 	}

@@ -32,7 +32,7 @@ public class Menu : MonoBehaviour {
 		
 		//levels that will be played in order
 		string[] level_order = new string[4] {
-											"Levels/alien-test-1.txt",
+											"Levels/coin-test-1.txt",
 											"Levels/stream-6.txt",
 											//"Levels/winder.txt",
 											//"Levels/savetest.txt",
