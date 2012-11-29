@@ -28,4 +28,13 @@ public class alien_behavior : MonoBehaviour {
 			rotate = false;
 		}
 	}
+	
+	void OnCollisionEnter(Collision c)
+	{
+		//if the alien is hit by the alien defence gun, kill it
+		if(c.transform.name == "learth_bullet(Clone)")
+		{
+			Destroy(gameObject);
+		}
+	}
 }
