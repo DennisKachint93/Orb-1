@@ -11,7 +11,8 @@ public class Outfitter : MonoBehaviour {
 	private int EASY_ENTRY_PRICE = 5;
 	
 	private int SHIELD_PRICE = 5;
-//	private int ALIEN_GUN_PRICE = 12;
+	private int ALIEN_GUN_PRICE = 12;
+	private int SINGLE_GUN_PRICE = 5;
 	private int SPACE_BOMB_PRICE = 10;
 	private int SINGLE_BOMB_PRICE = 5;
 	private int BLACK_HOLE_HELPER_PRICE = 3;
@@ -21,7 +22,6 @@ public class Outfitter : MonoBehaviour {
 	
 	private int BOOST_PRICE = 3;
 	private int SINGLE_BOOST_PRICE = 5;
-//	private int SPACE_JUMP_PRICE = 10;
 	private int DIR_SHIFT_PRICE = 5;
 	
 	//lizard person
@@ -117,6 +117,27 @@ public class Outfitter : MonoBehaviour {
 			}
 		}
 		
+		//alien defence gun
+		if(GUI.Button(new Rect(500, 225, 200, 25), "Alien Defence Gun ("+ALIEN_GUN_PRICE+" coins)")){
+			if(gscpt.num_coins >= ALIEN_GUN_PRICE){
+			
+				gscpt.gun_on = true;
+				GameObject pwerup = new GameObject();
+				pwerup.AddComponent("alien_gun");
+				gscpt.gun_fitting = pwerup;
+				gscpt.num_coins -= ALIEN_GUN_PRICE;
+				DontDestroyOnLoad(pwerup);	
+			}
+		}
+		if(gscpt.gun_on)
+		{
+			if(GUI.Button(new Rect(550, 255, 200, 25), "20 Torpedos ("+SINGLE_GUN_PRICE+" coins)")){
+				if(gscpt.num_coins >= SINGLE_GUN_PRICE) {
+					gscpt.num_coins -= SINGLE_GUN_PRICE;
+					gscpt.gun_ammo += 20;
+				}
+			}
+		}
 		
 		//ammo stats
 		if(gscpt.bomb_on)
@@ -125,6 +146,9 @@ public class Outfitter : MonoBehaviour {
 			GUI.Label(new Rect(10,Screen.height-100,150,50),"Charges: "+gscpt.capac_ammo);
 		if(gscpt.jump_on)
 			GUI.Label(new Rect(10,Screen.height-160,150,50),"Jumps: "+gscpt.jump_ammo);
+		if(gscpt.gun_on)
+			GUI.Label(new Rect(10,Screen.height-190,150,50),"Torpedos: "+gscpt.gun_ammo);
+			
 		
 		
 		

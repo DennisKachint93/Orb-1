@@ -175,7 +175,7 @@ public class Manager : MonoBehaviour {
 	public GameObject plane;
 	public GameObject alien;
 	public GameObject bomb;
-	public GameObject learth_bullet;	
+	public GameObject lbullet;
 	
 	public static GameObject cur_star;
 	public GameObject star_background_star;
@@ -235,9 +235,6 @@ public class Manager : MonoBehaviour {
 	//game state
 	GameObject game_state;
 	Game_State gscpt;
-	//time for guns
-	private float checktime = 0f;
-	private float timebetween = 1.5f;	
 	
 	//true if being attackign
 	public static bool is_being_attacked = false;
@@ -718,22 +715,15 @@ public class Manager : MonoBehaviour {
 		//change learth color back to normal
 		if(Input.GetKeyUp (KeyCode.D))
 			l.renderer.material.color = Color.red;
-		//gun
+			
+		//keep track of aliens potentially turning off powerups
 		is_being_attacked = false;
 		for(int j = 0; j<alien_arr.Length; j++){
-                        if(alien_arr[j] != null && Vector3.Distance(l.transform.position, alien_arr[j].transform.position) < LEARTH_GUN_DISTANCE &&
-                                (Time.time - checktime)>timebetween && LEARTH_GUN)
-                        {
-                                GameObject learth_bul = Instantiate(learth_bullet, l.transform.position, Quaternion.identity) as GameObject;
-                                bullet_behav bstuff = learth_bul.GetComponent<bullet_behav>();
-                                bstuff.SetTarget(alien_arr[j].transform.position);
-                        	checktime = Time.time;
-			}
 			if(alien_arr[j] != null && Vector3.Distance(l.transform.position, alien_arr[j].transform.position) < ALIEN_SUCKING_DISTANCE)
 			{
 				is_being_attacked = true;
 			} 
-                }
+        }
 
 		//Death conditions
 		//if you run out of energy, you die, but you get a little energy back

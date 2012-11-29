@@ -31,16 +31,19 @@ public class Game_State : MonoBehaviour {
 	public GameObject bomb_fitting;
 	public GameObject capac_fitting;
 	public GameObject jump_fitting;
+	public GameObject gun_fitting;
 	
 	//set to true once correspondign powerup is purchased to allow purchase of ammo/boosts/etc.
 	public bool bomb_on = false;
 	public bool capac_on = false;
 	public bool jump_on = false;
+	public bool gun_on = false;
 	
-	//ammunition
+	//ammunition (and default values)
 	public int bomb_ammo = 3;
 	public int capac_ammo = 3;
 	public int jump_ammo = 3;
+	public int gun_ammo = 30;
 	
 	
 	// Use this for initialization
