@@ -158,6 +158,13 @@ public class Outfitter : MonoBehaviour {
 		GUI.Label(new Rect(Screen.width/4,85,200,25), "-----------------------------------");
 		GUI.Label(new Rect(Screen.width/4,105,200,25), "Energy Delivery Payment: ");
 		GUI.Label(new Rect(Screen.width/4,125,200,25), "Alien Population Control Payment:");
+		GUI.Label(new Rect(Screen.width/4,145,200,25), "Income From Sale Of Space Gold: ");
+		GUI.Label(new Rect(Screen.width/4,175,200,25), "Orb Repairs: ");
+		GUI.Label(new Rect(Screen.width/4,195,200,25), "Space Pollution Fees: ");
+		GUI.Label(new Rect(Screen.width/4,210,200,25), "-----------------------------------");
+		GUI.Label(new Rect(Screen.width/4,225,200,25), "Previous Balance: ");
+		GUI.Label(new Rect(Screen.width/4,245,200,25), "Net Earnings/Loss Of Mission: ");
+		GUI.Label(new Rect(Screen.width/4,265,200,25), "Current Balance: ");
 		
 		
 		
