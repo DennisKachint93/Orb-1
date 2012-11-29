@@ -212,107 +212,6 @@ public class Outfitter : MonoBehaviour {
 		
 		
 		
-/*		//tier 1 buttons
-		GUI.Label (new Rect(10,25,200,25), "Tier 1");
-		if(GUI.Button(new Rect(10, 45, 200, 25), "Super Bending ("+BENDING_PRICE+" coins)")){
-			if(gscpt.num_coins >= BENDING_PRICE && !t1_bought){
-				//Destroy old powerup
-				Destroy (gscpt.tier_1_upgrade);
-				//create a new gameobject to replace the old one
-				GameObject pwrup = new GameObject();
-				//add the script that defines your power up 
-				pwrup.AddComponent("Super_Bending");
-				//assign the gameobject to the proper tier in game_state
-				gscpt.tier_1_upgrade = pwrup;
-				gscpt.num_coins -= BENDING_PRICE;
-				DontDestroyOnLoad(pwrup);
-				t1_bought = true;
-			}
-		}
-		if(GUI.Button (new Rect(10,105,200,25), "Extra Speed ("+SPEED_PRICE+" coins)")) {
-			if(gscpt.num_coins >= SPEED_PRICE && !t1_bought){
-				//Destroy old powerup
-				Destroy (gscpt.tier_1_upgrade);
-				//create a new gameobject to replace the old one
-				GameObject pwrup = new GameObject();
-				//add the script that defines your power up 
-				pwrup.AddComponent("Super_Speed");
-				//assign the gameobject to the proper tier in game_state
-				gscpt.tier_1_upgrade = pwrup;
-				gscpt.num_coins -= SPEED_PRICE;
-				DontDestroyOnLoad(pwrup);
-				t1_bought = true;
-			}
-		} 
-		if(GUI.Button (new Rect(10,75,200,25), "Easy Entry ("+EASY_ENTRY_PRICE+" coins)")) {
-			if(gscpt.num_coins >= EASY_ENTRY_PRICE && !t1_bought){
-				//Destroy old powerup
-				Destroy (gscpt.tier_1_upgrade);
-				//create a new gameobject to replace the old one
-				GameObject pwrup = new GameObject();
-				//add the script that defines your power up 
-				pwrup.AddComponent("Easy_Entry");
-				//assign the gameobject to the proper tier in game_state
-				gscpt.tier_1_upgrade = pwrup;
-				gscpt.num_coins -= EASY_ENTRY_PRICE;
-				DontDestroyOnLoad(pwrup);
-				t1_bought = true;
-			}
-		}
-		
-		//tier two buttons
-		GUI.Label (new Rect(10,145,200,25), "Tier 2");
-		
-		if(GUI.Button (new Rect(10,230,200,25), "Black Hole Detection ("+BLACK_HOLE_HELPER_PRICE+" coins)")) {
-			if(gscpt.num_coins >= BLACK_HOLE_HELPER_PRICE && !t2_bought){
-				//Destroy old powerup
-				Destroy (gscpt.tier_2_upgrade);
-				//create a new gameobject to replace the old one
-				GameObject pwrup = new GameObject();
-				//add the script that defines your power up 
-				pwrup.AddComponent("Black_Hole_Helper");
-				//assign the gameobject to the proper tier in game_state
-				gscpt.tier_2_upgrade = pwrup;
-				gscpt.num_coins -= BLACK_HOLE_HELPER_PRICE;
-				DontDestroyOnLoad(pwrup);
-				t2_bought = true;
-			}
-		}		
-		
-		if(GUI.Button (new Rect(10,200,200,25), "Shield ("+SHIELD_PRICE+" coins)")) {
-			if(gscpt.num_coins >= SHIELD_PRICE && !t2_bought) {
-				//Destroy old powerup
-				Destroy (gscpt.tier_2_upgrade);
-				//create a new gameobject to replace the old one
-				GameObject pwrup = new GameObject();
-				//add the script that defines your power up 
-				pwrup.AddComponent("shield");
-				//assign the gameobject to the proper tier in game_state
-				gscpt.tier_2_upgrade = pwrup;
-				gscpt.num_coins -= SHIELD_PRICE;
-				DontDestroyOnLoad(pwrup);
-				t2_bought = true;
-			}
-		}		
-		GUI.Label (new Rect(10,270,200,25), "Tier 3");
-		if(GUI.Button (new Rect(10,295,200,25), "Fast Corner ("+DIR_SHIFT_PRICE+" coins)")) {
-			if(gscpt.num_coins >= DIR_SHIFT_PRICE && !t3_bought) {
-				//Destroy old powerup
-				Destroy (gscpt.tier_3_upgrade);
-				//create a new gameobject to replace the old one
-				GameObject pwrup = new GameObject();
-				//add the script that defines your power up 
-				pwrup.AddComponent("direction_shift");
-				//assign the gameobject to the proper tier in game_state
-				gscpt.tier_3_upgrade = pwrup;
-				gscpt.num_coins -= DIR_SHIFT_PRICE;
-				DontDestroyOnLoad(pwrup);
-				
-				//indicate the tier has been bought
-				t3_bought = true;
-			}
-		}		
-		*/
 		
 		//load next level button
 		if(GUI.Button (new Rect(10,Screen.height-30,200,25), "Play next level")) {
@@ -320,7 +219,5 @@ public class Outfitter : MonoBehaviour {
 			Application.LoadLevel("scene1");
 		}
 		
-		//lizard person
-		//GUI.Box(new Rect(250, 50, 512, 512), gorn);
 	}
 }
