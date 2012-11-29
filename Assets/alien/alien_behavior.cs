@@ -8,7 +8,12 @@ public class alien_behavior : MonoBehaviour {
 	
 	public Transform explosion;
 	
-	private float ALIEN_LIFE_SPAN = 30;
+	private float ALIEN_LIFE_SPAN = 5;
+	
+	public AudioClip explosion_sound;
+	public AudioSource death_sounds;
+	
+	
 	
 	Game_State gscpt;
 	// Use this for initialization
@@ -17,6 +22,7 @@ public class alien_behavior : MonoBehaviour {
 		
 		GameObject go = GameObject.Find ("game_state");
 		gscpt = go.GetComponent<Game_State>();
+		
 		
 		
 	}
@@ -60,6 +66,9 @@ public class alien_behavior : MonoBehaviour {
 	
 	void DestroyAlien()
 	{	
+		GameObject go = GameObject.Find("Sound_Cart");
+		Sound_Cart scscpt = go.GetComponent<Sound_Cart>();
+		scscpt.audio.PlayOneShot(scscpt.alien_explosion);
 		Instantiate(explosion,transform.position,transform.rotation);
 		Destroy(gameObject);
 	}

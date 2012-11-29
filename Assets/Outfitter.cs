@@ -31,10 +31,6 @@ public class Outfitter : MonoBehaviour {
 	//lizard person
 	public Texture gorn;
 	
-	//true if you've already picked your powerup from that tier
-/*	private bool t1_bought = false;
-	private bool t2_bought = false;
-	private bool t3_bought = false; */
 	
 	//previous balance, stored so we can display it after it gets updated
 	public int prev_balance;
@@ -53,8 +49,6 @@ public class Outfitter : MonoBehaviour {
 		
 		//calculate total score
 		prev_balance = gscpt.num_coins;
-	//	float gain = (gscpt.energy_delivered/2 + gscpt.aliens_killed*4 + gscpt.coins_collected*4);
-	//	float loss = (gscpt.times_died*3 + gscpt.bombs_dropped*3 + gscpt.stars_destroyed*3);
 		
 		mission_net = (int)((gscpt.energy_delivered/2 + gscpt.aliens_killed*4 + gscpt.coins_collected*4) - (gscpt.times_died*3 + gscpt.bombs_dropped*3 + gscpt.stars_destroyed*3));
 		gscpt.num_coins += mission_net;

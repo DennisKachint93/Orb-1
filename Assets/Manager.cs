@@ -230,6 +230,9 @@ public class Manager : MonoBehaviour {
 	//explosions
 	public Transform space_jump_effect;
 	
+	//testing audio
+	public AudioClip test_aud;
+	
 	void Start () {
 		//performance
 		lastInterval = Time.realtimeSinceStartup;
@@ -680,9 +683,8 @@ public class Manager : MonoBehaviour {
 			Application.LoadLevel("Ship_Outfitter");
 		}
 		//l prints learth's current position
-		if(Input.GetKeyDown(KeyCode.L))
-			Debug.Log ("dbg Learth position: "+l.transform.position);
-				
+		if(Input.GetKeyDown(KeyCode.L)) {
+		}
 		/*********************END DEBUGGING CONTROLS*****************/
 		
 		//Speed increases logarithmically with energy
