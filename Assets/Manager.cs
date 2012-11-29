@@ -736,11 +736,9 @@ public class Manager : MonoBehaviour {
 			
 			//if learth is orbiting a moving planet, translate it with the planet to maintain circular orbit
 			Starscript scpt = cur_star.GetComponent<Starscript>();
-			if(scpt.is_moving)
-				l.transform.Translate(scpt.dir.x*scpt.speed*Time.deltaTime,scpt.dir.y*scpt.speed*Time.deltaTime,0,Space.World);
 					
-			//likewise, translate for a revolving star
-			if(scpt.is_revolving || scpt.spiral)
+			//translate learth for moving stars to compensate for star movement
+			if(scpt.is_revolving || scpt.spiral || scpt.is_moving)
 			{
 				//difference in star positions since last frame
 				Vector3 vec = cur_star.transform.position - scpt.last_position;
