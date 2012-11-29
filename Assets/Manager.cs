@@ -239,6 +239,9 @@ public class Manager : MonoBehaviour {
 	//true if being attackign
 	public static bool is_being_attacked = false;
 	
+	//explosions
+	public Transform space_jump_effect;
+	
 	void Start () {
 		//performance
 		lastInterval = Time.realtimeSinceStartup;
