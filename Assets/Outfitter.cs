@@ -64,6 +64,7 @@ public class Outfitter : MonoBehaviour {
 	void OnGUI() {	
 		
 		//bombs
+		GUI.Label(new Rect(Screen.width/2 + 200,53,400,25), "....................Allows you to purchase bombs");
 		if(GUI.Button(new Rect(Screen.width/2, 45, 200, 25), "Bomb License ("+SPACE_BOMB_PRICE+" coins)")){
 			if(gscpt.num_coins >= SPACE_BOMB_PRICE){
 				gscpt.bomb_on = true;
@@ -85,6 +86,7 @@ public class Outfitter : MonoBehaviour {
 		}
 		
 		//capacitor/boost
+		GUI.Label(new Rect(Screen.width/2 + 200,113,400,25), "....................Gives an instant energy boost on command");
 		if(GUI.Button(new Rect(Screen.width/2, 105, 200, 25), "Capacitor ("+BOOST_PRICE+" coins)")){
 			if(gscpt.num_coins >= BOOST_PRICE){
 			
@@ -107,6 +109,7 @@ public class Outfitter : MonoBehaviour {
 		}
 		
 		//space jump
+		GUI.Label(new Rect(Screen.width/2 + 200,173,400,25), "....................Lets you teleport short distances");
 		if(GUI.Button(new Rect(Screen.width/2, 165, 200, 25), "Jump Unit ("+JUMP_PRICE+" coins)")){
 			if(gscpt.num_coins >= JUMP_PRICE){
 			
@@ -129,6 +132,7 @@ public class Outfitter : MonoBehaviour {
 		}
 		
 		//alien defence gun
+		GUI.Label(new Rect(Screen.width/2 + 200,233,400,25), "....................Automatically targets and destroys attacking aliens");
 		if(GUI.Button(new Rect(Screen.width/2, 225, 200, 25), "Alien Defence Gun ("+ALIEN_GUN_PRICE+" coins)")){
 			if(gscpt.num_coins >= ALIEN_GUN_PRICE){
 			
