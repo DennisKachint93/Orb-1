@@ -32,18 +32,21 @@ public class Game_State : MonoBehaviour {
 	public GameObject capac_fitting;
 	public GameObject jump_fitting;
 	public GameObject gun_fitting;
+	public GameObject bend_fitting;
 	
 	//set to true once correspondign powerup is purchased to allow purchase of ammo/boosts/etc.
 	public bool bomb_on  = false;
 	public bool capac_on = false;
 	public bool jump_on  = false;
 	public bool gun_on   = false;
+	public bool bend_on  = false;
 	
 	//ammunition (and default values)
-	public int bomb_ammo  = 3;
-	public int capac_ammo = 3;
-	public int jump_ammo  = 3;
-	public int gun_ammo   = 30;
+	public int bomb_ammo    = 3;
+	public int capac_ammo   = 3;
+	public int jump_ammo    = 3;
+	public int gun_ammo     = 30;
+	public float bend_ammo  = 10;
 	
 	//Values used for scoring
 	public float coins_collected  = 0;

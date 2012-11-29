@@ -15,7 +15,7 @@ public class Manager : MonoBehaviour {
 		//larger the tan error, the easier it is to enter a star at a legal radius
 		TAN_ERROR = 8;
 		//the larger this number is, the sharper bends are
-		BEND_FACTOR = 13;
+		BEND_FACTOR = 6;
 		//larger the number, the faster the learth moves overall
 		MOVEMENT_SPEED = 0.72f;
 		//speed you move at without energy
@@ -948,9 +948,11 @@ public class Manager : MonoBehaviour {
 			GUI.Label(new Rect(10,Screen.height-160,150,50),"Jumps: "+gscpt.jump_ammo);
 		if(gscpt.gun_on)
 			GUI.Label(new Rect(10,Screen.height-190,150,50),"Torpedos: "+gscpt.gun_ammo);
+		if(gscpt.bend_on)
+			GUI.Label(new Rect(10,Screen.height-70,150,50),"Bending fluid: "+gscpt.bend_ammo);
 		
 		
-        GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
+      //  GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
 		GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
    		GUI.DrawTexture(new Rect(10, Screen.height-30, energy*3, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
 	}

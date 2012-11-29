@@ -15,6 +15,10 @@ public class Outfitter : MonoBehaviour {
 	private int SINGLE_GUN_PRICE = 25;
 	private int SPACE_BOMB_PRICE = 750;
 	private int SINGLE_BOMB_PRICE = 50;
+	
+	private int BEND_UNIT_PRICE = 1200;
+	private int SINGLE_BEND_PRICE = 100;
+	
 //	private int BLACK_HOLE_HELPER_PRICE = 3;
 	
 	private int JUMP_PRICE = 500;
@@ -154,6 +158,28 @@ public class Outfitter : MonoBehaviour {
 			}
 		}
 		
+		//Bending
+		GUI.Label(new Rect(Screen.width/2 + 200,293,400,25), "....................Lets you bend more sharply");
+		if(GUI.Button(new Rect(Screen.width/2, 285, 200, 25), "Bending Unit ("+BEND_UNIT_PRICE+" coins)")){
+			if(gscpt.num_coins >= BEND_UNIT_PRICE){
+			
+				gscpt.bend_on = true;
+				GameObject pwerup = new GameObject();
+				pwerup.AddComponent("Super_Bending");
+				gscpt.bend_fitting = pwerup;
+				gscpt.num_coins -= BEND_UNIT_PRICE;
+				DontDestroyOnLoad(pwerup);	
+			}
+		}
+		if(gscpt.bend_on)
+		{
+			if(GUI.Button(new Rect(Screen.width/2+50, 315, 200, 25), "20 oz. Bending Fluid ("+SINGLE_BEND_PRICE+" coins)")){
+				if(gscpt.num_coins >= SINGLE_BEND_PRICE) {
+					gscpt.num_coins -= SINGLE_BEND_PRICE;
+					gscpt.bend_ammo += 20;
+				}
+			}
+		}
 		//ammo stats
 		if(gscpt.bomb_on)
 			GUI.Label(new Rect(10,Screen.height-130,150,50),"Bombs: "+gscpt.bomb_ammo);
@@ -163,6 +189,8 @@ public class Outfitter : MonoBehaviour {
 			GUI.Label(new Rect(10,Screen.height-160,150,50),"Jumps: "+gscpt.jump_ammo);
 		if(gscpt.gun_on)
 			GUI.Label(new Rect(10,Screen.height-190,150,50),"Torpedos: "+gscpt.gun_ammo);
+		if(gscpt.bend_on)
+			GUI.Label(new Rect(10,Screen.height-70,150,50),"Bending fluid: "+gscpt.bend_ammo);
 		
 		
 			
