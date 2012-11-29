@@ -11,11 +11,11 @@ public class Manager : MonoBehaviour {
 	public static void ResetConstants() {
 		/*GAMEPLAY CONTROLS */
 		//Larger the error, the wider legal orbit radius 
-		RADIAL_ERROR = 50;
+		RADIAL_ERROR = 45;
 		//larger the tan error, the easier it is to enter a star at a legal radius
 		TAN_ERROR = 8;
 		//the larger this number is, the sharper bends are
-		BEND_FACTOR = 4;
+		BEND_FACTOR = 13;
 		//larger the number, the faster the learth moves overall
 		MOVEMENT_SPEED = 0.72f;
 		//speed you move at without energy
@@ -41,7 +41,7 @@ public class Manager : MonoBehaviour {
 		//starting energy
 		STARTING_ENERGY = 35f;
 		//How much energy is reduced each frame while bending
-		BEND_COST = 0;
+		BEND_COST = 0.050f;
 		//How much energy is reduced each frame while invincible
 		INVINC_COST = .2f;
 		//this much energy is subtracted each frame the learth is not in orbit

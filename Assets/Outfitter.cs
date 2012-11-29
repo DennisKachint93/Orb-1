@@ -53,7 +53,7 @@ public class Outfitter : MonoBehaviour {
 	void OnGUI() {	
 		
 		//bombs
-		if(GUI.Button(new Rect(500, 45, 200, 25), "Bomb License ("+SPACE_BOMB_PRICE+" coins)")){
+		if(GUI.Button(new Rect(Screen.width/2, 45, 200, 25), "Bomb License ("+SPACE_BOMB_PRICE+" coins)")){
 			if(gscpt.num_coins >= SPACE_BOMB_PRICE){
 				gscpt.bomb_on = true;
 				GameObject pwerup = new GameObject();
@@ -65,7 +65,7 @@ public class Outfitter : MonoBehaviour {
 		}
 		if(gscpt.bomb_on)
 		{
-			if(GUI.Button(new Rect(550, 75, 200, 25), "1 Bomb ("+SINGLE_BOMB_PRICE+" coins)")){
+			if(GUI.Button(new Rect(Screen.width/2+50, 75, 200, 25), "1 Bomb ("+SINGLE_BOMB_PRICE+" coins)")){
 				if(gscpt.num_coins >= SINGLE_BOMB_PRICE) {
 					gscpt.num_coins -= SINGLE_BOMB_PRICE;
 					gscpt.bomb_ammo++;
@@ -74,7 +74,7 @@ public class Outfitter : MonoBehaviour {
 		}
 		
 		//capacitor/boost
-		if(GUI.Button(new Rect(500, 105, 200, 25), "Capacitor ("+BOOST_PRICE+" coins)")){
+		if(GUI.Button(new Rect(Screen.width/2, 105, 200, 25), "Capacitor ("+BOOST_PRICE+" coins)")){
 			if(gscpt.num_coins >= BOOST_PRICE){
 			
 				gscpt.capac_on = true;
@@ -87,7 +87,7 @@ public class Outfitter : MonoBehaviour {
 		}
 		if(gscpt.capac_on)
 		{
-			if(GUI.Button(new Rect(550, 135, 200, 25), "1 Charge ("+SINGLE_BOOST_PRICE+" coins)")){
+			if(GUI.Button(new Rect(Screen.width/2+50, 135, 200, 25), "1 Charge ("+SINGLE_BOOST_PRICE+" coins)")){
 				if(gscpt.num_coins >= SINGLE_BOOST_PRICE) {
 					gscpt.num_coins -= SINGLE_BOOST_PRICE;
 					gscpt.capac_ammo++;
@@ -96,7 +96,7 @@ public class Outfitter : MonoBehaviour {
 		}
 		
 		//space jump
-		if(GUI.Button(new Rect(500, 165, 200, 25), "Jump Unit ("+JUMP_PRICE+" coins)")){
+		if(GUI.Button(new Rect(Screen.width/2, 165, 200, 25), "Jump Unit ("+JUMP_PRICE+" coins)")){
 			if(gscpt.num_coins >= JUMP_PRICE){
 			
 				gscpt.jump_on = true;
@@ -109,7 +109,7 @@ public class Outfitter : MonoBehaviour {
 		}
 		if(gscpt.jump_on)
 		{
-			if(GUI.Button(new Rect(550, 195, 200, 25), "1 Charge ("+SINGLE_JUMP_PRICE+" coins)")){
+			if(GUI.Button(new Rect(Screen.width/2+50, 195, 200, 25), "1 Charge ("+SINGLE_JUMP_PRICE+" coins)")){
 				if(gscpt.num_coins >= SINGLE_JUMP_PRICE) {
 					gscpt.num_coins -= SINGLE_JUMP_PRICE;
 					gscpt.jump_ammo++;
@@ -118,7 +118,7 @@ public class Outfitter : MonoBehaviour {
 		}
 		
 		//alien defence gun
-		if(GUI.Button(new Rect(500, 225, 200, 25), "Alien Defence Gun ("+ALIEN_GUN_PRICE+" coins)")){
+		if(GUI.Button(new Rect(Screen.width/2, 225, 200, 25), "Alien Defence Gun ("+ALIEN_GUN_PRICE+" coins)")){
 			if(gscpt.num_coins >= ALIEN_GUN_PRICE){
 			
 				gscpt.gun_on = true;
@@ -131,7 +131,7 @@ public class Outfitter : MonoBehaviour {
 		}
 		if(gscpt.gun_on)
 		{
-			if(GUI.Button(new Rect(550, 255, 200, 25), "20 Torpedos ("+SINGLE_GUN_PRICE+" coins)")){
+			if(GUI.Button(new Rect(Screen.width/2+50, 255, 200, 25), "20 Torpedos ("+SINGLE_GUN_PRICE+" coins)")){
 				if(gscpt.num_coins >= SINGLE_GUN_PRICE) {
 					gscpt.num_coins -= SINGLE_GUN_PRICE;
 					gscpt.gun_ammo += 20;
@@ -151,9 +151,17 @@ public class Outfitter : MonoBehaviour {
 			
 		
 		
+		//coin stuff	
+//		GUI.Label(new Rect(Screen.width/4,45,200,25), "Space Coins: "+gscpt.num_coins);
+		GUI.Label(new Rect(Screen.width/4,45,200,25), "SPACE SHOP");
+		GUI.Label(new Rect(Screen.width/4,75,200,25), "Previous mission");
+		GUI.Label(new Rect(Screen.width/4,85,200,25), "-----------------------------------");
+		GUI.Label(new Rect(Screen.width/4,105,200,25), "Energy Delivery Payment: ");
+		GUI.Label(new Rect(Screen.width/4,125,200,25), "Alien Population Control Payment:");
 		
-		GUI.Label(new Rect(10,10,200,25), "Space Coins: "+gscpt.num_coins);
-		//tier 1 buttons
+		
+		
+/*		//tier 1 buttons
 		GUI.Label (new Rect(10,25,200,25), "Tier 1");
 		if(GUI.Button(new Rect(10, 45, 200, 25), "Super Bending ("+BENDING_PRICE+" coins)")){
 			if(gscpt.num_coins >= BENDING_PRICE && !t1_bought){
@@ -253,7 +261,7 @@ public class Outfitter : MonoBehaviour {
 				t3_bought = true;
 			}
 		}		
-		
+		*/
 		
 		//load next level button
 		if(GUI.Button (new Rect(10,Screen.height-30,200,25), "Play next level")) {
