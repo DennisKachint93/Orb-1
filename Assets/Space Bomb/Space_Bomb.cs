@@ -38,7 +38,7 @@ public class Space_Bomb : MonoBehaviour {
 		
 		//if we're actually playing the game, allow control behavior
 		if(in_game) {
-			if(Input.GetKeyDown(KeyCode.D))
+			if(Input.GetKeyDown(KeyCode.D) && !Manager.is_being_attacked)
 			{
 				//if a bomb is not out, instantiate space bomb actual at learth's position
 				if(!bomb_out && (Time.time-last_bomb) > cool_down && gscpt.bomb_ammo > 0)

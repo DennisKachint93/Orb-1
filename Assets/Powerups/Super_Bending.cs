@@ -19,7 +19,7 @@ public class Super_Bending : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if(gscpt.bend_ammo <= 0 )
+		if(gscpt.bend_ammo <= 0 || Manager.is_being_attacked)
 		{
 			gscpt.bend_ammo = 0;
 			Manager.BEND_FACTOR = 6;

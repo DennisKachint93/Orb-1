@@ -16,7 +16,7 @@ public class boost : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {		
-		if(Input.GetKeyDown(KeyCode.C) && gscpt.capac_ammo > 0 ){
+		if(Input.GetKeyDown(KeyCode.C) && gscpt.capac_ammo > 0 && !Manager.is_being_attacked){
 			//one shot major energy boost
 			Manager.energy += BOOST_SIZE;
 		

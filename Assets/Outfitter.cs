@@ -50,7 +50,7 @@ public class Outfitter : MonoBehaviour {
 		//calculate total score
 		prev_balance = gscpt.num_coins;
 		
-		mission_net = (int)((gscpt.energy_delivered/2 + gscpt.aliens_killed*4 + gscpt.coins_collected*4) - (gscpt.times_died*3 + gscpt.bombs_dropped*3 + gscpt.stars_destroyed*3));
+		mission_net = (int)((gscpt.energy_delivered/2 + gscpt.aliens_killed*4 + gscpt.coins_collected*10) - (gscpt.times_died*3 + gscpt.bombs_dropped*3 + gscpt.stars_destroyed*3));
 		gscpt.num_coins += mission_net;
 		
 		//if you run out of coins, game over
@@ -60,7 +60,10 @@ public class Outfitter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-				
+		//cheat
+		if(Input.GetKeyDown(KeyCode.L)) {
+			gscpt.num_coins+=500;
+		}
 	}
 	
 	void OnGUI() {	
