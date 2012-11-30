@@ -50,7 +50,7 @@ public class Outfitter : MonoBehaviour {
 		//calculate total score
 		prev_balance = gscpt.num_coins;
 		
-		mission_net = (int)((gscpt.energy_delivered/2 + gscpt.aliens_killed*4 + gscpt.coins_collected*10) - (gscpt.times_died*3 + gscpt.bombs_dropped*3 + gscpt.stars_destroyed*3));
+		mission_net = (int)((gscpt.energy_delivered/2 + 250*(gscpt.num_stars/(gscpt.time_to_complete+1)) + gscpt.aliens_killed*4 + gscpt.coins_collected*10) - (gscpt.times_died*3 + gscpt.bombs_dropped*3 + gscpt.stars_destroyed*3));
 		gscpt.num_coins += mission_net;
 		
 		//if you run out of coins, game over
@@ -63,6 +63,13 @@ public class Outfitter : MonoBehaviour {
 		//cheat
 		if(Input.GetKeyDown(KeyCode.L)) {
 			gscpt.num_coins+=500;
+		}
+		if(Input.GetKeyDown(KeyCode.K)) {
+			gscpt.bend_ammo = 1000;
+			gscpt.bomb_ammo = 1000;
+			gscpt.gun_ammo  = 1000;
+			gscpt.jump_ammo = 1000;
+			gscpt.capac_ammo= 1000;
 		}
 	}
 	
@@ -201,7 +208,7 @@ public class Outfitter : MonoBehaviour {
 		GUI.Label(new Rect(Screen.width/4,45,400,25), "SPACE SHOP");
 		GUI.Label(new Rect(Screen.width/4,75,400,25), "Previous mission");
 		GUI.Label(new Rect(Screen.width/4,85,400,25), "-----------------------------------");
-		GUI.Label(new Rect(Screen.width/4,105,400,25), "Energy Delivery Payment: "+(int)(gscpt.energy_delivered/2));
+		GUI.Label(new Rect(Screen.width/4,105,400,25), "Contract Payment: "+(int)(gscpt.energy_delivered/2 + 250*(gscpt.num_stars/(gscpt.time_to_complete+1))));
 		GUI.Label(new Rect(Screen.width/4,125,400,25), "Alien Extermination Payment: "+(gscpt.aliens_killed*4));
 		GUI.Label(new Rect(Screen.width/4,145,400,25), "Income From Sale Of Space Gold: "+(gscpt.coins_collected*4));
 		GUI.Label(new Rect(Screen.width/4,175,400,25), "Orb Repairs: ("+(3*gscpt.times_died)+")");

@@ -611,7 +611,7 @@ public class Manager : MonoBehaviour {
 	{
 		gscpt.times_died++;
 		if(energy > STARTING_ENERGY)
-			energy = STARTING_ENERGY;
+			energy -= 25;
 		
 		//check the last 3 stars and go to the first one that hasn't been destroyed
 		//if they've all been destroyed, reload the level
@@ -931,36 +931,44 @@ public class Manager : MonoBehaviour {
 								Destroy(lt);
 								lt = Instantiate (red_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
+								
+								l.renderer.material.color = Color.red;
 							}  else if (sscript.c == orange) {
 								energy += ORANGE_ENERGY;
 								Destroy(lt);
 								lt = Instantiate (orange_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
+								l.renderer.material.color = orange;
 							}  else if (sscript.c == Color.yellow) {
 								energy += YELLOW_ENERGY;
 								Destroy(lt);
 								lt = Instantiate (yellow_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
+								l.renderer.material.color = Color.yellow;
 							}  else if (sscript.c == green) {
 								Destroy(lt);
 								lt = Instantiate (green_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
 								energy += GREEN_ENERGY;
+								l.renderer.material.color = green;
 							}  else if(sscript.c == Color.blue){
 								energy += BLUE_ENERGY;
 								Destroy(lt);
 								lt = Instantiate (blue_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
+								l.renderer.material.color = Color.blue;
 							}  else if(sscript.c == aqua) {
 								energy += AQUA_ENERGY;
 								Destroy(lt);
 								lt = Instantiate (aqua_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
+								l.renderer.material.color = aqua;
 							}  else if(sscript.c == purple) {
 								energy += PURPLE_ENERGY;
 								Destroy(lt);
 								lt = Instantiate (purple_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
+								l.renderer.material.color = purple;
 							}
 							sscript.c = dgray;
 							sscript.t = tgray;
@@ -977,6 +985,8 @@ public class Manager : MonoBehaviour {
 		GUI.Label(new Rect(10,10,150,50), "FPS: "+fps.ToString("f2"));
 		Starscript scpt = cur_star.GetComponent<Starscript>();
 		if(scpt.is_sink) {
+			gscpt.time_to_complete = (Time.time - start_time);
+			gscpt.num_stars = star_arr.Length;
 		/*	GUI.Label(new Rect(10, Screen.height-80,150,50), "YOU WIN!");
 			GUI.Label (new Rect(10, Screen.height-95,150,50), "Time: "+(Time.time - start_time)); */
 		}

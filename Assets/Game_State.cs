@@ -55,7 +55,8 @@ public class Game_State : MonoBehaviour {
 	public float times_died       = 0;
 	public float bombs_dropped    = 0;
 	public float stars_destroyed  = 0;
-	
+	public float num_stars		  = 0;
+	public float time_to_complete = 0;
 
 	
 	
@@ -77,5 +78,7 @@ public class Game_State : MonoBehaviour {
 		times_died       = 0;
 		bombs_dropped 	 = 0;
 		stars_destroyed  = 0;
+		num_stars		 = 0;
+		time_to_complete = 0;
 	}
 }
