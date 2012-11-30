@@ -55,6 +55,9 @@ public class Learth_Movement : MonoBehaviour {
 				Manager.Die();	
 			}
 			if(collision.gameObject.name == "coin(Clone)") {
+				GameObject go = GameObject.Find("Alien_Exp_Sound");
+				Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
+				ascpt.coin_grab.Play();
 				//gscpt.num_coins++;
 				//scscpt.audio.PlayOneShot(scscpt.alien_explosion);
 				//scscpt.audio.clip = scscpt.coin_capture;
