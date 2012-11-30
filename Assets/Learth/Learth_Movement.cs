@@ -7,6 +7,8 @@ public class Learth_Movement : MonoBehaviour {
 	public static Vector3 velocity = new Vector3(1f, 1f, 0f);
 	public static Transform lastPos;
 	public static bool isTangent = false;
+	//particle effect for pickingup up coins
+	public GameObject coin_pickup_effect, cpe;
 	Game_State gscpt;
 	Sound_Cart scscpt;
 	
@@ -39,7 +41,6 @@ public class Learth_Movement : MonoBehaviour {
 		if (!isTangent) {
 			this.transform.position += velocity.normalized*Manager.speed;	
 		}
-	
 		if(Manager.energy < 1)
 			Application.LoadLevel("Scene1");
 	}
@@ -65,6 +66,8 @@ public class Learth_Movement : MonoBehaviour {
 				scscpt.coin_collected.Play();
 				gscpt.coins_collected++;
 				Manager.energy += 3;
+				cpe = Instantiate (coin_pickup_effect, collision.gameObject.transform.position, 
+					collision.gameObject.transform.rotation) as GameObject;
 				Destroy(collision.gameObject);
 			}
 			

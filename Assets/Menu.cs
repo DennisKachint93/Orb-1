@@ -31,10 +31,10 @@ public class Menu : MonoBehaviour {
 		//set default ship settings here
 		
 		//levels that will be played in order
-		string[] level_order = new string[4] {
-											"Levels/coin-test-1.txt",
-											"Levels/stream-6.txt",
-											//"Levels/winder.txt",
+		string[] level_order = new string[3] {
+											//"Levels/coin-test-1.txt",
+											//"Levels/stream-6.txt",
+											"Levels/winder.txt",
 											//"Levels/savetest.txt",
 											//"Levels/turning_stream.txt",
 											"Levels/stream-7.txt",
