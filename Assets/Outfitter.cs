@@ -52,6 +52,10 @@ public class Outfitter : MonoBehaviour {
 		
 		mission_net = (int)((gscpt.energy_delivered/2 + gscpt.aliens_killed*4 + gscpt.coins_collected*4) - (gscpt.times_died*3 + gscpt.bombs_dropped*3 + gscpt.stars_destroyed*3));
 		gscpt.num_coins += mission_net;
+		
+		//if you run out of coins, game over
+		if(gscpt.num_coins < 0)
+			Application.Quit();
 	}
 	
 	// Update is called once per frame
