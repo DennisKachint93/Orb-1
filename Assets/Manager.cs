@@ -779,8 +779,10 @@ public class Manager : MonoBehaviour {
 				//prevents incorrect movement in the case that the last position variable in the star hasn't been set correctly
 				//this happens the first time you try to translate with a star
 				//this is kind of a bad solution, but it will work until we have time to reevaluate the movement code
-				if(!(Mathf.Abs(vec.x) > 10))
+				if(!(Mathf.Abs(vec.x) > 10)) {
 					l.transform.Translate(vec.x,vec.y,0,Space.World);
+					Learth_Movement.lastPos.Translate(vec.x,vec.y,0,Space.World);
+				}
 				
 				//set last position
 				scpt.last_position = cur_star.transform.position;
@@ -901,6 +903,11 @@ public class Manager : MonoBehaviour {
 					&& Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius - outerOrbit) 
 					&& Vector3.Distance (tangent, l.transform.position) <= TAN_ERROR) 
 					{	
+						//play entry sound
+						GameObject go = GameObject.Find("Alien_Exp_Sound");
+						Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
+						ascpt.entering_star.Play();
+						
 						Learth_Movement.isTangent = true;
 						cur_star = s;
 						//determine direction of orbit

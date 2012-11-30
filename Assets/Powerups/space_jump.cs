@@ -61,6 +61,11 @@ public class space_jump : MonoBehaviour {
 	
 	void DoJump()
 	{
+			
+			GameObject go = GameObject.Find("Alien_Exp_Sound");
+			Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
+			ascpt.jump.Play();
+		
 			//explosion
 			Instantiate(manager.space_jump_effect,Manager.l.transform.position,Manager.l.transform.rotation);
 			
@@ -69,6 +74,7 @@ public class space_jump : MonoBehaviour {
 					Manager.l.transform.position.y+jump.y, Manager.l.transform.position.z+jump.z);
 					
 			Learth_Movement.lastPos.transform.position += jump;
+			ascpt.jump.Play();
 			Instantiate(manager.space_jump_effect,Manager.l.transform.position,Manager.l.transform.rotation);
 			gscpt.jump_ammo--;
 			dist_count = 50;
