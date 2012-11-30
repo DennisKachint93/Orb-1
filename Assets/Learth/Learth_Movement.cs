@@ -22,9 +22,6 @@ public class Learth_Movement : MonoBehaviour {
 		GameObject game_state = GameObject.Find("game_state");
 		gscpt = game_state.GetComponent<Game_State>();
 		
-		//get sound cart
-		GameObject go = GameObject.Find ("Sound_Cart");
-		scscpt = go.GetComponent<Sound_Cart>();
 		
 		//initialize lastPos
 		lastPos = new GameObject().transform;
@@ -63,7 +60,6 @@ public class Learth_Movement : MonoBehaviour {
 				//scscpt.audio.clip = scscpt.coin_capture;
 				//scscpt.audio.Play();
 				//scscpt.audio.PlayOneShot(scscpt.coin_capture);
-				scscpt.coin_collected.Play();
 				gscpt.coins_collected++;
 				Manager.energy += 3;
 				cpe = Instantiate (coin_pickup_effect, collision.gameObject.transform.position, 

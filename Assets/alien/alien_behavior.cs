@@ -66,8 +66,10 @@ public class alien_behavior : MonoBehaviour {
 	
 	void DestroyAlien()
 	{	
-		GameObject go = GameObject.Find("Sound_Cart");
-		Sound_Cart scscpt = go.GetComponent<Sound_Cart>();
+		GameObject go = GameObject.Find("Alien_Exp_Sound");
+		Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
+		ascpt.alien_expl.Play();
+		//go.audio.Play();
 		//scscpt.audio.PlayOneShot(scscpt.alien_explosion);
 		//scscpt.alien_expl.Play();
 		Instantiate(explosion,transform.position,transform.rotation);
