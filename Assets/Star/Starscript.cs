@@ -246,6 +246,9 @@ public class Starscript : MonoBehaviour {
 	{
 		gscpt.stars_destroyed++;
 		
+		GameObject go = GameObject.Find("Alien_Exp_Sound");
+		Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
+		ascpt.star_explosion.Play();
 		//Explodes the star, and makes it impossible to be targeted again
 		if(explosion_type == BIG_EXPLOSION)
 			Instantiate(explosion, transform.position, transform.rotation);

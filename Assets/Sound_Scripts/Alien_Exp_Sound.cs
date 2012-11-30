@@ -7,6 +7,7 @@ public class Alien_Exp_Sound : MonoBehaviour {
 	public AudioSource leaving_star;
 	public AudioSource entering_star;
 	public AudioSource jump;
+	public AudioSource star_explosion;
 	
 	// Use this for initialization
 	void Start () {
@@ -16,6 +17,7 @@ public class Alien_Exp_Sound : MonoBehaviour {
 		leaving_star = sources[2];
 		entering_star = sources[3];
 		jump = sources[4];
+		star_explosion = sources[5];
 	}
 	
 	// Update is called once per frame
