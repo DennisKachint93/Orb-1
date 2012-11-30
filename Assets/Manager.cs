@@ -843,6 +843,13 @@ public class Manager : MonoBehaviour {
 				}
 				//if star is a normal star, shoot out of orbit immediately with energy cost
 				else {
+					//play sound
+					
+					GameObject go = GameObject.Find("Alien_Exp_Sound");
+					Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
+					ascpt.leaving_star.Play();
+						
+					
 					if(scpt.isExplodingStar){
 						//reset all Exploding Star variables if left on time
 						scpt.explodetimer=0;
