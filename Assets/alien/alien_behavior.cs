@@ -8,17 +8,19 @@ public class alien_behavior : MonoBehaviour {
 	
 	public Transform explosion;
 	
-	private float ALIEN_LIFE_SPAN = 5;
+	private float ALIEN_LIFE_SPAN = 20;
 	
 	public AudioClip explosion_sound;
 	public AudioSource death_sounds;
+	
+	private bool has_started = false;
 	
 	
 	
 	Game_State gscpt;
 	// Use this for initialization
 	void Start () {
-		start_time = Time.time;
+		
 		
 		GameObject go = GameObject.Find ("game_state");
 		gscpt = go.GetComponent<Game_State>();
@@ -30,8 +32,14 @@ public class alien_behavior : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+		//start life span when first on screen
+		if(renderer.isVisible && !has_started){
+			has_started = true;
+			start_time = Time.time;
+		}
+		
 		//die after life span
-		if(Time.time - start_time >= ALIEN_LIFE_SPAN)
+		if(renderer.isVisible && Time.time - start_time >= ALIEN_LIFE_SPAN)
 		{
 			DestroyAlien();
 		}
