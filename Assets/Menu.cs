@@ -19,6 +19,10 @@ public class Menu : MonoBehaviour {
 		
 		//allow game_state's state to persist through scene changes
 		DontDestroyOnLoad(game_state);
+		
+		//allow background music object to persist
+		GameObject bgm = GameObject.Find ("Background_Music");
+		DontDestroyOnLoad(bgm);
 	}
 	
 	// Use this for initialization
