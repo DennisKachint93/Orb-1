@@ -19,6 +19,11 @@ public class boost : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.C) && gscpt.capac_ammo > 0 ){
 			//one shot major energy boost
 			Manager.energy += BOOST_SIZE;
+		
+			//sound
+			GameObject go = GameObject.Find("Alien_Exp_Sound");
+			Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
+			ascpt.boost.Play();
 			
 			//decrease remaining boosts
 			gscpt.capac_ammo--;
