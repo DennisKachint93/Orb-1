@@ -1,15 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Sound_Scripts/Alien_Exp_Sound.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Manager.cs">
     <Files>
       <File FileName="Assets/Powerups/space_jump.cs" Line="1" Column="1" />
-      <File FileName="Assets/alien/alien_behavior.cs" Line="70" Column="62" />
-      <File FileName="Assets/Menu.cs" Line="1" Column="1" />
+      <File FileName="Assets/alien/alien_behavior.cs" Line="1" Column="1" />
+      <File FileName="Assets/Menu.cs" Line="38" Column="39" />
       <File FileName="Assets/Learth/Learth_Movement.cs" Line="1" Column="1" />
       <File FileName="Assets/Manager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Sound_Scripts/Alien_Exp_Sound.cs" Line="11" Column="21" />
-      <File FileName="../../36/TechPrototype/Assets/alien/alien_behavior.cs" Line="72" Column="15" />
-      <File FileName="../../36/TechPrototype/Assets/Sound_Cart.cs" Line="10" Column="1" />
+      <File FileName="Assets/Sound_Scripts/Alien_Exp_Sound.cs" Line="1" Column="1" />
+      <File FileName="Assets/Star/Starscript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Outfitter.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game_State.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

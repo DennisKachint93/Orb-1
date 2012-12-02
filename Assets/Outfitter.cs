@@ -89,10 +89,10 @@ public class Outfitter : MonoBehaviour {
 		}
 		if(gscpt.bomb_on)
 		{
-			if(GUI.Button(new Rect(Screen.width/2+50, 75, 200, 25), "1 Bomb ("+SINGLE_BOMB_PRICE+" coins)")){
+			if(GUI.Button(new Rect(Screen.width/2+50, 75, 200, 25), "5 Bombs ("+SINGLE_BOMB_PRICE+" coins)")){
 				if(gscpt.num_coins >= SINGLE_BOMB_PRICE) {
 					gscpt.num_coins -= SINGLE_BOMB_PRICE;
-					gscpt.bomb_ammo++;
+					gscpt.bomb_ammo += 5;
 				}
 			}
 		}

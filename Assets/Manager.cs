@@ -15,13 +15,13 @@ public class Manager : MonoBehaviour {
 		//larger the tan error, the easier it is to enter a star at a legal radius
 		TAN_ERROR = 8;
 		//the larger this number is, the sharper bends are
-		BEND_FACTOR = 6;
+		BEND_FACTOR = 13;
 		//larger the number, the faster the learth moves overall
 		MOVEMENT_SPEED = 0.72f;
 		//speed you move at without energy
 		CONSTANT_SPEED = 5f;
 		//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
-		ORBIT_SPEED_FACTOR = .5f;
+		ORBIT_SPEED_FACTOR = .35f;
 		
 		/*CAMERA CONTROLS */
 		//the larger this number is, the more closely the camera follows learth while in orbit

@@ -22,7 +22,7 @@ public class Space_Bomb : MonoBehaviour {
 	Game_State gscpt;
 	
 	private float last_bomb ;
-	private float cool_down = 5;
+	private float cool_down = 1f;
 	private bool detonating = false;
 	
 	// Use this for initialization

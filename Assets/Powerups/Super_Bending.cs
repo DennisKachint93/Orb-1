@@ -22,11 +22,11 @@ public class Super_Bending : MonoBehaviour {
 		if(gscpt.bend_ammo <= 0 || Manager.is_being_attacked)
 		{
 			gscpt.bend_ammo = 0;
-			Manager.BEND_FACTOR = 6;
+			Manager.BEND_FACTOR = 13;
 		}
 		else if(Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.W))
 		{
-			Manager.BEND_FACTOR = 13;
+			Manager.BEND_FACTOR = 18;
 			gscpt.bend_ammo -= AMMO_DEPLETION_RATE;
 		}
 	}
