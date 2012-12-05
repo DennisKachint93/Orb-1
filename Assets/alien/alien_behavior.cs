@@ -8,7 +8,7 @@ public class alien_behavior : MonoBehaviour {
 	
 	public Transform explosion;
 	
-	private float ALIEN_LIFE_SPAN = 20;
+	private float ALIEN_LIFE_SPAN = 1000;
 	
 	public AudioClip explosion_sound;
 	public AudioSource death_sounds;
@@ -65,7 +65,7 @@ public class alien_behavior : MonoBehaviour {
 	void OnCollisionEnter(Collision c)
 	{
 		//if the alien is hit by the alien defence gun, kill it
-		if(c.transform.name == "learth_bullet(Clone)")
+		if(c.transform.name == "learth_bullet(Clone)" || c.transform.name == "Star(Clone)")
 		{
 			gscpt.aliens_killed++;
 			DestroyAlien();
