@@ -576,10 +576,17 @@ public class Manager : MonoBehaviour {
 	//instantiates a star that moves in the direction given at the speed given
 	GameObject CreateMovingStar(float x, float y, Color color, Texture texture, float size, Vector3 dir, float speed)
 	{
+		bool bandf = false;
 		GameObject mstar = CreateStar(x,y,color,texture,size);
 		Starscript scpt  = mstar.GetComponent<Starscript>();
 		scpt.is_moving = true;
-		scpt.dir = dir;
+		if(bandf){
+			scpt.destination = dir;
+			scpt.start_loc = mstar.transform.position;
+		}
+		else{
+			scpt.dir = dir;
+		}
 		scpt.speed = speed;
 		return mstar;
 	}

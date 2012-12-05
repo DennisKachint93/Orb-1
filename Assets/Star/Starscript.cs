@@ -34,6 +34,13 @@ public class Starscript : MonoBehaviour {
 	public Vector3 dir = new Vector3(0,0,0);
 	//speed of move
 	public float speed = 0;
+	//back and forth
+	public bool bandf = false;
+	//destination
+	public Vector3 destination = new Vector3(0, 0, 0);
+	//starting location
+	public Vector3 start_loc = new Vector3(0, 0, 0);
+
 
 	/* REVOLVING STARS */
 	//is revolving 
@@ -90,6 +97,11 @@ public class Starscript : MonoBehaviour {
 		GameObject go = GameObject.Find("game_state");
 		gscpt = go.GetComponent<Game_State>();
 		
+		if(bandf){
+			dir = (destination - start_loc);
+			dir.Normalize();
+		}	
+	
 		//if the star is a black hole, instantiate cylinder to represent the black hole
 		if (isBlackHole) {
 			b = Instantiate(blackHole, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
@@ -137,6 +149,23 @@ public class Starscript : MonoBehaviour {
 			transform.position += speed*new Vector3(dir.x*Time.deltaTime,dir.y*Time.deltaTime,0);
 		}
 		
+		if(bandf && (start_loc.x > destination.x && transform.position.x<destination.x) ||
+                        (start_loc.y > destination.y && transform.position.y < destination.y) ||
+                        (start_loc.x < destination.x && transform.position.x > destination.x) ||
+                        (start_loc.y < destination.y && transform.position.y > destination.y) ||
+                        (transform.position == destination)){
+			dir = (start_loc - destination);
+			dir.Normalize();
+		}
+		if(bandf && (start_loc.x > destination.x && transform.position.x>start_loc.x) ||
+                        (start_loc.y > destination.y && transform.position.y > start_loc.y) ||
+                        (start_loc.x < destination.x && transform.position.x < start_loc.x) ||
+                        (start_loc.y < destination.y && transform.position.y < start_loc.y) ||
+                        (transform.position == start_loc)){
+			dir = (destination - start_loc);
+			dir.Normalize();
+		}
+
 		//if star revolves, rotate around the specified point
 		if(is_revolving && !editor_freeze)
 		{
