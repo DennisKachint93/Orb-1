@@ -81,6 +81,9 @@ public class Level_Editor : MonoBehaviour {
 	//black hole button
 	public bool blackHoleButton = false;
 	
+	//bfstar button
+	public bool bfstarButton = false;
+	
 	//revolving star button
 	public bool rstar_button = false;
 	//true if waiting for revolution center point
@@ -169,12 +172,18 @@ public class Level_Editor : MonoBehaviour {
 		return starE;
 	}
 	
-	GameObject CreateMovingStar(float x, float y, Color color, Texture texture, float size, Vector3 dir, float speed)
+	GameObject CreateMovingStar(float x, float y, Color color, Texture texture, float size, Vector3 dir, float speed, bool bandf = false)
 	{
 		GameObject mstar = CreateStar(x,y,color,texture,size,false);
 		Starscript scpt  = mstar.GetComponent<Starscript>();
 		scpt.is_moving = true;
-		scpt.dir = dir;
+		if(bandf){
+			scpt.destination = dir;
+			scpt.start_loc = mstar.transform.position;
+		}
+		else{
+			scpt.dir = dir;
+		}
 		scpt.speed = speed;
 		scpt.editor_freeze = true;
 		
@@ -252,19 +261,24 @@ public class Level_Editor : MonoBehaviour {
 				CreateCoin(location.x,location.y);
 			}
 			
-			//revolving star
-			//behavior if placing star location
-			if(rstar_button && validcolor && !waiting_for_point)
+			//revolving star and bandf star
+			//behavior if placing star location (used for revolving and bandf stars)
+			if((rstar_button | bfstarButton) && validcolor && !waiting_for_point)
 			{
 				rev_s_location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				waiting_for_point = true;				
 			} 
-			//behavior for placing rotation point
-			else if(rstar_button && validcolor && waiting_for_point) {
+			//behavior for placing rotation point and bandf endpoint
+			else if((rstar_button | bfstarButton) && validcolor && waiting_for_point) {
             	starsize = float.Parse(isaysize);
  		       	Vector3 rotation_point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            	CreateRevolvingStar(rev_s_location.x, rev_s_location.y,rotation_point.x,rotation_point.y,starcol,
-					startex,starsize,float.Parse(isay_speed));
+				if(bfstarButton) {
+					CreateMovingStar(rev_s_location.x, rev_s_location.y, starcol,startex, float.Parse(isaysize),
+						new Vector3(rotation_point.x,rotation_point.y,0),float.Parse (isay_speed),true);}
+				else if(rstar_button)
+	            	CreateRevolvingStar(rev_s_location.x, rev_s_location.y,rotation_point.x,rotation_point.y,starcol,
+						startex,starsize,float.Parse(isay_speed));
+				
 				waiting_for_point = false;
 			}
 			
@@ -471,11 +485,20 @@ public class Level_Editor : MonoBehaviour {
 			rstar_button = false;
 			coin_button = false;
 			mstar_button = false;			
-	 }	
+		 }	
+		//bandf star button
+		if(GUI.Button(new Rect (10, 225, 75, 25), "bfstar")) {
+			bfstarButton = !bfstarButton;
+			spaceRipButton = false;
+			starbut = false;
+			rstar_button = false;
+			coin_button = false;
+			mstar_button = false;			
+		 }	
 		
 		int ystart = 240; //starting y value of pop-up box
 		//if star button has been clicked, pop up box to change star color/size
- 		if(starbut || mstar_button || rstar_button || blackHoleButton){
+ 		if(starbut || mstar_button || rstar_button || blackHoleButton || bfstarButton){
 			if(GUI.Button(new Rect(25, ystart+10, 45, 30), "Done")){
 				starbut = false;
 				mstar_button = false;
@@ -540,7 +563,7 @@ public class Level_Editor : MonoBehaviour {
 			isay_speed = GUI.TextField(new Rect(45, ystart+172, 40, 20), isay_speed, 25);
 		}
 		//if revolving star, get rotation point and speed
-		if(rstar_button) {
+		if(rstar_button || bfstarButton) {
 			GUI.Label(new Rect(10,ystart+170,25,20), "speed");
 			isay_speed = GUI.TextField(new Rect(45, ystart+172, 40, 20), isay_speed, 25);	
 		}

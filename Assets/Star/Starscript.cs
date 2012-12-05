@@ -144,11 +144,12 @@ public class Starscript : MonoBehaviour {
         r.light.intensity = 2f;
         
 		//if star is a mover, the actual game is playing, and the star is visible move to destination point
-		if(is_moving && !editor_freeze && renderer.isVisible)
+		if(is_moving && !editor_freeze  && renderer.isVisible)
 		{
 			transform.position += speed*new Vector3(dir.x*Time.deltaTime,dir.y*Time.deltaTime,0);
 		}
 		
+		//
 		if(bandf && (start_loc.x > destination.x && transform.position.x<destination.x) ||
                         (start_loc.y > destination.y && transform.position.y < destination.y) ||
                         (start_loc.x < destination.x && transform.position.x > destination.x) ||
