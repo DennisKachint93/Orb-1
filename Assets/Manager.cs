@@ -268,6 +268,9 @@ public class Manager : MonoBehaviour {
 			}
 		}
 		
+		//testing backandforth stars
+		CreateMovingStar(0,500,Color.red,tred,35,new Vector3(500,0,0),100f,true);
+		
 	}
 	
 	//check to see if location of object determines level boundaries
@@ -574,9 +577,9 @@ public class Manager : MonoBehaviour {
 	}
 	
 	//instantiates a star that moves in the direction given at the speed given
-	GameObject CreateMovingStar(float x, float y, Color color, Texture texture, float size, Vector3 dir, float speed)
+	GameObject CreateMovingStar(float x, float y, Color color, Texture texture, float size, Vector3 dir, float speed, bool bandf = false)
 	{
-		bool bandf = false;
+		//bool bandf = false;
 		GameObject mstar = CreateStar(x,y,color,texture,size);
 		Starscript scpt  = mstar.GetComponent<Starscript>();
 		scpt.is_moving = true;
