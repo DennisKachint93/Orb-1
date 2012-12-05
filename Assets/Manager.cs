@@ -260,6 +260,9 @@ public class Manager : MonoBehaviour {
 		//load next level
 		LoadLevel(gscpt.level_order[gscpt.cur_level]);
 		
+		//set lastStar to first star (because it's the last star you visited)
+		lastStar = star_arr[0];
+		
 		//instantiate background based on level constraints --this is going to change.
 		for (int i = (int)level_x_min-2500; i <= (int)level_x_max+2500; i+=2500) {
 			for (int j = (int)level_y_min-2500; j <= (int)level_y_max+2500; j+=2500) {
@@ -267,9 +270,6 @@ public class Manager : MonoBehaviour {
 				p.transform.Rotate(270, 0, 0);
 			}
 		}
-		
-		//testing backandforth stars
-		CreateMovingStar(0,500,Color.red,tred,35,new Vector3(500,0,0),100f,true);
 		
 	}
 	
