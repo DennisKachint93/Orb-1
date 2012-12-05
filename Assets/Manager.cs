@@ -741,9 +741,9 @@ public class Manager : MonoBehaviour {
 			energy -= INVINC_COST;
 		}
 		
-		//change learth color back to normal
-		if(Input.GetKeyUp (KeyCode.D))
-			l.renderer.material.color = Color.red;
+		//change learth color back to normal - causes color change of learth when bombs fired with key D as well
+	/*	if(Input.GetKeyUp (KeyCode.D))
+			l.renderer.material.color = Color.red; */
 			
 		//keep track of aliens potentially turning off powerups
 		is_being_attacked = false;

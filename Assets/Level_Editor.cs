@@ -579,7 +579,7 @@ public class Level_Editor : MonoBehaviour {
 			GUI.Label(new Rect(10,Screen.height - 150, 100, 25), "Filename:");
 			isay_fname = GUI.TextField(new Rect(45, Screen.height - 120, 100, 25), isay_fname, 25);
 			if(GUI.Button(new Rect(10, Screen.height - 90,100,25), "save to file")) {
-				SaveLevel(isay_fname);
+				SaveLevel("Levels/"+isay_fname);
 				save_button = false;
 			}
 		}
