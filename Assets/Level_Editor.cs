@@ -180,6 +180,7 @@ public class Level_Editor : MonoBehaviour {
 		if(bandf){
 			scpt.destination = dir;
 			scpt.start_loc = mstar.transform.position;
+			scpt.bandf = true;
 		}
 		else{
 			scpt.dir = dir;
@@ -373,8 +374,14 @@ public class Level_Editor : MonoBehaviour {
 					} else if(scpt.c.Equals(purple)){
 						color = "purple";
 					} 	
+					//append true/false if star is a b and f or not
+					string isbandf;
+					if(scpt.bandf)
+						isbandf = "true";
+					else
+						isbandf = "false";
 					sw.WriteLine(mstar_arr[i].transform.position.x+","+mstar_arr[i].transform.position.y+","+color+","+scpt.orbitRadius
-						+","+scpt.dir.x+","+scpt.dir.y+","+scpt.speed);
+						+","+scpt.dir.x+","+scpt.dir.y+","+scpt.speed+","+isbandf);
 				}
 				
 				//aliens

@@ -35,17 +35,9 @@ public class Menu : MonoBehaviour {
 		//set default ship settings here
 		
 		//levels that will be played in order
-		string[] level_order = new string[10] {
-											"Levels/Malcolm-3.txt",
-											"Levels/tutorial-1.txt",
-											"Levels/tutorial-2",
-											"Levels/Ethan-4.txt",
-											"Levels/rollypolly.txt",
-											"Levels/guided.txt",
-											"Levels/ring.txt",
-											"Levels/Malcolm-2.txt",
-											"Levels/Ethan-1.txt",
-											"Levels/Galaxies.txt"
+		string[] level_order = new string[1] {
+											"Levels/bf_save_test"
+											
 																};
 		//state object keeps track of levels
 		gscpt.level_order = level_order;

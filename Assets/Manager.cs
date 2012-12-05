@@ -457,7 +457,7 @@ public class Manager : MonoBehaviour {
 			
 			//make the star
 			CreateMovingStar(float.Parse(args[0]),float.Parse(args[1]), 
-				starcol, startex, float.Parse(args[3]), new Vector3(float.Parse (args[4]), float.Parse(args[5]),0), float.Parse(args[6]));
+				starcol, startex, float.Parse(args[3]), new Vector3(float.Parse (args[4]), float.Parse(args[5]),0), float.Parse(args[6]), bool.Parse(args[7]));
 			checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
 		}
 		
