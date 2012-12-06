@@ -26,6 +26,7 @@ public class Level_Editor : MonoBehaviour {
 	public GameObject rip;
 	public GameObject coin;
 	public GameObject alien;
+	public GameObject boost;
 	
 	//actual objects used in script
 	public static GameObject l, s, e;
@@ -35,6 +36,7 @@ public class Level_Editor : MonoBehaviour {
 	public GameObject[] mstar_arr;
 	public GameObject[] rstar_arr;
 	public GameObject[] alien_arr;
+	public GameObject[] boost_arr;
 	public int numStars = 0;
 	
 	//star colors
@@ -94,6 +96,9 @@ public class Level_Editor : MonoBehaviour {
 	//save button
 	private bool save_button = false;
 	
+	//boost button
+	private bool boost_button = false;
+	
 	void Start () {
 		
 		//set camera height for level editing
@@ -116,6 +121,19 @@ public class Level_Editor : MonoBehaviour {
 		rip_arr[rip_arr.Length-1] = rip_actual;
 		
 		return rip_actual;
+	}
+	
+	//instantiates a boost pick at the location provided
+	GameObject CreateBoost(float x, float y) {
+		GameObject boost_actual= Instantiate(boost, new Vector3(x, y, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		
+		//put rip in boost_arr for unloading
+		GameObject[] temp_arr = new GameObject[boost_arr.Length+1];
+		for(int i=0;i<boost_arr.Length;i++)
+			temp_arr[i] = boost_arr[i];
+		boost_arr = temp_arr;
+		boost_arr[boost_arr.Length-1] = boost_actual;
+		return boost_actual;
 	}
 	
 	GameObject CreateCoin(float x, float y)
@@ -511,8 +529,20 @@ public class Level_Editor : MonoBehaviour {
 			coin_button = false;
 			mstar_button = false;			
 		 }	
+		//boost button
+		if(GUI.Button (new Rect(10,255,70,25), "Boost")) {
+			boost_button = !boost_button;
+			spaceRipButton = false;
+			starbut = false;
+			mstar_button = false;
+			rstar_button = false;
+			alien_button = false;
+			blackHoleButton = false;		
+			bfstarButton = false;
+			coin_button = false;
+		}
 		
-		int ystart = 240; //starting y value of pop-up box
+		int ystart = 300; //starting y value of pop-up box
 		//if star button has been clicked, pop up box to change star color/size
  		if(starbut || mstar_button || rstar_button || blackHoleButton || bfstarButton){
 			if(GUI.Button(new Rect(25, ystart+10, 45, 30), "Done")){
