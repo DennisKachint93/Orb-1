@@ -83,6 +83,9 @@ public class Starscript : MonoBehaviour {
 	public int SMALL_EXPLOSION = 1;
 	public int NO_EXPLOSION = 0;
 	
+	//save first position for level editor
+	public Vector3 dir_actual;
+	
 	//true if destroyed so learth will not return to this star on death
 	public bool is_destroyed = false;
 	
@@ -97,9 +100,13 @@ public class Starscript : MonoBehaviour {
 		GameObject go = GameObject.Find("game_state");
 		gscpt = go.GetComponent<Game_State>();
 		
+		
+		
 		if(bandf){
 			dir = (destination - start_loc);
-			dir.Normalize();
+			//don't normalize in the editor or the wrong values will be written to the save file
+			if(!editor_freeze)
+				dir.Normalize();
 		}	
 	
 		//if the star is a black hole, instantiate cylinder to represent the black hole

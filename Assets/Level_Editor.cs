@@ -185,8 +185,8 @@ public class Level_Editor : MonoBehaviour {
 		else{
 			scpt.dir = dir;
 		}
-		scpt.speed = speed;
 		scpt.editor_freeze = true;
+		scpt.speed = speed;
 		
 		GameObject[] temp_arr = new GameObject[mstar_arr.Length+1];
 		for(int i=0;i<mstar_arr.Length;i++)
@@ -305,7 +305,7 @@ public class Level_Editor : MonoBehaviour {
 		//check if file exists
 		if(File.Exists(path))
 		{
-			//output a GUI message alerting the user to pick a different name
+		
 			
 		} else {
 			//write info to file
@@ -375,13 +375,15 @@ public class Level_Editor : MonoBehaviour {
 						color = "purple";
 					} 	
 					//append true/false if star is a b and f or not
-					string isbandf;
-					if(scpt.bandf)
-						isbandf = "true";
-					else
-						isbandf = "false";
-					sw.WriteLine(mstar_arr[i].transform.position.x+","+mstar_arr[i].transform.position.y+","+color+","+scpt.orbitRadius
-						+","+scpt.dir.x+","+scpt.dir.y+","+scpt.speed+","+isbandf);
+					if(scpt.bandf) {
+
+						sw.WriteLine(mstar_arr[i].transform.position.x+","+mstar_arr[i].transform.position.y+","+color+","+scpt.orbitRadius
+							+","+scpt.destination.x+","+scpt.destination.y+","+scpt.speed+","+true);
+					}
+					else {
+						sw.WriteLine(mstar_arr[i].transform.position.x+","+mstar_arr[i].transform.position.y+","+color+","+scpt.orbitRadius
+							+","+scpt.dir.x+","+scpt.dir.y+","+scpt.speed+","+false);
+					}
 				}
 				
 				//aliens
@@ -432,7 +434,8 @@ public class Level_Editor : MonoBehaviour {
 			mstar_button = false;
 			rstar_button = false;
 			alien_button = false;
-			blackHoleButton = false;			
+			blackHoleButton = false;
+			bfstarButton = false;
 		}
 		//star button -- after pressing button, user can enter star size and color and then click to add space rips to locations
 		if(GUI.Button(new Rect(10, 45, 70, 25), "star")){
@@ -443,6 +446,7 @@ public class Level_Editor : MonoBehaviour {
 			rstar_button = false;
 			alien_button = false;
 			blackHoleButton = false;			
+			bfstarButton = false;
 		}
 		//coin button
 		if(GUI.Button (new Rect(10,75,70,25), "coin")) {
@@ -453,6 +457,7 @@ public class Level_Editor : MonoBehaviour {
 			rstar_button = false;
 			alien_button = false;
 			blackHoleButton = false;		
+			bfstarButton = false;
 		}
 		//moving star button
 		if(GUI.Button (new Rect(10,105,70,25), "mstar")) {
@@ -463,6 +468,7 @@ public class Level_Editor : MonoBehaviour {
 			coin_button = false;
 			alien_button = false;
 			blackHoleButton = false;		
+			bfstarButton = false;
 		}
 		//revolving star button
 		if(GUI.Button (new Rect(10,135,70,25), "rstar")) {
@@ -473,6 +479,7 @@ public class Level_Editor : MonoBehaviour {
 			mstar_button = false;
 			alien_button = false;
 			blackHoleButton = false;		
+			bfstarButton = false;
 		}
 		//alien button
 		if(GUI.Button(new Rect (10,165,70,25), "alien")) {
@@ -483,6 +490,7 @@ public class Level_Editor : MonoBehaviour {
 			coin_button = false;
 			mstar_button = false;
 			blackHoleButton = false;
+			bfstarButton = false;
 		}
 		//black hole button
 		if(GUI.Button(new Rect (10, 195, 75, 25), "black hole")) {
@@ -492,6 +500,7 @@ public class Level_Editor : MonoBehaviour {
 			rstar_button = false;
 			coin_button = false;
 			mstar_button = false;			
+			bfstarButton = false;
 		 }	
 		//bandf star button
 		if(GUI.Button(new Rect (10, 225, 75, 25), "bfstar")) {
