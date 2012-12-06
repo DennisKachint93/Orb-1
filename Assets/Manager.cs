@@ -356,6 +356,7 @@ public class Manager : MonoBehaviour {
 		int mstars = int.Parse (sp[3]);
 		int aliens = int.Parse(sp[4]);
 		int rstars = int.Parse (sp[5]);
+		int boosts = int.Parse (sp[6]);
 		
 		//create all stars specified in the text file
 		for(int i=0; i<stars;i++)
@@ -511,6 +512,13 @@ public class Manager : MonoBehaviour {
 				starcol, startex, float.Parse(args[5]),float.Parse (args[6]));
 			checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
 			checkBoundaries(float.Parse(args[2]), float.Parse(args[3]));
+		}
+		
+		//create boosts
+		for(int i = 0; i < boosts; i++) {
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			CreateBoost(float.Parse(args[0]), float.Parse(args[1]));
 		}
 		
 	}

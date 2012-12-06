@@ -307,11 +307,19 @@ public class Level_Editor : MonoBehaviour {
 				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				CreateAlien(location.x,location.y);					
 			}
-			
+		
+			//black holes
 			if(blackHoleButton) {				
 				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 starsize = float.Parse(isaysize);
 				CreateStar(location.x,location.y,starcol,startex,starsize,true,true);
+			}
+			
+			//boost 
+			if(boost_button)
+			{
+				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				CreateBoost(location.x,location.y);	
 			}
 			
 		}
@@ -330,7 +338,9 @@ public class Level_Editor : MonoBehaviour {
 			using (StreamWriter sw = File.CreateText(path))
     		{
 				//write lengths header (update this line as saving is implemented for other elements)
-    			sw.WriteLine(star_arr.Length+","+rip_arr.Length+","+coin_arr.Length+","+mstar_arr.Length+","+alien_arr.Length+","+rstar_arr.Length);
+    			sw.WriteLine(star_arr.Length+","+rip_arr.Length+","+coin_arr.Length
+					+","+mstar_arr.Length+","+alien_arr.Length+","+rstar_arr.Length
+					+","+boost_arr.Length);
 				
 				//stars
 				for(int i = 0; i < star_arr.Length;i++)
@@ -433,6 +443,11 @@ public class Level_Editor : MonoBehaviour {
 					sw.WriteLine(rstar_arr[i].transform.position.x+","+rstar_arr[i].transform.position.y+","+scpt.rpoint.x+","
 						+scpt.rpoint.y+","+color+","+scpt.orbitRadius+","+scpt.rspeed);
 					
+				}
+				
+				//boosts
+				for(int i = 0; i < boost_arr.Length; i++) {
+					sw.WriteLine(boost_arr[i].transform.position.x+","+boost_arr[i].transform.position.y);	
 				}
     		}
 				
