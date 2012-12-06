@@ -16,6 +16,7 @@ public class boost_pickup : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+		//if you run into the boost, steadily increase energy until boost is over, then disappear
 		if(is_activated) {
 			if(Time.time - start_time > BOOST_DUR) {
 				Destroy(gameObject);
@@ -23,6 +24,9 @@ public class boost_pickup : MonoBehaviour {
 				Manager.energy += BOOST_RATE;	
 			}			
 		}
+		
+		//rotate in place
+		transform.Rotate(new Vector3(0,90*Time.deltaTime,0));
 	
 	}
 	
@@ -30,6 +34,8 @@ public class boost_pickup : MonoBehaviour {
 		if(c.transform.name == "Learth(Clone)") {
 			is_activated = true;
 			start_time = Time.time;
+			
+			//make gameobject too small to hit while script is running (then it gets destoryed)
 			transform.localScale -= transform.localScale;
 		}
 	}
