@@ -69,6 +69,7 @@
      <Compile Include="Assets\Star\Starscript.cs" />
      <Compile Include="Assets\alien\alien_behavior.cs" />
      <Compile Include="Assets\bullet\bullet_behav.cs" />
+     <Compile Include="Assets\pickups\boost_pickup.cs" />
      <None Include="Assets\Test Text Files\level2.txt" />
      <None Include="Assets\Test Text Files\blackHoleTest.txt" />
      <None Include="Assets\Test Text Files\Level1.txt" />

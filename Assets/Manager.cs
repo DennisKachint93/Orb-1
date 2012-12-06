@@ -159,6 +159,7 @@ public class Manager : MonoBehaviour {
 	public GameObject alien;
 	public GameObject bomb;
 	public GameObject lbullet;
+	public GameObject boost;
 	
 	public static GameObject cur_star;
 	public GameObject star_background_star;
@@ -172,6 +173,7 @@ public class Manager : MonoBehaviour {
 	public GameObject[] rip_arr;
 	public GameObject[] coin_arr;
 	public static  GameObject[] alien_arr = new GameObject[0];
+	public GameObject[] boost_arr;
 	public int numStars = 0;
 	
 	//positions past which learth will die. levels are always rectangles. 
@@ -270,6 +272,9 @@ public class Manager : MonoBehaviour {
 				p.transform.Rotate(270, 0, 0);
 			}
 		}
+		
+		//test boost
+		CreateBoost(100,0);
 		
 	}
 	
@@ -543,6 +548,19 @@ public class Manager : MonoBehaviour {
 		alien_arr[alien_arr.Length-1] = alien_actual;
 		
 		return alien_actual;
+	}
+	
+	//instantiates a boost pick at the location provided
+	GameObject CreateBoost(float x, float y) {
+		GameObject boost_actual= Instantiate(boost, new Vector3(x, y, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		
+		//put rip in boost_arr for unloading
+		GameObject[] temp_arr = new GameObject[boost_arr.Length+1];
+		for(int i=0;i<boost_arr.Length;i++)
+			temp_arr[i] = boost_arr[i];
+		boost_arr = temp_arr;
+		boost_arr[boost_arr.Length-1] = boost_actual;
+		return boost_actual;
 	}
 	
 	//instantiates a coin at the location provided
