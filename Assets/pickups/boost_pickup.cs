@@ -3,14 +3,10 @@ using System.Collections;
 
 public class boost_pickup : MonoBehaviour {
 	
-	//controls behavior after being collected by learth
-	private bool is_activated;
-	
-	//when powerup was hit
-	private float time_start;
-	
-	//boost length
-	private float BOOST_DURATION = 5;
+	private bool is_activated = false;
+	private float start_time;
+	private float BOOST_DUR = 5;
+	private float BOOST_RATE = 0.5f;
 
 	// Use this for initialization
 	void Start () {
@@ -20,22 +16,21 @@ public class boost_pickup : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if(is_activated)
-		{
-			if(Time.time - time_start >= BOOST_DURATION) {
-				boost_pickup bp = gameObject.GetComponent<boost_pickup>();
-				bp.enabled = false;
-			}
-			Debug.Log("activated!");
-			
+		if(is_activated) {
+			if(Time.time - start_time > BOOST_DUR) {
+				Destroy(gameObject);
+			} else {
+				Manager.energy += BOOST_RATE;	
+			}			
 		}
 	
 	}
 	
 	void OnCollisionEnter(Collision c) {
-		if(!is_activated && c.transform.name == "Learth(Clone)") {
+		if(c.transform.name == "Learth(Clone)") {
 			is_activated = true;
-			time_start = Time.time;
+			start_time = Time.time;
+			transform.localScale -= transform.localScale;
 		}
 	}
 }
