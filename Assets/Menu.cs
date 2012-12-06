@@ -36,7 +36,7 @@ public class Menu : MonoBehaviour {
 		
 		//levels that will be played in order
 		string[] level_order = new string[1] {
-											"Levels/boost-test"
+											"Levels/invinc-test"
 											
 																};
 		//state object keeps track of levels

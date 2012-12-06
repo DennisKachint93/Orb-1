@@ -27,6 +27,7 @@ public class Level_Editor : MonoBehaviour {
 	public GameObject coin;
 	public GameObject alien;
 	public GameObject boost;
+	public GameObject invinc;
 	
 	//actual objects used in script
 	public static GameObject l, s, e;
@@ -37,6 +38,7 @@ public class Level_Editor : MonoBehaviour {
 	public GameObject[] rstar_arr;
 	public GameObject[] alien_arr;
 	public GameObject[] boost_arr;
+	public GameObject[] invinc_arr;
 	public int numStars = 0;
 	
 	//star colors
@@ -99,6 +101,9 @@ public class Level_Editor : MonoBehaviour {
 	//boost button
 	private bool boost_button = false;
 	
+	//invincibility
+	private bool invinc_button = false;
+	
 	void Start () {
 		
 		//set camera height for level editing
@@ -122,7 +127,19 @@ public class Level_Editor : MonoBehaviour {
 		
 		return rip_actual;
 	}
-	
+	GameObject CreateInvinc(float x, float y) {
+			
+		GameObject invinc_actual= Instantiate(invinc, new Vector3(x, y, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		
+		//put rip in boost_arr for unloading
+		GameObject[] temp_arr = new GameObject[invinc_arr.Length+1];
+		for(int i=0;i<invinc_arr.Length;i++)
+			temp_arr[i] = invinc_arr[i];
+		invinc_arr = temp_arr;
+		invinc_arr[invinc_arr.Length-1] = invinc_actual;
+		return invinc_actual;
+		
+	}
 	//instantiates a boost pick at the location provided
 	GameObject CreateBoost(float x, float y) {
 		GameObject boost_actual= Instantiate(boost, new Vector3(x, y, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
@@ -322,6 +339,14 @@ public class Level_Editor : MonoBehaviour {
 				CreateBoost(location.x,location.y);	
 			}
 			
+			//invincibility
+			if(invinc_button)
+			{
+				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				CreateInvinc(location.x,location.y);	
+				
+			}
+			
 		}
 	}   
 	
@@ -340,7 +365,7 @@ public class Level_Editor : MonoBehaviour {
 				//write lengths header (update this line as saving is implemented for other elements)
     			sw.WriteLine(star_arr.Length+","+rip_arr.Length+","+coin_arr.Length
 					+","+mstar_arr.Length+","+alien_arr.Length+","+rstar_arr.Length
-					+","+boost_arr.Length);
+					+","+boost_arr.Length+","+invinc_arr.Length);
 				
 				//stars
 				for(int i = 0; i < star_arr.Length;i++)
@@ -449,6 +474,12 @@ public class Level_Editor : MonoBehaviour {
 				for(int i = 0; i < boost_arr.Length; i++) {
 					sw.WriteLine(boost_arr[i].transform.position.x+","+boost_arr[i].transform.position.y);	
 				}
+				
+				//invincibilities
+				for(int i = 0; i < invinc_arr.Length; i++)
+				{
+					sw.WriteLine(invinc_arr[i].transform.position.x+","+invinc_arr[i].transform.position.y);	
+				}
     		}
 				
 			
@@ -556,6 +587,19 @@ public class Level_Editor : MonoBehaviour {
 			bfstarButton = false;
 			coin_button = false;
 		}
+		if(GUI.Button (new Rect(10,285,70,25), "Invinc")) {
+			invinc_button = !invinc_button;
+			spaceRipButton = false;
+			starbut = false;
+			mstar_button = false;
+			rstar_button = false;
+			alien_button = false;
+			blackHoleButton = false;		
+			bfstarButton = false;
+			coin_button = false;
+			boost_button = false;
+		}
+		
 		
 		int ystart = 300; //starting y value of pop-up box
 		//if star button has been clicked, pop up box to change star color/size

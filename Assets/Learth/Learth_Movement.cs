@@ -44,25 +44,27 @@ public class Learth_Movement : MonoBehaviour {
 	
 	void OnCollisionEnter (Collision collision)
 	{
-		if(!Input.GetKey(KeyCode.D) || !Manager.SHIELD)
-		{
 			//if learth collides with a space rip, die
 			if(collision.gameObject.name == "Space_Rip(Clone)") {
-				Manager.Die();
+				if(!Manager.IS_INVINCIBLE)	
+					Manager.Die();
 			}
 			//if learth collides with a star, die
 			if(collision.gameObject.name == "Star(Clone)") {
-				Manager.Die();	
+				//if the invincibility powerup is turned on, instead of dying, blow the star up and steal its energy
+				if(Manager.IS_INVINCIBLE) {
+					Manager.energy += Manager.INVINC_ENERGY_BONUS;
+					Starscript col_scpt = collision.gameObject.GetComponent<Starscript>();
+					col_scpt.removeStar(2);
+				}
+				else {
+					Manager.Die();	
+				}
 			}
 			if(collision.gameObject.name == "coin(Clone)") {
 				GameObject go = GameObject.Find("Alien_Exp_Sound");
 				Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
 				ascpt.coin_grab.Play();
-				//gscpt.num_coins++;
-				//scscpt.audio.PlayOneShot(scscpt.alien_explosion);
-				//scscpt.audio.clip = scscpt.coin_capture;
-				//scscpt.audio.Play();
-				//scscpt.audio.PlayOneShot(scscpt.coin_capture);
 				gscpt.coins_collected++;
 				Manager.energy += 3;
 				cpe = Instantiate (coin_pickup_effect, collision.gameObject.transform.position, 
@@ -70,7 +72,7 @@ public class Learth_Movement : MonoBehaviour {
 				Destroy(collision.gameObject);
 			}
 			
-		}
+		
 	}	
 	
 	

@@ -26,7 +26,7 @@ public class boost_pickup : MonoBehaviour {
 		}
 		
 		//rotate in place
-		transform.Rotate(new Vector3(0,90*Time.deltaTime,0));
+		transform.Rotate(new Vector3(0,180*Time.deltaTime,0));
 	
 	}
 	

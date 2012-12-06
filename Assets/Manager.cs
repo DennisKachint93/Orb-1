@@ -129,6 +129,8 @@ public class Manager : MonoBehaviour {
 	public static float BLUE_ENERGY = 25f;
 	public static float AQUA_ENERGY = 30f;
 	public static float PURPLE_ENERGY = 35f;
+	//energy from blowing up a star by flying through it while invincible
+	public static float INVINC_ENERGY_BONUS = 50;
 
 	//POWERUP BOOLEANS (these are special cases. try to avoid using powerup booleans. use a new script.)
     public static bool SHIELD = false;
@@ -160,6 +162,7 @@ public class Manager : MonoBehaviour {
 	public GameObject bomb;
 	public GameObject lbullet;
 	public GameObject boost;
+	public GameObject invinc;
 	
 	public static GameObject cur_star;
 	public GameObject star_background_star;
@@ -174,6 +177,7 @@ public class Manager : MonoBehaviour {
 	public GameObject[] coin_arr;
 	public static  GameObject[] alien_arr = new GameObject[0];
 	public GameObject[] boost_arr;
+	public GameObject[] invinc_arr;
 	public int numStars = 0;
 	
 	//positions past which learth will die. levels are always rectangles. 
@@ -215,7 +219,6 @@ public class Manager : MonoBehaviour {
     //energy gauge
     public Texture gaugeTexture;
 
-	
 	//timer
 	public float start_time;
 	
@@ -237,6 +240,10 @@ public class Manager : MonoBehaviour {
 	
 	//testing audio
 	public AudioClip test_aud;
+	
+	//flag set by the invincibility powerup
+	public static bool IS_INVINCIBLE = false;
+	
 	
 	void Start () {
 		//performance
@@ -273,8 +280,6 @@ public class Manager : MonoBehaviour {
 			}
 		}
 		
-		//test boost
-		CreateBoost(100,0);
 		
 	}
 	
@@ -357,6 +362,7 @@ public class Manager : MonoBehaviour {
 		int aliens = int.Parse(sp[4]);
 		int rstars = int.Parse (sp[5]);
 		int boosts = int.Parse (sp[6]);
+		int invincs = int.Parse(sp[7]);
 		
 		//create all stars specified in the text file
 		for(int i=0; i<stars;i++)
@@ -521,6 +527,13 @@ public class Manager : MonoBehaviour {
 			CreateBoost(float.Parse(args[0]), float.Parse(args[1]));
 		}
 		
+		//create invinces
+		for(int i = 0; i < invincs; i++) {
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			CreateInvinc(float.Parse(args[0]), float.Parse(args[1]));
+		}
+		
 	}
 	
 	//puts learth in orbit given a valid radius
@@ -569,6 +582,20 @@ public class Manager : MonoBehaviour {
 		boost_arr = temp_arr;
 		boost_arr[boost_arr.Length-1] = boost_actual;
 		return boost_actual;
+	}
+	
+	GameObject CreateInvinc(float x, float y) {
+			
+		GameObject invinc_actual= Instantiate(invinc, new Vector3(x, y, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		
+		//put rip in boost_arr for unloading
+		GameObject[] temp_arr = new GameObject[invinc_arr.Length+1];
+		for(int i=0;i<invinc_arr.Length;i++)
+			temp_arr[i] = invinc_arr[i];
+		invinc_arr = temp_arr;
+		invinc_arr[invinc_arr.Length-1] = invinc_actual;
+		return invinc_actual;
+		
 	}
 	
 	//instantiates a coin at the location provided
