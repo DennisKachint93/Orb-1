@@ -216,6 +216,8 @@ public class Manager : MonoBehaviour {
 	public Texture tpurple;	
 	public Texture tgray;
 	
+	//texture of space station
+	public Texture station_texture;
     //energy gauge
     public Texture gaugeTexture;
 
@@ -229,8 +231,8 @@ public class Manager : MonoBehaviour {
     private float fps;
     
 	//game state
-	GameObject game_state;
-	static Game_State gscpt;
+	public static GameObject game_state;
+	public static Game_State gscpt;
 	
 	//true if being attackign
 	public static bool is_being_attacked = false;
@@ -395,17 +397,31 @@ public class Manager : MonoBehaviour {
 				starcol = purple;
 				startex = tpurple;
 			}
+			//if it is the first star, it becomes the spacestation
+			float starsize;
+			if (i == 0 || i == stars-1) {
+				startex = station_texture;
+				starcol = Color.white;
+				starsize = 200;
+			}
+			else
+				starsize = float.Parse(args[3]);
 			
 			//make the star
-			GameObject newstar = CreateStar(float.Parse(args[0]),float.Parse(args[1]), starcol, startex, float.Parse(args[3]), bool.Parse(args[4]));
+			GameObject newstar = CreateStar(float.Parse(args[0]),float.Parse(args[1]), starcol, startex, starsize, bool.Parse(args[4]));
 			
 			//learth starts in orbit around first star specified
-			if(i == 0) 
+			if(i == 0) {
+				Starscript scpt = newstar.GetComponent<Starscript>();
+				scpt.is_source = true;
+				print (scpt.orbitRadius);
 				GoToOrbit(newstar,float.Parse(args[3]));	
+			}
 			//last star is the sink
 			if(i == stars-1){
 				Starscript scpt = newstar.GetComponent<Starscript>();
 				scpt.is_sink = true;
+				scpt.orbitRadius = 0;
 			}  else {
 				Starscript scpt = newstar.GetComponent<Starscript>();
 				scpt.is_sink = false;
@@ -757,23 +773,6 @@ public class Manager : MonoBehaviour {
 		
 		//Speed increases logarithmically with energy
 		speed = Mathf.Log(energy)*MOVEMENT_SPEED + CONSTANT_SPEED;
-		
-		//end level if reach sink
-		Starscript starscpt = cur_star.GetComponent<Starscript>();
-		if(starscpt.is_sink) {
-		
-			//record delivered energy
-			gscpt.energy_delivered = energy;
-			
-			//increment level counter
-			gscpt.cur_level++;
-			
-			//set in game to false
-			gscpt.in_game = false;
-			
-			//open the ship outfitter
-			Application.LoadLevel("Ship_Outfitter");
-		}
 
 		//bending
 		if(Input.GetKey(KeyCode.Q))
@@ -987,7 +986,7 @@ public class Manager : MonoBehaviour {
 							clockwise = false;
 						}
 						
-						if (!sscript.isBlackHole) {
+						if (!sscript.isBlackHole & !sscript.is_source) {
 							//add appropriate energy value depending on color of star and change learth's trail color
 							if(sscript.c == Color.red) {
 								energy += RED_ENERGY;

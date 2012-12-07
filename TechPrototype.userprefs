@@ -1,12 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/pickups/invincibility/invinc_pickup.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\Learth_Movement">
     <Files>
-      <File FileName="Assets/Manager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Level_Editor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Menu.cs" Line="1" Column="1" />
-      <File FileName="Assets/pickups/boost/boost_pickup.cs" Line="1" Column="1" />
-      <File FileName="Assets/pickups/invincibility/invinc_pickup.cs" Line="23" Column="4" />
+      <File FileName="..\Learth_Movement" Line="66" Column="31" />
+      <File FileName="Assets\Manager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Level_Editor.cs" Line="1" Column="1" />
+      <File FileName="Assets\Menu.cs" Line="1" Column="1" />
+      <File FileName="Assets\pickups\boost\boost_pickup.cs" Line="1" Column="1" />
+      <File FileName="Assets\pickups\invincibility\invinc_pickup.cs" Line="1" Column="1" />
+      <File FileName="Assets\Learth\Learth_Movement.cs" Line="1" Column="1" />
+      <File FileName="Assets\Star\Starscript.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

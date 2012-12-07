@@ -51,8 +51,20 @@ public class Learth_Movement : MonoBehaviour {
 			}
 			//if learth collides with a star, die
 			if(collision.gameObject.name == "Star(Clone)") {
+				Starscript scpt = collision.gameObject.GetComponent<Starscript>();
+				//end level if reach sink
+				if (scpt.is_sink) {
+					//record delivered energy
+					Manager.gscpt.energy_delivered = Manager.energy;
+					//increment level counter
+					Manager.gscpt.cur_level++;
+					//set in game to false
+					Manager.gscpt.in_game = false;
+					//open the ship outfitter
+					Application.LoadLevel("Ship_Outfitter");
+				}
 				//if the invincibility powerup is turned on, instead of dying, blow the star up and steal its energy
-				if(Manager.IS_INVINCIBLE) {
+				else if(Manager.IS_INVINCIBLE) {
 					Manager.energy += Manager.INVINC_ENERGY_BONUS;
 					Starscript col_scpt = collision.gameObject.GetComponent<Starscript>();
 					col_scpt.removeStar(2);

@@ -66,6 +66,8 @@ public class Starscript : MonoBehaviour {
 	public float random;
 	//is winner
 	public bool is_sink = false;	
+	//is starter
+	public bool is_source = false;
 	//position at last frame
 	public Vector3 last_position;
 	//true if in level editor, so stars don't move
@@ -133,23 +135,26 @@ public class Starscript : MonoBehaviour {
 			this.transform.localScale *= starSize;
 		//radius of learth's entry is the size of the star	
 		orbitRadius = starSize;
-		//instantiate light halo at star's position the size of the orbit radius including radial error 
-		r = Instantiate(radius, new Vector3 (this.transform.position.x, this.transform.position.y, 90f), new Quaternion (0, 0, 0, 0)) as GameObject;
-		r.light.range = 2*orbitRadius + 2*Manager.RADIAL_ERROR;
-		//parent radius to star for destruction
-		r.transform.parent = this.transform;
+		if (!is_source && !is_sink) {
+			//instantiate light halo at star's position the size of the orbit radius including radial error 
+			r = Instantiate(radius, new Vector3 (this.transform.position.x, this.transform.position.y, 90f), new Quaternion (0, 0, 0, 0)) as GameObject;
+			r.light.range = 2*orbitRadius + 2*Manager.RADIAL_ERROR;
+			//parent radius to star for destruction
+			r.transform.parent = this.transform;
+		}
 		//random value for star's random rotation
 		random = Random.value;		
 	}
 	
 	void Update() {
-		//rotate star on its axis at a fixed random rate
-		transform.RotateAround(this.transform.position, Vector3.forward, starSize*Time.deltaTime*random);
 		//texture and color star
 		renderer.material.mainTexture = t;
-        r.light.color = c;
-        r.light.intensity = 2f;
-        
+        if (!is_sink && !is_source) {
+			r.light.color = c;
+       		r.light.intensity = 2f;
+			//rotate star on its axis at a fixed random rate
+			transform.RotateAround(this.transform.position, Vector3.forward, starSize*Time.deltaTime*random);
+		}
 		//if star is a mover, the actual game is playing, and the star is visible move to destination point
 		if(is_moving && !editor_freeze  && renderer.isVisible)
 		{
