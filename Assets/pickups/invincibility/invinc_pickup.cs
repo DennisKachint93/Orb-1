@@ -47,6 +47,10 @@ public class invinc_pickup : MonoBehaviour {
 			is_activated = true;
 			start_time = Time.time;
 			
+			GameObject go = GameObject.Find("Alien_Exp_Sound");
+			Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
+			ascpt.invinc.Play();
+			
 			//make gameobject too small to hit while script is running (then it gets destoryed later)
 			transform.localScale -= transform.localScale;
 		}

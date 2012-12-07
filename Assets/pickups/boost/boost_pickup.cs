@@ -32,6 +32,12 @@ public class boost_pickup : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision c) {
 		if(c.transform.name == "Learth(Clone)") {
+			//sound
+			
+			GameObject go = GameObject.Find("Alien_Exp_Sound");
+			Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
+			ascpt.boost_2.Play();
+			
 			is_activated = true;
 			start_time = Time.time;
 			
