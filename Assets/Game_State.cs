@@ -40,6 +40,8 @@ public class Game_State : MonoBehaviour {
 	public bool jump_on  = false;
 	public bool gun_on   = false;
 	public bool bend_on  = false;
+	public bool blackhole_on = false;
+	public bool direction_on = false;
 	
 	//ammunition (and default values)
 	public int bomb_ammo    = 3;

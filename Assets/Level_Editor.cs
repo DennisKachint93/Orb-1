@@ -486,7 +486,8 @@ public class Level_Editor : MonoBehaviour {
 		}
 	}
     
-	 void OnGUI() {        
+	 void OnGUI() {   
+		
 		//toolbar area
 		GUI.backgroundColor = Color.red;
 		GUI.Box(new Rect(0, 0, 93, Screen.height), "");
