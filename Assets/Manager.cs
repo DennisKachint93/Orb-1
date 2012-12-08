@@ -54,6 +54,8 @@ public class Manager : MonoBehaviour {
 		DIR_SHIFT_COST = 15;
 		//determines whether shield is activeable
 		SHIELD = false;
+		
+		SPACE_RIP_COST = 15;
 	 
 	 	/*BLACK HOLE CONSTANTS*/
 	 	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
@@ -136,7 +138,7 @@ public class Manager : MonoBehaviour {
     public static bool SHIELD = false;
     public static bool BLACK_HOLE_HELPER = false;
 	
-	
+	public static float SPACE_RIP_COST = 15f;
  	
  	/*BLACK HOLE CONSTANTS*/
  	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
@@ -832,8 +834,11 @@ public class Manager : MonoBehaviour {
 			//if learth is orbiting a moving planet, translate it with the planet to maintain circular orbit
 			Starscript scpt = cur_star.GetComponent<Starscript>();
 					
+			if(scpt.spiral) 
+				Learth_Movement.isTangent = false;
+			
 			//translate learth for moving stars to compensate for star movement
-			if(scpt.is_revolving || scpt.spiral || scpt.is_moving)
+			if(scpt.is_revolving || scpt.is_moving)
 			{
 				//difference in star positions since last frame
 				Vector3 vec = cur_star.transform.position - scpt.last_position;

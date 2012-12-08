@@ -1,15 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\Learth_Movement">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Manager.cs">
     <Files>
-      <File FileName="..\Learth_Movement" Line="66" Column="31" />
-      <File FileName="Assets\Manager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Star\Starscript.cs" Line="202" Column="91" />
+      <File FileName="Assets\Manager.cs" Line="58" Column="8" />
       <File FileName="Assets\Level_Editor.cs" Line="1" Column="1" />
-      <File FileName="Assets\Menu.cs" Line="1" Column="1" />
+      <File FileName="Assets\Menu.cs" Line="39" Column="36" />
       <File FileName="Assets\pickups\boost\boost_pickup.cs" Line="1" Column="1" />
       <File FileName="Assets\pickups\invincibility\invinc_pickup.cs" Line="1" Column="1" />
-      <File FileName="Assets\Learth\Learth_Movement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Star\Starscript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Learth\Learth_Movement.cs" Line="50" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

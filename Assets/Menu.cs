@@ -35,7 +35,8 @@ public class Menu : MonoBehaviour {
 		//set default ship settings here
 		
 		//levels that will be played in order
-		string[] level_order = new string[1] {
+		string[] level_order = new string[2] {
+											"Levels/blackholedeath",
 											"Levels/invinc-test"
 											
 																};
