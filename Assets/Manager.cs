@@ -59,11 +59,11 @@ public class Manager : MonoBehaviour {
 	 
 	 	/*BLACK HOLE CONSTANTS*/
 	 	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
-		BLACK_HOLE_SUCKINESS = 5f;	
+		BLACK_HOLE_SUCKINESS = 2f;	
 		//energy it takes to escape a black hole on each press of space bar
 		BH_ESCAPE_ENERGY = .2f;
 		//distance you travel when you press space to escape a black hole
-		BH_ESCAPE_DISTANCE = 300f;
+		BH_ESCAPE_DISTANCE = 20f;
 		
 		/*ALIEN CONSTANTS*/
 		//when aliens are within distance, they start to suck your energy
@@ -146,7 +146,7 @@ public class Manager : MonoBehaviour {
 	//energy it takes to escape a black hole on each press of space bar
 	private static float BH_ESCAPE_ENERGY = .2f;
 	//distance you travel when you press space to escape a black hole
-	private static float BH_ESCAPE_DISTANCE = 300f;
+	private static float BH_ESCAPE_DISTANCE = 400f;
 	
 	/*ALIEN CONSTANTS*/
 	//when aliens are within distance, they start to suck your energy
@@ -197,6 +197,7 @@ public class Manager : MonoBehaviour {
 	public static GameObject _lastStar;
 	public static GameObject __lastStar;
 	
+	public Vector3 perp2; //vector to help with leaving black holes
 	public static Vector3 tangent;
 	public static bool clockwise = false;
 	public static bool escaping_black_hole = false;
@@ -857,14 +858,24 @@ public class Manager : MonoBehaviour {
 			//if star is a black hole and you haven't traveled boost distance after pressing space bar, get sucked into center of black hole
 			if(scpt.isBlackHole && !escaping_black_hole) {
 				//speed up to increase dramatic effect
-				speed *= BLACK_HOLE_SUCKINESS/2;
+				speed *= BLACK_HOLE_SUCKINESS;
 				Vector3 perp = l.transform.position - cur_star.transform.position;
 				perp.Normalize();
-				l.transform.position -= perp/BLACK_HOLE_SUCKINESS;
+				l.transform.position -= perp*BLACK_HOLE_SUCKINESS;
 			}	
 			//if star is black hole and you recently pressed space to escape, don't get sucked and but travel towards outer edges of black hole
-			else if(scpt.isBlackHole && escaping_black_hole) 
-				l.transform.position = Vector3.Lerp(l.transform.position, point_of_escape + BH_ESCAPE_DISTANCE*speed*Learth_Movement.velocity.normalized, Time.deltaTime);	
+			else if(scpt.isBlackHole && escaping_black_hole) {
+				Vector3 perp = l.transform.position - cur_star.transform.position;
+				perp.Normalize();
+				float dist1 = Vector3.Distance(l.transform.position,cur_star.transform.position);
+				float dist2 = Vector3.Distance(point_of_escape+BH_ESCAPE_DISTANCE*perp2,cur_star.transform.position);
+				//if space was recently pressed but learth hasn't traveled full black hole escape distance, set escaping_black_hole to true, but if full distance has been traveled set to false 
+				if (dist2-dist1 < 10) 
+					escaping_black_hole = false;			
+				l.transform.position += perp*BLACK_HOLE_SUCKINESS;
+			//	l.transform.position = Vector3.Lerp(l.transform.position, point_of_escape + BH_ESCAPE_DISTANCE*speed*Learth_Movement.velocity.normalized, Time.deltaTime);	
+			
+			}
 			//rotate around star s
 			if (clockwise){
 					l.transform.RotateAround(s.transform.position, Vector3.forward, 
@@ -890,18 +901,21 @@ public class Manager : MonoBehaviour {
 				}
 				
 			}
-			
-			
-			
-			
+		
 			//if space bar is pressed, accelerate away from star. 
 			if (Input.GetKeyDown(KeyCode.Space)) {
 				//if star is a black hole, then lerp your way out
 				if (scpt.isBlackHole) {
+					//play sound
+					/*GameObject go = GameObject.Find("Alien_Exp_Sound");
+					Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
+					ascpt.blackholeboost.Play();*/
 					//each time space bar is pressed energy is consumed
 					energy -= BH_ESCAPE_ENERGY;
 					escaping_black_hole = true;
 					point_of_escape = l.transform.position;
+					perp2 = l.transform.position - cur_star.transform.position;
+					perp2.Normalize();
 			 		l.transform.position = Vector3.Lerp(l.transform.position, point_of_escape + BH_ESCAPE_DISTANCE*speed*Learth_Movement.velocity.normalized, Time.deltaTime);
 					//if outside of black hole radius, then black hole stops having an effect on learth
 					if (Vector3.Distance(l.transform.position, s.transform.position) >= scpt.orbitRadius/2) {
@@ -933,13 +947,6 @@ public class Manager : MonoBehaviour {
 					Learth_Movement.lastPos.position = l.transform.position - Learth_Movement.velocity.normalized*speed;
 				}
 			}
-			//if space was recently pressed but learth hasn't traveled full black hole escape distance, set escaping_black_hole to true, but if full distance has been traveled set to false 
-			Vector3 perp2 = l.transform.position - cur_star.transform.position;
-			perp2.Normalize();			
-			if (!escaping_black_hole && scpt.isBlackHole && Vector3.Distance(l.transform.position, Vector3.Distance(point_of_escape, cur_star.transform.position)*perp2) <= BH_ESCAPE_DISTANCE) 
-				escaping_black_hole = true;			 		
-			else
-			 	escaping_black_hole = false;
 		}
 		//if earth is not tangent to any star
 		else if (!Learth_Movement.isTangent) {

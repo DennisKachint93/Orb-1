@@ -2,13 +2,17 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Manager.cs">
     <Files>
-      <File FileName="Assets\Star\Starscript.cs" Line="202" Column="91" />
-      <File FileName="Assets\Manager.cs" Line="58" Column="8" />
+      <File FileName="Assets\Manager.cs" Line="912" Column="36" />
+      <File FileName="Assets\Star\Starscript.cs" Line="120" Column="35" />
       <File FileName="Assets\Level_Editor.cs" Line="1" Column="1" />
-      <File FileName="Assets\Menu.cs" Line="39" Column="36" />
-      <File FileName="Assets\pickups\boost\boost_pickup.cs" Line="1" Column="1" />
+      <File FileName="Assets\Menu.cs" Line="1" Column="1" />
+      <File FileName="Assets\pickups\boost\boost_pickup.cs" Line="41" Column="24" />
       <File FileName="Assets\pickups\invincibility\invinc_pickup.cs" Line="1" Column="1" />
-      <File FileName="Assets\Learth\Learth_Movement.cs" Line="50" Column="32" />
+      <File FileName="Assets\Learth\Learth_Movement.cs" Line="78" Column="26" />
+      <File FileName="Assets\alien\alien_behavior.cs" Line="1" Column="1" />
+      <File FileName="Assets\Sound_Cart.cs" Line="1" Column="1" />
+      <File FileName="Assets\Sound_Scripts\Alien_Exp_Sound.cs" Line="13" Column="28" />
+      <File FileName="Assets\Space Rip\Space_Rip.cs" Line="26" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -69,7 +69,7 @@ public class Learth_Movement : MonoBehaviour {
 					Starscript col_scpt = collision.gameObject.GetComponent<Starscript>();
 					col_scpt.removeStar(2);
 				}
-				else {
+				else if (!scpt.spiral) {
 					Manager.Die();	
 				}
 			}
