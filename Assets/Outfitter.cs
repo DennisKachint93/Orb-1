@@ -30,7 +30,8 @@ public class Outfitter : MonoBehaviour {
 	
 	//lizard person
 	public Texture gorn;
-	public Font Blue;
+	//GUI controls
+	public GUISkin skin;
 	int toolbar_width = 250;
 	float xoffset, yoffset;
 	
@@ -73,14 +74,12 @@ public class Outfitter : MonoBehaviour {
 		xoffset = Screen.width - toolbar_width + 20;
 		yoffset = 5;	
 		
-		//coin stuff	
-		
-	//	GUI.Label(bomb_button, "....................Allows you to purchase bombs",style);
 		/*
 		t1: bomb jump
-t2: alien gun, black hole
-t3: dir shift, time warp
+		t2: alien gun, black hole
+		t3: dir shift, time warp
 		*/
+		
 		bomb_button = new Rect(xoffset, yoffset+280, 200, 20);
 		//capacitor_button = new Rect(xoffset, yoffset+300, 200, 20);
 		alien_defense_button = new Rect(xoffset, yoffset+370, 200, 20);
@@ -103,11 +102,10 @@ t3: dir shift, time warp
 	
 	void OnGUI() {	
 		
-		GUIStyle style = new GUIStyle();
-   	//	style.font = Blue;
+		GUI.skin = skin;
+   		//style.font = gothicTech;
 		
 		GUI.Box(new Rect(Screen.width-toolbar_width, 0, toolbar_width, Screen.height), "");
-		
 		
 		GUI.Label(new Rect(xoffset,yoffset+5,400,25), "Previous mission");
 		GUI.Label(new Rect(xoffset,yoffset+20,400,25), "-----------------------------------");
