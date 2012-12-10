@@ -1,18 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Manager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Outfitter.cs">
     <Files>
-      <File FileName="Assets\Manager.cs" Line="912" Column="36" />
-      <File FileName="Assets\Star\Starscript.cs" Line="120" Column="35" />
-      <File FileName="Assets\Level_Editor.cs" Line="1" Column="1" />
-      <File FileName="Assets\Menu.cs" Line="1" Column="1" />
-      <File FileName="Assets\pickups\boost\boost_pickup.cs" Line="41" Column="24" />
-      <File FileName="Assets\pickups\invincibility\invinc_pickup.cs" Line="1" Column="1" />
-      <File FileName="Assets\Learth\Learth_Movement.cs" Line="78" Column="26" />
-      <File FileName="Assets\alien\alien_behavior.cs" Line="1" Column="1" />
-      <File FileName="Assets\Sound_Cart.cs" Line="1" Column="1" />
-      <File FileName="Assets\Sound_Scripts\Alien_Exp_Sound.cs" Line="13" Column="28" />
-      <File FileName="Assets\Space Rip\Space_Rip.cs" Line="26" Column="1" />
+      <File FileName="Assets\Outfitter.cs" Line="224" Column="31" />
+      <File FileName="Assets\Game_State.cs" Line="47" Column="31" />
+      <File FileName="Assets\Manager.cs" Line="1074" Column="81" />
+      <File FileName="Assets\Powerups\boost.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

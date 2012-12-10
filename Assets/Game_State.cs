@@ -29,26 +29,31 @@ public class Game_State : MonoBehaviour {
 	
 	//where these powerups are stored once they are purchased
 	public GameObject bomb_fitting;
-	public GameObject capac_fitting;
 	public GameObject jump_fitting;
 	public GameObject gun_fitting;
 	public GameObject bend_fitting;
+	public GameObject blackhole_fitting;
+	public GameObject direction_fitting;
+	public GameObject timewarp_fitting;
 	
 	//set to true once correspondign powerup is purchased to allow purchase of ammo/boosts/etc.
 	public bool bomb_on  = false;
-	public bool capac_on = false;
 	public bool jump_on  = false;
 	public bool gun_on   = false;
 	public bool bend_on  = false;
 	public bool blackhole_on = false;
 	public bool direction_on = false;
+	public bool timewarp_on = false;
+	public bool capac_on = false;
 	
 	//ammunition (and default values)
 	public int bomb_ammo    = 3;
-	public int capac_ammo   = 3;
 	public int jump_ammo    = 3;
 	public int gun_ammo     = 30;
+	public int dir_ammo		= 20;
+	public int timewarp_ammo= 1;
 	public float bend_ammo  = 10;
+	public float capac_ammo = 10;
 	
 	//Values used for scoring
 	public float coins_collected  = 0;

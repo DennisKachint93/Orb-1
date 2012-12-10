@@ -1068,14 +1068,10 @@ public class Manager : MonoBehaviour {
 		//ammo stats
 		if(gscpt.bomb_on)
 			GUI.Label(new Rect(10,Screen.height-130,150,50),"Bombs: "+gscpt.bomb_ammo);
-		if(gscpt.capac_on)
-			GUI.Label(new Rect(10,Screen.height-100,150,50),"Charges: "+gscpt.capac_ammo);
 		if(gscpt.jump_on)
 			GUI.Label(new Rect(10,Screen.height-160,150,50),"Jumps: "+gscpt.jump_ammo);
 		if(gscpt.gun_on)
 			GUI.Label(new Rect(10,Screen.height-190,150,50),"Torpedos: "+gscpt.gun_ammo);
-		if(gscpt.bend_on)
-			GUI.Label(new Rect(10,Screen.height-70,150,50),"Bending fluid: "+gscpt.bend_ammo);
 		
 		
       //  GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
