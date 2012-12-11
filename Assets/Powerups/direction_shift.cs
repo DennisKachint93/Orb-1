@@ -10,12 +10,12 @@ public class direction_shift : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	    if(Input.GetKeyUp(KeyCode.Z) ){
-			Debug.Break();
+			//Debug.Break();
             Learth_Movement.lastPos.RotateAround(Manager.l.transform.position, Vector3.forward, 90);
 			Manager.energy -= Manager.DIR_SHIFT_COST;
 	    }
 	    if(Input.GetKeyUp(KeyCode.X) ){
-			Debug.Break();
+			//Debug.Break();
 	    	Learth_Movement.lastPos.RotateAround(Manager.l.transform.position, Vector3.forward, -90);
 			Manager.energy -= Manager.DIR_SHIFT_COST;
 	    }
