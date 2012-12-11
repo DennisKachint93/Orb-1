@@ -223,6 +223,8 @@ public class Manager : MonoBehaviour {
 	public Texture station_texture;
     //energy gauge
     public Texture gaugeTexture;
+	//skin for GUI
+	public GUISkin skin;
 
 	//timer
 	public float start_time;
@@ -1055,6 +1057,8 @@ public class Manager : MonoBehaviour {
 	}
 	
 	void OnGUI() {
+		//set gui style
+		GUI.skin = skin;
 		//performance
 		GUI.Label(new Rect(10,10,150,50), "FPS: "+fps.ToString("f2"));
 		Starscript scpt = cur_star.GetComponent<Starscript>();

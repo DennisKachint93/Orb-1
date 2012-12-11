@@ -69,6 +69,7 @@ public class space_jump : MonoBehaviour {
 			//explosion
 			Instantiate(manager.space_jump_effect,Manager.l.transform.position,Manager.l.transform.rotation);
 			
+			Debug.Break();
 			Vector3 jump = Learth_Movement.velocity * dist_count;
 			Manager.l.transform.position = new Vector3(Manager.l.transform.position.x+jump.x, 
 					Manager.l.transform.position.y+jump.y, Manager.l.transform.position.z+jump.z);

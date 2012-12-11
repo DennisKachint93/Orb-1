@@ -36,7 +36,7 @@ public class Menu : MonoBehaviour {
 		
 		//levels that will be played in order
 		string[] level_order = new string[2] {
-											"Levels/blackholedeath",
+											"Levels/visuals",
 											"Levels/invinc-test"
 											
 																};

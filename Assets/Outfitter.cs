@@ -47,6 +47,15 @@ public class Outfitter : MonoBehaviour {
 	Rect dir_shift_button;
 	Rect timewarp_button;
 	
+	//button textures_
+	
+	public Texture bomb_text;
+	public Texture jump_text;
+	public Texture blackhole_text;
+	public Texture gun_text;
+	public Texture dir_shift_text;
+	public Texture time_warp_text;
+	
 	
 	public Color lightBlue;
 	public Color darkBlue;
@@ -118,7 +127,7 @@ public class Outfitter : MonoBehaviour {
 	void OnGUI() {	
 		
 		GUI.skin = skin;
-		GUI.backgroundColor = Color.black;
+	//	GUI.backgroundColor = Color.black;
 		
 		GUI.Box(new Rect(Screen.width-toolbar_width, 0, toolbar_width, Screen.height), "");
 		GUI.skin.label.normal.textColor = darkBlue;
@@ -176,7 +185,6 @@ public class Outfitter : MonoBehaviour {
 			GUI.skin.label.normal.textColor = Color.green;
 		GUI.Label(new Rect(xoffset+100,yoffset+190,50,25), "$"+gscpt.num_coins);
 		
-		
 		GUI.skin.label.normal.textColor = darkBlue;
 		GUI.Label(new Rect(xoffset,yoffset+235,100,25), "SPACE SHOP");
 		GUI.skin.label.fontSize = 21;
@@ -185,43 +193,51 @@ public class Outfitter : MonoBehaviour {
 		GUI.Label(new Rect(xoffset,yoffset+405,40,25), "TIER 3");
 		
 		if (Input.mousePosition.x > xoffset && Input.mousePosition.x < xoffset+200) {
-			if (Input.mousePosition.y < Screen.height -(yoffset+285) && Input.mousePosition.y > Screen.height-(yoffset+305) && !gscpt.bomb_on) {
+			if (!gscpt.bomb_on && Input.mousePosition.y < Screen.height -(yoffset+285) && Input.mousePosition.y > Screen.height-(yoffset+305) && !gscpt.bomb_on) {
 				GUI.Label(new Rect(xoffset, yoffset+485,200,20), "Allows you to ");
 				GUI.Label(new Rect(xoffset, yoffset+505,200,20), "purchase bombs.");
 				GUI.skin.label.fontSize = 26;
 				GUI.skin.label.normal.textColor = Color.red;
-				GUI.Label(new Rect(xoffset, yoffset+525,40,20), "$"+SPACE_BOMB_PRICE);
-			}if (Input.mousePosition.y < Screen.height-(yoffset+310) && Input.mousePosition.y > Screen.height-(yoffset+330) && !gscpt.jump_on) {
+				GUI.Label(new Rect(xoffset, yoffset+525,20,20), "$"+SPACE_BOMB_PRICE);
+				GUI.Label(new Rect(xoffset+120,yoffset+485,80,220),bomb_text);			
+			}if (!gscpt.jump_on && Input.mousePosition.y < Screen.height-(yoffset+310) && Input.mousePosition.y > Screen.height-(yoffset+330) && !gscpt.jump_on) {
 				GUI.Label(new Rect(xoffset, yoffset+485,200,20), "Lets you teleport ");
 				GUI.Label(new Rect(xoffset, yoffset+505,200,20), "short distances.");
 				GUI.skin.label.fontSize = 26;
 				GUI.skin.label.normal.textColor = Color.red;
+				GUI.Label(new Rect(xoffset+110,yoffset+490,110,60),jump_text);
 				GUI.Label(new Rect(xoffset, yoffset+525,40,20), "$"+JUMP_PRICE);
-			}if (Input.mousePosition.y < Screen.height-(yoffset+355) && Input.mousePosition.y > Screen.height-(yoffset+375) && !gscpt.blackhole_on) {
-				GUI.Label(new Rect(xoffset, yoffset+485,200,20), "Highlights black holes to");
-				GUI.Label(new Rect(xoffset, yoffset+505,200,20), "make them easier to see.");
+			}if (!gscpt.blackhole_on && Input.mousePosition.y < Screen.height-(yoffset+355) && Input.mousePosition.y > Screen.height-(yoffset+375) && !gscpt.blackhole_on) {
+				GUI.Label(new Rect(xoffset, yoffset+485,200,20), "Highlights black holes");
+				GUI.Label(new Rect(xoffset, yoffset+505,200,20), "to make them easier");
+				GUI.Label(new Rect(xoffset, yoffset+525,40,20), "to see.");
 				GUI.skin.label.fontSize = 26;
 				GUI.skin.label.normal.textColor = Color.red;
-				GUI.Label(new Rect(xoffset, yoffset+525,40,20), "$"+BLACK_HOLE_HELPER_PRICE);
-			}if (Input.mousePosition.y < Screen.height-(yoffset+380) && Input.mousePosition.y > Screen.height-(yoffset+400) && !gscpt.gun_on) {
+				GUI.Label(new Rect(xoffset+128,yoffset+480,90,75),blackhole_text);
+				GUI.Label(new Rect(xoffset+45, yoffset+525,40,20), "$"+BLACK_HOLE_HELPER_PRICE);
+			}if (!gscpt.gun_on && Input.mousePosition.y < Screen.height-(yoffset+380) && Input.mousePosition.y > Screen.height-(yoffset+400) && !gscpt.gun_on) {
 				GUI.Label(new Rect(xoffset, yoffset+485,200,20), "Automatically targets and ");
 				GUI.Label(new Rect(xoffset, yoffset+505,200,20), "destroys attacking aliens.");
 				GUI.skin.label.fontSize = 26;
 				GUI.skin.label.normal.textColor = Color.red;
 				GUI.Label(new Rect(xoffset, yoffset+525,40,20), "$"+ALIEN_GUN_PRICE);
-			}if (Input.mousePosition.y < Screen.height-(yoffset+425) && Input.mousePosition.y > Screen.height-(yoffset+445) && !gscpt.direction_on) {
-				GUI.Label(new Rect(xoffset, yoffset+485,200,20), "Allows you to rapidly change");
-				GUI.Label(new Rect(xoffset, yoffset+505,200,20), "direction by 180 degrees.");
+			//	GUI.Label(new Rect(xoffset+110,yoffset+485,80,80),gun_text);
+			}if (!gscpt.direction_on && Input.mousePosition.y < Screen.height-(yoffset+425) && Input.mousePosition.y > Screen.height-(yoffset+445) && !gscpt.direction_on) {
+				GUI.Label(new Rect(xoffset, yoffset+485,200,20), "Allows you to rapidly");
+				GUI.Label(new Rect(xoffset, yoffset+505,200,20), "change direction by");
+				GUI.Label(new Rect(xoffset, yoffset+525,200,20), " degrees.");
 				GUI.skin.label.fontSize = 26;
 				GUI.skin.label.normal.textColor = Color.red;
-				GUI.Label(new Rect(xoffset, yoffset+525,40,20), "$"+DIR_SHIFT_PRICE);
-			}if (Input.mousePosition.y < Screen.height-(yoffset+450) && Input.mousePosition.y > Screen.height-(yoffset+470) && !gscpt.timewarp_on) {
+				GUI.Label(new Rect(xoffset, yoffset+545,40,20), "$"+DIR_SHIFT_PRICE);
+				GUI.Label(new Rect(xoffset+110,yoffset+485,90,85),dir_shift_text);	
+			}if (!gscpt.timewarp_on && Input.mousePosition.y < Screen.height-(yoffset+450) && Input.mousePosition.y > Screen.height-(yoffset+470) && !gscpt.timewarp_on) {
 				GUI.Label(new Rect(xoffset, yoffset+485,200,20), "Allows you to travel back");
 				GUI.Label(new Rect(xoffset, yoffset+505,200,20), "in time to the last star");
 				GUI.Label(new Rect(xoffset, yoffset+525,200,20), "you orbited.");
 				GUI.skin.label.fontSize = 26;
 				GUI.skin.label.normal.textColor = Color.red;
 				GUI.Label(new Rect(xoffset, yoffset+545,40,20), "$"+TIME_WARP_PRICE);
+				//GUI.Label(new Rect(xoffset+110,yoffset+485,80,80),time_warp_text);	
 			}
 		}
 		
