@@ -89,11 +89,13 @@ public class Outfitter : MonoBehaviour {
 			Application.Quit();
 	}
 	
+	//1228 
+	
 	// Update is called once per frame
 	void Update () {
 	
-		xoffset = Screen.width - toolbar_width + 20;
-		yoffset = 5;	
+		xoffset = Screen.width - toolbar_width - 50;
+		yoffset = 100;	
 		
 		/*
 		t1: bomb, jump
@@ -127,7 +129,7 @@ public class Outfitter : MonoBehaviour {
 	void OnGUI() {	
 		
 		GUI.skin = skin;
-	//	GUI.backgroundColor = Color.black;
+		GUI.backgroundColor = Color.black;
 		
 		GUI.Box(new Rect(Screen.width-toolbar_width, 0, toolbar_width, Screen.height), "");
 		GUI.skin.label.normal.textColor = darkBlue;
@@ -351,11 +353,8 @@ public class Outfitter : MonoBehaviour {
 			if(GUI.Button(timewarp_button, "Time Machine")){
 				if(gscpt.num_coins >= TIME_WARP_PRICE){
 					gscpt.timewarp_on = true;
-					GameObject pwerup = new GameObject();
-			//		pwerup.AddComponent("direction_shift");
-					gscpt.timewarp_fitting = pwerup;
+					gscpt.timewarp_ammo+=3;
 					gscpt.num_coins -= TIME_WARP_PRICE;
-					DontDestroyOnLoad(pwerup);	
 				}
 			}
 		}

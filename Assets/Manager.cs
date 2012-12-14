@@ -250,8 +250,7 @@ public class Manager : MonoBehaviour {
 	
 	//flag set by the invincibility powerup
 	public static bool IS_INVINCIBLE = false;
-	
-	
+		
 	void Start () {
 		//performance
 		lastInterval = Time.realtimeSinceStartup;
@@ -407,7 +406,7 @@ public class Manager : MonoBehaviour {
 			if (i == 0 || i == stars-1) {
 				startex = station_texture;
 				starcol = Color.white;
-				starsize = 200;
+				starsize = 100;
 			}
 			else
 				starsize = float.Parse(args[3]);
@@ -419,8 +418,7 @@ public class Manager : MonoBehaviour {
 			if(i == 0) {
 				Starscript scpt = newstar.GetComponent<Starscript>();
 				scpt.is_source = true;
-				print (scpt.orbitRadius);
-				GoToOrbit(newstar,float.Parse(args[3]));	
+				GoToOrbit(newstar,float.Parse(args[3])+10);	
 			}
 			//last star is the sink
 			if(i == stars-1){
@@ -560,7 +558,11 @@ public class Manager : MonoBehaviour {
 	//puts learth in orbit given a valid radius
 	public static void GoToOrbit(GameObject star, float radius)
 	{
-		l.transform.position = new Vector3(star.transform.position.x+radius+RADIAL_ERROR,star.transform.position.y,0);
+		Starscript scpt  = star.GetComponent<Starscript>();
+		if (scpt.is_source)
+			l.transform.position = new Vector3(star.transform.position.x+radius,star.transform.position.y,0);
+		else
+			l.transform.position = new Vector3(star.transform.position.x+radius+RADIAL_ERROR,star.transform.position.y,0);
 		cur_star = star;
 		s = star;
 		Learth_Movement.isTangent = true;
@@ -741,8 +743,10 @@ public class Manager : MonoBehaviour {
 		/*********************DEBUGGING CONTROLS********************/
 		// resetting level with T before leaving first star orbit freezes the game 
 		//R causes the player to die
-		if(Input.GetKeyDown(KeyCode.R))
+		if(Input.GetKeyDown(KeyCode.R) && gscpt.timewarp_ammo > 0) {
+			gscpt.timewarp_ammo--;
 			Die();
+	 	}
 		//T resets the level
 		if(Input.GetKeyDown(KeyCode.T))
 			ResetLevel();
@@ -1006,8 +1010,7 @@ public class Manager : MonoBehaviour {
 								energy += RED_ENERGY;
 								Destroy(lt);
 								lt = Instantiate (red_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
-								lt.transform.parent = l.transform;
-								
+								lt.transform.parent = l.transform;				
 								l.renderer.material.color = Color.red;
 							}  else if (sscript.c == orange) {
 								energy += ORANGE_ENERGY;

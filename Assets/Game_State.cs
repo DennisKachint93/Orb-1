@@ -51,7 +51,7 @@ public class Game_State : MonoBehaviour {
 	public int jump_ammo    = 3;
 	public int gun_ammo     = 30;
 	public int dir_ammo		= 20;
-	public int timewarp_ammo= 1;
+	public int timewarp_ammo= 0;
 	public float bend_ammo  = 10;
 	public float capac_ammo = 10;
 	

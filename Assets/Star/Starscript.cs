@@ -134,14 +134,18 @@ public class Starscript : MonoBehaviour {
 		else
 			this.transform.localScale *= starSize;
 		//radius of learth's entry is the size of the star	
-		orbitRadius = starSize;
 		if (!is_source && !is_sink) {
+			orbitRadius = starSize;
 			//instantiate light halo at star's position the size of the orbit radius including radial error 
 			r = Instantiate(radius, new Vector3 (this.transform.position.x, this.transform.position.y, 90f), new Quaternion (0, 0, 0, 0)) as GameObject;
 			r.light.range = 2*orbitRadius + 2*Manager.RADIAL_ERROR;
 			//parent radius to star for destruction
 			r.transform.parent = this.transform;
 		}
+		else if (is_source)
+			orbitRadius = 110;
+		else 
+			orbitRadius = 0;
 		//random value for star's random rotation
 		random = Random.value;		
 	}
