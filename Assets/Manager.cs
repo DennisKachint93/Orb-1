@@ -229,6 +229,10 @@ public class Manager : MonoBehaviour {
 	//timer
 	public float start_time;
 	
+	//for pausing and controls screen
+	public static bool escape = false;
+	public Texture control_scheme;
+	
 	//performance tools
 	public float updateInterval = 0.5F;
     private float lastInterval;
@@ -808,6 +812,11 @@ public class Manager : MonoBehaviour {
 			l.renderer.material.color = Color.green;
 			energy -= INVINC_COST;
 		}
+		if(Input.GetKey(KeyCode.Escape)) {
+			escape = !escape;
+			//how to pause?
+		}
+			
 		
 		//change learth color back to normal - causes color change of learth when bombs fired with key D as well
 	/*	if(Input.GetKeyUp (KeyCode.D))
@@ -1109,12 +1118,16 @@ public class Manager : MonoBehaviour {
 				GUI.Label(new Rect(xoffset+35*m,yoffset,35,35),dir_shifts);
 			yoffset -= 45;		
 		}
-			
-		
 				
       //  GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
 		//GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
    		GUI.DrawTexture(new Rect(xoffset, Screen.height-30, energy*3, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
+   		
+   		
+   		//on pause
+   		if (escape)
+   			GUI.Label(new Rect(0,0,Screen.width, Screen.height),control_scheme);
+   			
 	}
 		
 }
