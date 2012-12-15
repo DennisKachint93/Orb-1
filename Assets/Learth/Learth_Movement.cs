@@ -15,6 +15,11 @@ public class Learth_Movement : MonoBehaviour {
 	//explosion prefab
 	//public GameObject explosion, e;
 	
+	//light effect for learth
+	public GameObject radius;
+	public GameObject lightGameObject;
+	//actual radius object instantiated
+	public GameObject r;
 	
 	void Start () {
 		
@@ -27,10 +32,16 @@ public class Learth_Movement : MonoBehaviour {
 		lastPos = new GameObject().transform;
 		
 		lastPos.position = this.transform.position - new Vector3(Manager.speed, Manager.speed, 0f);	
+		
+		r = Instantiate(radius, new Vector3 (this.transform.position.x, this.transform.position.y, 90f), new Quaternion (0, 0, 0, 0)) as GameObject;
+		r.light.range = 3*transform.localScale.x;
+		//parent radius to learth for destruction
+		r.transform.parent = this.transform;
 	}	
 	
 	void Update () {
-		
+		//light effect every frame
+		r.light.color = renderer.material.color;
 		//calculate velocity every frame
 		velocity = this.transform.position - lastPos.position;
 		lastPos.position = this.transform.position;

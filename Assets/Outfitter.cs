@@ -409,7 +409,7 @@ public class Outfitter : MonoBehaviour {
 		if(gscpt.gun_on)
 			GUI.Label(new Rect(xoffset,Screen.height-135,150,20),"Torpedos: "+gscpt.gun_ammo);
 		if(gscpt.blackhole_on)
-			GUI.Label(new Rect(xoffset,Screen.height-135,150,20),"Blackhole Helper activated.");
+			GUI.Label(new Rect(xoffset,Screen.height-135,150,20),"Blackhole Helper activated");
 		if(gscpt.timewarp_on)
 			GUI.Label(new Rect(xoffset,Screen.height-115,150,20),"Timewarps: "+gscpt.timewarp_ammo);
 		if(gscpt.direction_on)

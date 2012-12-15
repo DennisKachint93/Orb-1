@@ -250,7 +250,14 @@ public class Manager : MonoBehaviour {
 	
 	//flag set by the invincibility powerup
 	public static bool IS_INVINCIBLE = false;
-		
+	
+	//icons for powerups
+	public Texture bombs;
+	public Texture jumps;
+	public Texture bullets;
+	public Texture dir_shifts;
+	public Texture timewarps;		
+			
 	void Start () {
 		//performance
 		lastInterval = Time.realtimeSinceStartup;
@@ -1063,7 +1070,7 @@ public class Manager : MonoBehaviour {
 		//set gui style
 		GUI.skin = skin;
 		//performance
-		GUI.Label(new Rect(10,10,150,50), "FPS: "+fps.ToString("f2"));
+		//GUI.Label(new Rect(10,10,150,50), "FPS: "+fps.ToString("f2"));
 		Starscript scpt = cur_star.GetComponent<Starscript>();
 		if(scpt.is_sink) {
 			gscpt.time_to_complete = (Time.time - start_time);
@@ -1073,19 +1080,41 @@ public class Manager : MonoBehaviour {
 		}
 		
 		//ammo stats
-		if(gscpt.bomb_on)
-			GUI.Label(new Rect(10,Screen.height-130,150,50),"Bombs: "+gscpt.bomb_ammo);
-		if(gscpt.jump_on)
-			GUI.Label(new Rect(10,Screen.height-160,150,50),"Jumps: "+gscpt.jump_ammo);
-		if(gscpt.gun_on)
-			GUI.Label(new Rect(10,Screen.height-190,150,50),"Torpedos: "+gscpt.gun_ammo);
+		int xoffset = 10;
+		int yoffset = Screen.height-70;
+		if(gscpt.bomb_on) {
+			for (int i = 0; i < gscpt.bomb_ammo; i++) 
+				GUI.Label(new Rect(xoffset+25*i,yoffset,35,35),bombs);
+			yoffset -= 20;
+		}
+		if(gscpt.jump_on) {
+			print(gscpt.jump_ammo);
+			for (int j = 0; j < gscpt.jump_ammo; j++) 
+				GUI.Label(new Rect(xoffset+55*j,yoffset,55,55),jumps);
+			yoffset -= 45;
+		}
+		if(gscpt.gun_on) {
+			for (int k = 0; k < gscpt.gun_ammo/5; k++) 
+				GUI.Label(new Rect(xoffset+20*k,yoffset,25,25),bullets);
+			yoffset -= 25;
+		}
+		if(gscpt.timewarp_on) {
+			for (int h = 0; h < gscpt.timewarp_ammo; h++) 
+				GUI.Label(new Rect(xoffset+30*h,yoffset,30,30),timewarps);
+			yoffset -= 30;
+		}
+		if(gscpt.direction_on) {	
+			print(gscpt.dir_ammo);
+			for (int m = 0; m < gscpt.dir_ammo; m++) 
+				GUI.Label(new Rect(xoffset+35*m,yoffset,35,35),dir_shifts);
+			yoffset -= 45;		
+		}
+			
 		
-		
+				
       //  GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
-		GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
-   		GUI.DrawTexture(new Rect(10, Screen.height-30, energy*3, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
+		//GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
+   		GUI.DrawTexture(new Rect(xoffset, Screen.height-30, energy*3, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
 	}
 		
 }
-	
-
