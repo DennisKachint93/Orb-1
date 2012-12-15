@@ -83,4 +83,9 @@ public class alien_behavior : MonoBehaviour {
 		Instantiate(explosion,transform.position,transform.rotation);
 		Destroy(gameObject);
 	}
+	void OnMouseDown() {
+		if(Level_Editor.delete_button) {	
+			Destroy (gameObject);	
+		}
+	}
 }

@@ -26,7 +26,8 @@ public class boost_pickup : MonoBehaviour {
 		}
 		
 		//rotate in place
-		transform.Rotate(new Vector3(0,180*Time.deltaTime,0));
+		if(!Level_Editor.delete_button)
+			transform.Rotate(new Vector3(0,180*Time.deltaTime,0));
 	
 	}
 	
@@ -43,6 +44,11 @@ public class boost_pickup : MonoBehaviour {
 			
 			//make gameobject too small to hit while script is running (then it gets destoryed)
 			transform.localScale -= transform.localScale;
+		}
+	}
+	void OnMouseDown() {
+		if(Level_Editor.delete_button) {	
+			Destroy (gameObject);	
 		}
 	}
 }

@@ -308,7 +308,8 @@ public class Starscript : MonoBehaviour {
 		transform.position = new Vector3(0,0,-500);
 		is_destroyed = true;
 	}
-	
+
+	//delete in level editor ... this should be in a parent class to all level editable things
 	void OnMouseDown() {
 		if(Level_Editor.delete_button) {	
 			Destroy (gameObject);	

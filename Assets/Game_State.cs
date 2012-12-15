@@ -95,7 +95,6 @@ public class Game_State : MonoBehaviour {
 	void OnGUI() {
 		//if we came here from the level editor 
 		if(le_test) {
-			Debug.Log("in le test");
 			//if we're actually in the game
 			if(Application.loadedLevel == 1) {
 				//display button that lets us return to the level editor 

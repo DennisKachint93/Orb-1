@@ -614,6 +614,13 @@ public class Level_Editor : MonoBehaviour {
 	void SaveLevel(string path) {
 		
 		star_arr = ContractArray(star_arr);
+		rip_arr = ContractArray(rip_arr);
+		coin_arr = ContractArray(coin_arr);
+		mstar_arr = ContractArray(mstar_arr);
+		alien_arr = ContractArray(alien_arr);
+		rstar_arr = ContractArray(rstar_arr);
+		boost_arr = ContractArray(boost_arr);
+		invinc_arr = ContractArray(invinc_arr);
 		
 		//check if file exists
 		if(File.Exists(path))

@@ -27,16 +27,18 @@ public class invinc_pickup : MonoBehaviour {
 				Destroy(gameObject);
 			}
 		}
-		
-		//make powerup expand and contract
-		if(!is_activated && Time.time - start_grow_shrink > grow_shrink_time) {
-			shrink = !shrink;
-			start_grow_shrink = Time.time;
-		}
-		
-		if(!is_activated) {
-			int ctrl = shrink ? -1 : 1;
-			transform.localScale += new Vector3(ctrl*grow_shrink_rate,ctrl*grow_shrink_rate,ctrl*grow_shrink_rate);
+	
+		if(!Level_Editor.delete_button) {
+			//make powerup expand and contract
+			if(!is_activated && Time.time - start_grow_shrink > grow_shrink_time) {
+				shrink = !shrink;
+				start_grow_shrink = Time.time;
+			}
+			
+			if(!is_activated) {
+				int ctrl = shrink ? -1 : 1;
+				transform.localScale += new Vector3(ctrl*grow_shrink_rate,ctrl*grow_shrink_rate,ctrl*grow_shrink_rate);
+			}
 		}
 		
 		
@@ -53,6 +55,11 @@ public class invinc_pickup : MonoBehaviour {
 			
 			//make gameobject too small to hit while script is running (then it gets destoryed later)
 			transform.localScale -= transform.localScale;
+		}
+	}
+	void OnMouseDown() {
+		if(Level_Editor.delete_button) {	
+			Destroy (gameObject);	
 		}
 	}
 }

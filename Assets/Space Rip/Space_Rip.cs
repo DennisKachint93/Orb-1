@@ -22,4 +22,9 @@ public class Space_Rip : MonoBehaviour {
 			transform.Translate(200 * Time.deltaTime*(transform.position - c.transform.position).normalized,Space.World);
 		}
 	}
+	void OnMouseDown() {
+		if(Level_Editor.delete_button) {	
+			Destroy (gameObject);	
+		}
+	}
 }
