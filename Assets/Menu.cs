@@ -15,40 +15,45 @@ public class Menu : MonoBehaviour {
 	
 	//called before start
 	void Awake() {
-		game_state = new GameObject();
+		if(GameObject.Find ("game_state") == null) {
 		
-		//allow game_state's state to persist through scene changes
-		DontDestroyOnLoad(game_state);
+			game_state = new GameObject();
 		
-		//allow background music object to persist
-		GameObject bgm = GameObject.Find ("Background_Music");
-		DontDestroyOnLoad(bgm);
+			//allow game_state's state to persist through scene changes
+			DontDestroyOnLoad(game_state);
+		
+			//allow background music object to persist
+/*			GameObject bgm = GameObject.Find ("Background_Music");
+			DontDestroyOnLoad(bgm); */
+			
+			//add script to state object
+			game_state.AddComponent("Game_State");
+			gscpt = game_state.GetComponent<Game_State>();
+			game_state.name="game_state";
+			
+			//set default ship settings here
+			
+			//levels that will be played in order
+			string[] level_order = new string[6] {
+												"Levels/all-obj-add-test",
+												"Levels/all-objs-test",
+												"Levels/le-loaded-save",
+												"Levels/le-load-simple",
+												"Levels/visuals",
+												"Levels/invinc-test"
+												
+																	};
+			//state object keeps track of levels
+			gscpt.level_order = level_order;
+			
+			//starting coins
+			gscpt.num_coins = 1000;
+			
+		} 
 	}
 	
 	// Use this for initialization
 	void Start () {
-		//add script to state object
-		game_state.AddComponent("Game_State");
-		gscpt = game_state.GetComponent<Game_State>();
-		game_state.name="game_state";
-		
-		//set default ship settings here
-		
-		//levels that will be played in order
-		string[] level_order = new string[6] {
-											"Levels/all-obj-add-test",
-											"Levels/all-objs-test",
-											"Levels/le-loaded-save",
-											"Levels/le-load-simple",
-											"Levels/visuals",
-											"Levels/invinc-test"
-											
-																};
-		//state object keeps track of levels
-		gscpt.level_order = level_order;
-		
-		//starting coins
-		gscpt.num_coins = 1000;
 		
 	}
 	
