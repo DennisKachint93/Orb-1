@@ -103,8 +103,6 @@ public class Outfitter : MonoBehaviour {
 		t3: dir shift, time warp
 		*/
 
-		print (Input.mousePosition.x  + " y " + Input.mousePosition.y);
-
 		bomb_button = new Rect(xoffset, yoffset+285, 200, 25);
 		jump_unit_button = new Rect(xoffset, yoffset+310, 200, 25);
 
@@ -194,22 +192,25 @@ public class Outfitter : MonoBehaviour {
 		GUI.Label(new Rect(xoffset,yoffset+335,40,20), "TIER 2");
 		GUI.Label(new Rect(xoffset,yoffset+405,40,20), "TIER 3");
 
+
+		GUI.skin.button.fontSize = 17;
+		GUI.skin.label.normal.textColor = Color.white;
 		if (Input.mousePosition.x > xoffset && Input.mousePosition.x < xoffset+200) {
-			if (!gscpt.bomb_on && Input.mousePosition.y < Screen.height -(yoffset+285) && Input.mousePosition.y > Screen.height-(yoffset+305) && !gscpt.bomb_on) {
+			if (!gscpt.bomb_on && !gscpt.jump_on && Input.mousePosition.y < Screen.height -(yoffset+285) && Input.mousePosition.y > Screen.height-(yoffset+305) && !gscpt.bomb_on) {
 				GUI.Label(new Rect(xoffset, yoffset+485,120,20), "Allows you to ");
 				GUI.Label(new Rect(xoffset, yoffset+505,120,20), "purchase bombs.");
 				GUI.skin.label.fontSize = 26;
 				GUI.skin.label.normal.textColor = Color.red;
 				GUI.Label(new Rect(xoffset+35, yoffset+525,20,20), "$"+SPACE_BOMB_PRICE);
 				GUI.Label(new Rect(xoffset+100,yoffset+485,90,90),bomb_text);			
-			}if (!gscpt.jump_on && Input.mousePosition.y < Screen.height-(yoffset+310) && Input.mousePosition.y > Screen.height-(yoffset+330) && !gscpt.jump_on) {
+			}if (!gscpt.jump_on && !gscpt.bomb_on && Input.mousePosition.y < Screen.height-(yoffset+310) && Input.mousePosition.y > Screen.height-(yoffset+330) && !gscpt.jump_on) {
 				GUI.Label(new Rect(xoffset, yoffset+485,200,20), "Lets you teleport ");
 				GUI.Label(new Rect(xoffset, yoffset+505,200,20), "short distances.");
 				GUI.skin.label.fontSize = 26;
 				GUI.skin.label.normal.textColor = Color.red;
 				GUI.Label(new Rect(xoffset+110,yoffset+490,110,60),jump_text);
 				GUI.Label(new Rect(xoffset+25, yoffset+525,40,20), "$"+JUMP_PRICE);
-			}if (!gscpt.blackhole_on && Input.mousePosition.y < Screen.height-(yoffset+355) && Input.mousePosition.y > Screen.height-(yoffset+375) && !gscpt.blackhole_on) {
+			}if (!gscpt.blackhole_on && !gscpt.gun_on && Input.mousePosition.y < Screen.height-(yoffset+355) && Input.mousePosition.y > Screen.height-(yoffset+375) && !gscpt.blackhole_on) {
 				GUI.Label(new Rect(xoffset, yoffset+485,200,20), "Highlights black holes");
 				GUI.Label(new Rect(xoffset, yoffset+505,200,20), "to make them easier");
 				GUI.Label(new Rect(xoffset, yoffset+525,40,20), "to see.");
@@ -217,7 +218,7 @@ public class Outfitter : MonoBehaviour {
 				GUI.skin.label.normal.textColor = Color.red;
 				GUI.Label(new Rect(xoffset+128,yoffset+480,100,90),blackhole_text);
 				GUI.Label(new Rect(xoffset+45, yoffset+525,40,20), "$"+BLACK_HOLE_HELPER_PRICE);
-			}if (!gscpt.gun_on && Input.mousePosition.y < Screen.height-(yoffset+380) && Input.mousePosition.y > Screen.height-(yoffset+400) && !gscpt.gun_on) {
+			}if (!gscpt.gun_on && !gscpt.blackhole_on && Input.mousePosition.y < Screen.height-(yoffset+380) && Input.mousePosition.y > Screen.height-(yoffset+400) && !gscpt.gun_on) {
 				GUI.Label(new Rect(xoffset, yoffset+485,200,20), "Automatically targets");
 				GUI.Label(new Rect(xoffset, yoffset+505,200,20), "and destroys attacking");
 				GUI.Label(new Rect(xoffset, yoffset+525,100,20), "aliens.");
@@ -225,7 +226,7 @@ public class Outfitter : MonoBehaviour {
 				GUI.skin.label.normal.textColor = Color.red;
 				GUI.Label(new Rect(xoffset+40, yoffset+525,100,20), "$"+ALIEN_GUN_PRICE);
 				GUI.Label(new Rect(xoffset+125,yoffset+485,100,120),gun_text);
-			}if (!gscpt.direction_on && Input.mousePosition.y < Screen.height-(yoffset+425) && Input.mousePosition.y > Screen.height-(yoffset+445) && !gscpt.direction_on) {
+			}if (!gscpt.direction_on && !gscpt.timewarp_on && Input.mousePosition.y < Screen.height-(yoffset+425) && Input.mousePosition.y > Screen.height-(yoffset+445) && !gscpt.direction_on) {
 				GUI.Label(new Rect(xoffset, yoffset+485,120,20), "Allows you to rapidly");
 				GUI.Label(new Rect(xoffset, yoffset+505,120,20), "change direction by");
 				GUI.Label(new Rect(xoffset, yoffset+525,120,20), "90 degrees.");
@@ -233,7 +234,7 @@ public class Outfitter : MonoBehaviour {
 				GUI.skin.label.normal.textColor = Color.red;
 				GUI.Label(new Rect(xoffset+80, yoffset+525,40,20), "$"+DIR_SHIFT_PRICE);
 				GUI.Label(new Rect(xoffset+120,yoffset+485,100,120),dir_shift_text);	
-			}if (!gscpt.timewarp_on && Input.mousePosition.y < Screen.height-(yoffset+450) && Input.mousePosition.y > Screen.height-(yoffset+470) && !gscpt.timewarp_on) {
+			}if (!gscpt.timewarp_on && !gscpt.direction_on && Input.mousePosition.y < Screen.height-(yoffset+450) && Input.mousePosition.y > Screen.height-(yoffset+470) && !gscpt.timewarp_on) {
 				GUI.Label(new Rect(xoffset, yoffset+485,120,20), "Allows you to travel");
 				GUI.Label(new Rect(xoffset, yoffset+505,120,20), "back in time to the");
 				GUI.Label(new Rect(xoffset, yoffset+525,120,20), "last star you orbited.");
@@ -396,22 +397,30 @@ public class Outfitter : MonoBehaviour {
 		}*/
 
 		//ammo stats
+		GUI.skin.label.normal.textColor = darkBlue;
+		GUI.skin.label.fontSize = 26;
+		GUI.Label(new Rect(xoffset, Screen.height-180,100,25), "INVENTORY");
+		GUI.skin.label.fontSize = 17;
+		GUI.skin.label.normal.textColor = lightBlue;		
 		if(gscpt.bomb_on)
-			GUI.Label(new Rect(xoffset,Screen.height-35,150,50),"Bombs: "+gscpt.bomb_ammo);
+			GUI.Label(new Rect(xoffset,Screen.height-155,150,20),"Bombs: "+gscpt.bomb_ammo);
 		if(gscpt.jump_on)
-			GUI.Label(new Rect(xoffset,Screen.height-60,150,50),"Jumps: "+gscpt.jump_ammo);
+			GUI.Label(new Rect(xoffset,Screen.height-155,150,20),"Jumps: "+gscpt.jump_ammo);
 		if(gscpt.gun_on)
-			GUI.Label(new Rect(xoffset,Screen.height-105,150,50),"Torpedos: "+gscpt.gun_ammo);
-	//	if(gscpt.bend_on)
-	//		GUI.Label(new Rect(xoffset,Screen.height-85,150,50),"Bending fluid: "+gscpt.bend_ammo);
-
-
+			GUI.Label(new Rect(xoffset,Screen.height-135,150,20),"Torpedos: "+gscpt.gun_ammo);
+		if(gscpt.blackhole_on)
+			GUI.Label(new Rect(xoffset,Screen.height-135,150,20),"Blackhole Helper activated.");
+		if(gscpt.timewarp_on)
+			GUI.Label(new Rect(xoffset,Screen.height-115,150,20),"Timewarps: "+gscpt.timewarp_ammo);
+		if(gscpt.direction_on)
+			GUI.Label(new Rect(xoffset,Screen.height-115,150,20),"Direction shifts: "+gscpt.dir_ammo);
 
 
 
 
 		//load next level button
-		if(GUI.Button (new Rect(10,Screen.height-30,200,25), "Play next level")) {
+		GUI.skin.button.fontSize = 25;
+		if(GUI.Button (new Rect(Screen.width-200,Screen.height-35,200,28), "Play next level")) {
 			gscpt.ResetScore();
 			Application.LoadLevel("scene1");
 		}
