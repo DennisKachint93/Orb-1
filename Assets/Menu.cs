@@ -35,7 +35,9 @@ public class Menu : MonoBehaviour {
 		//set default ship settings here
 		
 		//levels that will be played in order
-		string[] level_order = new string[2] {
+		string[] level_order = new string[4] {
+											"Levels/le-loaded-save",
+											"Levels/le-load-simple",
 											"Levels/visuals",
 											"Levels/invinc-test"
 											

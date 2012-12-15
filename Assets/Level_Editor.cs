@@ -8,6 +8,8 @@ public class Level_Editor : MonoBehaviour {
 	public float cam_start_height;
 	public float energy;
 	
+	public static float RAD_ERROR = 55;
+		
 	//These controls are for our convenience as level editiors -- same functions as in manager
 	//maximum distance from scene
 	private float CAM_MAX_DIST = 100000;
@@ -110,7 +112,180 @@ public class Level_Editor : MonoBehaviour {
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
 		
 	}
-	
+	//instantiates level design elements as specified in the text file in the argument
+	public void LoadLevel(string fname) 
+	{
+		Debug.Log("trying to load a level");
+		string line;
+		char[] delim = {','} ;
+		StreamReader file = new StreamReader(fname);
+		string numels = file.ReadLine();
+		
+		//reset energy
+		//energy = STARTING_ENERGY;
+		
+		//get numbers of each type of element
+		string[] sp = numels.Split(delim);
+		int stars = int.Parse(sp[0]);
+		
+		//create all stars specified in the text file
+		for(int i=0; i<stars;i++)
+		{
+			line = file.ReadLine();
+			string [] args = line.Split(delim);
+			
+			//get color and texture objects
+			Color starcol = Color.black;
+			Texture startex = tred;
+			if(args[2] == "red") {
+				starcol = Color.red;
+				startex = tred;
+			}  else if (args[2] == "orange") {
+				starcol = orange;
+				startex = torange;
+			}  else if (args[2] == "yellow") {
+				starcol = Color.yellow;
+				startex = tyellow;
+			}  else if (args[2] == "green") {
+				starcol = green;
+				startex = tgreen;
+			}  else if(args[2] == "blue"){
+				starcol = Color.blue;
+				startex = tblue;
+			}  else if(args[2] == "aqua") {
+				starcol = aqua;
+				startex = taqua;
+			}  else if(args[2] == "purple") {
+				starcol = purple;
+				startex = tpurple;
+			}
+			//make the star
+			GameObject newstar = CreateStar(float.Parse(args[0]),float.Parse(args[1]), starcol, startex, starsize, true);
+		}
+		
+		
+	/*	
+		//create all space rips specified in the text file
+		for(int i = 0; i < rips;i++)
+		{
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			
+			CreateSpaceRip(float.Parse(args[0]),float.Parse(args[1]),float.Parse(args[2]),float.Parse(args[3]),float.Parse(args[4]));
+		//	checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
+		}
+		
+		//create all coins specified in the text file
+		for(int i = 0; i < coins; i++)
+		{
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			
+			CreateCoin(float.Parse(args[0]),float.Parse(args[1]));
+		//	checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
+		}
+		
+		//create all moving stars specified in the text file
+		for(int i = 0; i < mstars;i++)
+		{
+			line = file.ReadLine();
+			string [] args = line.Split(delim);
+			
+			//get color and texture objects
+			Color starcol = Color.black;
+			Texture startex = tred;
+			if(args[2] == "red") {
+				starcol = Color.red;
+				startex = tred;
+			}  else if (args[2] == "orange") {
+				starcol = orange;
+				startex = torange;
+			}  else if (args[2] == "yellow") {
+				starcol = Color.yellow;
+				startex = tyellow;
+			}  else if (args[2] == "green") {
+				starcol = green;
+				startex = tgreen;
+			}  else if(args[2] == "blue"){
+				starcol = Color.blue;
+				startex = tblue;
+			}  else if(args[2] == "aqua") {
+				starcol = aqua;
+				startex = taqua;
+			}  else if(args[2] == "purple") {
+				starcol = purple;
+				startex = tpurple;
+			}
+			
+			//make the star
+			CreateMovingStar(float.Parse(args[0]),float.Parse(args[1]), 
+				starcol, startex, float.Parse(args[3]), new Vector3(float.Parse (args[4]), float.Parse(args[5]),0), float.Parse(args[6]), bool.Parse(args[7]));
+		//	checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
+		}
+		
+		//create all aliens in the file
+		for(int i = 0; i < aliens; i++)
+		{	
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			CreateAlien(float.Parse(args[0]),float.Parse(args[1]));
+		//	checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
+		}
+		
+		//create a revolving star 
+		for(int i = 0; i < rstars; i++)
+		{
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			
+			//get color and texture objects
+			Color starcol = Color.black;
+			Texture startex = tred;
+			if(args[4] == "red") {
+				starcol = Color.red;
+				startex = tred;
+			}  else if (args[4] == "orange") {
+				starcol = orange;
+				startex = torange;
+			}  else if (args[4] == "yellow") {
+				starcol = Color.yellow;
+				startex = tyellow;
+			}  else if (args[4] == "green") {
+				starcol = green;
+				startex = tgreen;
+			}  else if(args[4] == "blue"){
+				starcol = Color.blue;
+				startex = tblue;
+			}  else if(args[4] == "aqua") {
+				starcol = aqua;
+				startex = taqua;
+			}  else if(args[4] == "purple") {
+				starcol = purple;
+				startex = tpurple;
+			}
+			
+			CreateRevolvingStar(float.Parse (args[0]),float.Parse(args[1]),float.Parse(args[2]),float.Parse(args[3]),
+				starcol, startex, float.Parse(args[5]),float.Parse (args[6]));
+		//	checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
+		//	checkBoundaries(float.Parse(args[2]), float.Parse(args[3]));
+		}
+		
+		//create boosts
+		for(int i = 0; i < boosts; i++) {
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			CreateBoost(float.Parse(args[0]), float.Parse(args[1]));
+		}
+		
+		//create invinces
+		for(int i = 0; i < invincs; i++) {
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			CreateInvinc(float.Parse(args[0]), float.Parse(args[1]));
+		} */
+		
+	}
+	 
 	//instantiates a space rip from prefab at given location and of given dimensions, with given rotation (default = 0), returns reference to that object
 	GameObject CreateSpaceRip(float x, float y, float width, float height, float rotation = 0)
 	{
@@ -182,6 +357,7 @@ public class Level_Editor : MonoBehaviour {
 
 	
 	//instantiates star or black hole from prefab at given xy location and of given characteristics
+	//le original method
 	GameObject CreateStar(float x, float y, Color color, Texture texture, float size, bool staticstar = true, bool isBlackHole = false)
 	{
 		GameObject starE = Instantiate (star, new Vector3(x,y,20), new Quaternion(0,0,0,0)) as GameObject;
@@ -205,7 +381,32 @@ public class Level_Editor : MonoBehaviour {
 		numStars++;
 		}
 		return starE;
-	}
+	}  
+	
+/*	
+	GameObject CreateStar(float x, float y, Color color, Texture texture, float size, bool isBlackHole = false, bool isExplodingStar=false)
+	{
+		
+		
+		GameObject starE = Instantiate (star, new Vector3(x,y,0), new Quaternion(0,0,0,0)) as GameObject;
+		Starscript starscript = starE.GetComponent<Starscript>();
+		starscript.c = color;
+		starscript.t = texture;
+		starscript.starSize = size; 
+		starscript.isBlackHole = isBlackHole;
+		
+		if(isBlackHole)
+			Starscript.BLACK_HOLE_HELPER = true;
+		
+		//expand and copy star_arr - if loading a level takes too long, this can be optimized
+		GameObject[] temp_arr = new GameObject[star_arr.Length+1];
+		for(int i=0;i<star_arr.Length;i++)
+			temp_arr[i] = star_arr[i];
+		star_arr = temp_arr;
+		star_arr[star_arr.Length-1] = starE;
+		numStars++;
+		return starE;
+	}  */
 	
 	GameObject CreateMovingStar(float x, float y, Color color, Texture texture, float size, Vector3 dir, float speed, bool bandf = false)
 	{
@@ -264,6 +465,8 @@ public class Level_Editor : MonoBehaviour {
 			Camera.main.transform.Translate(new Vector3(0, CAM_MOVE_SPEED, 0));
 		if(Input.GetKey(KeyCode.DownArrow) && Camera.main.transform.position.y < SCENE_BOUNDARY) 
 			Camera.main.transform.Translate(new Vector3(0, -CAM_MOVE_SPEED, 0));
+		if(Input.GetKeyUp(KeyCode.M))
+			LoadLevel("Levels/le-load-simple");
 			
 		//after a specific button has been pressed, corresponding object is instantiated on mouse click
 		
