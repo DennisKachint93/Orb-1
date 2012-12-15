@@ -111,11 +111,13 @@ public class Level_Editor : MonoBehaviour {
 		//set camera height for level editing
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
 		
+		
 	}
 	//instantiates level design elements as specified in the text file in the argument
 	public void LoadLevel(string fname) 
 	{
 		Debug.Log("trying to load a level");
+		//CreateStar(0,0,aqua,taqua,35);
 		string line;
 		char[] delim = {','} ;
 		StreamReader file = new StreamReader(fname);
@@ -127,6 +129,13 @@ public class Level_Editor : MonoBehaviour {
 		//get numbers of each type of element
 		string[] sp = numels.Split(delim);
 		int stars = int.Parse(sp[0]);
+		int rips  = int.Parse(sp[1]);
+		int coins = int.Parse(sp[2]);
+		int mstars = int.Parse (sp[3]);
+		int aliens = int.Parse(sp[4]);
+		int rstars = int.Parse (sp[5]);
+		int boosts = int.Parse (sp[6]);
+		int invincs = int.Parse(sp[7]);
 		
 		//create all stars specified in the text file
 		for(int i=0; i<stars;i++)
@@ -160,11 +169,11 @@ public class Level_Editor : MonoBehaviour {
 				startex = tpurple;
 			}
 			//make the star
-			GameObject newstar = CreateStar(float.Parse(args[0]),float.Parse(args[1]), starcol, startex, starsize, true);
+			GameObject newstar = CreateStar(float.Parse(args[0]),float.Parse(args[1]), starcol, startex, float.Parse(args[3]),true, bool.Parse(args[4]));
 		}
 		
 		
-	/*	
+		
 		//create all space rips specified in the text file
 		for(int i = 0; i < rips;i++)
 		{
@@ -184,6 +193,8 @@ public class Level_Editor : MonoBehaviour {
 			CreateCoin(float.Parse(args[0]),float.Parse(args[1]));
 		//	checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
 		}
+		
+		
 		
 		//create all moving stars specified in the text file
 		for(int i = 0; i < mstars;i++)
@@ -282,7 +293,7 @@ public class Level_Editor : MonoBehaviour {
 			line = file.ReadLine();
 			string[] args = line.Split(delim);
 			CreateInvinc(float.Parse(args[0]), float.Parse(args[1]));
-		} */
+		}  
 		
 	}
 	 
@@ -372,6 +383,7 @@ public class Level_Editor : MonoBehaviour {
 		
 		if(staticstar)
 		{
+		Debug.Log("doing array copy");
 		//expand and copy star_arr - if loading a level takes too long, this can be optimized
 		GameObject[] temp_arr = new GameObject[star_arr.Length+1];
 		for(int i=0;i<star_arr.Length;i++)
@@ -381,10 +393,10 @@ public class Level_Editor : MonoBehaviour {
 		numStars++;
 		}
 		return starE;
-	}  
+	}   
 	
-/*	
-	GameObject CreateStar(float x, float y, Color color, Texture texture, float size, bool isBlackHole = false, bool isExplodingStar=false)
+	
+/*	GameObject CreateStar(float x, float y, Color color, Texture texture, float size, bool isBlackHole = false, bool isExplodingStar=false)
 	{
 		
 		
@@ -465,8 +477,11 @@ public class Level_Editor : MonoBehaviour {
 			Camera.main.transform.Translate(new Vector3(0, CAM_MOVE_SPEED, 0));
 		if(Input.GetKey(KeyCode.DownArrow) && Camera.main.transform.position.y < SCENE_BOUNDARY) 
 			Camera.main.transform.Translate(new Vector3(0, -CAM_MOVE_SPEED, 0));
-		if(Input.GetKeyUp(KeyCode.M))
-			LoadLevel("Levels/le-load-simple");
+		if(Input.GetKeyUp(KeyCode.M)) {
+			LoadLevel("Levels/all-objs-test");
+		//	LoadLevel ("Levels/le-load-simple");
+		//	LoadLevel ("Levels/1-static-test");
+		}
 			
 		//after a specific button has been pressed, corresponding object is instantiated on mouse click
 		
