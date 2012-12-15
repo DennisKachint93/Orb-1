@@ -106,6 +106,9 @@ public class Level_Editor : MonoBehaviour {
 	//invincibility
 	private bool invinc_button = false;
 	
+	//delete
+	public static bool delete_button = false;
+	
 	//game state
 	private Game_State state;
 	
@@ -576,12 +579,42 @@ public class Level_Editor : MonoBehaviour {
 				
 			}
 			
+			//delete
+			if(delete_button) {
+					
+			}
+			
 		}
 	}   
+
 	
+	GameObject[] ContractArray(GameObject[] subj)
+	{
+		
+		//contract arrays
+		int new_size = 0;
+		for(int i = 0; i < subj.Length; i++) {
+			if(subj[i] != null)
+				new_size++;
+		}
+		
+		GameObject[] tmp = new GameObject[new_size];
+		int position = 0;
+		for(int i = 0; i < subj.Length; i++) {
+			if(subj[i] != null) {
+				tmp[position] = subj[i];
+				position++;
+			}
+		}
+		
+		return tmp;
+	}
 	
 	//outputs level to a text file
 	void SaveLevel(string path) {
+		
+		star_arr = ContractArray(star_arr);
+		
 		//check if file exists
 		if(File.Exists(path))
 		{
@@ -637,7 +670,6 @@ public class Level_Editor : MonoBehaviour {
 				//moving stars
 				for(int i = 0; i < mstar_arr.Length; i++)
 				{
-				//	Debug.Log ("trying to write a star");
 					Starscript scpt = mstar_arr[i].GetComponent<Starscript>();
 					string color = "black";
 					if(scpt.c.Equals(Color.red)){
@@ -915,6 +947,11 @@ public class Level_Editor : MonoBehaviour {
 		if(GUI.Button(new Rect(10, Screen.height - 60, 100, 25), "Main Menu"))
 			Application.LoadLevel("Main_Menu");
 	
+		//delete button
+		if(GUI.Button(new Rect(10, Screen.height - 230, 100, 25), "Delete")) {
+			delete_button = !delete_button;	
+		}
+		
 		//test play level
 		if(GUI.Button(new Rect(10, Screen.height - 200, 100, 25), "Test play")) {
 			//delete temp file if it exists

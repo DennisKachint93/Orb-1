@@ -308,6 +308,12 @@ public class Starscript : MonoBehaviour {
 		transform.position = new Vector3(0,0,-500);
 		is_destroyed = true;
 	}
+	
+	void OnMouseDown() {
+		if(Level_Editor.delete_button) {	
+			Destroy (gameObject);	
+		}
+	}
 }
 
 
