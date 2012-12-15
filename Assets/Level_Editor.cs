@@ -106,18 +106,30 @@ public class Level_Editor : MonoBehaviour {
 	//invincibility
 	private bool invinc_button = false;
 	
+	//game state
+	private Game_State state;
+	
 	void Start () {
 		
 		//set camera height for level editing
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
 		
+		//get game state
+		GameObject go = GameObject.Find("game_state");
+		state = go.GetComponent<Game_State>();
 		
+		//if coming from a test play
+		if(state.le_test) {
+			//turn off test play buttons
+			state.le_test = false;
+			
+			//load temp file from the test
+			LoadLevel("Levels/testingtmp");
+		}
 	}
 	//instantiates level design elements as specified in the text file in the argument
 	public void LoadLevel(string fname) 
 	{
-		Debug.Log("trying to load a level");
-		//CreateStar(0,0,aqua,taqua,35);
 		string line;
 		char[] delim = {','} ;
 		StreamReader file = new StreamReader(fname);
@@ -383,7 +395,6 @@ public class Level_Editor : MonoBehaviour {
 		
 		if(staticstar)
 		{
-		Debug.Log("doing array copy");
 		//expand and copy star_arr - if loading a level takes too long, this can be optimized
 		GameObject[] temp_arr = new GameObject[star_arr.Length+1];
 		for(int i=0;i<star_arr.Length;i++)
@@ -574,8 +585,7 @@ public class Level_Editor : MonoBehaviour {
 		//check if file exists
 		if(File.Exists(path))
 		{
-		
-			
+				
 		} else {
 			//write info to file
 			using (StreamWriter sw = File.CreateText(path))
@@ -905,6 +915,25 @@ public class Level_Editor : MonoBehaviour {
 		if(GUI.Button(new Rect(10, Screen.height - 60, 100, 25), "Main Menu"))
 			Application.LoadLevel("Main_Menu");
 	
+		//test play level
+		if(GUI.Button(new Rect(10, Screen.height - 200, 100, 25), "Test play")) {
+			//delete temp file if it exists
+			if(File.Exists("Levels/testingtmp"))
+				File.Delete("Levels/testingtmp");
+			
+			//save level to temp file
+			SaveLevel("Levels/testingtmp");
+			
+			//Enable test buttons in test game
+			state.le_test = true;
+			
+			//set level order to this level
+			string[] order = new string[1] { "Levels/testingtmp" };
+			state.level_order = order;
+			state.cur_level = 0;
+			
+			Application.LoadLevel("Ship_Outfitter");
+		}
 		//save button
 		if(GUI.Button(new Rect(10, Screen.height - 170, 100, 25), "Name file"))
 			save_button = true;

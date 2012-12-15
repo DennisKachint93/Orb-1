@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class Game_State : MonoBehaviour {
+
+	//enables "test bed" behavior in game scene (for level editor)
+	public bool le_test = false;
 	
 	//order of levels to be played
 	public string[] level_order;
@@ -69,12 +72,12 @@ public class Game_State : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		//DO NO WRITE ANY CODE HERE.	
+		//DO NOT WRITE ANY CODE HERE.	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		//DO NO WRITE ANY CODE HERE.
+		//DO NOT WRITE ANY CODE HERE.
 	}
 	
 	//resets scoring values
@@ -87,5 +90,24 @@ public class Game_State : MonoBehaviour {
 		stars_destroyed  = 0;
 		num_stars		 = 0;
 		time_to_complete = 0;
+	}
+	
+	void OnGUI() {
+		//if we came here from the level editor 
+		if(le_test) {
+			Debug.Log("in le test");
+			//if we're actually in the game
+			if(Application.loadedLevel == 1) {
+				//display button that lets us return to the level editor 
+				if(GUI.Button(new Rect(10, Screen.height - 200, 100, 25), "Back to editor")) {
+					Application.LoadLevel("Level_Editor");
+				}
+				
+				//display button to reset level (same function as T)
+				if(GUI.Button(new Rect(10, Screen.height - 170, 100, 25), "Reset level")) {
+					
+				}
+			}
+		}
 	}
 }

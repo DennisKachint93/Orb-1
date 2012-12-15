@@ -35,7 +35,7 @@ public class Menu : MonoBehaviour {
 			
 			//levels that will be played in order
 			string[] level_order = new string[6] {
-												"Levels/all-obj-add-test",
+												"Levels/le-process-test",
 												"Levels/all-objs-test",
 												"Levels/le-loaded-save",
 												"Levels/le-load-simple",
