@@ -43,6 +43,10 @@ public class Level_Editor : MonoBehaviour {
 	public GameObject[] invinc_arr;
 	public int numStars = 0;
 	
+	//used for visuals for moving/ revolving stars
+	public GameObject moving_star_path;
+	public GameObject revolving_star_path;
+	
 	//star colors
 	public Color orange = new Color(.9f, .45f, 0f, 1f);
 	public Color dgray = new Color(.1f, .1f, .1f, 1f);
@@ -456,6 +460,10 @@ public class Level_Editor : MonoBehaviour {
 		scpt.editor_freeze = true;
 		scpt.speed = speed;
 		
+		//creating visual representation of path
+		GameObject path0 = Instantiate(moving_star_path, mstar.transform.position, new Quaternion (0, 0, 0, 0)) as GameObject;
+		path0.transform.Rotate(new Vector3(0,90,0));
+		//path0.transform.localScale.
 		GameObject[] temp_arr = new GameObject[mstar_arr.Length+1];
 		for(int i=0;i<mstar_arr.Length;i++)
 			temp_arr[i] = mstar_arr[i];
@@ -473,6 +481,18 @@ public class Level_Editor : MonoBehaviour {
 		scpt.rpoint = new Vector3(r_point_x,r_point_y,0);
 		scpt.rspeed = speed;
 		scpt.editor_freeze = true;
+		
+		//creating visual representation of path
+		GameObject path1 = Instantiate(revolving_star_path, scpt.rpoint+new Vector3(0,0,scpt.starSize), new Quaternion (0, 0, 0, 0)) as GameObject;
+		path1.transform.Rotate(new Vector3(0,90,90));
+		path1.transform.localScale *= 2*(Vector3.Distance(rstar.transform.position,scpt.rpoint)+scpt.starSize);
+		path1.renderer.material.color = scpt.c;
+		GameObject path2 = Instantiate(revolving_star_path, scpt.rpoint+new Vector3(0,0,scpt.starSize-.2f), new Quaternion (0, 0, 0, 0)) as GameObject;
+		path2.transform.Rotate(new Vector3(0,90,90));
+		path2.transform.localScale *= 2*(Vector3.Distance(rstar.transform.position,scpt.rpoint)-scpt.starSize);	
+		path2.renderer.material.color = Color.black;
+	//	path1.transform.parent = rstar.transform;
+	//	path2.transform.parent = rstar.transform;
 		
 		GameObject[] temp_arr = new GameObject[rstar_arr.Length+1];
 		for(int i=0;i<rstar_arr.Length;i++)
