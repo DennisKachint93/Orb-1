@@ -59,11 +59,17 @@ public class Level_Editor : MonoBehaviour {
 	
 	public bool starbut = false;
 	public bool validcolor = false;
+	public bool coin_circle = false;
+	public bool coin_line = false;
 	public Color starcol;
 	public float starsize;
 	public Texture startex;
 	public string isaycolor;
 	public string isaysize;
+	public string coin_line_length;
+	public string coin_line_number;
+	public string coin_circle_radius;
+	public string coin_circle_number;
 	
 	//filename text box
 	public string isay_fname;
@@ -525,8 +531,28 @@ public class Level_Editor : MonoBehaviour {
 			//if the coin button been pushed, make coins
 			if(coin_button)
 			{
-				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				CreateCoin(location.x,location.y);
+				if(coin_circle){
+					int coin_number = int.Parse(coin_circle_number);
+					float radius = float.Parse(coin_circle_radius);
+					Debug.Log("coin number: "+coin_number+" radius: "+radius);
+					Vector3 center = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+					for(int i = 0; i<coin_number; i++){
+						CreateCoin(center.x+Mathf.Cos((i*2*Mathf.PI)/coin_number)*radius, center.y+Mathf.Sin((2*Mathf.PI*i)/coin_number)*radius);
+					}
+				}
+				else if(coin_line){
+					int coin_number = int.Parse(coin_line_number);
+					float line_length = float.Parse(coin_line_length);
+					Debug.Log("coin_number : "+coin_number+" length: "+line_length);
+					Vector3 start_line = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+					for(int i = 0; i<coin_number; i++){
+						CreateCoin(start_line.x+(line_length*i)/coin_number, start_line.y);
+					}
+				}
+				else{
+					Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+					CreateCoin(location.x,location.y);
+				}
 			}
 			
 			//revolving star and bandf star
@@ -868,8 +894,27 @@ public class Level_Editor : MonoBehaviour {
 			boost_button = false;
 		}
 		
+		int ystart = 300; //starting y value of pop-up box	
+		if(coin_button){
+			coin_line = GUI.Toggle(new Rect(10, ystart+35, 40, 20), coin_line, "Line of coins");
+			coin_circle = GUI.Toggle(new Rect(10, ystart+50, 40, 20), coin_circle, "Circle of coins");
+		}
 		
-		int ystart = 300; //starting y value of pop-up box
+		if(coin_line){
+			coin_circle = false;
+			GUI.Label( new Rect(10, ystart+70, 25, 20), "Length");
+			GUI.Label( new Rect(10, ystart+90, 25, 20), "# of coins(only ints)");
+			coin_line_length = GUI.TextField(new Rect(45, ystart + 72, 40, 20), coin_line_length, 25);
+			coin_line_number = GUI.TextField(new Rect(45, ystart+92, 40, 20), coin_line_number, 25);
+		}
+		if(coin_circle){
+			coin_line = false;
+                        GUI.Label( new Rect(10, ystart+70, 25, 20), "Radius");
+                        GUI.Label( new Rect(10, ystart+90, 25, 20), "# of coins(only ints)");
+                        coin_circle_radius = GUI.TextField(new Rect(45, ystart + 72, 40, 20), coin_circle_radius, 25);
+                        coin_circle_number = GUI.TextField(new Rect(45, ystart+92, 40, 20), coin_circle_number, 25);
+		}
+		
 		//if star button has been clicked, pop up box to change star color/size
  		if(starbut || mstar_button || rstar_button || blackHoleButton || bfstarButton){
 			if(GUI.Button(new Rect(25, ystart+10, 45, 30), "Done")){
