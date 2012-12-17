@@ -706,6 +706,13 @@ public class Manager : MonoBehaviour {
 	//call this anytime something kills the player
 	public static void Die()
 	{
+	
+		//sound		
+		GameObject go = GameObject.Find("Alien_Exp_Sound");
+		Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
+		ascpt.die.Play();
+		
+		//reset to starting vals
 		gscpt.times_died++;
 		if(energy > STARTING_ENERGY)
 			energy -= 25;
@@ -795,12 +802,12 @@ public class Manager : MonoBehaviour {
 		speed = Mathf.Log(energy)*MOVEMENT_SPEED + CONSTANT_SPEED;
 
 		//bending
-		if(Input.GetKey(KeyCode.Q))
+		if(Input.GetKey(KeyCode.A))
 		{
 			energy -= BEND_COST;
 			Learth_Movement.lastPos.RotateAround(l.transform.position,Vector3.forward,Time.deltaTime*BEND_FACTOR);
 		}
-		else if (Input.GetKey(KeyCode.W))
+		else if (Input.GetKey(KeyCode.D))
 		{		
 			energy -= BEND_COST;
 			Learth_Movement.lastPos.RotateAround(l.transform.position,Vector3.forward,-1*Time.deltaTime*BEND_FACTOR);
@@ -812,7 +819,7 @@ public class Manager : MonoBehaviour {
 			l.renderer.material.color = Color.green;
 			energy -= INVINC_COST;
 		}
-		if(Input.GetKey(KeyCode.Escape)) {
+		if(Input.GetKeyUp(KeyCode.Escape)) {
 			escape = !escape;
 			//how to pause?
 		}

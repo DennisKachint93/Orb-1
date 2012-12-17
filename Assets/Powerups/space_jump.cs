@@ -27,7 +27,7 @@ public class space_jump : MonoBehaviour {
 	
 		
 		//if you hold E down, it increases the distance for the jump 
-		if(Input.GetKey(KeyCode.E) && gscpt.jump_ammo > 0 && !Learth_Movement.isTangent && !Manager.is_being_attacked)
+		if(Input.GetKey(KeyCode.W) && gscpt.jump_ammo > 0 && !Learth_Movement.isTangent && !Manager.is_being_attacked)
 		{
 			dist_count += inc_rate;
 			
@@ -41,7 +41,7 @@ public class space_jump : MonoBehaviour {
 		}
 
 		//space jump
-		if(Input.GetKeyUp(KeyCode.E) && gscpt.jump_ammo > 0 && !Learth_Movement.isTangent && !Manager.is_being_attacked){
+		if(Input.GetKeyUp(KeyCode.W) && gscpt.jump_ammo > 0 && !Learth_Movement.isTangent && !Manager.is_being_attacked){
 			//jump if E key is legitimately down (not down from having jumped at the limit)
 			if(!jumped_at_limit)
 				DoJump ();
