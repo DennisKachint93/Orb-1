@@ -11,7 +11,7 @@ public class Manager : MonoBehaviour {
 	public static void ResetConstants() {
 		/*GAMEPLAY CONTROLS */
 		//Larger the error, the wider legal orbit radius 
-		RADIAL_ERROR = 55;
+		RADIAL_ERROR = 85;
 		//larger the tan error, the easier it is to enter a star at a legal radius
 		TAN_ERROR = 8;
 		//the larger this number is, the sharper bends are
@@ -21,7 +21,7 @@ public class Manager : MonoBehaviour {
 		//speed you move at without energy
 		CONSTANT_SPEED = 5f;
 		//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
-		ORBIT_SPEED_FACTOR = .35f;
+		ORBIT_SPEED_FACTOR = .4f;
 		
 		/*CAMERA CONTROLS */
 		//the larger this number is, the more closely the camera follows learth while in orbit
