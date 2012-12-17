@@ -138,13 +138,13 @@ public class Manager : MonoBehaviour {
     public static bool SHIELD = false;
     public static bool BLACK_HOLE_HELPER = false;
 	
-	public static float SPACE_RIP_COST = 15f;
+	public static float SPACE_RIP_COST = 45f;
  	
  	/*BLACK HOLE CONSTANTS*/
  	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
 	private static float BLACK_HOLE_SUCKINESS = 5f;	
 	//energy it takes to escape a black hole on each press of space bar
-	private static float BH_ESCAPE_ENERGY = .2f;
+	private static float BH_ESCAPE_ENERGY = .5f;
 	//distance you travel when you press space to escape a black hole
 	private static float BH_ESCAPE_DISTANCE = 400f;
 	
@@ -1103,7 +1103,7 @@ public class Manager : MonoBehaviour {
 		}
 		
 		//ammo stats
-		int xoffset = 10;
+		int xoffset = 15;
 		int yoffset = Screen.height-70;
 		if(gscpt.bomb_on) {
 			for (int i = 0; i < gscpt.bomb_ammo; i++) 
@@ -1113,13 +1113,13 @@ public class Manager : MonoBehaviour {
 		if(gscpt.jump_on) {
 			print(gscpt.jump_ammo);
 			for (int j = 0; j < gscpt.jump_ammo; j++) 
-				GUI.Label(new Rect(xoffset+55*j,yoffset,55,55),jumps);
-			yoffset -= 45;
+				GUI.Label(new Rect(xoffset+30*j,yoffset,40,40),jumps);
+			yoffset -= 25;
 		}
 		if(gscpt.gun_on) {
 			for (int k = 0; k < gscpt.gun_ammo/5; k++) 
-				GUI.Label(new Rect(xoffset+20*k,yoffset,25,25),bullets);
-			yoffset -= 25;
+				GUI.Label(new Rect(xoffset+25*k,yoffset,25,25),bullets);
+			yoffset -= 35;
 		}
 		if(gscpt.timewarp_on) {
 			for (int h = 0; h < gscpt.timewarp_ammo; h++) 
@@ -1130,7 +1130,7 @@ public class Manager : MonoBehaviour {
 			print(gscpt.dir_ammo);
 			for (int m = 0; m < gscpt.dir_ammo; m++) 
 				GUI.Label(new Rect(xoffset+35*m,yoffset,35,35),dir_shifts);
-			yoffset -= 45;		
+			yoffset -= 35;		
 		}
 				
       //  GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
@@ -1140,7 +1140,7 @@ public class Manager : MonoBehaviour {
    		
    		//on pause
    		if (escape)
-   			GUI.Label(new Rect(0,0,Screen.width, Screen.height),control_scheme);
+   			GUI.Label(new Rect(Screen.width/8, Screen.height/8,Screen.width, Screen.height),control_scheme);
    			
 	}
 		

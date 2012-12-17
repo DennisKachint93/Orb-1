@@ -6,6 +6,8 @@ public class Menu : MonoBehaviour {
 	//dennis
 	public Texture dennis;
 	public Texture title;
+	
+	public GUISkin skin;
 
 	//State saving object
 	GameObject game_state;
@@ -34,7 +36,10 @@ public class Menu : MonoBehaviour {
 			//set default ship settings here
 			
 			//levels that will be played in order
-			string[] level_order = new string[6] {
+			string[] level_order = new string[9] {
+												"Levels/level1",
+												"Levels/easyish3",
+												"Levels/shooting",
 												"Levels/s2m/circles-bholes",
 												"Levels/all-objs-test",
 												"Levels/le-loaded-save",
@@ -63,14 +68,16 @@ public class Menu : MonoBehaviour {
 	}
 		
 	void OnGUI () {
-		GUI.backgroundColor = Color.red;
+		GUI.skin = skin;
+		GUI.backgroundColor = Color.black;
+		GUI.skin.button.fontSize = 40;
 	//	GUI.Box(new Rect(50, 50, Screen.width/2-100, 7*Screen.height/8), dennis);
 		GUI.Box(new Rect(50,50, 1024,640 ), title);
-		if(GUI.Button(new Rect(3*Screen.width/4 + 8, Screen.height/2, 60, 25), "Play!")) {
+		if(GUI.Button(new Rect(3*Screen.width/4, Screen.height/2-80, 180, 45), "Play!!!!!!!")) {
 			gscpt.in_game = true;
 			Application.LoadLevel("Ship_Outfitter");
 		}	
-		if(GUI.Button(new Rect(3*Screen.width/4, Screen.height/2 + 35, 80, 25), "Level Editor"))	
+		if(GUI.Button(new Rect(3*Screen.width/4, Screen.height/2 - 25, 180, 45), "Level Editor"))	
 			Application.LoadLevel("Level_Editor");
 	}
 	
