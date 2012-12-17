@@ -461,8 +461,8 @@ public class Level_Editor : MonoBehaviour {
 		scpt.speed = speed;
 		
 		//creating visual representation of path
-		GameObject path0 = Instantiate(moving_star_path, mstar.transform.position, new Quaternion (0, 0, 0, 0)) as GameObject;
-		path0.transform.Rotate(new Vector3(0,90,0));
+	//	GameObject path0 = Instantiate(moving_star_path, mstar.transform.position, new Quaternion (0, 0, 0, 0)) as GameObject;
+	//	path0.transform.Rotate(new Vector3(0,90,0));
 		//path0.transform.localScale.
 		GameObject[] temp_arr = new GameObject[mstar_arr.Length+1];
 		for(int i=0;i<mstar_arr.Length;i++)

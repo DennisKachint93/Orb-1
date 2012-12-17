@@ -69,7 +69,7 @@ public class Manager : MonoBehaviour {
 		//when aliens are within distance, they start to suck your energy
 		ALIEN_SUCKING_DISTANCE = 100f;
 		//this much energy is sucked from player when alien is within alien_sucking_distance
-		ALIEN_SUCKS_ENERGY = .025f;	
+		ALIEN_SUCKS_ENERGY = .05f;	
 		   
 		//black hole helper
 		BLACK_HOLE_HELPER = false;

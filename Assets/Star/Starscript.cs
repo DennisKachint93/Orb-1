@@ -160,7 +160,7 @@ public class Starscript : MonoBehaviour {
 			transform.RotateAround(this.transform.position, Vector3.forward, starSize*Time.deltaTime*random);
 		}
 		//if star is a mover, the actual game is playing, and the star is visible move to destination point
-		if(is_moving && !editor_freeze  && renderer.isVisible)
+		if(is_moving && !editor_freeze  && (renderer.isVisible || bandf))
 		{
 			transform.position += speed*new Vector3(dir.x*Time.deltaTime,dir.y*Time.deltaTime,0);
 		}

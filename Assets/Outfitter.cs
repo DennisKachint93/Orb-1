@@ -11,27 +11,27 @@ public class Outfitter : MonoBehaviour {
 	private int EASY_ENTRY_PRICE = 5;
 	
 	private int SHIELD_PRICE = 5; */	
-	private int SPACE_BOMB_PRICE = 750;
-	private int SINGLE_BOMB_PRICE = 50;
+	private int SPACE_BOMB_PRICE = 1500;
+	private int SINGLE_BOMB_PRICE = 300;
 
-	private int JUMP_PRICE = 500;
-	private int SINGLE_JUMP_PRICE = 80;
+	private int JUMP_PRICE = 3500;
+	private int SINGLE_JUMP_PRICE = 50;
 
 //	private int BEND_UNIT_PRICE = 1200;
 //	private int SINGLE_BEND_PRICE = 100;
 
-	private int ALIEN_GUN_PRICE = 800;
+	private int ALIEN_GUN_PRICE = 1500;
 	private int SINGLE_GUN_PRICE = 25;
 
-	private int BLACK_HOLE_HELPER_PRICE = 3;
+	private int BLACK_HOLE_HELPER_PRICE = 2000;
 
 //	private int BOOST_PRICE = 2000;
 //	private int SINGLE_BOOST_PRICE = 100;
-	private int DIR_SHIFT_PRICE = 50;
-	private int SINGLE_DIR_SHIFT_PRICE = 5;
+	private int DIR_SHIFT_PRICE = 3500;
+	private int SINGLE_DIR_SHIFT_PRICE = 50;
 
-	private int TIME_WARP_PRICE = 20;
-	private int SINGLE_TIME_WARP_PRICE = 5;
+	private int TIME_WARP_PRICE = 900;
+	private int SINGLE_TIME_WARP_PRICE = 50;
 
 	//lizard person
 	public Texture gorn;
@@ -201,7 +201,7 @@ public class Outfitter : MonoBehaviour {
 				GUI.Label(new Rect(xoffset, yoffset+505,120,20), "purchase bombs.");
 				GUI.skin.label.fontSize = 26;
 				GUI.skin.label.normal.textColor = Color.red;
-				GUI.Label(new Rect(xoffset+35, yoffset+525,20,20), "$"+SPACE_BOMB_PRICE);
+				GUI.Label(new Rect(xoffset+35, yoffset+525,50,20), "$"+SPACE_BOMB_PRICE);
 				GUI.Label(new Rect(xoffset+100,yoffset+485,90,90),bomb_text);			
 			}if (!gscpt.jump_on && !gscpt.bomb_on && Input.mousePosition.y < Screen.height-(yoffset+310) && Input.mousePosition.y > Screen.height-(yoffset+330) && !gscpt.jump_on) {
 				GUI.Label(new Rect(xoffset, yoffset+485,200,20), "Lets you teleport ");
