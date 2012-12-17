@@ -26,7 +26,7 @@ public class Main_Game_Camera : MonoBehaviour {
 		//A moves the camera farther, S moves the camera closer
 		if(Input.GetKey(KeyCode.Minus) && Camera.main.orthographicSize <= Manager.CAM_MAX_DIST)
 			Camera.main.orthographicSize += Manager.CAM_MOVE_SPEED;
-		if(Input.GetKey(KeyCode.Plus) && Camera.main.orthographicSize >= Manager.CAM_MIN_DIST)
+		if(Input.GetKey(KeyCode.Equals) && Camera.main.orthographicSize >= Manager.CAM_MIN_DIST)
 			Camera.main.orthographicSize -= Manager.CAM_MOVE_SPEED;
 	}
 }

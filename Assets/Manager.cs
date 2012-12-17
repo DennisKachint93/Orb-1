@@ -29,13 +29,13 @@ public class Manager : MonoBehaviour {
 		//the larger this number is, the more closely the camera follows learth while not in orbit
 		TRAVEL_LERP = 2.5f;
 		//How far the player is allowed to move the camera
-		CAM_MAX_DIST = 5000;
+		CAM_MAX_DIST = 1000;
 		//How close the player is allowed to move the camera
-		CAM_MIN_DIST = 50;
+		CAM_MIN_DIST = 400;
 		//how fast the player can zoom in/out
 		CAM_MOVE_SPEED = 10;
 		//Camera orthographic size at start, higher = see more
-		CAM_START_HEIGHT = 600;
+		CAM_START_HEIGHT = 700;
 		
 		/*ENERGY CONTROLS */	
 		//starting energy
@@ -261,6 +261,9 @@ public class Manager : MonoBehaviour {
 	public Texture bullets;
 	public Texture dir_shifts;
 	public Texture timewarps;		
+	
+	//hack to stop death sound at beginning
+	static bool play_death = false;
 			
 	void Start () {
 		//performance
@@ -707,10 +710,14 @@ public class Manager : MonoBehaviour {
 	public static void Die()
 	{
 	
-		//sound		
-		GameObject go = GameObject.Find("Alien_Exp_Sound");
-		Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
-		ascpt.die.Play();
+		//sound	
+		if(play_death) {
+			GameObject go = GameObject.Find("Alien_Exp_Sound");
+			Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
+			ascpt.die.Play(); 
+		} else {
+			play_death = true;
+		}
 		
 		//reset to starting vals
 		gscpt.times_died++;
