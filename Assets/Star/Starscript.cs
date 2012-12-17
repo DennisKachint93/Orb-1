@@ -155,7 +155,12 @@ public class Starscript : MonoBehaviour {
 		renderer.material.mainTexture = t;
         if (!is_sink && !is_source) {
 			r.light.color = c;
-       		r.light.intensity = 2f;
+			if (c == Manager.orange) 
+				r.light.intensity = 2f;
+			else if (c == Manager.purple)
+				r.light.intensity = 4f;
+			else
+       			r.light.intensity = 3.5f;
 			//rotate star on its axis at a fixed random rate
 			transform.RotateAround(this.transform.position, Vector3.forward, starSize*Time.deltaTime*random);
 		}

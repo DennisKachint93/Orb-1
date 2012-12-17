@@ -205,10 +205,10 @@ public class Manager : MonoBehaviour {
 	public static int num_deaths = 0;
 	
 	//star colors and textures
-	public Color orange = new Color(.9f, .45f, 0f, 1f);
+	public static Color orange = new Color(.9f, .45f, 0f, 1f);
 	public Color dgray = new Color(.1f, .1f, .1f, 1f);
 	public Color aqua = new Color(0, .4f, .8f, 1f);
-	public Color purple = new Color(.4f, 0, .4f, 1f);
+	public static Color purple = new Color(.4f, 0, .4f, 1f);
 	public Color green = new Color(0,.4f, 0, 1f);
 	public Texture tred;
 	public Texture torange;
@@ -248,6 +248,7 @@ public class Manager : MonoBehaviour {
 	
 	//explosions
 	public Transform space_jump_effect;
+	public Transform reset_effect;
 	
 	//testing audio
 	public AudioClip test_aud;
@@ -264,6 +265,7 @@ public class Manager : MonoBehaviour {
 	
 	//hack to stop death sound at beginning
 	static bool play_death = false;
+
 			
 	void Start () {
 		//performance
@@ -709,7 +711,6 @@ public class Manager : MonoBehaviour {
 	//call this anytime something kills the player
 	public static void Die()
 	{
-	
 		//sound	
 		if(play_death) {
 			GameObject go = GameObject.Find("Alien_Exp_Sound");
@@ -769,6 +770,7 @@ public class Manager : MonoBehaviour {
 		// resetting level with T before leaving first star orbit freezes the game 
 		//R causes the player to die
 		if(Input.GetKeyDown(KeyCode.R) && gscpt.timewarp_ammo > 0) {
+			Instantiate(reset_effect,Manager.l.transform.position,Manager.l.transform.rotation);
 			gscpt.timewarp_ammo--;
 			Die();
 	 	}

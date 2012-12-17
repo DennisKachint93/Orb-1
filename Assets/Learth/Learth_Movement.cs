@@ -41,7 +41,14 @@ public class Learth_Movement : MonoBehaviour {
 	
 	void Update () {
 		//light effect every frame
-		r.light.color = renderer.material.color;
+		if (!Manager.IS_INVINCIBLE ) {
+			r.light.color = renderer.material.color;
+			r.light.range = 2.5f*transform.localScale.x;		
+		}
+		else {
+			r.light.color = Color.white;
+			r.light.range = 4.5f*transform.localScale.x;			
+		}	
 		//calculate velocity every frame
 		velocity = this.transform.position - lastPos.position;
 		lastPos.position = this.transform.position;
