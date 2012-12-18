@@ -137,18 +137,18 @@ public class Outfitter : MonoBehaviour {
 		GUI.skin.label.fontSize = 17;
 		GUI.skin.label.normal.textColor = lightBlue;
 		GUI.Label(new Rect(xoffset,yoffset+35,107,25), "Contract Payment :");
-		GUI.skin.label.normal.textColor = Color.red;
+		GUI.skin.label.normal.textColor = Color.green;
 		GUI.Label(new Rect(xoffset+107,yoffset+35,50,25),"$"+(int)(gscpt.energy_delivered/2 + 250*(gscpt.num_stars/(gscpt.time_to_complete+1))));
 
 		GUI.skin.label.normal.textColor = lightBlue;
 		GUI.Label(new Rect(xoffset,yoffset+55,160,25), "Alien Extermination Payment :"); 
-		GUI.skin.label.normal.textColor = Color.red;
+		GUI.skin.label.normal.textColor = Color.green;
 		GUI.Label(new Rect(xoffset+160,yoffset+55,50,25), "$"+(gscpt.aliens_killed*4));
 
 		GUI.skin.label.normal.textColor = lightBlue;
 		GUI.Label(new Rect(xoffset,yoffset+75,179,25), "Income From Sale Of Space Gold :"); 
 		GUI.skin.label.normal.textColor = Color.green;
-		GUI.Label(new Rect(xoffset+179,yoffset+75,50,25), "$"+(gscpt.coins_collected*4));
+		GUI.Label(new Rect(xoffset+179,yoffset+75,50,25), "$"+(gscpt.coins_collected*10));
 
 		GUI.skin.label.normal.textColor = lightBlue;
 		GUI.Label(new Rect(xoffset,yoffset+95,75,25), "Orb Repairs :"); 

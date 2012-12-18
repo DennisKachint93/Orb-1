@@ -25,8 +25,8 @@ public class Menu : MonoBehaviour {
 			DontDestroyOnLoad(game_state);
 		
 			//allow background music object to persist
-/*			GameObject bgm = GameObject.Find ("Background_Music");
-			DontDestroyOnLoad(bgm); */
+			GameObject bgm = GameObject.Find ("Background_Music");
+			DontDestroyOnLoad(bgm);
 			
 			//add script to state object
 			game_state.AddComponent("Game_State");
@@ -36,23 +36,26 @@ public class Menu : MonoBehaviour {
 			//set default ship settings here
 			
 			//levels that will be played in order
-			string[] level_order = new string[9] {
-												"Levels/level1",
-												"Levels/easyish3",
-												"Levels/shooting",
-												"Levels/s2m/circles-bholes",
-												"Levels/all-objs-test",
-												"Levels/le-loaded-save",
-												"Levels/le-load-simple",
-												"Levels/visuals",
-												"Levels/invinc-test"
-												
-																	};
+			string[] level_order = new string[13] {
+				"Levels/s2m/ethan2.txt",
+				"Levels/s2m/easyish3",
+				"Levels/s2m/circles-short",
+				"Levels/s2m/ethan1.txt",
+				"Levels/s2m/bilbobaggins",
+				"Levels/s2m/faces",
+				"Levels/s2m/level1",
+				"Levels/s2m/ethanlevel3.txt",
+				"Levels/s2m/circles-bholes",
+				"Levels/s2m/shooting",
+				"Levels/s2m/springseason",
+				"Levels/s2m/rainbowwall",
+				"Levels/s2m/coinygrabgrab"
+									};
 			//state object keeps track of levels
 			gscpt.level_order = level_order;
 			
 			//starting coins
-			gscpt.num_coins = 1000;
+			gscpt.num_coins = 2500;
 			
 		} 
 	}
