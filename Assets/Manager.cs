@@ -295,12 +295,12 @@ public class Manager : MonoBehaviour {
 		lastStar = star_arr[0];
 		
 		//instantiate background based on level constraints --this is going to change.
-		for (int i = (int)level_x_min-2500; i <= (int)level_x_max+2500; i+=2500) {
+	/*	for (int i = (int)level_x_min-2500; i <= (int)level_x_max+2500; i+=2500) {
 			for (int j = (int)level_y_min-2500; j <= (int)level_y_max+2500; j+=2500) {
 				p = Instantiate (plane, new Vector3(i, j, 100), transform.rotation) as GameObject;
 				p.transform.Rotate(270, 0, 0);
 			}
-		}
+		}*/
 		
 		
 	}
