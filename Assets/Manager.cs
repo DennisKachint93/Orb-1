@@ -265,6 +265,9 @@ public class Manager : MonoBehaviour {
 	
 	//hack to stop death sound at beginning
 	static bool play_death = false;
+	
+	//level timer; number of 
+	public float timer = 60;
 
 			
 	void Start () {
@@ -764,6 +767,14 @@ public class Manager : MonoBehaviour {
 	
 	
 	void Update () {
+	
+		//timer
+		timer -= Time.deltaTime;
+		
+		//endgame condition (timer runs out)
+		if(timer <= 0) {
+			//end game conditions should go here
+		}
 		
 		//performance
 		++frames;
@@ -1142,6 +1153,9 @@ public class Manager : MonoBehaviour {
 				GUI.Label(new Rect(xoffset+35*m,yoffset,35,35),dir_shifts);
 			yoffset -= 35;		
 		}
+		
+		//timer
+		GUI.Label(new Rect(20,20,100,100),"time left: "+Mathf.Floor(timer)); 
 				
       //  GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
 		//GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
