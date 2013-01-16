@@ -7,13 +7,13 @@ public class Line_Script : MonoBehaviour {
 		blue_line, aqua_line, purple_line, line;
 	public float line_length;
 	public Vector3 start, new_start;
-	public float rate = 2f;
+	public float rate = 3f;
 	public bool vertical, up, right;
 	public bool complete = false, new_line = false;
 	
 	void Start() {
 		start = this.transform.position;
-		line_length = Random.Range(200,500);
+		line_length = Random.Range(100,300);
 	}
 	
 	void Update() {
