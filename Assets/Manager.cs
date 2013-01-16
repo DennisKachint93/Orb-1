@@ -206,10 +206,10 @@ public class Manager : MonoBehaviour {
 	
 	//star colors and textures
 	public static Color orange = new Color(.9f, .45f, 0f, 1f);
-	public Color dgray = new Color(.1f, .1f, .1f, 1f);
-	public Color aqua = new Color(0, .4f, .8f, 1f);
+	public static Color dgray = new Color(.1f, .1f, .1f, 1f);
+	public static Color aqua = new Color(0, .4f, .8f, 1f);
 	public static Color purple = new Color(.4f, 0, .4f, 1f);
-	public Color green = new Color(0,.4f, 0, 1f);
+	public static Color green = new Color(0,.4f, 0, 1f);
 	public Texture tred;
 	public Texture torange;
 	public Texture tyellow;
@@ -1081,7 +1081,7 @@ public class Manager : MonoBehaviour {
 								lt.transform.parent = l.transform;
 								l.renderer.material.color = purple;
 							}
-							sscript.c = dgray;
+							sscript.c = Color.white;
 							sscript.t = tgray;
 						}
 						break;

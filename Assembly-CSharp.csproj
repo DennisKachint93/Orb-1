@@ -44,7 +44,8 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Background.cs" />
+     <Compile Include="Assets\BackGround\Background.cs" />
+     <Compile Include="Assets\BackGround\Line_Script.cs" />
      <Compile Include="Assets\Game_State.cs" />
      <Compile Include="Assets\Learth\Learth_Movement.cs" />
      <Compile Include="Assets\Learth\Learth_Outfitter.cs" />

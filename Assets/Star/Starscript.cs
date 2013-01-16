@@ -144,11 +144,11 @@ public class Starscript : MonoBehaviour {
 			//parent radius to star for destruction
 			r.transform.parent = this.transform;
 			//do the same for light bulb effect
-			bulb = Instantiate(bulb_instance, new Vector3 (this.transform.position.x, this.transform.position.y, 90f), new Quaternion (0, 0, 0, 0)) as GameObject;
-			bulb.light.range = starSize;
-			bulb.light.intensity = 8f;
-			bulb.light.color = c;
-			bulb.transform.parent = this.transform;
+		//	bulb = Instantiate(bulb_instance, new Vector3 (this.transform.position.x, this.transform.position.y, 90f), new Quaternion (0, 0, 0, 0)) as GameObject;
+		//	bulb.light.range = starSize;
+		//	bulb.light.intensity = 8f;
+			this.renderer.material.color = c;
+		//	bulb.transform.parent = this.transform;
 		}
 		else if (is_source)
 			orbitRadius = 110;
@@ -159,6 +159,7 @@ public class Starscript : MonoBehaviour {
 	}
 	
 	void Update() {
+		this.renderer.material.color = c;
 		//texture and color star
 		//renderer.material.color = c;
 		renderer.light.color = c;
