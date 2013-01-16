@@ -419,7 +419,7 @@ public class Manager : MonoBehaviour {
 			}
 			//if it is the first star, it becomes the spacestation
 			float starsize;
-			if (i == 0 || i == stars-1) {
+			if (i == 0) {
 				startex = station_texture;
 				starcol = Color.white;
 				starsize = 100;
@@ -437,14 +437,22 @@ public class Manager : MonoBehaviour {
 				GoToOrbit(newstar,float.Parse(args[3])+10);	
 			}
 			//last star is the sink
-			if(i == stars-1){
+		/*	
+		 * 
+		 * PREVIOUS VERSION 
+		 * 
+		 * if(i == stars-1){
 				Starscript scpt = newstar.GetComponent<Starscript>();
 				scpt.is_sink = true;
 				scpt.orbitRadius = 0;
-			}  else {
-				Starscript scpt = newstar.GetComponent<Starscript>();
-				scpt.is_sink = false;
-			}
+			}  else { */
+				Starscript scpta = newstar.GetComponent<Starscript>();
+				scpta.is_sink = false;
+				scpta.is_source = false;
+		/*	}  */
+			
+			
+			
 			checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
 		}
 		

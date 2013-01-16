@@ -78,7 +78,9 @@ public class Menu : MonoBehaviour {
 		GUI.Box(new Rect(50,50, 1024,640 ), title);
 		if(GUI.Button(new Rect(3*Screen.width/4, Screen.height/2-80, 180, 45), "Play!!!!!!!")) {
 			gscpt.in_game = true;
-			Application.LoadLevel("Ship_Outfitter");
+//			Application.LoadLevel("Ship_Outfitter");
+			Manager.ResetConstants();
+			Application.LoadLevel("Scene1");
 		}	
 		if(GUI.Button(new Rect(3*Screen.width/4, Screen.height/2 - 25, 180, 45), "Level Editor"))	
 			Application.LoadLevel("Level_Editor");
