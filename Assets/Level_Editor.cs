@@ -124,8 +124,12 @@ public class Level_Editor : MonoBehaviour {
 	
 	void Start () {
 		
+		
 		//set camera height for level editing
 		Camera.main.orthographicSize = CAM_START_HEIGHT;
+		
+		//position hack, do this better (fixes camera intersecting with stars)
+		Camera.main.transform.position =  new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -128);
 		
 		//get game state
 		GameObject go = GameObject.Find("game_state");
@@ -537,6 +541,8 @@ public class Level_Editor : MonoBehaviour {
 				Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 starsize = float.Parse(isaysize);
 				CreateStar(location.x,location.y,starcol,startex,starsize);
+				
+				//CreateStar(location.x,location.y,starcol,startex,starsize);
        		}
        		
 			//if user has entered a valid color and the moving star button is clicked, create a moving star

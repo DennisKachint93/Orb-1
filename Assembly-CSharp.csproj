@@ -54,6 +54,7 @@
      <Compile Include="Assets\Manager.cs" />
      <Compile Include="Assets\Menu.cs" />
      <Compile Include="Assets\Outfitter.cs" />
+     <Compile Include="Assets\Postgame.cs" />
      <Compile Include="Assets\Powerups\Black_Hole_Helper.cs" />
      <Compile Include="Assets\Powerups\Easy_Entry.cs" />
      <Compile Include="Assets\Powerups\Super_Bending.cs" />

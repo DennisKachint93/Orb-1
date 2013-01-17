@@ -266,8 +266,11 @@ public class Manager : MonoBehaviour {
 	//hack to stop death sound at beginning
 	static bool play_death = false;
 	
-	//level timer; number of 
+	//level timer; number of seconds
 	public float timer = 60;
+	
+	//points
+	public float points = 0;
 
 			
 	void Start () {
@@ -296,15 +299,6 @@ public class Manager : MonoBehaviour {
 		
 		//set lastStar to first star (because it's the last star you visited)
 		lastStar = star_arr[0];
-		
-		//instantiate background based on level constraints --this is going to change.
-	/*	for (int i = (int)level_x_min-2500; i <= (int)level_x_max+2500; i+=2500) {
-			for (int j = (int)level_y_min-2500; j <= (int)level_y_max+2500; j+=2500) {
-				p = Instantiate (plane, new Vector3(i, j, 100), transform.rotation) as GameObject;
-				p.transform.Rotate(270, 0, 0);
-			}
-		}*/
-		
 		
 	}
 	
@@ -774,6 +768,7 @@ public class Manager : MonoBehaviour {
 		//endgame condition (timer runs out)
 		if(timer <= 0) {
 			//end game conditions should go here
+			Application.LoadLevel("Postgame");
 		}
 		
 		//performance
@@ -1155,7 +1150,9 @@ public class Manager : MonoBehaviour {
 		}
 		
 		//timer
-		GUI.Label(new Rect(20,20,100,100),"time left: "+Mathf.Floor(timer)); 
+		GUI.Label(new Rect(20,20,100,100),"Time: "+Mathf.Floor(timer)); 
+		//points
+		GUI.Label (new Rect(20,40,100,100), "Points: "+points);
 				
       //  GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
 		//GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
