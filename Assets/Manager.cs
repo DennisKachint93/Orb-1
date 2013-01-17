@@ -1095,8 +1095,9 @@ public class Manager : MonoBehaviour {
 								lt.transform.parent = l.transform;
 								l.renderer.material.color = purple;
 							}
-							sscript.c = Color.white;
-							sscript.t = tgray;
+							//sscript.c = Color.white;
+							//sscript.t = tgray;
+							sscript.r.light.intensity = .1f;
 						}
 						break;
 					}

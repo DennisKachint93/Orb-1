@@ -16,7 +16,7 @@ public class Background : MonoBehaviour {
 	void Update() {
 		cur_time = Time.time;
 		if (cur_time - last_time >= delay) {
-			start = new Vector3 (Manager.l.transform.position.x, Manager.l.transform.position.y, 20);//+ new Vector3(Random.Range(-300, 300), Random.Range(-300, 300),0);
+			start = new Vector3 (Manager.l.transform.position.x, Manager.l.transform.position.y, 0);//+ new Vector3(Random.Range(-300, 300), Random.Range(-300, 300),0);
 			if (Manager.l.renderer.material.color == Color.red) 
 				line = Instantiate (red_line, start, Manager.l.transform.rotation) as GameObject;
 			else if (Manager.l.renderer.material.color == Manager.orange) 

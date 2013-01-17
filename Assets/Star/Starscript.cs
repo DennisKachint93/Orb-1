@@ -66,7 +66,6 @@ public class Starscript : MonoBehaviour {
 	public float orbitRadius;
 	public float duration = 1f;
 	public float offset;
-	public float random;
 	//is winner
 	public bool is_sink = false;	
 	//is starter
@@ -147,7 +146,7 @@ public class Starscript : MonoBehaviour {
 			//collider for raycasting to detect if star is tangent 	
 			r.light.range = 2*orbitRadius + 2*Manager.RADIAL_ERROR;
 			GameObject collider = Instantiate(collide, this.transform.position, new Quaternion (0, 0, 0, 0)) as GameObject;
-			collider.transform.localScale *= r.light.range;
+			collider.transform.localScale *= r.light.range;//+ 3*Manager.RADIAL_ERROR;
 			collider.transform.parent = this.transform;
 			//do the same for light bulb effect
 		//	bulb = Instantiate(bulb_instance, new Vector3 (this.transform.position.x, this.transform.position.y, 90f), new Quaternion (0, 0, 0, 0)) as GameObject;
@@ -160,11 +159,27 @@ public class Starscript : MonoBehaviour {
 			orbitRadius = 110;
 		else 
 			orbitRadius = 0;
-		//random value for star's random rotation
-		random = Random.value;		
+	
+		r.light.color = c;
+		if (c == Manager.orange) 
+			r.light.intensity = 1.4f;
+		else if (c == Manager.purple)
+			r.light.intensity = 4f;
+		else
+       		r.light.intensity = 3.5f;
 	}
 	
 	void Update() {
+		//gradually increase intensities of lights
+		if (c == Manager.orange && r.light.intensity < 1.4f) {
+				r.light.intensity += .001f;
+			//	print (r.light.intensity);
+		}
+		else if (c == Manager.purple && r.light.intensity < 4f) 
+				r.light.intensity += .002f;
+		else if (r.light.intensity < 3.5f) 
+				r.light.intensity += .00175f;
+		
 		this.renderer.material.color = c;
 		//texture and color star
 		//renderer.material.color = c;
@@ -174,17 +189,7 @@ public class Starscript : MonoBehaviour {
 			renderer.material.shader = Shader.Find("Reflective/Bumped Specular");
 		else
 			renderer.material.shader = Shader.Find("Specular");
-	    if (!is_sink && !is_source) {
-			r.light.color = c;
-			if (c == Manager.orange) 
-				r.light.intensity = 2f;
-			else if (c == Manager.purple)
-				r.light.intensity = 4f;
-			else
-       			r.light.intensity = 3.5f;
-			//rotate star on its axis at a fixed random rate
-			transform.RotateAround(this.transform.position, Vector3.forward, starSize*Time.deltaTime*random);
-		}
+	   
 		//if star is a mover, the actual game is playing, and the star is visible move to destination point
 		if(is_moving && !editor_freeze  && (renderer.isVisible || bandf))
 		{
