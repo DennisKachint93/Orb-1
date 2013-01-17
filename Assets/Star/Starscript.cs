@@ -58,6 +58,7 @@ public class Starscript : MonoBehaviour {
 	//actual radius and bulb objects instantiated
 	public GameObject r;
 	public GameObject bulb;
+	public GameObject collide;
 	//star properties
 	public Color c;
 	public Texture t;
@@ -70,6 +71,7 @@ public class Starscript : MonoBehaviour {
 	public bool is_sink = false;	
 	//is starter
 	public bool is_source = false;
+	public bool glow = false;
 	//position at last frame
 	public Vector3 last_position;
 	//true if in level editor, so stars don't move
@@ -101,10 +103,9 @@ public class Starscript : MonoBehaviour {
 	
 	
 	void Start () {
+		
 		GameObject go = GameObject.Find("game_state");
 		gscpt = go.GetComponent<Game_State>();
-		
-		
 		
 		if(bandf){
 			dir = (destination - start_loc);
@@ -143,6 +144,11 @@ public class Starscript : MonoBehaviour {
 			r.light.range = 2*orbitRadius + 2*Manager.RADIAL_ERROR;
 			//parent radius to star for destruction
 			r.transform.parent = this.transform;
+			//collider for raycasting to detect if star is tangent 	
+			r.light.range = 2*orbitRadius + 2*Manager.RADIAL_ERROR;
+			GameObject collider = Instantiate(collide, this.transform.position, new Quaternion (0, 0, 0, 0)) as GameObject;
+			collider.transform.localScale *= r.light.range;
+			collider.transform.parent = this.transform;
 			//do the same for light bulb effect
 		//	bulb = Instantiate(bulb_instance, new Vector3 (this.transform.position.x, this.transform.position.y, 90f), new Quaternion (0, 0, 0, 0)) as GameObject;
 		//	bulb.light.range = starSize;
@@ -164,7 +170,11 @@ public class Starscript : MonoBehaviour {
 		//renderer.material.color = c;
 		renderer.light.color = c;
 		//renderer.material.mainTexture = t;
-        if (!is_sink && !is_source) {
+		if (glow) 
+			renderer.material.shader = Shader.Find("Reflective/Bumped Specular");
+		else
+			renderer.material.shader = Shader.Find("Specular");
+	    if (!is_sink && !is_source) {
 			r.light.color = c;
 			if (c == Manager.orange) 
 				r.light.intensity = 2f;
@@ -235,6 +245,7 @@ public class Starscript : MonoBehaviour {
 				}
 			}
 		}
+		glow = false;
 	}
 	
 	void intoBlackHole() {

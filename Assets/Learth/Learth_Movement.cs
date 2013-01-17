@@ -58,6 +58,14 @@ public class Learth_Movement : MonoBehaviour {
 		}
 		if(Manager.energy < 1)
 			Application.LoadLevel("Scene1");
+		
+		//determine if a star is in learth's immediate path of tangency 
+		RaycastHit hit;
+		int star_colliders = 1 << 8;
+        if (Physics.Raycast(transform.position, velocity.normalized, out hit)) {
+			Starscript s = hit.transform.parent.transform.gameObject.GetComponent<Starscript>();
+			s.glow = true;
+		}
 	}
 	
 	void OnCollisionEnter (Collision collision)
