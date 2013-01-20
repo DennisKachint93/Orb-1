@@ -92,7 +92,7 @@ public class Manager : MonoBehaviour {
 	//speed you move at without energy
 	public static float CONSTANT_SPEED = 1f;
 	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
-	private static float ORBIT_SPEED_FACTOR = .55f;
+	public static float ORBIT_SPEED_FACTOR = .55f;
 	
 	/*CAMERA CONTROLS */
 	//the larger this number is, the more closely the camera follows learth while in orbit
@@ -142,7 +142,7 @@ public class Manager : MonoBehaviour {
  	
  	/*BLACK HOLE CONSTANTS*/
  	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
-	private static float BLACK_HOLE_SUCKINESS = 5f;	
+	public static float BLACK_HOLE_SUCKINESS = 5f;	
 	//energy it takes to escape a black hole on each press of space bar
 	private static float BH_ESCAPE_ENERGY = .5f;
 	//distance you travel when you press space to escape a black hole
@@ -158,6 +158,7 @@ public class Manager : MonoBehaviour {
 	public GameObject learth;
 	public GameObject star;		
 	public GameObject rip;
+	public GameObject wall;
 	public GameObject coin;
 	public GameObject plane;
 	public GameObject alien;
@@ -177,6 +178,7 @@ public class Manager : MonoBehaviour {
 	public GameObject[] star_arr;
 	public GameObject[] rip_arr;
 	public GameObject[] coin_arr;
+	public GameObject[] wall_arr;
 	public static  GameObject[] alien_arr = new GameObject[0];
 	public GameObject[] boost_arr;
 	public GameObject[] invinc_arr;
@@ -267,10 +269,14 @@ public class Manager : MonoBehaviour {
 	static bool play_death = false;
 	
 	//level timer; number of seconds
-	public float timer = 60;
+	public float timer = 15;
 	
 	//points
 	public float points = 0;
+	
+	//ending animations
+	public static bool end_animation = true;
+	public Transform explosion;
 
 			
 	void Start () {
@@ -349,6 +355,10 @@ public class Manager : MonoBehaviour {
 		for(int i = 0; i < coin_arr.Length; i++)
 			Destroy (coin_arr[i]);
 		
+		//destroy walls
+		for(int i = 0; i < wall_arr.Length; i++)
+			Destroy (wall_arr[i]);
+		
 		//destroy aliens
 		for(int i = 0; i < alien_arr.Length; i++)
 			Destroy(alien_arr[i]);
@@ -382,6 +392,7 @@ public class Manager : MonoBehaviour {
 		int rstars = int.Parse (sp[5]);
 		int boosts = int.Parse (sp[6]);
 		int invincs = int.Parse(sp[7]);
+		int walls = int.Parse (sp[8]);
 		
 		//create all stars specified in the text file
 		for(int i=0; i<stars;i++)
@@ -574,6 +585,12 @@ public class Manager : MonoBehaviour {
 			CreateInvinc(float.Parse(args[0]), float.Parse(args[1]));
 		}
 		
+		for(int i = 0; i < walls; i++) {
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			CreateWall(float.Parse(args[0]), float.Parse(args[1]), float.Parse(args[2]), bool.Parse(args[3]));
+		}
+		
 	}
 	
 	//puts learth in orbit given a valid radius
@@ -653,6 +670,7 @@ public class Manager : MonoBehaviour {
 			temp_arr[i] = coin_arr[i];
 		coin_arr = temp_arr;
 		coin_arr[coin_arr.Length-1] = coin_actual;
+		coin_actual.transform.Rotate(90,0,0);
 		return coin_actual;
 	}
 	
@@ -713,9 +731,26 @@ public class Manager : MonoBehaviour {
 		return starE;
 	}
 	
+	GameObject CreateWall(float x, float y, float length, bool vertical) {
+		GameObject w = Instantiate (wall, new Vector3(x,y,0), new Quaternion(0,0,0,0)) as GameObject;
+		if (vertical)
+			w.transform.localScale = new Vector3(10,length,10);
+		else 
+			w.transform.localScale = new Vector3(length,10,10);
+		
+		GameObject[] temp_arr = new GameObject[wall_arr.Length+1];
+		for(int i=0;i<wall_arr.Length;i++)
+			temp_arr[i] = wall_arr[i];
+		wall_arr = temp_arr;
+		wall_arr[wall_arr.Length-1] = w;
+		return w;
+		
+	}
+	
 	//call this anytime something kills the player
 	public static void Die()
 	{
+		
 		//sound	
 		if(play_death) {
 			GameObject go = GameObject.Find("Alien_Exp_Sound");
@@ -765,11 +800,23 @@ public class Manager : MonoBehaviour {
 		//timer
 		timer -= Time.deltaTime;
 		
+		//ending animation and
 		//endgame condition (timer runs out)
-		if(timer <= 0) {
-			//end game conditions should go here
+	/*	if(timer <= 55) {
+			if (end_animation) {
+			//	Destroy(GameObject.Find("Background"));
+				Background.activated = false;
+				Vector3 screen_center = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width/2, Screen.height/2, 0));
+				Instantiate(explosion, new Vector3(screen_center.x, screen_center.y,0), transform.rotation);
+				GameObject newstar = CreateStar(screen_center.x, screen_center.y, Color.black, tgray, 3000, true);
+				end_animation = false;	
+				cur_star = newstar;
+				Learth_Movement.isTangent = true;
+			}*/
+		if (timer <= 0) {
 			Application.LoadLevel("Postgame");
 		}
+			
 		
 		//performance
 		++frames;

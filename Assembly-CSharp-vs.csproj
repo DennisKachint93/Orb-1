@@ -72,6 +72,7 @@
      <Compile Include="Assets\Space Bomb\space_bomb_detonation.cs" />
      <Compile Include="Assets\Space Rip\Space_Rip.cs" />
      <Compile Include="Assets\Star\Starscript.cs" />
+     <Compile Include="Assets\Wall\WallScript.cs" />
      <Compile Include="Assets\alien\alien_behavior.cs" />
      <Compile Include="Assets\bullet\bullet_behav.cs" />
      <Compile Include="Assets\coin\Coin.cs" />

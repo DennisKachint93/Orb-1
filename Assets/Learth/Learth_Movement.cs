@@ -39,7 +39,7 @@ public class Learth_Movement : MonoBehaviour {
 		//parent radius to learth for destruction
 		
 		r.transform.parent = this.transform;
-		ll = Instantiate(learth_lead, this.transform.position, new Quaternion (0, 0, 0, 0)) as GameObject;
+		//ll = Instantiate(learth_lead, this.transform.position, new Quaternion (0, 0, 0, 0)) as GameObject;
 		
 	}	
 	
@@ -74,7 +74,7 @@ public class Learth_Movement : MonoBehaviour {
 	}
 	
 	void OnCollisionEnter (Collision collision)
-	{
+	{			
 			//if learth collides with a space rip, die
 			if(collision.gameObject.name == "Space_Rip(Clone)") {
 				if(!Manager.IS_INVINCIBLE)	
@@ -115,6 +115,10 @@ public class Learth_Movement : MonoBehaviour {
 					Manager.Die();	
 				}
 			}
+		
+			if(collision.gameObject.name == "Wall(Clone)") 
+				Manager.Die ();
+			
 			if(collision.gameObject.name == "coin(Clone)") {
 				GameObject go = GameObject.Find("Alien_Exp_Sound");
 				Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();

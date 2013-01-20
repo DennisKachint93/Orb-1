@@ -17,6 +17,8 @@ public class Line_Script : MonoBehaviour {
 	}
 	
 	void Update() {
+		//if (!renderer.isVisible)
+	//		Destroy(gameObject);
 		if (!complete) {
 			if (vertical) {
 				if (right)
@@ -63,4 +65,22 @@ public class Line_Script : MonoBehaviour {
 		}
 	}
 	
+	void OnCollisionEnter(Collision collision) {
+		//if (collision.gameObject.name == "Learth(Clone)") {
+			//	Background.activated = false;
+		//		Destroy(gameObject);
+		//}
+		if(collision.gameObject.tag == "blackhole") {
+			print ("black hole!!");
+			this.transform.RotateAround(collision.gameObject.transform.position, Vector3.forward, 
+						1/(Vector3.Distance(this.transform.position, collision.gameObject.transform.position)*Time.deltaTime)*50);
+			Vector3 perp = this.transform.position - collision.gameObject.transform.position;
+			perp.Normalize();
+			this.transform.position -= perp*Manager.BLACK_HOLE_SUCKINESS;
+		}			
+		if(collision.gameObject.name == "Star(Clone)") {
+	//		print("DESTROY");
+			Destroy(this.gameObject);
+		}
+	}
 }

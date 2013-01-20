@@ -118,6 +118,8 @@ public class Starscript : MonoBehaviour {
 			b = Instantiate(blackHole, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
 			b.transform.localScale *= starSize;
 			b.transform.Rotate(90,0,0);
+		//	center = Instantiate(blackhole_center, this.transform.position, new Quaternion (0, 0, 0, 0)) as GameObject;		
+		//  center.transform.localScale = 60f;
 			//decrease size of star to represent the center of a black hole
 			this.transform.localScale /= 10;			
 			//parent black hole object to star

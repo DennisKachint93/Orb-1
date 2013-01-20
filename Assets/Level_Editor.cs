@@ -30,6 +30,7 @@ public class Level_Editor : MonoBehaviour {
 	public GameObject alien;
 	public GameObject boost;
 	public GameObject invinc;
+	public GameObject wall;
 	
 	//actual objects used in script
 	public static GameObject l, s, e;
@@ -41,6 +42,7 @@ public class Level_Editor : MonoBehaviour {
 	public GameObject[] alien_arr;
 	public GameObject[] boost_arr;
 	public GameObject[] invinc_arr;
+	public GameObject[] wall_arr;
 	public int numStars = 0;
 	
 	//used for visuals for moving/ revolving stars
@@ -87,7 +89,13 @@ public class Level_Editor : MonoBehaviour {
 	public string isay_y_dir;
 	public string isay_speed;
 	
-	
+	//walls
+	public bool wall_button = false;
+	public string wall_length;
+	public bool vertical;
+	public bool vertical_toggle = false;
+	public bool horizontal_toggle = false;
+		
 	//alien button
 	public bool alien_button = false;
 	
@@ -165,6 +173,7 @@ public class Level_Editor : MonoBehaviour {
 		int rstars = int.Parse (sp[5]);
 		int boosts = int.Parse (sp[6]);
 		int invincs = int.Parse(sp[7]);
+		int walls = int.Parse(sp[8]);
 		
 		//create all stars specified in the text file
 		for(int i=0; i<stars;i++)
@@ -223,6 +232,12 @@ public class Level_Editor : MonoBehaviour {
 		//	checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
 		}
 		
+		//walls
+		for(int i = 0; i < walls; i++) {
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			CreateWall(float.Parse(args[0]), float.Parse(args[1]), float.Parse(args[2]), bool.Parse(args[3]));
+		}
 		
 		
 		//create all moving stars specified in the text file
@@ -366,6 +381,22 @@ public class Level_Editor : MonoBehaviour {
 		boost_arr = temp_arr;
 		boost_arr[boost_arr.Length-1] = boost_actual;
 		return boost_actual;
+	}
+	
+	GameObject CreateWall(float x, float y, float length, bool vertical) {
+		GameObject w = Instantiate (wall, new Vector3(x,y,0), new Quaternion(0,0,0,0)) as GameObject;
+		if (vertical)
+			w.transform.localScale = new Vector3(10,length,10);
+		else 
+			w.transform.localScale = new Vector3(length,10,10);
+		
+		GameObject[] temp_arr = new GameObject[wall_arr.Length+1];
+		for(int i=0;i<wall_arr.Length;i++)
+			temp_arr[i] = wall_arr[i];
+		wall_arr = temp_arr;
+		wall_arr[wall_arr.Length-1] = w;
+		return w;
+		
 	}
 	
 	GameObject CreateCoin(float x, float y)
@@ -553,7 +584,14 @@ public class Level_Editor : MonoBehaviour {
             	CreateMovingStar(location.x, location.y,starcol,startex,starsize,
 				new Vector3(float.Parse(isay_x_dir),float.Parse (isay_y_dir),0),float.Parse(isay_speed));
 			}
-			
+			//if wall button, create walls
+			if(wall_button) {
+				float length = float.Parse(wall_length);
+				if (vertical_toggle)
+					CreateWall (p.x, p.y, length, true);
+				else if (horizontal_toggle)
+					CreateWall (p.x, p.y, length, false);
+			}
 			//if the coin button been pushed, make coins
 			if(coin_button)
 			{
@@ -673,6 +711,7 @@ public class Level_Editor : MonoBehaviour {
 		rstar_arr = ContractArray(rstar_arr);
 		boost_arr = ContractArray(boost_arr);
 		invinc_arr = ContractArray(invinc_arr);
+		wall_arr = ContractArray(wall_arr);
 		
 		//check if file exists
 		if(File.Exists(path))
@@ -685,7 +724,7 @@ public class Level_Editor : MonoBehaviour {
 				//write lengths header (update this line as saving is implemented for other elements)
     			sw.WriteLine(star_arr.Length+","+rip_arr.Length+","+coin_arr.Length
 					+","+mstar_arr.Length+","+alien_arr.Length+","+rstar_arr.Length
-					+","+boost_arr.Length+","+invinc_arr.Length);
+					+","+boost_arr.Length+","+invinc_arr.Length+","+wall_arr.Length);
 				
 				//stars
 				for(int i = 0; i < star_arr.Length;i++)
@@ -725,6 +764,15 @@ public class Level_Editor : MonoBehaviour {
 				for(int i = 0; i < coin_arr.Length; i++)
 				{
 					sw.WriteLine(coin_arr[i].transform.position.x+","+coin_arr[i].transform.position.y);	
+				}
+					
+				//walls
+				for(int i = 0; i < wall_arr.Length; i++)
+				{	
+					if (wall_arr[i].transform.localScale.x > 10) 
+						sw.WriteLine(wall_arr[i].transform.position.x+","+wall_arr[i].transform.position.y+","+wall_arr[i].transform.localScale.x+",false");	
+					else if (wall_arr[i].transform.localScale.y > 10) 
+						sw.WriteLine(wall_arr[i].transform.position.x+","+wall_arr[i].transform.position.y+","+wall_arr[i].transform.localScale.y+",true");	
 				}
 				//moving stars
 				for(int i = 0; i < mstar_arr.Length; i++)
@@ -820,6 +868,7 @@ public class Level_Editor : MonoBehaviour {
 			alien_button = false;
 			blackHoleButton = false;
 			bfstarButton = false;
+			wall_button = false;
 		}
 		//star button -- after pressing button, user can enter star size and color and then click to add space rips to locations
 		if(GUI.Button(new Rect(10, 45, 70, 25), "star")){
@@ -831,6 +880,7 @@ public class Level_Editor : MonoBehaviour {
 			alien_button = false;
 			blackHoleButton = false;			
 			bfstarButton = false;
+			wall_button = false;
 		}
 		//coin button
 		if(GUI.Button (new Rect(10,75,70,25), "coin")) {
@@ -842,6 +892,7 @@ public class Level_Editor : MonoBehaviour {
 			alien_button = false;
 			blackHoleButton = false;		
 			bfstarButton = false;
+			wall_button = false;
 		}
 		//moving star button
 		if(GUI.Button (new Rect(10,105,70,25), "mstar")) {
@@ -853,6 +904,7 @@ public class Level_Editor : MonoBehaviour {
 			alien_button = false;
 			blackHoleButton = false;		
 			bfstarButton = false;
+			wall_button = false;
 		}
 		//revolving star button
 		if(GUI.Button (new Rect(10,135,70,25), "rstar")) {
@@ -864,6 +916,7 @@ public class Level_Editor : MonoBehaviour {
 			alien_button = false;
 			blackHoleButton = false;		
 			bfstarButton = false;
+			wall_button = false;
 		}
 		//alien button
 		if(GUI.Button(new Rect (10,165,70,25), "alien")) {
@@ -875,6 +928,7 @@ public class Level_Editor : MonoBehaviour {
 			mstar_button = false;
 			blackHoleButton = false;
 			bfstarButton = false;
+			wall_button = false;
 		}
 		//black hole button
 		if(GUI.Button(new Rect (10, 195, 75, 25), "black hole")) {
@@ -885,6 +939,7 @@ public class Level_Editor : MonoBehaviour {
 			coin_button = false;
 			mstar_button = false;			
 			bfstarButton = false;
+			wall_button = false;
 		 }	
 		//bandf star button
 		if(GUI.Button(new Rect (10, 225, 75, 25), "bfstar")) {
@@ -893,7 +948,8 @@ public class Level_Editor : MonoBehaviour {
 			starbut = false;
 			rstar_button = false;
 			coin_button = false;
-			mstar_button = false;			
+			mstar_button = false;		
+			wall_button = false;
 		 }	
 		//boost button
 		if(GUI.Button (new Rect(10,255,70,25), "Boost")) {
@@ -906,6 +962,7 @@ public class Level_Editor : MonoBehaviour {
 			blackHoleButton = false;		
 			bfstarButton = false;
 			coin_button = false;
+			wall_button = false;
 		}
 		if(GUI.Button (new Rect(10,285,70,25), "Invinc")) {
 			invinc_button = !invinc_button;
@@ -918,9 +975,23 @@ public class Level_Editor : MonoBehaviour {
 			bfstarButton = false;
 			coin_button = false;
 			boost_button = false;
+			wall_button = false;
+		}
+		if(GUI.Button (new Rect(10,315,70,25), "Wall")) {
+			wall_button = ! wall_button;
+			invinc_button = false;
+			spaceRipButton = false;
+			starbut = false;
+			mstar_button = false;
+			rstar_button = false;
+			alien_button = false;
+			blackHoleButton = false;		
+			bfstarButton = false;
+			coin_button = false;
+			boost_button = false;
 		}
 		
-		int ystart = 300; //starting y value of pop-up box	
+		int ystart = 345; //starting y value of pop-up box	
 		if(coin_button){
 			coin_line = GUI.Toggle(new Rect(10, ystart+35, 40, 20), coin_line, "Line of coins");
 			coin_circle = GUI.Toggle(new Rect(10, ystart+50, 40, 20), coin_circle, "Circle of coins");
@@ -941,6 +1012,21 @@ public class Level_Editor : MonoBehaviour {
                         coin_circle_number = GUI.TextField(new Rect(45, ystart+92, 40, 20), coin_circle_number, 25);
 		}
 		
+		if(wall_button) {
+			vertical_toggle = GUI.Toggle(new Rect(10, ystart+35, 40, 20), vertical_toggle, "vertical");
+			horizontal_toggle = GUI.Toggle(new Rect(10, ystart+50, 40, 20), horizontal_toggle, "horizontal");
+			GUI.Label( new Rect(10, ystart+90, 25, 30), "length");
+            wall_length = GUI.TextField(new Rect(45, ystart + 90, 40, 20), wall_length, 25);
+		}
+		if (vertical_toggle) {
+			horizontal_toggle = false;
+			vertical = true;
+		}
+		if (horizontal_toggle) {
+			vertical_toggle = false;
+			vertical = false;
+		}
+		print (vertical);
 		//if star button has been clicked, pop up box to change star color/size
  		if(starbut || mstar_button || rstar_button || blackHoleButton || bfstarButton){
 			if(GUI.Button(new Rect(25, ystart+10, 45, 30), "Done")){

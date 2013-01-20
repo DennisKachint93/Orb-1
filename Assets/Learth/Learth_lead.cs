@@ -10,17 +10,18 @@ public class Learth_lead : MonoBehaviour {
 	}
 	
 	void Update () {
-		this.transform.position = Manager.l.transform.position + 16*Learth_Movement.velocity.normalized;
+		this.transform.position = Manager.l.transform.position + 25*Learth_Movement.velocity.normalized;
 	}
 	
 	void OnCollisionEnter(Collision collision) {
-	//	if(collision.gameObject.tag == "line") {
-	if (gameObject.name == "Star(Clone)"){ 
-				print ("collision");
+		
+		if(collision.gameObject.tag == "line") {
+			Background.activated = false;
+			print ("collision");
 			Manager.energy += 3;
 			cpe = Instantiate (coin_pickup_effect, collision.gameObject.transform.position, 
 				collision.gameObject.transform.rotation) as GameObject;
-			//Destroy(collision.gameObject);
+		//	Destroy(collision.gameObject);
 		}
 	}
 	
