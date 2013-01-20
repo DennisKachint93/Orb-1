@@ -1,17 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Blackhole/Black_hole.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Learth/Learth_Movement.cs">
     <Files>
-      <File FileName="Assets/Menu.cs" Line="40" Column="27" />
-      <File FileName="Assets/Star/Starscript.cs" Line="120" Column="31" />
       <File FileName="Assets/Learth/Learth_Movement.cs" Line="71" Column="19" />
-      <File FileName="Assets/Manager.cs" Line="400" Column="8" />
-      <File FileName="Assets/Blackhole/Black_hole.cs" Line="14" Column="1" />
-      <File FileName="Assets/Level_Editor.cs" Line="488" Column="13" />
-      <File FileName="Assets/BackGround/Line_Script.cs" Line="70" Column="27" />
-      <File FileName="Assets/BackGround/Background.cs" Line="23" Column="5" />
-      <File FileName="Assets/coin/Coin.cs" Line="13" Column="27" />
-      <File FileName="Assets/Space Rip/Space_Rip.cs" Line="30" Column="2" />
+      <File FileName="../../TechPrototype/Assets/Learth/Learth_Movement.cs" Line="38" Column="44" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -20,7 +20,6 @@ public class Learth_Movement : MonoBehaviour {
 	public GameObject lightGameObject;
 	//actual radius object instantiated
 	public GameObject r;
-	public GameObject learth_lead, ll;
 	
 	void Start () {
 		
@@ -37,9 +36,7 @@ public class Learth_Movement : MonoBehaviour {
 		r = Instantiate(radius, new Vector3 (this.transform.position.x, this.transform.position.y, 90f), new Quaternion (0, 0, 0, 0)) as GameObject;
 		r.light.range = 3*transform.localScale.x;
 		//parent radius to learth for destruction
-		
 		r.transform.parent = this.transform;
-		//ll = Instantiate(learth_lead, this.transform.position, new Quaternion (0, 0, 0, 0)) as GameObject;
 		
 	}	
 	
@@ -69,6 +66,13 @@ public class Learth_Movement : MonoBehaviour {
         if (Physics.Raycast(transform.position, velocity.normalized, out hit)) {
 		//	print (hit.transform.name);
 			Starscript s = hit.transform.parent.transform.gameObject.GetComponent<Starscript>();
+			//make sure not hitting the star part
+	/*		hit.transform.collider.enabled = false;
+			RaycastHit secondshot;
+			if(Physics.Raycast(transform.position,velocity.normalized,out secondshot)) {
+				print ("second hit name: "+secondshot.transform.name);	
+			}
+			hit.transform.collider.enabled = true; */
 			s.glow = true;
 		}
 	}
@@ -125,6 +129,7 @@ public class Learth_Movement : MonoBehaviour {
 				ascpt.coin_grab.Play();
 				gscpt.coins_collected++;
 				Manager.energy += 3;
+			//	Manager.points += Manager.COIN_POINTS;
 				cpe = Instantiate (coin_pickup_effect, collision.gameObject.transform.position, 
 					collision.gameObject.transform.rotation) as GameObject;
 				Destroy(collision.gameObject);

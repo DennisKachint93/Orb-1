@@ -21,6 +21,9 @@ public class Game_State : MonoBehaviour {
 	//number of lives (?)
 	public int lives = 5;
 	
+	//points
+	public float[] points;
+	
 	//whether or not we're in game
 	public bool in_game = false;
 	

@@ -13,7 +13,7 @@ public class Line_Script : MonoBehaviour {
 	
 	void Start() {
 		start = this.transform.position;
-		line_length = Random.Range(100,300);
+		line_length = Random.Range(50,150);
 	}
 	
 	void Update() {
