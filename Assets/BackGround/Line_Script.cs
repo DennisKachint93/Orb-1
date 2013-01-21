@@ -76,10 +76,10 @@ public class Line_Script : MonoBehaviour {
 						1/(Vector3.Distance(this.transform.position, collision.gameObject.transform.position)*Time.deltaTime)*50);
 			Vector3 perp = this.transform.position - collision.gameObject.transform.position;
 			perp.Normalize();
-			this.transform.position -= perp*Manager.BLACK_HOLE_SUCKINESS;
+			this.transform.position -= new Vector3(perp.x, perp.y, 0)*Manager.BLACK_HOLE_SUCKINESS;
 		}			
-		if(collision.gameObject.name == "Star(Clone)") {
-	//		print("DESTROY");
+		if(collision.gameObject.name == "Center(Clone)") {
+			print("DESTROY");
 			Destroy(this.gameObject);
 		}
 	}

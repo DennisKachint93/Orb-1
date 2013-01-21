@@ -29,7 +29,7 @@ public class Manager : MonoBehaviour {
 		//the larger this number is, the more closely the camera follows learth while not in orbit
 		TRAVEL_LERP = 2.5f;
 		//How far the player is allowed to move the camera
-		CAM_MAX_DIST = 1000;
+		CAM_MAX_DIST = 1500;
 		//How close the player is allowed to move the camera
 		CAM_MIN_DIST = 400;
 		//how fast the player can zoom in/out
@@ -588,7 +588,7 @@ public class Manager : MonoBehaviour {
 		for(int i = 0; i < walls; i++) {
 			line = file.ReadLine();
 			string[] args = line.Split(delim);
-			CreateWall(float.Parse(args[0]), float.Parse(args[1]), float.Parse(args[2]), bool.Parse(args[3]));
+			CreateWall(float.Parse(args[0]), float.Parse(args[1]), float.Parse(args[2]), float.Parse(args[3]), bool.Parse(args[4]));
 		}
 		
 	}
@@ -731,20 +731,26 @@ public class Manager : MonoBehaviour {
 		return starE;
 	}
 	
-	GameObject CreateWall(float x, float y, float length, bool vertical) {
-		GameObject w = Instantiate (wall, new Vector3(x,y,0), new Quaternion(0,0,0,0)) as GameObject;
-		if (vertical)
-			w.transform.localScale = new Vector3(10,length,10);
-		else 
-			w.transform.localScale = new Vector3(length,10,10);
-		
+	GameObject CreateWall(float x1, float y1, float x2, float y2, bool visible) {
+		GameObject w = Instantiate (wall, new Vector3((x1+x2)/2,(y1+y2)/2,0), new Quaternion(0,0,0,0)) as GameObject;
+		float length = Vector2.Distance(new Vector2(x1, y1),new Vector2(x2,y2));
+		w.transform.localScale = new Vector3(length,10,10);
+		float theta;
+		if ((x2<x1 && y1<y2) || (x2>x1 && y1>y2))
+			length *= -1;
+		if (y2>y1)
+			theta = Mathf.Asin((y2-y1)/length)*180/Mathf.PI;
+		else
+			theta = Mathf.Asin((y1-y2)/length)*180/Mathf.PI;
+		w.transform.Rotate(0,0,theta);
+		WallScript wallscript = w.GetComponent<WallScript>();
+		wallscript.visible = visible;
 		GameObject[] temp_arr = new GameObject[wall_arr.Length+1];
 		for(int i=0;i<wall_arr.Length;i++)
 			temp_arr[i] = wall_arr[i];
 		wall_arr = temp_arr;
 		wall_arr[wall_arr.Length-1] = w;
-		return w;
-		
+		return w;	
 	}
 	
 	//call this anytime something kills the player

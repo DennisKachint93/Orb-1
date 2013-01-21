@@ -91,10 +91,11 @@ public class Level_Editor : MonoBehaviour {
 	
 	//walls
 	public bool wall_button = false;
-	public string wall_length;
-	public bool vertical;
-	public bool vertical_toggle = false;
-	public bool horizontal_toggle = false;
+	//true if waiting for second wall point
+	private bool wait_wall_point = false;
+	//location stored while waiting for endpoint of wall
+	private Vector3 wall_point;
+	public bool toggle_visible = true;
 		
 	//alien button
 	public bool alien_button = false;
@@ -236,7 +237,7 @@ public class Level_Editor : MonoBehaviour {
 		for(int i = 0; i < walls; i++) {
 			line = file.ReadLine();
 			string[] args = line.Split(delim);
-			CreateWall(float.Parse(args[0]), float.Parse(args[1]), float.Parse(args[2]), bool.Parse(args[3]));
+			CreateWall(float.Parse(args[0]), float.Parse(args[1]), float.Parse(args[2]), float.Parse(args[3]), bool.Parse(args[4]));
 		}
 		
 		
@@ -383,20 +384,30 @@ public class Level_Editor : MonoBehaviour {
 		return boost_actual;
 	}
 	
-	GameObject CreateWall(float x, float y, float length, bool vertical) {
-		GameObject w = Instantiate (wall, new Vector3(x,y,0), new Quaternion(0,0,0,0)) as GameObject;
-		if (vertical)
-			w.transform.localScale = new Vector3(10,length,10);
-		else 
-			w.transform.localScale = new Vector3(length,10,10);
-		
+	GameObject CreateWall(float x1, float y1, float x2, float y2, bool visible) {
+		GameObject w = Instantiate (wall, new Vector3((x1+x2)/2,(y1+y2)/2,0), new Quaternion(0,0,0,0)) as GameObject;
+		float length = Vector2.Distance(new Vector2(x1, y1),new Vector2(x2,y2));
+		w.transform.localScale = new Vector3(length,10,10);
+		float theta;
+		if ((x2<x1 && y1<y2) || (x2>x1 && y1>y2))
+			length *= -1;
+		if (y2>y1)
+			theta = Mathf.Asin((y2-y1)/length)*180/Mathf.PI;
+		else
+			theta = Mathf.Asin((y1-y2)/length)*180/Mathf.PI;	
+		w.transform.Rotate(0,0,theta);
+		WallScript wallscript = w.GetComponent<WallScript>();
+		wallscript.visible = visible;
+		wallscript.x1 = x1;
+		wallscript.y1 = y1;
+		wallscript.x2 = x2;
+		wallscript.y2 = y2;
 		GameObject[] temp_arr = new GameObject[wall_arr.Length+1];
 		for(int i=0;i<wall_arr.Length;i++)
 			temp_arr[i] = wall_arr[i];
 		wall_arr = temp_arr;
 		wall_arr[wall_arr.Length-1] = w;
-		return w;
-		
+		return w;	
 	}
 	
 	GameObject CreateCoin(float x, float y)
@@ -584,14 +595,6 @@ public class Level_Editor : MonoBehaviour {
             	CreateMovingStar(location.x, location.y,starcol,startex,starsize,
 				new Vector3(float.Parse(isay_x_dir),float.Parse (isay_y_dir),0),float.Parse(isay_speed));
 			}
-			//if wall button, create walls
-			if(wall_button) {
-				float length = float.Parse(wall_length);
-				if (vertical_toggle)
-					CreateWall (p.x, p.y, length, true);
-				else if (horizontal_toggle)
-					CreateWall (p.x, p.y, length, false);
-			}
 			//if the coin button been pushed, make coins
 			if(coin_button)
 			{
@@ -640,6 +643,15 @@ public class Level_Editor : MonoBehaviour {
 				waiting_for_point = false;
 			}
 			
+			//if wall button, create walls
+			if(wall_button && !wait_wall_point) {
+				wall_point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				wait_wall_point = true;		
+			}
+			else if(wall_button && wait_wall_point) {
+				CreateWall (wall_point.x, wall_point.y, p.x, p.y, toggle_visible);
+				wait_wall_point = false;
+			}
 			
 			//aliens
 			if(alien_button) {
@@ -768,12 +780,11 @@ public class Level_Editor : MonoBehaviour {
 					
 				//walls
 				for(int i = 0; i < wall_arr.Length; i++)
-				{	
-					if (wall_arr[i].transform.localScale.x > 10) 
-						sw.WriteLine(wall_arr[i].transform.position.x+","+wall_arr[i].transform.position.y+","+wall_arr[i].transform.localScale.x+",false");	
-					else if (wall_arr[i].transform.localScale.y > 10) 
-						sw.WriteLine(wall_arr[i].transform.position.x+","+wall_arr[i].transform.position.y+","+wall_arr[i].transform.localScale.y+",true");	
+				{
+					WallScript wallscript = wall_arr[i].GetComponent<WallScript>();
+					sw.WriteLine(wallscript.x1+","+wallscript.y1+","+wallscript.x2+","+wallscript.y2+","+wallscript.visible);	
 				}
+				
 				//moving stars
 				for(int i = 0; i < mstar_arr.Length; i++)
 				{
@@ -1012,21 +1023,9 @@ public class Level_Editor : MonoBehaviour {
                         coin_circle_number = GUI.TextField(new Rect(45, ystart+92, 40, 20), coin_circle_number, 25);
 		}
 		
-		if(wall_button) {
-			vertical_toggle = GUI.Toggle(new Rect(10, ystart+35, 40, 20), vertical_toggle, "vertical");
-			horizontal_toggle = GUI.Toggle(new Rect(10, ystart+50, 40, 20), horizontal_toggle, "horizontal");
-			GUI.Label( new Rect(10, ystart+90, 25, 30), "length");
-            wall_length = GUI.TextField(new Rect(45, ystart + 90, 40, 20), wall_length, 25);
-		}
-		if (vertical_toggle) {
-			horizontal_toggle = false;
-			vertical = true;
-		}
-		if (horizontal_toggle) {
-			vertical_toggle = false;
-			vertical = false;
-		}
-		print (vertical);
+		if(wall_button) 
+			toggle_visible = GUI.Toggle(new Rect(10, ystart+35, 40, 20), toggle_visible, "visible");
+		
 		//if star button has been clicked, pop up box to change star color/size
  		if(starbut || mstar_button || rstar_button || blackHoleButton || bfstarButton){
 			if(GUI.Button(new Rect(25, ystart+10, 45, 30), "Done")){

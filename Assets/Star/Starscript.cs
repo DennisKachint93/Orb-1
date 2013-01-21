@@ -14,8 +14,10 @@ public class Starscript : MonoBehaviour {
 	public GameObject blackHole;
 	//black hole helper prefab -- used to highlight black holes in powerup
 	public GameObject BHhelper;
+	//center of black hole to detect collision -- i know, this is getting ridiculous
+	public GameObject BHcenter;
 	//actual black hole and helper objects instantiated
-	public GameObject b, h;
+	public GameObject b, h, center;
 	//when spiraling into black hole, lastPos identifies position before the incident
 	public Vector3 lastPos;
 	//identifies direction of spiral into black hole
@@ -118,11 +120,12 @@ public class Starscript : MonoBehaviour {
 			b = Instantiate(blackHole, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
 			b.transform.localScale *= starSize;
 			b.transform.Rotate(90,0,0);
-		//	center = Instantiate(blackhole_center, this.transform.position, new Quaternion (0, 0, 0, 0)) as GameObject;		
-		//  center.transform.localScale = 60f;
+			center = Instantiate(BHcenter, this.transform.position, new Quaternion (0, 0, 0, 0)) as GameObject;		
+			center.transform.localScale *= starSize/5;
 			//decrease size of star to represent the center of a black hole
-			this.transform.localScale /= 10;			
+			this.transform.localScale /= this.transform.localScale.x;			
 			//parent black hole object to star
+			center.transform.parent = this.transform;
 			b.transform.parent = this.transform;	
 			b.tag = "blackhole";
 			//if powerup is selected, instantated black hole helper object behind the black hole object at the same size and scale
