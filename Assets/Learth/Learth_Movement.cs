@@ -63,8 +63,7 @@ public class Learth_Movement : MonoBehaviour {
 		//determine if a star is in learth's immediate path of tangency 
 		RaycastHit hit;
 		int star_colliders = 1 << 8;
-        if (Physics.Raycast(transform.position, velocity.normalized, out hit)) {
-		//	print (hit.transform.name);
+        if (Physics.Raycast(transform.position, velocity.normalized, out hit) && hit.transform.name == "Star(Clone)") {
 			Starscript s = hit.transform.parent.transform.gameObject.GetComponent<Starscript>();
 			//make sure not hitting the star part
 	/*		hit.transform.collider.enabled = false;

@@ -78,7 +78,6 @@
      <Compile Include="Assets\coin\Coin.cs" />
      <Compile Include="Assets\pickups\boost\boost_pickup.cs" />
      <Compile Include="Assets\pickups\invincibility\invinc_pickup.cs" />
-     <None Include="Assets\Test Text Files\level2.txt" />
      <None Include="Assets\Test Text Files\blackHoleTest.txt" />
      <None Include="Assets\Test Text Files\Level1.txt" />
      <None Include="Assets\Standard Assets\Detonator\Resources\Detonator\Textures\HeatDistort.shader" />

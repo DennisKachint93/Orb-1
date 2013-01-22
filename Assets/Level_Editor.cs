@@ -233,13 +233,6 @@ public class Level_Editor : MonoBehaviour {
 		//	checkBoundaries(float.Parse(args[0]), float.Parse(args[1]));
 		}
 		
-		//walls
-		for(int i = 0; i < walls; i++) {
-			line = file.ReadLine();
-			string[] args = line.Split(delim);
-			CreateWall(float.Parse(args[0]), float.Parse(args[1]), float.Parse(args[2]), float.Parse(args[3]), bool.Parse(args[4]));
-		}
-		
 		
 		//create all moving stars specified in the text file
 		for(int i = 0; i < mstars;i++)
@@ -339,7 +332,12 @@ public class Level_Editor : MonoBehaviour {
 			string[] args = line.Split(delim);
 			CreateInvinc(float.Parse(args[0]), float.Parse(args[1]));
 		}  
-		
+		//walls
+		for(int i = 0; i < walls; i++) {
+			line = file.ReadLine();
+			string[] args = line.Split(delim);
+			CreateWall(float.Parse(args[0]), float.Parse(args[1]), float.Parse(args[2]), float.Parse(args[3]), bool.Parse(args[4]));
+		}
 	}
 	 
 	//instantiates a space rip from prefab at given location and of given dimensions, with given rotation (default = 0), returns reference to that object
@@ -777,13 +775,6 @@ public class Level_Editor : MonoBehaviour {
 				{
 					sw.WriteLine(coin_arr[i].transform.position.x+","+coin_arr[i].transform.position.y);	
 				}
-					
-				//walls
-				for(int i = 0; i < wall_arr.Length; i++)
-				{
-					WallScript wallscript = wall_arr[i].GetComponent<WallScript>();
-					sw.WriteLine(wallscript.x1+","+wallscript.y1+","+wallscript.x2+","+wallscript.y2+","+wallscript.visible);	
-				}
 				
 				//moving stars
 				for(int i = 0; i < mstar_arr.Length; i++)
@@ -809,11 +800,11 @@ public class Level_Editor : MonoBehaviour {
 					if(scpt.bandf) {
 
 						sw.WriteLine(mstar_arr[i].transform.position.x+","+mstar_arr[i].transform.position.y+","+color+","+scpt.orbitRadius
-							+","+scpt.destination.x+","+scpt.destination.y+","+scpt.speed+","+true);
+							+","+scpt.destination.x+","+scpt.destination.y+","+scpt.speed+",true");
 					}
 					else {
 						sw.WriteLine(mstar_arr[i].transform.position.x+","+mstar_arr[i].transform.position.y+","+color+","+scpt.orbitRadius
-							+","+scpt.dir.x+","+scpt.dir.y+","+scpt.speed+","+false);
+							+","+scpt.dir.x+","+scpt.dir.y+","+scpt.speed+",false");
 					}
 				}
 				
@@ -858,8 +849,17 @@ public class Level_Editor : MonoBehaviour {
 				{
 					sw.WriteLine(invinc_arr[i].transform.position.x+","+invinc_arr[i].transform.position.y);	
 				}
-    		}
 				
+				//walls
+				for(int i = 0; i < wall_arr.Length; i++)
+				{
+					WallScript wallscript = wall_arr[i].GetComponent<WallScript>();
+					if (wallscript.visible)
+						sw.WriteLine(wallscript.x1+","+wallscript.y1+","+wallscript.x2+","+wallscript.y2+",true");
+					else 
+						sw.WriteLine(wallscript.x1+","+wallscript.y1+","+wallscript.x2+","+wallscript.y2+",false");	
+				}
+    		}
 			
 		}
 	}

@@ -46,7 +46,6 @@
   <ItemGroup>
      <Compile Include="Assets\Standard Assets\Detonator\Sample Supporting Emitters\Detonator Spray Helper.js" />
      <Compile Include="Assets\Standard Assets\Detonator\TestScene\DetonatorTest.js" />
-     <None Include="Assets\Test Text Files\level2.txt" />
      <None Include="Assets\Test Text Files\blackHoleTest.txt" />
      <None Include="Assets\Test Text Files\Level1.txt" />
      <None Include="Assets\Standard Assets\Detonator\Resources\Detonator\Textures\HeatDistort.shader" />

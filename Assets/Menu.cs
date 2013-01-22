@@ -36,17 +36,20 @@ public class Menu : MonoBehaviour {
 			//set default ship settings here
 			
 			//levels that will be played in order
-			string[] level_order = new string[15] {
-				"Levels/walltest.txt",
+			string[] level_order = new string[17] {
+				"Levels/1.txt",
+				"Levels/level3a.txt",
+				"Levels/maze.txt",
+				"Levels/triangle2.txt",
+				"Levels/points.txt",
+				//"Levels/walltest.txt",
 				"Levels/s2m/ethan2.txt",
 				"Levels/Blackholeend.txt",
 				"Levels/s2m/shooting",
 				"Levels/s2m/easyish3",
 				"Levels/s2m/circles-short",
-				"Levels/s2m/ethan1.txt",
 				"Levels/s2m/bilbobaggins",
 				"Levels/s2m/faces",
-				"Levels/s2m/level1",
 				"Levels/s2m/ethanlevel3.txt",
 				"Levels/s2m/circles-bholes",
 				"Levels/s2m/springseason",

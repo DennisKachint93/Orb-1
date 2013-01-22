@@ -117,7 +117,7 @@ public class Starscript : MonoBehaviour {
 	
 		//if the star is a black hole, instantiate cylinder to represent the black hole
 		if (isBlackHole) {
-			b = Instantiate(blackHole, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
+			b = Instantiate(blackHole, new Vector3 (this.transform.position.x, this.transform.position.y, 800f), new Quaternion (0, 0, 0, 0)) as GameObject;		
 			b.transform.localScale *= starSize;
 			b.transform.Rotate(90,0,0);
 			center = Instantiate(BHcenter, this.transform.position, new Quaternion (0, 0, 0, 0)) as GameObject;		
@@ -130,7 +130,7 @@ public class Starscript : MonoBehaviour {
 			b.tag = "blackhole";
 			//if powerup is selected, instantated black hole helper object behind the black hole object at the same size and scale
 			if (Manager.BLACK_HOLE_HELPER || BLACK_HOLE_HELPER) {
-				h = Instantiate(BHhelper, new Vector3 (this.transform.position.x, this.transform.position.y, 100f), new Quaternion (0, 0, 0, 0)) as GameObject;		
+				h = Instantiate(BHhelper, new Vector3 (this.transform.position.x, this.transform.position.y, 800f), new Quaternion (0, 0, 0, 0)) as GameObject;		
 				h.transform.localScale *= starSize;
 				h.transform.Rotate(90,0,0);
 				//parent helper object to black hole 
@@ -196,7 +196,7 @@ public class Starscript : MonoBehaviour {
 			renderer.material.shader = Shader.Find("Specular");
 	   
 		//if star is a mover, the actual game is playing, and the star is visible move to destination point
-		if(is_moving && !editor_freeze  && (renderer.isVisible || bandf))
+		if(is_moving && !editor_freeze /* && (renderer.isVisible */|| bandf)
 		{
 			transform.position += speed*new Vector3(dir.x*Time.deltaTime,dir.y*Time.deltaTime,0);
 		}

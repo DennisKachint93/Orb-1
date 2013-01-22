@@ -74,7 +74,8 @@ public class Manager : MonoBehaviour {
 		//black hole helper
 		BLACK_HOLE_HELPER = false;
 
-		
+		Background.activated = true;
+		end_animation = true;
 	}
 	
 	
@@ -425,23 +426,12 @@ public class Manager : MonoBehaviour {
 				starcol = purple;
 				startex = tpurple;
 			}
-			//if it is the first star, it becomes the spacestation
-			float starsize;
-			if (i == 0) {
-				startex = station_texture;
-				starcol = Color.white;
-				starsize = 100;
-			}
-			else
-				starsize = float.Parse(args[3]);
-			
+			float starsize = float.Parse(args[3]);
 			//make the star
 			GameObject newstar = CreateStar(float.Parse(args[0]),float.Parse(args[1]), starcol, startex, starsize, bool.Parse(args[4]));
 			
 			//learth starts in orbit around first star specified
 			if(i == 0) {
-				Starscript scpt = newstar.GetComponent<Starscript>();
-				scpt.is_source = true;
 				GoToOrbit(newstar,float.Parse(args[3])+10);	
 			}
 			//last star is the sink
@@ -808,7 +798,7 @@ public class Manager : MonoBehaviour {
 		
 		//ending animation and
 		//endgame condition (timer runs out)
-	/*	if(timer <= 55) {
+		if(timer <= 0) {
 			if (end_animation) {
 			//	Destroy(GameObject.Find("Background"));
 				Background.activated = false;
@@ -818,8 +808,9 @@ public class Manager : MonoBehaviour {
 				end_animation = false;	
 				cur_star = newstar;
 				Learth_Movement.isTangent = true;
-			}*/
-		if (timer <= 0) {
+			}
+		}
+		if (timer <= -5) {
 			Application.LoadLevel("Postgame");
 		}
 			
@@ -836,9 +827,9 @@ public class Manager : MonoBehaviour {
 		/*********************DEBUGGING CONTROLS********************/
 		// resetting level with T before leaving first star orbit freezes the game 
 		//R causes the player to die
-		if(Input.GetKeyDown(KeyCode.R) && gscpt.timewarp_ammo > 0) {
+		if(Input.GetKeyDown(KeyCode.R)) {
 			Instantiate(reset_effect,Manager.l.transform.position,Manager.l.transform.rotation);
-			gscpt.timewarp_ammo--;
+		//	gscpt.timewarp_ammo--;
 			Die();
 	 	}
 		//T resets the level
@@ -1103,7 +1094,7 @@ public class Manager : MonoBehaviour {
 							clockwise = false;
 						}
 						
-						if (!sscript.isBlackHole & !sscript.is_source) {
+						if (!sscript.isBlackHole) {
 							//add appropriate energy value depending on color of star and change learth's trail color
 							if(sscript.c == Color.red) {
 								energy += RED_ENERGY;

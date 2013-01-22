@@ -7,13 +7,13 @@ public class Line_Script : MonoBehaviour {
 		blue_line, aqua_line, purple_line, line;
 	public float line_length;
 	public Vector3 start, new_start;
-	public float rate = 3f;
+	public float rate = .5f;
 	public bool vertical, up, right;
 	public bool complete = false, new_line = false;
 	
 	void Start() {
 		start = this.transform.position;
-		line_length = Random.Range(50,150);
+		line_length = Random.Range(50,175);
 	}
 	
 	void Update() {
@@ -31,8 +31,10 @@ public class Line_Script : MonoBehaviour {
 				else
 					this.transform.position += new Vector3(-rate,0,0);
 			}
-			if (Vector3.Distance(start,this.transform.position) >= line_length) 
+			if (Vector3.Distance(start,this.transform.position) >= line_length) {
 				complete = true;
+				Destroy(line);
+			}
 			
 			if (!new_line && Vector3.Distance(start,this.transform.position) >= line_length/4) {
 				new_line = true;
@@ -56,7 +58,7 @@ public class Line_Script : MonoBehaviour {
 				else if (Manager.l.renderer.material.color == Manager.purple) 
 					line = Instantiate (purple_line, new_start, Manager.l.transform.rotation) as GameObject;
 					
-				Destroy(line,5);
+				//Destroy(line,5);
 				Line_Script scpt = line.GetComponent<Line_Script>();
 				scpt.vertical = !vertical;
 				scpt.new_line = false;
