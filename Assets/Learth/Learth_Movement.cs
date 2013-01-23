@@ -13,13 +13,15 @@ public class Learth_Movement : MonoBehaviour {
 	Sound_Cart scscpt;
 	
 	//explosion prefab
-	//public GameObject explosion, e;
+	public GameObject explosion;
 	
 	//light effect for learth
 	public GameObject radius;
 	public GameObject lightGameObject;
 	//actual radius object instantiated
 	public GameObject r;
+	
+	public GameObject reset_effect;
 	
 	void Start () {
 		
@@ -85,6 +87,7 @@ public class Learth_Movement : MonoBehaviour {
 			}
 			//if learth collides with a star, die
 			if(collision.gameObject.name == "Star(Clone)") {
+			
 				Starscript scpt = collision.gameObject.GetComponent<Starscript>();
 			
 			
@@ -109,19 +112,30 @@ public class Learth_Movement : MonoBehaviour {
 				//if the invincibility powerup is turned on, instead of dying, blow the star up and steal its energy
 				
 				
-				/* else */if(Manager.IS_INVINCIBLE) {
+				/* else */if(Manager.IS_INVINCIBLE && !scpt.isBlackHole) {
 					Manager.energy += Manager.INVINC_ENERGY_BONUS;
 					Starscript col_scpt = collision.gameObject.GetComponent<Starscript>();
 					col_scpt.removeStar(2);
 				}
 				else if (!scpt.spiral) {
+					//effect
+					Instantiate(reset_effect,Manager.l.transform.position,Manager.l.transform.rotation);
 					Manager.Die();	
 				}
 			}
 		
-			if(collision.gameObject.name == "Wall(Clone)") 
-				Manager.Die ();
-			
+			if(collision.gameObject.name == "Wall(Clone)") {
+				if (Manager.IS_INVINCIBLE) {
+					Instantiate(explosion, transform.position, transform.rotation);
+					Destroy(collision.gameObject);
+				}
+				else {
+					//effect
+					Instantiate(reset_effect,Manager.l.transform.position,Manager.l.transform.rotation);
+					Manager.Die ();
+				}
+			}				
+	
 			if(collision.gameObject.name == "coin(Clone)") {
 				GameObject go = GameObject.Find("Alien_Exp_Sound");
 				Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();

@@ -724,7 +724,7 @@ public class Manager : MonoBehaviour {
 	GameObject CreateWall(float x1, float y1, float x2, float y2, bool visible) {
 		GameObject w = Instantiate (wall, new Vector3((x1+x2)/2,(y1+y2)/2,0), new Quaternion(0,0,0,0)) as GameObject;
 		float length = Vector2.Distance(new Vector2(x1, y1),new Vector2(x2,y2));
-		w.transform.localScale = new Vector3(length,10,10);
+		w.transform.localScale = new Vector3(length,25,25);
 		float theta;
 		if ((x2<x1 && y1<y2) || (x2>x1 && y1>y2))
 			length *= -1;
@@ -799,7 +799,7 @@ public class Manager : MonoBehaviour {
 		//ending animation and
 		//endgame condition (timer runs out)
 		if(timer <= 0) {
-			if (end_animation) {
+		/*	if (end_animation) {
 			//	Destroy(GameObject.Find("Background"));
 				Background.activated = false;
 				Vector3 screen_center = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width/2, Screen.height/2, 0));
@@ -810,8 +810,8 @@ public class Manager : MonoBehaviour {
 				Learth_Movement.isTangent = true;
 			}
 		}
-		if (timer <= -5) {
-			Application.LoadLevel("Postgame");
+		if (timer <= -5) {*/
+		//	Application.LoadLevel("Postgame");
 		}
 			
 		
