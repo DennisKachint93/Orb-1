@@ -167,16 +167,18 @@ public class Starscript : MonoBehaviour {
 	
 		r.light.color = c;
 		if (c == Manager.orange) 
-			r.light.intensity = 1.4f;
+			r.light.intensity = 2f;
 		else if (c == Manager.purple)
-			r.light.intensity = 4f;
+			r.light.intensity = 3f;
+		else if (c == Manager.aqua)
+			r.light.intensity = 3f;
 		else
        		r.light.intensity = 3.5f;
 	}
 	
 	void Update() {
 		//gradually increase intensities of lights
-		if (c == Manager.orange && r.light.intensity < 1.4f) {
+		if (c == Manager.orange && r.light.intensity < 2f) {
 				r.light.intensity += .001f;
 			//	print (r.light.intensity);
 		}
@@ -286,7 +288,7 @@ public class Starscript : MonoBehaviour {
 	{
 		//if the star is hit by a bomb detonation, explode	
 		if(c.transform.name == "space_bomb_range(Clone)" && !has_been_bombed) {
-			//if learth is close enough, send it flying in the opposite direction and give it some energy
+			//if learth is close enough, send it flying in the opposite direction and give it some r
 			if(Vector3.Distance(transform.position,Learth_Movement.velocity + Learth_Movement.lastPos.position) < 350) {
 				Learth_Movement.lastPos.position=transform.position;
 				Learth_Movement.isTangent = false;

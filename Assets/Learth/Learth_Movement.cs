@@ -59,8 +59,7 @@ public class Learth_Movement : MonoBehaviour {
 		if (!isTangent) {
 			this.transform.position += velocity.normalized*Manager.speed;	
 		}
-		if(Manager.energy < 1)
-			Application.LoadLevel("Scene1");
+		
 		
 		//determine if a star is in learth's immediate path of tangency 
 		RaycastHit hit;

@@ -1051,7 +1051,9 @@ public class Manager : MonoBehaviour {
 		//if earth is not tangent to any star
 		else if (!Learth_Movement.isTangent) {
 			//if not in orbit, decrease energy at correct rate
-			energy -= FLYING_COST;
+			if(energy > 0) {
+				energy -= FLYING_COST;
+			}
 			
 			//loop through array and calculate tangent vectors to every star
 			for (int i = 0; i < star_arr.Length ; i++){
@@ -1181,6 +1183,7 @@ public class Manager : MonoBehaviour {
 	void OnGUI() {
 		//set gui style
 		GUI.skin = skin;
+		GUI.skin.label.normal.textColor = Color.cyan;
 		//performance
 		//GUI.Label(new Rect(10,10,150,50), "FPS: "+fps.ToString("f2"));
 		Starscript scpt = cur_star.GetComponent<Starscript>();
