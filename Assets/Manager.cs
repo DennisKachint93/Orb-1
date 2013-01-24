@@ -41,27 +41,27 @@ public class Manager : MonoBehaviour {
 		//starting energy
 		STARTING_ENERGY = 35f;
 		//How much energy is reduced each frame while bending
-		BEND_COST = 0.050f;
+		BEND_COST = 0;
 		//How much energy is reduced each frame while invincible
-		INVINC_COST = .2f;
+		INVINC_COST = 0;
 		//this much energy is subtracted each frame the learth is not in orbit
-		FLYING_COST = .3f;
+		FLYING_COST = 0;
 		//this much energy is subtracted each frame the learth is in orbit
-		ORBITING_COST = .00025f;
+		ORBITING_COST = 0f;
 		//this much energy is subtracted when they player hits the space bar to launch from a star
 		LEAVING_COST = 0;
 		//cost of a directional shift
-		DIR_SHIFT_COST = 15;
+		DIR_SHIFT_COST = 0;
 		//determines whether shield is activeable
 		SHIELD = false;
 		
-		SPACE_RIP_COST = 15; //comment ur variable plz
+		SPACE_RIP_COST = 0; //comment ur variable plz
 	 
 	 	/*BLACK HOLE CONSTANTS*/
 	 	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
 		BLACK_HOLE_SUCKINESS = 2f;	
 		//energy it takes to escape a black hole on each press of space bar
-		BH_ESCAPE_ENERGY = .2f;
+		BH_ESCAPE_ENERGY = 0f;
 		//distance you travel when you press space to escape a black hole
 		BH_ESCAPE_DISTANCE = 20f;
 		
@@ -69,7 +69,7 @@ public class Manager : MonoBehaviour {
 		//when aliens are within distance, they start to suck your energy
 		ALIEN_SUCKING_DISTANCE = 100f;
 		//this much energy is sucked from player when alien is within alien_sucking_distance
-		ALIEN_SUCKS_ENERGY = .05f;	
+		ALIEN_SUCKS_ENERGY = 0f;	
 		   
 		//black hole helper
 		BLACK_HOLE_HELPER = false;
@@ -115,15 +115,15 @@ public class Manager : MonoBehaviour {
 	//How much energy is reduced each frame while bending
 	public static float BEND_COST = 0;
 	//How much energy is reduced each frame while invincible
-	private static float INVINC_COST = .2f;
+	private static float INVINC_COST = 0f;
 	//this much energy is subtracted each frame the learth is not in orbit
-	private static float FLYING_COST = .027f;
+	private static float FLYING_COST = 0f;
 	//this much energy is subtracted each frame the learth is in orbit
-	private static float ORBITING_COST = .00025f;
+	private static float ORBITING_COST = 0f;
 	//this much energy is subtracted when they player hits the space bar to launch from a star
 	private static float LEAVING_COST = 0;
 	//cost of a directional shift
-	public static float DIR_SHIFT_COST = 15;
+	public static float DIR_SHIFT_COST = 0;
 	//energy value for specific star colors
 	public static float RED_ENERGY = 5f;
 	public static float ORANGE_ENERGY = 10f;
@@ -145,7 +145,7 @@ public class Manager : MonoBehaviour {
  	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER
 	public static float BLACK_HOLE_SUCKINESS = 5f;	
 	//energy it takes to escape a black hole on each press of space bar
-	private static float BH_ESCAPE_ENERGY = .5f;
+	private static float BH_ESCAPE_ENERGY = 0;
 	//distance you travel when you press space to escape a black hole
 	private static float BH_ESCAPE_DISTANCE = 400f;
 	
@@ -153,7 +153,7 @@ public class Manager : MonoBehaviour {
 	//when aliens are within distance, they start to suck your energy
 	public static float ALIEN_SUCKING_DISTANCE = 100f;
 	//this much energy is sucked from player when alien is within alien_sucking_distance
-	public static float ALIEN_SUCKS_ENERGY = .025f;	
+	public static float ALIEN_SUCKS_ENERGY = 0f;	
 
 	//Hook into unity
 	public GameObject learth;
@@ -638,7 +638,7 @@ public class Manager : MonoBehaviour {
 	
 	GameObject CreateInvinc(float x, float y) {
 			
-		GameObject invinc_actual= Instantiate(invinc, new Vector3(x, y, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
+		GameObject invinc_actual= Instantiate(invinc, new Vector3(x, y, -10), new Quaternion (0, 0, 0, 0)) as GameObject;
 		
 		//put rip in boost_arr for unloading
 		GameObject[] temp_arr = new GameObject[invinc_arr.Length+1];

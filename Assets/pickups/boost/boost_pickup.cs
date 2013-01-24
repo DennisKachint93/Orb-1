@@ -10,6 +10,7 @@ public class boost_pickup : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		this.transform.Rotate(270,0,0);
 	
 	}
 	
@@ -27,7 +28,7 @@ public class boost_pickup : MonoBehaviour {
 		
 		//rotate in place
 		if(!Level_Editor.delete_button)
-			transform.Rotate(new Vector3(0,180*Time.deltaTime,0));
+			transform.Rotate(new Vector3(0,0,30*Time.deltaTime));
 	
 	}
 	

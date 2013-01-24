@@ -48,6 +48,7 @@
      <Compile Include="Assets\BackGround\Line_Script.cs" />
      <Compile Include="Assets\Event Generator\Event_Generator.cs" />
      <Compile Include="Assets\Game_State.cs" />
+     <Compile Include="Assets\Gem Shader\Example\GemSpawner.cs" />
      <Compile Include="Assets\Learth\Learth_Movement.cs" />
      <Compile Include="Assets\Learth\Learth_Outfitter.cs" />
      <Compile Include="Assets\Learth\Learth_lead.cs" />
@@ -87,6 +88,7 @@
      <None Include="Assets\Test Text Files\1star.txt" />
      <None Include="Assets\Test Text Files\testsave.txt" />
      <None Include="Assets\Test Text Files\bending_test_level.txt" />
+     <None Include="Assets\Gem Shader\diamond shader.shader" />
      <None Include="Assets\Test Text Files\Level3.txt" />
      <None Include="Assets\Test Text Files\perf_test.txt" />
   </ItemGroup>

@@ -65,6 +65,7 @@
      <None Include="Assets\Test Text Files\1star.txt" />
      <None Include="Assets\Test Text Files\testsave.txt" />
      <None Include="Assets\Test Text Files\bending_test_level.txt" />
+     <None Include="Assets\Gem Shader\diamond shader.shader" />
      <None Include="Assets\Test Text Files\Level3.txt" />
      <None Include="Assets\Test Text Files\perf_test.txt" />
   </ItemGroup>

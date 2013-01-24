@@ -13,6 +13,7 @@ public class invinc_pickup : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		this.transform.Rotate(90,0,0);
 		start_grow_shrink = Time.time;
 	
 	}
