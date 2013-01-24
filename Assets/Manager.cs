@@ -45,7 +45,7 @@ public class Manager : MonoBehaviour {
 		//How much energy is reduced each frame while invincible
 		INVINC_COST = .2f;
 		//this much energy is subtracted each frame the learth is not in orbit
-		FLYING_COST = .027f;
+		FLYING_COST = .3f;
 		//this much energy is subtracted each frame the learth is in orbit
 		ORBITING_COST = .00025f;
 		//this much energy is subtracted when they player hits the space bar to launch from a star
@@ -55,7 +55,7 @@ public class Manager : MonoBehaviour {
 		//determines whether shield is activeable
 		SHIELD = false;
 		
-		SPACE_RIP_COST = 15;
+		SPACE_RIP_COST = 15; //comment ur variable plz
 	 
 	 	/*BLACK HOLE CONSTANTS*/
 	 	//how fast black holes suck you into them when you are trapped--LOWER VALUES ARE SUCKIER

@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../TechPrototype/Assets/Learth/Learth_Movement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Manager.cs">
     <Files>
-      <File FileName="../../TechPrototype/Assets/Learth/Learth_Movement.cs" Line="38" Column="44" />
+      <File FileName="Assets/Learth/Learth_Movement.cs" Line="58" Column="33" />
+      <File FileName="Assets/Manager.cs" Line="817" Column="50" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
