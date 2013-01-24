@@ -813,6 +813,9 @@ public class Manager : MonoBehaviour {
 		if (timer <= -5) {*/
 		//	Application.LoadLevel("Postgame");
 		}
+		
+		//points increase more the more energy you have
+		points += Mathf.Floor((Time.deltaTime * energy));
 			
 		
 		//performance
