@@ -252,6 +252,7 @@ public class Manager : MonoBehaviour {
 	//explosions
 	public Transform space_jump_effect;
 	public Transform reset_effect;
+	public GameObject color_suck_effect, cse;
 	
 	//testing audio
 	public AudioClip test_aud;
@@ -1111,45 +1112,55 @@ public class Manager : MonoBehaviour {
 								fill_level /= 3.5f;
 							}
 							
-							
+							//color suck effect ripple
+							cse = Instantiate(color_suck_effect, s.transform.position, s.transform.rotation) as GameObject;
+							Detonator det = cse.GetComponent<Detonator>();
+							det.size = sscript.orbitRadius+100;
 							
 							if(sscript.c == Color.red) {
+								det.color = Color.red;
 								energy += RED_ENERGY*fill_level;
 								Destroy(lt);
 								lt = Instantiate (red_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;				
 								l.renderer.material.color = Color.red;
 							}  else if (sscript.c == orange) {
+								det.color = orange;
 								energy += ORANGE_ENERGY*fill_level;
 								Destroy(lt);
 								lt = Instantiate (orange_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
 								l.renderer.material.color = orange;
 							}  else if (sscript.c == Color.yellow) {
+								det.color = Color.yellow;
 								energy += YELLOW_ENERGY*fill_level;
 								Destroy(lt);
 								lt = Instantiate (yellow_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
 								l.renderer.material.color = Color.yellow;
 							}  else if (sscript.c == green) {
+								det.color = green;
 								Destroy(lt);
 								lt = Instantiate (green_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
 								energy += GREEN_ENERGY*fill_level;
 								l.renderer.material.color = green;
 							}  else if(sscript.c == Color.blue){
+								det.color = Color.blue;
 								energy += BLUE_ENERGY*fill_level;
 								Destroy(lt);
 								lt = Instantiate (blue_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
 								l.renderer.material.color = Color.blue;
 							}  else if(sscript.c == aqua) {
+								det.color = aqua;
 								energy += AQUA_ENERGY*fill_level;
 								Destroy(lt);
 								lt = Instantiate (aqua_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
 								l.renderer.material.color = aqua;
 							}  else if(sscript.c == purple) {
+								det.color = purple;
 								energy += PURPLE_ENERGY*fill_level;
 								Destroy(lt);
 								lt = Instantiate (purple_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
