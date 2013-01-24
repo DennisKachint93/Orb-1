@@ -1099,20 +1099,34 @@ public class Manager : MonoBehaviour {
 						
 						if (!sscript.isBlackHole) {
 							//add appropriate energy value depending on color of star and change learth's trail color
+							
+							
+							//make energy added proportional to intensity of star light
+							float fill_level = sscript.r.light.intensity;
+							if(sscript.c == orange) {
+								fill_level /= 1.4f;	
+							} else if (sscript.c == purple) {
+								fill_level /= 4;
+							} else {
+								fill_level /= 3.5f;
+							}
+							
+							
+							
 							if(sscript.c == Color.red) {
-								energy += RED_ENERGY;
+								energy += RED_ENERGY*fill_level;
 								Destroy(lt);
 								lt = Instantiate (red_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;				
 								l.renderer.material.color = Color.red;
 							}  else if (sscript.c == orange) {
-								energy += ORANGE_ENERGY;
+								energy += ORANGE_ENERGY*fill_level;
 								Destroy(lt);
 								lt = Instantiate (orange_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
 								l.renderer.material.color = orange;
 							}  else if (sscript.c == Color.yellow) {
-								energy += YELLOW_ENERGY;
+								energy += YELLOW_ENERGY*fill_level;
 								Destroy(lt);
 								lt = Instantiate (yellow_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
@@ -1121,22 +1135,22 @@ public class Manager : MonoBehaviour {
 								Destroy(lt);
 								lt = Instantiate (green_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
-								energy += GREEN_ENERGY;
+								energy += GREEN_ENERGY*fill_level;
 								l.renderer.material.color = green;
 							}  else if(sscript.c == Color.blue){
-								energy += BLUE_ENERGY;
+								energy += BLUE_ENERGY*fill_level;
 								Destroy(lt);
 								lt = Instantiate (blue_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
 								l.renderer.material.color = Color.blue;
 							}  else if(sscript.c == aqua) {
-								energy += AQUA_ENERGY;
+								energy += AQUA_ENERGY*fill_level;
 								Destroy(lt);
 								lt = Instantiate (aqua_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
 								l.renderer.material.color = aqua;
 							}  else if(sscript.c == purple) {
-								energy += PURPLE_ENERGY;
+								energy += PURPLE_ENERGY*fill_level;
 								Destroy(lt);
 								lt = Instantiate (purple_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 								lt.transform.parent = l.transform;
