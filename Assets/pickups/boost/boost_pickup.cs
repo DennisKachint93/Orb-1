@@ -36,6 +36,8 @@ public class boost_pickup : MonoBehaviour {
 		if(c.transform.name == "Learth(Clone)") {
 			//sound
 			
+			//increment boost counter in manager
+			Manager.boost_count++;
 			GameObject go = GameObject.Find("Alien_Exp_Sound");
 			Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
 			ascpt.boost_2.Play();

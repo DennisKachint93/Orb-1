@@ -73,7 +73,9 @@ public class Manager : MonoBehaviour {
 		   
 		//black hole helper
 		BLACK_HOLE_HELPER = false;
-
+		
+		points = 0;
+		
 		Background.activated = true;
 		end_animation = true;
 	}
@@ -277,7 +279,17 @@ public class Manager : MonoBehaviour {
 	public static float req_points = 1000;
 	
 	//points
-	public float points = 0;
+	public static float points = 0;
+	
+	//keep track of number of orbs of each color and boosts aquired
+	public static int red_orbs = 0;
+	public static int orange_orbs = 0;
+	public static int yellow_orbs = 0;
+	public static int green_orbs = 0;
+	public static int blue_orbs = 0;
+	public static int purple_orbs = 0;
+	public static int aqua_orbs = 0;
+	public static int boost_count = 0;
 	
 	//ending animations
 	public static bool end_animation = true;
@@ -810,6 +822,8 @@ public class Manager : MonoBehaviour {
 		//ending animation and
 		//endgame condition (timer runs out)
 		if(timer <= 0) {
+			Application.LoadLevel("Postgame");
+		}
 		/*	if (end_animation) {
 			//	Destroy(GameObject.Find("Background"));
 				Background.activated = false;
@@ -820,10 +834,8 @@ public class Manager : MonoBehaviour {
 				cur_star = newstar;
 				Learth_Movement.isTangent = true;
 			}
-		}
-		if (timer <= -5) {*/
-		//	Application.LoadLevel("Postgame");
-		}
+			Application.LoadLevel("Postgame");
+		*/
 		
 		//points increase more the more energy you have
 		points += Mathf.Floor((Time.deltaTime * energy));
@@ -865,14 +877,14 @@ public class Manager : MonoBehaviour {
 			gscpt.in_game = false;
 			
 			//open the ship outfitter
-			Application.LoadLevel("Ship_Outfitter");
+			Application.LoadLevel("Postgame");
 			
 		}
 		//O goes to outfitter before previous level
 		if(Input.GetKeyDown(KeyCode.O))
 		{
 			gscpt.in_game = false;
-			Application.LoadLevel("Ship_Outfitter");
+			Application.LoadLevel("Postgame");
 		}
 		//l prints learth's current position
 		if(Input.GetKeyDown(KeyCode.L)) {
@@ -1130,6 +1142,7 @@ public class Manager : MonoBehaviour {
 							det.size = sscript.orbitRadius+100;
 							
 							if(sscript.c == Color.red) {
+								red_orbs++;
 								det.color = Color.red;
 								energy += RED_ENERGY*fill_level;
 								Destroy(lt);
@@ -1137,6 +1150,7 @@ public class Manager : MonoBehaviour {
 								lt.transform.parent = l.transform;				
 								l.renderer.material.color = Color.red;
 							}  else if (sscript.c == orange) {
+								orange_orbs++;
 								det.color = orange;
 								energy += ORANGE_ENERGY*fill_level;
 								Destroy(lt);
@@ -1144,6 +1158,7 @@ public class Manager : MonoBehaviour {
 								lt.transform.parent = l.transform;
 								l.renderer.material.color = orange;
 							}  else if (sscript.c == Color.yellow) {
+								yellow_orbs++;
 								det.color = Color.yellow;
 								energy += YELLOW_ENERGY*fill_level;
 								Destroy(lt);
@@ -1151,6 +1166,7 @@ public class Manager : MonoBehaviour {
 								lt.transform.parent = l.transform;
 								l.renderer.material.color = Color.yellow;
 							}  else if (sscript.c == green) {
+								green_orbs++;
 								det.color = green;
 								Destroy(lt);
 								lt = Instantiate (green_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
@@ -1158,6 +1174,7 @@ public class Manager : MonoBehaviour {
 								energy += GREEN_ENERGY*fill_level;
 								l.renderer.material.color = green;
 							}  else if(sscript.c == Color.blue){
+								blue_orbs++;
 								det.color = Color.blue;
 								energy += BLUE_ENERGY*fill_level;
 								Destroy(lt);
@@ -1165,6 +1182,7 @@ public class Manager : MonoBehaviour {
 								lt.transform.parent = l.transform;
 								l.renderer.material.color = Color.blue;
 							}  else if(sscript.c == aqua) {
+								aqua_orbs++;
 								det.color = aqua;
 								energy += AQUA_ENERGY*fill_level;
 								Destroy(lt);
@@ -1172,6 +1190,7 @@ public class Manager : MonoBehaviour {
 								lt.transform.parent = l.transform;
 								l.renderer.material.color = aqua;
 							}  else if(sscript.c == purple) {
+								purple_orbs++;
 								det.color = purple;
 								energy += PURPLE_ENERGY*fill_level;
 								Destroy(lt);
@@ -1193,7 +1212,7 @@ public class Manager : MonoBehaviour {
 	void OnGUI() {
 		//set gui style
 		GUI.skin = skin;
-		GUI.skin.label.normal.textColor = Color.cyan;
+		GUI.skin.label.normal.textColor = Color.white;
 		//performance
 		//GUI.Label(new Rect(10,10,150,50), "FPS: "+fps.ToString("f2"));
 		Starscript scpt = cur_star.GetComponent<Starscript>();
@@ -1235,12 +1254,12 @@ public class Manager : MonoBehaviour {
 			yoffset -= 35;		
 		}
 		
+		GUI.skin.label.fontSize = 20;
 		//timer
-		GUI.Label(new Rect(20,20,100,100),"Time: "+Mathf.Floor(timer)); 
+		GUI.Label(new Rect(20,20,100,100),"Time : "+Mathf.Floor(timer)); 
 		//points
-		GUI.Label (new Rect(20,40,100,100), "Points: "+points);
-		//required points
-		GUI.Label (new Rect(20,60,100,100),"Required points: "+req_points);
+		GUI.Label (new Rect(20,50,100,50), "Points : ");
+		GUI.Label (new Rect(20,70,100,50), points+ "/"+req_points);
 				
       //  GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
 		//GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
