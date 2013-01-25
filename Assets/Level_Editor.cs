@@ -679,6 +679,22 @@ public class Level_Editor : MonoBehaviour {
 				
 			}
 			
+			if(delete_button) {
+				//
+				if(Input.GetMouseButtonDown(0)) {
+					RaycastHit hit = new RaycastHit();
+					Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
+					if(Physics.Raycast(r,out hit)) {
+					//	Debug.Log("clicked on (parent): "+hit.transform.parent.name);
+						if(hit.transform.parent.name.Equals("Star(Clone)")) {
+						//	Debug.Log ("clicked a star");
+							Destroy(hit.transform.parent.gameObject);
+						} 
+					}
+				}
+				//
+			}
+			
 			
 		}
 	}   
