@@ -679,10 +679,6 @@ public class Level_Editor : MonoBehaviour {
 				
 			}
 			
-			//delete
-			if(delete_button) {
-					
-			}
 			
 		}
 	}   
