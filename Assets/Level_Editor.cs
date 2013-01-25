@@ -746,7 +746,7 @@ public class Level_Editor : MonoBehaviour {
 				//write lengths header (update this line as saving is implemented for other elements)
     			sw.WriteLine(star_arr.Length+","+rip_arr.Length+","+coin_arr.Length
 					+","+mstar_arr.Length+","+alien_arr.Length+","+rstar_arr.Length
-					+","+boost_arr.Length+","+invinc_arr.Length+","+wall_arr.Length);
+					+","+boost_arr.Length+","+invinc_arr.Length+","+wall_arr.Length+","+isaytime+","+isaypoints);
 				
 				//stars
 				for(int i = 0; i < star_arr.Length;i++)

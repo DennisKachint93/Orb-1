@@ -273,6 +273,9 @@ public class Manager : MonoBehaviour {
 	//level timer; number of seconds
 	public float timer = 15;
 	
+	//points required to finish a level
+	public static float req_points = 1000;
+	
 	//points
 	public float points = 0;
 	
@@ -395,6 +398,13 @@ public class Manager : MonoBehaviour {
 		int boosts = int.Parse (sp[6]);
 		int invincs = int.Parse(sp[7]);
 		int walls = int.Parse (sp[8]);
+		int time = int.Parse(sp[9]);
+		int reqpts = int.Parse(sp[10]);
+		
+		//set time and points values
+		timer = time;
+		req_points = reqpts;	
+		
 		
 		//create all stars specified in the text file
 		for(int i=0; i<stars;i++)
@@ -1229,6 +1239,8 @@ public class Manager : MonoBehaviour {
 		GUI.Label(new Rect(20,20,100,100),"Time: "+Mathf.Floor(timer)); 
 		//points
 		GUI.Label (new Rect(20,40,100,100), "Points: "+points);
+		//required points
+		GUI.Label (new Rect(20,60,100,100),"Required points: "+req_points);
 				
       //  GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
 		//GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
