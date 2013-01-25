@@ -1150,8 +1150,9 @@ public class Level_Editor : MonoBehaviour {
 			string[] order = new string[1] { "Levels/testingtmp" };
 			state.level_order = order;
 			state.cur_level = 0;
-			
-			Application.LoadLevel("Ship_Outfitter");
+			state.in_game = true;
+			Manager.ResetConstants();
+			Application.LoadLevel("Scene1");
 		}
 		//save button
 		if(GUI.Button(new Rect(10, Screen.height - 170, 100, 25), "Name file"))
