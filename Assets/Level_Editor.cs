@@ -72,6 +72,8 @@ public class Level_Editor : MonoBehaviour {
 	public Texture startex;
 	public string isaycolor;
 	public string isaysize;
+	public string isaytime;
+	public string isaypoints;
 	public string coin_line_length;
 	public string coin_line_number;
 	public string coin_circle_radius;
@@ -685,9 +687,7 @@ public class Level_Editor : MonoBehaviour {
 					RaycastHit hit = new RaycastHit();
 					Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
 					if(Physics.Raycast(r,out hit)) {
-					//	Debug.Log("clicked on (parent): "+hit.transform.parent.name);
 						if(hit.transform.parent.name.Equals("Star(Clone)")) {
-						//	Debug.Log ("clicked a star");
 							Destroy(hit.transform.parent.gameObject);
 						} 
 					}
@@ -880,7 +880,14 @@ public class Level_Editor : MonoBehaviour {
 		
 		//toolbar area
 		GUI.backgroundColor = Color.red;
-		GUI.Box(new Rect(0, 0, 93, Screen.height), "");
+		GUI.Box(new Rect(0, 0, 200, Screen.height), "");
+		
+		//time and points
+		GUI.Label ( new Rect (150,10,100,20), "Time:");
+		isaytime = GUI.TextField(new Rect(200, 15, 40, 20), isaytime, 25);
+		GUI.Label ( new Rect (150,30,100,20), "Req. Pts:");
+		isaypoints = GUI.TextField(new Rect(200, 50, 40, 20), isaypoints, 25);
+		
 		//spacerip button -- after pressing button, user can click to add space rips in locations 
         if (GUI.Button(new Rect(10, 15, 75, 25), "Space Rip")) {
 			spaceRipButton = !spaceRipButton;
