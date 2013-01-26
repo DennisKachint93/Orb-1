@@ -774,7 +774,7 @@ public class Manager : MonoBehaviour {
 		if(play_death) {
 			GameObject go = GameObject.Find("Alien_Exp_Sound");
 			Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
-			ascpt.die.Play(); 
+		// 	ascpt.die.Play(); 
 		} else {
 			play_death = true;
 		}
@@ -1054,7 +1054,7 @@ public class Manager : MonoBehaviour {
 					
 					GameObject go = GameObject.Find("Alien_Exp_Sound");
 					Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
-					ascpt.leaving_star.Play();
+				//	ascpt.leaving_star.Play();
 						
 					
 					if(scpt.isExplodingStar){
@@ -1106,7 +1106,8 @@ public class Manager : MonoBehaviour {
 						//play entry sound
 						GameObject go = GameObject.Find("Alien_Exp_Sound");
 						Alien_Exp_Sound ascpt = go.GetComponent<Alien_Exp_Sound>();
-						ascpt.entering_star.Play();
+						ascpt.PlayRandomNote();
+					//	ascpt.entering_star.Play();
 						
 						Learth_Movement.isTangent = true;
 						cur_star = s;

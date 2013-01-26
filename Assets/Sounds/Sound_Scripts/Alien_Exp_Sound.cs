@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class Alien_Exp_Sound : MonoBehaviour {
 	public AudioSource alien_expl;
@@ -12,6 +11,11 @@ public class Alien_Exp_Sound : MonoBehaviour {
 	public AudioSource boost_2;
 	public AudioSource invinc;
 	public AudioSource die;
+	public AudioSource n1;
+	public AudioSource n2;
+	public AudioSource n3;
+	public AudioSource n4;
+	public AudioSource n5;
 	
 	// Use this for initialization
 	void Start () {
@@ -26,11 +30,22 @@ public class Alien_Exp_Sound : MonoBehaviour {
 		boost_2 = sources[7];
 		invinc = sources[8];
 		die = sources[9];
+		n1 = sources[10];
+		n2 = sources[11];
+		n3 = sources[12];
+		n4 = sources[13];
+		n5 = sources[14];
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
+	}
+	
+	public void PlayRandomNote() {
+			int num = Random.Range(10,15);
+			AudioSource[] sources = GetComponents<AudioSource>();
+			sources[num].Play();
 	}
 }
 
