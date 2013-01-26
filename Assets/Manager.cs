@@ -255,6 +255,7 @@ public class Manager : MonoBehaviour {
 	public Transform space_jump_effect;
 	public Transform reset_effect;
 	public GameObject color_suck_effect, cse;
+	public GameObject ese, end_scene_effect;
 	
 	//testing audio
 	public AudioClip test_aud;
@@ -822,21 +823,15 @@ public class Manager : MonoBehaviour {
 		
 		//ending animation and
 		//endgame condition (timer runs out)
-		if(timer <= 0) {
-			Application.LoadLevel("Postgame");
+		if(timer <= 0 && end_animation) {
+			Vector3 screen_center = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width/2, Screen.height/2, 0));
+			ese = Instantiate(end_scene_effect, new Vector3(screen_center.x, screen_center.y,0), transform.rotation) as GameObject;
+			if (timer< -1)
+				end_animation = false;
 		}
-		/*	if (end_animation) {
-			//	Destroy(GameObject.Find("Background"));
-				Background.activated = false;
-				Vector3 screen_center = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width/2, Screen.height/2, 0));
-				Instantiate(explosion, new Vector3(screen_center.x, screen_center.y,0), transform.rotation);
-				GameObject newstar = CreateStar(screen_center.x, screen_center.y, Color.black, tgray, 3000, true);
-				end_animation = false;	
-				cur_star = newstar;
-				Learth_Movement.isTangent = true;
-			}
+		else if (timer < -2 && !end_animation)
 			Application.LoadLevel("Postgame");
-		*/
+ 
 		
 		//points increase more the more energy you have
 		points += Mathf.Floor((Time.deltaTime * energy));
@@ -1213,69 +1208,40 @@ public class Manager : MonoBehaviour {
 	}
 	
 	void OnGUI() {
-		//set gui style
-		GUI.skin = skin;
-		GUI.skin.label.normal.textColor = Color.white;
-		//performance
-		//GUI.Label(new Rect(10,10,150,50), "FPS: "+fps.ToString("f2"));
-		Starscript scpt = cur_star.GetComponent<Starscript>();
-		if(scpt.is_sink) {
-			gscpt.time_to_complete = (Time.time - start_time);
-			gscpt.num_stars = star_arr.Length;
-		/*	GUI.Label(new Rect(10, Screen.height-80,150,50), "YOU WIN!");
-			GUI.Label (new Rect(10, Screen.height-95,150,50), "Time: "+(Time.time - start_time)); */
-		}
+		if (end_animation) {
+			//set gui style
+			GUI.skin = skin;
+			GUI.skin.label.normal.textColor = Color.white;
+			//performance
+			//GUI.Label(new Rect(10,10,150,50), "FPS: "+fps.ToString("f2"));
+			Starscript scpt = cur_star.GetComponent<Starscript>();
+			if(scpt.is_sink) {
+				gscpt.time_to_complete = (Time.time - start_time);
+				gscpt.num_stars = star_arr.Length;
+				/*	GUI.Label(new Rect(10, Screen.height-80,150,50), "YOU WIN!");
+				GUI.Label (new Rect(10, Screen.height-95,150,50), "Time: "+(Time.time - start_time)); */
+			}
 		
-		//ammo stats
-		int xoffset = 15;
-		int yoffset = Screen.height-70;
-		if(gscpt.bomb_on) {
-			for (int i = 0; i < gscpt.bomb_ammo; i++) 
-				GUI.Label(new Rect(xoffset+25*i,yoffset,35,35),bombs);
-			yoffset -= 20;
-		}
-		if(gscpt.jump_on) {
-			print(gscpt.jump_ammo);
-			for (int j = 0; j < gscpt.jump_ammo; j++) 
-				GUI.Label(new Rect(xoffset+30*j,yoffset,40,40),jumps);
-			yoffset -= 25;
-		}
-		if(gscpt.gun_on) {
-			for (int k = 0; k < gscpt.gun_ammo/5; k++) 
-				GUI.Label(new Rect(xoffset+25*k,yoffset,25,25),bullets);
-			yoffset -= 35;
-		}
-		if(gscpt.timewarp_on) {
-			for (int h = 0; h < gscpt.timewarp_ammo; h++) 
-				GUI.Label(new Rect(xoffset+30*h,yoffset,30,30),timewarps);
-			yoffset -= 30;
-		}
-		if(gscpt.direction_on) {	
-			print(gscpt.dir_ammo);
-			for (int m = 0; m < gscpt.dir_ammo; m++) 
-				GUI.Label(new Rect(xoffset+35*m,yoffset,35,35),dir_shifts);
-			yoffset -= 35;		
-		}
-		
-		GUI.skin.label.fontSize = 20;
-		//timer
-		GUI.Label(new Rect(20,20,100,100),"Time : "+Mathf.Floor(timer)); 
-		//points
-		GUI.Label (new Rect(20,50,100,50), "Points : ");
-		GUI.Label (new Rect(20,70,200,50), points+ "/"+req_points);
-		GUI.backgroundColor = Color.black;
-		GUI.skin.button.fontSize = 14;
-		if (GUI.Button(new Rect(5,100,100,30), "Reset Level")) 
-			ResetLevel();
-      //  GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
-		//GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
-   		GUI.DrawTexture(new Rect(xoffset, Screen.height-30, energy*3, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
+			GUI.skin.label.fontSize = 20;
+			//timer
+			GUI.Label(new Rect(20,20,100,100),"Time : "+Mathf.Floor(timer)); 
+			//points
+			GUI.Label (new Rect(20,50,100,50), "Points : ");
+			GUI.Label (new Rect(20,70,200,50), points+ "/"+req_points);
+			GUI.backgroundColor = Color.black;
+			GUI.skin.button.fontSize = 14;
+			if (GUI.Button(new Rect(5,100,100,30), "Reset Level")) 
+				ResetLevel();
+	      //  GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
+			//GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
+	   		GUI.DrawTexture(new Rect(10, Screen.height-30, energy*3, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
+	   		
    		
-   		
-   		//on pause
-   		if (escape)
-   			GUI.Label(new Rect(Screen.width/8, Screen.height/8,Screen.width, Screen.height),control_scheme);
+	   		//on pause
+   			if (escape)
+   				GUI.Label(new Rect(Screen.width/8, Screen.height/8,Screen.width, Screen.height),control_scheme);
    			
+		}
 	}
 		
 }
