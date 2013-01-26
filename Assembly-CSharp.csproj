@@ -46,6 +46,7 @@
   <ItemGroup>
      <Compile Include="Assets\BackGround\Background.cs" />
      <Compile Include="Assets\BackGround\Line_Script.cs" />
+     <Compile Include="Assets\End_scene\End_Scene.cs" />
      <Compile Include="Assets\Event Generator\Event_Generator.cs" />
      <Compile Include="Assets\Game_State.cs" />
      <Compile Include="Assets\Gem Shader\Example\GemSpawner.cs" />
@@ -56,6 +57,8 @@
      <Compile Include="Assets\Main_Game_Camera.cs" />
      <Compile Include="Assets\Manager.cs" />
      <Compile Include="Assets\Menu.cs" />
+     <Compile Include="Assets\Menu\Background_menu.cs" />
+     <Compile Include="Assets\Menu\Line_Script_menu.cs" />
      <Compile Include="Assets\Outfitter.cs" />
      <Compile Include="Assets\Postgame.cs" />
      <Compile Include="Assets\Powerups\Black_Hole_Helper.cs" />

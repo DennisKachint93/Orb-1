@@ -7,13 +7,13 @@ public class Background : MonoBehaviour {
 		blue_line, aqua_line, purple_line, line;
 	public GameObject purple;
 	public Vector3 start;
-	public float cur_time, last_time, delay = 1;
+	public float cur_time, last_time, delay = .5f;
 	public static bool activated = true;
 	
 	void Start() {
 		cur_time = 0;
 		last_time = -delay;
-		//purple = Instantiate (purple_line, this.transform.position, Manager.l.transform.rotation) as GameObject;
+		//purple = Instantiate (purple_line, this.transform.position, this.transform.rotation) as GameObject;
 		//Line_Script script = purple.GetComponent<Line_Script>();
 		//Component.Destroy(script);
 	}

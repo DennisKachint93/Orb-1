@@ -28,6 +28,12 @@ public class Starscript : MonoBehaviour {
 	public float BLACK_HOLE_SUCKINESS = 150;
 	//speed when entering a black hole
 	public float speed_of_entry;
+	//true if black hole has been found so that spiral effect is activated
+	public bool black_hole_active = false;
+	//line effect for black hole
+	public GameObject red_line, orange_line, yellow_line, green_line,
+		blue_line, aqua_line, purple_line, line;
+	
 	
 	/* MOVING STARS */
 	//true if moving star
@@ -104,6 +110,9 @@ public class Starscript : MonoBehaviour {
 	
 	
 	void Start () {
+		
+		//line effect for black hole
+		line = new GameObject();
 		
 		GameObject go = GameObject.Find("game_state");
 		gscpt = go.GetComponent<Game_State>();
@@ -196,7 +205,7 @@ public class Starscript : MonoBehaviour {
 			renderer.material.shader = Shader.Find("Reflective/Bumped Specular");
 		else
 			renderer.material.shader = Shader.Find("Specular");
-	   
+
 		//if star is a mover, the actual game is playing, and the star is visible move to destination point
 		if(is_moving && !editor_freeze /* && (renderer.isVisible */|| bandf)
 		{
@@ -257,6 +266,36 @@ public class Starscript : MonoBehaviour {
 				}
 			}
 		}
+	/*	if (black_hole_active) {
+			Vector3 new_start = this.transform.position + starSize/2*new Vector3(Random.value, Random.value,0);
+			if (Vector3.Distance(this.transform.position,line.transform.position) < 2f) {
+				Destroy(line);
+				
+				if (Manager.l.renderer.material.color == Color.red) 
+					line = Instantiate (red_line, new_start, Manager.l.transform.rotation) as GameObject;
+				else if (Manager.l.renderer.material.color == Manager.orange) 
+					line = Instantiate (orange_line, new_start, Manager.l.transform.rotation) as GameObject;
+				else if (Manager.l.renderer.material.color == Color.yellow) 
+					line = Instantiate (yellow_line, new_start, Manager.l.transform.rotation) as GameObject;
+				else if (Manager.l.renderer.material.color == Manager.green) 
+					line = Instantiate (green_line, new_start, Manager.l.transform.rotation) as GameObject;
+				else if (Manager.l.renderer.material.color == Color.blue) 
+					line = Instantiate (blue_line, new_start, Manager.l.transform.rotation) as GameObject;
+				else if (Manager.l.renderer.material.color == Manager.aqua) 
+					line = Instantiate (aqua_line, new_start, Manager.l.transform.rotation) as GameObject;
+				else if (Manager.l.renderer.material.color == Manager.purple) 
+					line = Instantiate (purple_line, new_start, Manager.l.transform.rotation) as GameObject;
+		//	}
+		//	else {
+				line.transform.RotateAround(this.transform.position, Vector3.forward, 
+						1/(Vector3.Distance(line.transform.position, this.transform.position)*Time.deltaTime)*10);
+				Vector3 perp = line.transform.position - this.transform.position;
+				perp.Normalize();
+				line.transform.position -= new Vector3(perp.x, perp.y, 0)*Manager.BLACK_HOLE_SUCKINESS;
+					
+			}
+		}*/
+				
 		glow = false;
 	}
 	

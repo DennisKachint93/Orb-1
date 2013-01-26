@@ -22,7 +22,7 @@ public class Postgame : MonoBehaviour {
 		state = s.GetComponent<Game_State>();
 		
 		//increment level order if player has gotten enough points
-		if (Manager.points >= Manager.req_points)
+		if (Manager.points >= Manager.req_points && state.cur_level < state.level_order.Length-1)
 			state.cur_level++;
 		
 		//instantiate visual representations of objects next to text
@@ -53,7 +53,7 @@ public class Postgame : MonoBehaviour {
 		
 		GUI.skin.label.fontSize = 24;
 		//total orbs
-		GUI.Label(new Rect(startx+orb_offset, starty+50, 100, 50), Manager.red_orbs+Manager.orange_orbs+Manager.yellow_orbs+
+		GUI.Label(new Rect(startx+orb_offset, starty+50, 300, 50), Manager.red_orbs+Manager.orange_orbs+Manager.yellow_orbs+
 				Manager.green_orbs+Manager.blue_orbs+Manager.purple_orbs+Manager.aqua_orbs+" ORBS");
 		
 		//breakdown of orbs by color
@@ -84,8 +84,14 @@ public class Postgame : MonoBehaviour {
 		
 		GUI.skin.label.fontSize = 30;
 		if (Manager.points >= Manager.req_points) {
-       		if (GUI.Button(new Rect(startx+100, starty+310, 300, 40), "Play Next Level")) 
-				Application.LoadLevel("Scene1");
+       		if (state.cur_level<state.level_order.Length-1) {
+				if (GUI.Button(new Rect(startx+100, starty+310, 300, 40), "Play Next Level")) 
+					Application.LoadLevel("Scene1");
+			}
+			else {
+				if (GUI.Button(new Rect(startx+100, starty+310, 300, 40), "Credits")) 
+					Application.LoadLevel("End_Scene");
+			}
 		} 
 		else {
 			if (GUI.Button(new Rect(startx+120, starty+310, 300, 40), "Try Again")) 

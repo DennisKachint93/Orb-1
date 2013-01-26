@@ -809,6 +809,7 @@ public class Manager : MonoBehaviour {
 	
 	//reloads the scene and modifies whatever we want to modify when the scene gets reloaded
 	public static void ResetLevel() {
+		ResetConstants();
 		Application.LoadLevel(Application.loadedLevel);	
 		energy = STARTING_ENERGY;
 	}
@@ -979,6 +980,7 @@ public class Manager : MonoBehaviour {
 			}
 			//if star is a black hole and you haven't traveled boost distance after pressing space bar, get sucked into center of black hole
 			if(scpt.isBlackHole && !escaping_black_hole) {
+				scpt.black_hole_active = true;
 				//speed up to increase dramatic effect
 				speed *= BLACK_HOLE_SUCKINESS;
 				Vector3 perp = l.transform.position - cur_star.transform.position;
@@ -1259,8 +1261,11 @@ public class Manager : MonoBehaviour {
 		GUI.Label(new Rect(20,20,100,100),"Time : "+Mathf.Floor(timer)); 
 		//points
 		GUI.Label (new Rect(20,50,100,50), "Points : ");
-		GUI.Label (new Rect(20,70,100,50), points+ "/"+req_points);
-				
+		GUI.Label (new Rect(20,70,200,50), points+ "/"+req_points);
+		GUI.backgroundColor = Color.black;
+		GUI.skin.button.fontSize = 14;
+		if (GUI.Button(new Rect(5,100,100,30), "Reset Level")) 
+			ResetLevel();
       //  GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
 		//GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
    		GUI.DrawTexture(new Rect(xoffset, Screen.height-30, energy*3, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 

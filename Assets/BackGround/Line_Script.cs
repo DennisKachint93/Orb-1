@@ -7,7 +7,7 @@ public class Line_Script : MonoBehaviour {
 		blue_line, aqua_line, purple_line, line;
 	public float line_length;
 	public Vector3 start, new_start;
-	public float rate = .5f;
+	public float rate = .3f;
 	public bool vertical, up, right;
 	public bool complete = false, new_line = false;
 	
@@ -73,7 +73,11 @@ public class Line_Script : MonoBehaviour {
 		//		Destroy(gameObject);
 		//}
 		if(collision.gameObject.tag == "blackhole") {
+			TrailRenderer trail = this.gameObject.GetComponent<TrailRenderer>();
+			trail.time = 50;
 			print ("black hole!!");
+		//	Starscript bhole = collision.gameObject.GetComponent<Starscript>();
+		//	bhole.black_hole_active = true;
 			this.transform.RotateAround(collision.gameObject.transform.position, Vector3.forward, 
 						1/(Vector3.Distance(this.transform.position, collision.gameObject.transform.position)*Time.deltaTime)*50);
 			Vector3 perp = this.transform.position - collision.gameObject.transform.position;
