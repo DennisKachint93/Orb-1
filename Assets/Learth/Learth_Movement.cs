@@ -49,8 +49,9 @@ public class Learth_Movement : MonoBehaviour {
 			r.light.range = 2.5f*transform.localScale.x;		
 		}
 		else {
+			this.renderer.material.color = Color.white;
 			r.light.color = Color.white;
-			r.light.range = 4.5f*transform.localScale.x;			
+			r.light.range = 5.5f*transform.localScale.x;			
 		}	
 		//calculate velocity every frame
 		velocity = this.transform.position - lastPos.position;
@@ -124,7 +125,8 @@ public class Learth_Movement : MonoBehaviour {
 			}
 		
 			if(collision.gameObject.name == "Wall(Clone)") {
-				if (Manager.IS_INVINCIBLE) {
+				WallScript script = collision.gameObject.GetComponent<WallScript>();
+				if (Manager.IS_INVINCIBLE && script.visible) {
 					Instantiate(explosion, transform.position, transform.rotation);
 					Destroy(collision.gameObject);
 				}

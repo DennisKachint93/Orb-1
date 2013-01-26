@@ -176,7 +176,7 @@ public class Manager : MonoBehaviour {
 	//actual objects used in script
 	public static GameObject l, s, e, p;
 	//particle trails for learth
-	public GameObject red_learth_trail, orange_learth_trail, yellow_learth_trail, green_learth_trail,
+	public GameObject white_learth_trail,red_learth_trail, orange_learth_trail, yellow_learth_trail, green_learth_trail,
 		blue_learth_trail, aqua_learth_trail, purple_learth_trail, lt;
 	public GameObject[] star_arr;
 	public GameObject[] rip_arr;
@@ -311,8 +311,8 @@ public class Manager : MonoBehaviour {
 		
 		//instantiate learth
 		l = Instantiate (learth, new Vector3 (0, -35, 0), new Quaternion (0, 0, 0, 0)) as GameObject;
-	 	l.renderer.material.color = Color.red;	
-		lt = Instantiate (red_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
+	 	l.renderer.material.color = Color.white;	
+		lt = Instantiate (white_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 		lt.transform.parent = l.transform;
 		
 		//initialize timer
@@ -1204,6 +1204,10 @@ public class Manager : MonoBehaviour {
 					}
 				}
 			}
+		}
+		if (IS_INVINCIBLE) {
+			Destroy(lt);
+			lt = Instantiate (white_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 		}
 	}
 	
