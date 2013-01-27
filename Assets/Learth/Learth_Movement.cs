@@ -19,7 +19,7 @@ public class Learth_Movement : MonoBehaviour {
 	public GameObject radius;
 	public GameObject lightGameObject;
 	//actual radius object instantiated
-	public GameObject r;
+	public static GameObject r;
 	
 	public GameObject reset_effect;
 	

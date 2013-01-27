@@ -177,7 +177,8 @@ public class Manager : MonoBehaviour {
 	public static GameObject l, s, e, p;
 	//particle trails for learth
 	public GameObject white_learth_trail,red_learth_trail, orange_learth_trail, yellow_learth_trail, green_learth_trail,
-		blue_learth_trail, aqua_learth_trail, purple_learth_trail, lt;
+		blue_learth_trail, aqua_learth_trail, purple_learth_trail;
+	public static GameObject lt;
 	public GameObject[] star_arr;
 	public GameObject[] rip_arr;
 	public GameObject[] coin_arr;
@@ -1143,71 +1144,79 @@ public class Manager : MonoBehaviour {
 								red_orbs++;
 								det.color = Color.red;
 								energy += RED_ENERGY*fill_level;
-								Destroy(lt);
-								lt = Instantiate (red_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
-								lt.transform.parent = l.transform;				
-								l.renderer.material.color = Color.red;
+								if (!IS_INVINCIBLE) {
+									Destroy(lt);
+									lt = Instantiate (red_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
+									lt.transform.parent = l.transform;				
+									l.renderer.material.color = Color.red;
+								}
 							}  else if (sscript.c == orange) {
 								orange_orbs++;
 								det.color = orange;
 								energy += ORANGE_ENERGY*fill_level;
-								Destroy(lt);
-								lt = Instantiate (orange_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
-								lt.transform.parent = l.transform;
-								l.renderer.material.color = orange;
+								if (!IS_INVINCIBLE) {
+									Destroy(lt);
+									lt = Instantiate (orange_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
+									lt.transform.parent = l.transform;
+									l.renderer.material.color = orange;
+								}
 							}  else if (sscript.c == Color.yellow) {
 								yellow_orbs++;
 								det.color = Color.yellow;
 								energy += YELLOW_ENERGY*fill_level;
-								Destroy(lt);
-								lt = Instantiate (yellow_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
-								lt.transform.parent = l.transform;
-								l.renderer.material.color = Color.yellow;
+								if (!IS_INVINCIBLE) {
+									Destroy(lt);
+									lt = Instantiate (yellow_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
+									lt.transform.parent = l.transform;
+									l.renderer.material.color = Color.yellow;
+								}
 							}  else if (sscript.c == green) {
 								green_orbs++;
 								det.color = green;
-								Destroy(lt);
-								lt = Instantiate (green_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
-								lt.transform.parent = l.transform;
-								energy += GREEN_ENERGY*fill_level;
-								l.renderer.material.color = green;
+								if (!IS_INVINCIBLE) {
+									Destroy(lt);
+									lt = Instantiate (green_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
+									lt.transform.parent = l.transform;
+									energy += GREEN_ENERGY*fill_level;
+									l.renderer.material.color = green;
+								}
 							}  else if(sscript.c == Color.blue){
 								blue_orbs++;
 								det.color = Color.blue;
 								energy += BLUE_ENERGY*fill_level;
-								Destroy(lt);
-								lt = Instantiate (blue_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
-								lt.transform.parent = l.transform;
-								l.renderer.material.color = Color.blue;
+								if (!IS_INVINCIBLE) {
+									Destroy(lt);
+									lt = Instantiate (blue_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
+									lt.transform.parent = l.transform;
+									l.renderer.material.color = Color.blue;
+								}
 							}  else if(sscript.c == aqua) {
 								aqua_orbs++;
 								det.color = aqua;
 								energy += AQUA_ENERGY*fill_level;
-								Destroy(lt);
-								lt = Instantiate (aqua_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
-								lt.transform.parent = l.transform;
-								l.renderer.material.color = aqua;
+								if (!IS_INVINCIBLE) {
+									Destroy(lt);
+									lt = Instantiate (aqua_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
+									lt.transform.parent = l.transform;
+									l.renderer.material.color = aqua;
+								}
 							}  else if(sscript.c == purple) {
 								purple_orbs++;
 								det.color = purple;
 								energy += PURPLE_ENERGY*fill_level;
-								Destroy(lt);
-								lt = Instantiate (purple_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
-								lt.transform.parent = l.transform;
-								l.renderer.material.color = purple;
+								if (!IS_INVINCIBLE) {
+									Destroy(lt);
+									lt = Instantiate (purple_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
+									lt.transform.parent = l.transform;
+									l.renderer.material.color = purple;
+								}
 							}
-							//sscript.c = Color.white;
-							//sscript.t = tgray;
 							sscript.r.light.intensity = .1f;
 						}
 						break;
 					}
 				}
 			}
-		}
-		if (IS_INVINCIBLE) {
-			Destroy(lt);
-			lt = Instantiate (white_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 		}
 	}
 	
@@ -1234,6 +1243,8 @@ public class Manager : MonoBehaviour {
 			GUI.Label (new Rect(20,70,200,50), points+ "/"+req_points);
 			GUI.backgroundColor = Color.black;
 			GUI.skin.button.fontSize = 14;
+			GUI.skin.button.normal.textColor = Color.cyan;
+			GUI.skin.button.hover.textColor = Color.yellow;
 			if (GUI.Button(new Rect(5,100,100,30), "Reset Level")) 
 				ResetLevel();
 	      //  GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));

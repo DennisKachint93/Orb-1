@@ -82,7 +82,9 @@ public class Postgame : MonoBehaviour {
 		//tally up energy from stars (seperated by color), coins, and gems
 		//text depends on whether point criteria was met
 		
-		GUI.skin.label.fontSize = 30;
+		GUI.skin.button.fontSize = 30;
+		GUI.skin.button.normal.textColor = Color.white;
+		GUI.skin.button.hover.textColor = Color.red;
 		if (Manager.points >= Manager.req_points) {
        		if (state.cur_level<state.level_order.Length-1) {
 				if (GUI.Button(new Rect(startx+100, starty+310, 300, 40), "Play Next Level")) 

@@ -690,8 +690,9 @@ public class Level_Editor : MonoBehaviour {
 						if(hit.transform.parent.name.Equals("Star(Clone)")) {
 							Destroy(hit.transform.parent.gameObject);
 						} 
-						else 
-							Destroy(hit.transform.gameObject);
+						/*else if (hit.transform.name.Equals("Wall(Clone)"))
+							print ("hhello");
+							//Destroy(hit.transform.gameObject);*/
 					}
 				}
 				//

@@ -4,7 +4,8 @@ using System.Collections;
 public class Line_Script : MonoBehaviour {
 	
 	public GameObject red_line, orange_line, yellow_line, green_line,
-		blue_line, aqua_line, purple_line, line;
+		blue_line, aqua_line, purple_line;
+	public GameObject line;
 	public float line_length;
 	public Vector3 start, new_start;
 	public float rate = .3f;
@@ -14,6 +15,7 @@ public class Line_Script : MonoBehaviour {
 	void Start() {
 		start = this.transform.position;
 		line_length = Random.Range(50,175);
+//		line = new GameObject();
 	}
 	
 	void Update() {
@@ -55,7 +57,7 @@ public class Line_Script : MonoBehaviour {
 					line = Instantiate (blue_line, new_start, Manager.l.transform.rotation) as GameObject;
 				else if (Manager.l.renderer.material.color == Manager.aqua) 
 					line = Instantiate (aqua_line, new_start, Manager.l.transform.rotation) as GameObject;
-				else if (Manager.l.renderer.material.color == Manager.purple) 
+				else 
 					line = Instantiate (purple_line, new_start, Manager.l.transform.rotation) as GameObject;
 					
 				//Destroy(line,5);

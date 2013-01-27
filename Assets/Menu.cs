@@ -102,6 +102,7 @@ public class Menu : MonoBehaviour {
 //		GUI.Box(new Rect(50,50, 1024,640 ), title);
 		
 		GUI.skin.button.fontSize = 40;
+		GUI.skin.button.normal.textColor = Color.yellow;
 		GUI.skin.button.hover.textColor = Color.cyan;
 		if(GUI.Button(new Rect(Screen.width/6, Screen.height-200, 180, 45), "Play!")) {
 			gscpt.in_game = true;
