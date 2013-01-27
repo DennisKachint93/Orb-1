@@ -13,8 +13,8 @@ public class Postgame : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-		startx = Screen.width/3;
-		starty = Screen.height/8;
+		startx = Screen.width/4;
+		starty = Screen.height/4;
 		orb_offset = 160;
 		orb_color_offset = 185;
 		

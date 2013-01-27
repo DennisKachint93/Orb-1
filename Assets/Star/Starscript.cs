@@ -91,7 +91,14 @@ public class Starscript : MonoBehaviour {
 	public double resblink=.4;
 	public double blinkspeed=.4;
 	public double blowuptime=5;
-	public Transform explosion;
+	public Transform red_explosion;
+	public Transform orange_explosion;
+	public Transform yellow_explosion;
+	public Transform green_explosion;
+	public Transform blue_explosion;
+	public Transform purple_explosion;
+	public Transform aqua_explosion;
+	
 	public int BIG_EXPLOSION = 2;
 	public int SMALL_EXPLOSION = 1;
 	public int NO_EXPLOSION = 0;
@@ -375,8 +382,24 @@ public class Starscript : MonoBehaviour {
 		ascpt.star_explosion.Play();
 		//Debug.Break();
 		//Explodes the star, and makes it impossible to be targeted again
-		if(explosion_type == BIG_EXPLOSION)
-			Instantiate(explosion, transform.position, transform.rotation);
+		if(explosion_type == BIG_EXPLOSION) {
+			if (c == Color.red)
+				Instantiate(red_explosion, transform.position, transform.rotation);
+			else if (c == Manager.orange)
+				Instantiate(orange_explosion, transform.position, transform.rotation);	
+			else if (c == Color.yellow)
+				Instantiate(yellow_explosion, transform.position, transform.rotation);	
+			else if (c == Manager.green)
+				Instantiate(green_explosion, transform.position, transform.rotation);	
+			else if (c == Color.blue)
+				Instantiate(blue_explosion, transform.position, transform.rotation);	
+			else if (c == Manager.purple)
+				Instantiate(purple_explosion, transform.position, transform.rotation);	
+			else if (c == Manager.aqua)
+				Instantiate(aqua_explosion, transform.position, transform.rotation);	
+			
+			
+		}
 		collider.enabled=false;
 		orbitRadius=0;
 		is_moving=false;

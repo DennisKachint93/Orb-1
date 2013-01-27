@@ -21,6 +21,8 @@ public class Menu : MonoBehaviour {
 	//gamestate script
 	Game_State gscpt;
 	
+	int random;
+	
 	//called before start
 	void Awake() {
 		if(GameObject.Find ("game_state") == null) {
@@ -42,7 +44,8 @@ public class Menu : MonoBehaviour {
 			//set default ship settings here
 			
 			//levels that will be played in order
-			string[] level_order = new string[9] {
+			string[] level_order = new string[10] {
+				"Levels/destroy.txt",
 				"Levels/circleblob.txt",
 				"Levels/choices.txt",
 				"Levels/1.txt",
@@ -82,10 +85,18 @@ public class Menu : MonoBehaviour {
 		script.c = Color.cyan;
 		script.starSize = 75; 
 		l.transform.position = new Vector3(starR.transform.position.x+script.starSize+Manager.RADIAL_ERROR,starR.transform.position.y,0);
+		random = Random.Range(0,3);
 	}
 	
 	void Update () {
 		l.transform.RotateAround(starR.transform.position, Vector3.forward, speed*Time.deltaTime);
+		if (random == 0) 
+				l.renderer.material.color = Color.blue;
+		else if (random == 1)
+			l.renderer.material.color = Color.yellow;
+		else if (random == 2)
+			l.renderer.material.color = Color.cyan; 
+		random = Random.Range (0,3);
 		
 	}
 		
@@ -97,7 +108,7 @@ public class Menu : MonoBehaviour {
 //		GUI.Label(new Rect(Screen.width/2-350,Screen.height/2-600,500,1000),"O");
 		GUI.skin.label.fontSize = 400;
 		GUI.skin.label.normal.textColor = new Color(0,1,1,.5f);
-		GUI.Label(new Rect(Screen.width/2+100,Screen.height/2-260,1000,1000), "RB"); 
+		GUI.Label(new Rect(Screen.width/2+50,Screen.height/2-260,1000,1000), "RB"); 
 		GUI.skin = skin2;
 	//	GUI.Box(new Rect(50, 50, Screen.width/2-100, 7*Screen.height/8), dennis);
 //		GUI.Box(new Rect(50,50, 1024,640 ), title);

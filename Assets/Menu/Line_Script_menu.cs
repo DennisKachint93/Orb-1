@@ -55,7 +55,7 @@ public class Line_Script_menu : MonoBehaviour {
 					line = Instantiate (blue_line, new_start, Menu.l.transform.rotation) as GameObject;
 				else if (Menu.l.renderer.material.color == Manager.aqua) 
 					line = Instantiate (aqua_line, new_start, Menu.l.transform.rotation) as GameObject;
-				else if (Menu.l.renderer.material.color == Manager.purple) 
+				else 
 					line = Instantiate (purple_line, new_start, Menu.l.transform.rotation) as GameObject;
 					
 				//Destroy(line,5);

@@ -35,7 +35,7 @@ public class Background : MonoBehaviour {
 					line = Instantiate (blue_line, start, Manager.l.transform.rotation) as GameObject;
 				else if (Manager.l.renderer.material.color == Manager.aqua) 
 					line = Instantiate (aqua_line, start, Manager.l.transform.rotation) as GameObject;
-				else if (Manager.l.renderer.material.color == Manager.purple) 
+				else// if (Manager.l.renderer.material.color == Manager.purple) 
 					line = Instantiate (purple_line, start, Manager.l.transform.rotation) as GameObject;
 			//	Destroy(line,5);
 				Line_Script scpt = line.GetComponent<Line_Script>();

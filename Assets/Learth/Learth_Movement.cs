@@ -23,6 +23,11 @@ public class Learth_Movement : MonoBehaviour {
 	
 	public GameObject reset_effect;
 	
+	public bool wall_down = false;
+	
+	//for flashing learth effect
+	int random;
+	
 	void Start () {
 		
 		//get gamestate
@@ -40,6 +45,8 @@ public class Learth_Movement : MonoBehaviour {
 		//parent radius to learth for destruction
 		r.transform.parent = this.transform;
 		
+		random = Random.Range (0,3);
+		
 	}	
 	
 	void Update () {
@@ -49,9 +56,17 @@ public class Learth_Movement : MonoBehaviour {
 			r.light.range = 2.5f*transform.localScale.x;		
 		}
 		else {
-			this.renderer.material.color = Color.white;
+			if (random == 0) 
+				renderer.material.color = Color.blue;
+			else if (random == 1)
+				renderer.material.color = Color.yellow;
+			else if (random == 2)
+				renderer.material.color = Color.cyan; 
+			random = Random.Range (0,3);
+		
+		//	this.renderer.material.color = Color.white;
 			r.light.color = Color.white;
-			r.light.range = 5.5f*transform.localScale.x;			
+			r.light.range = 0;//5.5f*transform.localScale.x;			
 		}	
 		//calculate velocity every frame
 		velocity = this.transform.position - lastPos.position;
@@ -129,6 +144,7 @@ public class Learth_Movement : MonoBehaviour {
 				if (Manager.IS_INVINCIBLE && script.visible) {
 					Instantiate(explosion, transform.position, transform.rotation);
 					Destroy(collision.gameObject);
+					wall_down = true;
 				}
 				else {
 					//effect
@@ -151,6 +167,12 @@ public class Learth_Movement : MonoBehaviour {
 		
 	}	
 	
-	
+	void onGUI() {
+		if (wall_down) {
+			GUI.skin.label.fontSize = 30;
+			GUI.skin.label.normal.textColor = Color.cyan;
+			GUI.Label(new Rect(this.transform.position.x + 100,this.transform.position.y -100, 50,50), "50 pts"); 
+		}
+	}
 	
 }

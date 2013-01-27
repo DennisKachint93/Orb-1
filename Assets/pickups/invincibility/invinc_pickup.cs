@@ -28,8 +28,9 @@ public class invinc_pickup : MonoBehaviour {
 		//one activated, set isinvincible to true
 		if(is_activated) {
 			Manager.IS_INVINCIBLE = true;
+			Manager.speed *= 1.2f;
 			if(Time.time - start_time > DURATION) {
-				Manager.IS_INVINCIBLE = false;
+			//	Manager.IS_INVINCIBLE = false;
 				Destroy(gameObject);
 				Destroy(Manager.lt);
 				Starscript scpt = Manager.lastStar.GetComponent<Starscript>();
