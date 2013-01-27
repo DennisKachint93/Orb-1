@@ -96,8 +96,10 @@ public class Postgame : MonoBehaviour {
 			}
 		} 
 		else {
-			if (GUI.Button(new Rect(startx+120, starty+310, 300, 40), "Try Again")) 
+			if (GUI.Button(new Rect(startx+120, starty+310, 300, 40), "Try Again")) { 
+				Manager.ResetLevel();
 				Application.LoadLevel("Scene1");
+			}
 		}
 	}
 }

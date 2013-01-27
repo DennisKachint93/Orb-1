@@ -19,7 +19,7 @@ public class Manager : MonoBehaviour {
 		//larger the number, the faster the learth moves overall
 		MOVEMENT_SPEED = 0.72f;
 		//speed you move at without energy
-		CONSTANT_SPEED = 5f;
+		CONSTANT_SPEED = 12f;
 		//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
 		ORBIT_SPEED_FACTOR = .4f;
 		
@@ -93,7 +93,7 @@ public class Manager : MonoBehaviour {
 	//larger the number, the faster the learth moves overall
 	public static float MOVEMENT_SPEED = 0.72f;
 	//speed you move at without energy
-	public static float CONSTANT_SPEED = 1f;
+	public static float CONSTANT_SPEED = 12f;
 	//larger the number, the faster learth moves when orbiting (doesn't affect speed, but makes aiming easier)
 	public static float ORBIT_SPEED_FACTOR = .55f;
 	
@@ -889,8 +889,8 @@ public class Manager : MonoBehaviour {
 		/*********************END DEBUGGING CONTROLS*****************/
 		
 		//Speed increases logarithmically with energy
-		speed = Mathf.Log(energy)*MOVEMENT_SPEED + CONSTANT_SPEED;
-
+		//speed = Mathf.Log(energy)*MOVEMENT_SPEED + CONSTANT_SPEED;
+		speed =  CONSTANT_SPEED;
 		//bending
 		if(Input.GetKey(KeyCode.A))
 		{

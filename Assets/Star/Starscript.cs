@@ -201,11 +201,11 @@ public class Starscript : MonoBehaviour {
 		//renderer.material.color = c;
 		renderer.light.color = c;
 		//renderer.material.mainTexture = t;
-		if (glow) 
+	/*	if (glow) 
 			renderer.material.shader = Shader.Find("Reflective/Bumped Specular");
 		else
 			renderer.material.shader = Shader.Find("Specular");
-
+		 */
 		//if star is a mover, the actual game is playing, and the star is visible move to destination point
 		if(is_moving && !editor_freeze /* && (renderer.isVisible */|| bandf)
 		{
