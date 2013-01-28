@@ -861,9 +861,11 @@ public class Manager : MonoBehaviour {
 		//Y resets camera to learth's position
 		if(Input.GetKeyDown (KeyCode.Y))
 			Camera.main.transform.position = new Vector3(l.transform.position.x, l.transform.position.y, Camera.main.transform.position.z);
-		//f increases energy by 1
+		//f freezes time
 		if(Input.GetKeyDown(KeyCode.F))
-			energy++;
+			Time.timeScale = 0;
+		if(Input.GetKeyDown(KeyCode.G))
+			Time.timeScale = 1;
 		//P advances to next level
 		if(Input.GetKeyDown(KeyCode.P))
 		{
@@ -1139,11 +1141,25 @@ public class Manager : MonoBehaviour {
 							cse = Instantiate(color_suck_effect, s.transform.position, s.transform.rotation) as GameObject;
 							Detonator det = cse.GetComponent<Detonator>();
 							det.size = sscript.orbitRadius+100;
-							
+						
+							//this should be refactored
 							if(sscript.c == Color.red) {
 								red_orbs++;
 								det.color = Color.red;
 								energy += RED_ENERGY*fill_level;
+								
+								//events
+								/*
+								 * 
+								 * Note about unfinished code:
+								 * Event_Generator.GetPointsFromEvent should be passed the "base" amount of points 
+								 * earned by entering orbit around the star. It will return the modified amount of points
+								 * based on the currently active (if there is one) event. 
+								 * */
+								
+								float pts = Event_Generator.GetPointsFromEvent(Color.red,0);
+								
+								
 								if (!IS_INVINCIBLE) {
 									Destroy(lt);
 									lt = Instantiate (red_learth_trail, l.transform.position, l.transform.rotation) as GameObject;

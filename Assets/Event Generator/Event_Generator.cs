@@ -3,28 +3,28 @@ using System.Collections;
 
 public class Event_Generator : MonoBehaviour {
 	
-	private bool event_on = false; //true while an event is occuring
+	private static bool event_on = false; //true while an event is occuring
 	
-	private Color current_color;
-	private float current_dur; //timer that counts down the duration of the event
-	private float current_mul;
+	private static Color current_color;
+	private static float current_dur; //timer that counts down the duration of the event
+	private static float current_mul;
 	
-	private float last_event_generated;
+	private static float last_event_generated;
 	
 	//every event_frequency seconds there's a change that an event will occur
-	private int EVENT_FREQUENCY = 30;
+	private static int EVENT_FREQUENCY = 5;
 	
 	//probability that an event occurs (set = 10 to make events always occur)
-	private int EVENT_PROBABILITY = 5;
+	private static int EVENT_PROBABILITY = 5;
 
-	private Color[] colors;
-	private int[] durations;
-	private float[] multipliers;
+	private static Color[] colors;
+	private static int[] durations;
+	private static float[] multipliers;
 	
 	// Use this for initialization
 	void Start () {
 		Debug.Log ("events");
-		colors = new Color[7];
+		colors = new Color[8];
 		colors[0] = Color.red;
 		colors[1] = Manager.orange;
 		colors[3] = Color.yellow; 
@@ -67,12 +67,23 @@ public class Event_Generator : MonoBehaviour {
 	}
 	
 	//generates and enables a point event
-	void GenerateEvent() {
-		current_color = colors[Random.Range(0,colors.Length)];
+	static void GenerateEvent() {
+		current_color = colors[0];
+	//	current_color = colors[Random.Range(0,colors.Length)];
 		current_dur = durations[Random.Range(0,durations.Length)];
 		current_mul = multipliers[Random.Range(0,multipliers.Length)];
 		event_on = true;
 		last_event_generated = Time.time;
+		Debug.Log("new event generated: "+current_color.ToString()+" "+current_dur+" "+current_mul);
+	}
+	
+	public static float GetPointsFromEvent(Color c, int points) {
+		if(event_on) {
+			if(c.Equals(current_color)) {
+				Debug.Log("event success");		
+			}
+		}
+		return 0;
 	}
 	
 	void OnGUI() {
