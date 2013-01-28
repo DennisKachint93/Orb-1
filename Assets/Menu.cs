@@ -44,7 +44,10 @@ public class Menu : MonoBehaviour {
 			//set default ship settings here
 			
 			//levels that will be played in order
-			string[] level_order = new string[10] {
+			string[] level_order = new string[12] {
+				//"Levels/holes.txt",
+				"Levels/clump.txt",
+				"Levels/line.txt",
 				"Levels/destroy.txt",
 				"Levels/circleblob.txt",
 				"Levels/choices.txt",

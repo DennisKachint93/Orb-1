@@ -87,12 +87,16 @@ public class Postgame : MonoBehaviour {
 		GUI.skin.button.hover.textColor = Color.red;
 		if (Manager.points >= Manager.req_points) {
        		if (state.cur_level<state.level_order.Length-1) {
-				if (GUI.Button(new Rect(startx+100, starty+310, 300, 40), "Play Next Level")) 
+				if (GUI.Button(new Rect(startx+100, starty+310, 300, 40), "Play Next Level")) {
+					Manager.ResetLevel();
 					Application.LoadLevel("Scene1");
+				}
 			}
 			else {
-				if (GUI.Button(new Rect(startx+100, starty+310, 300, 40), "Credits")) 
+				if (GUI.Button(new Rect(startx+100, starty+310, 300, 40), "Credits")) {
+					Manager.ResetLevel();
 					Application.LoadLevel("End_Scene");
+				}
 			}
 		} 
 		else {

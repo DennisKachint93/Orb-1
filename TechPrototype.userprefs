@@ -1,21 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Manager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Shaders/Particle Add.shader">
     <Files>
-      <File FileName="Assets/Postgame.cs" Line="87" Column="56" />
-      <File FileName="Assets/Star/Starscript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Manager.cs" Line="833" Column="62" />
-      <File FileName="Assets/End_scene/End_Scene.cs" Line="53" Column="2" />
-      <File FileName="Assets/Game_State.cs" Line="102" Column="23" />
-      <File FileName="Assets/Main_Game_Camera.cs" Line="18" Column="1" />
-      <File FileName="Assets/Menu.cs" Line="108" Column="7" />
+      <File FileName="Assets/BackGround/Line_Script.cs" Line="82" Column="37" />
+      <File FileName="Assets/Postgame.cs" Line="99" Column="6" />
+      <File FileName="Assets/Star/Starscript.cs" Line="153" Column="37" />
+      <File FileName="Assets/Manager.cs" Line="813" Column="31" />
+      <File FileName="Assets/Level_Editor.cs" Line="387" Column="21" />
+      <File FileName="Assets/pickups/invincibility/invinc_pickup.cs" Line="9" Column="37" />
+      <File FileName="Assets/Learth/Learth_Movement.cs" Line="62" Column="43" />
+      <File FileName="Assets/Menu.cs" Line="47" Column="40" />
       <File FileName="Assets/Sounds/Sound_Scripts/Alien_Exp_Sound.cs" Line="1" Column="1" />
+      <File FileName="Assets/Menu/Line_Script_menu.cs" Line="58" Column="10" />
+      <File FileName="Assets/Menu/Background_menu.cs" Line="34" Column="63" />
+      <File FileName="Assets/BackGround/Background.cs" Line="38" Column="11" />
+      <File FileName="Assets/Shaders/Particle Add.shader" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/Melissa/Documents/Orb/TechPrototype/Assets/End_scene/End_Scene.cs" line="33" />
-      <Breakpoint file="/Users/Melissa/Documents/Orb/TechPrototype/Assets/Postgame.cs" line="110" />
+      <Breakpoint file="/Users/Melissa/Documents/Orb/TechPrototype/Assets/Postgame.cs" line="43" />
+      <Breakpoint file="/Users/Melissa/Documents/Orb/TechPrototype/Assets/Postgame.cs" line="118" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

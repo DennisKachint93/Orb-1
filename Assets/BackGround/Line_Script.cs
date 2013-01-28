@@ -74,14 +74,14 @@ public class Line_Script : MonoBehaviour {
 			//	Background.activated = false;
 		//		Destroy(gameObject);
 		//}
-		if(collision.gameObject.tag == "blackhole") {
-			TrailRenderer trail = this.gameObject.GetComponent<TrailRenderer>();
-			trail.time = 50;
+		if(collision.gameObject.name == "Black Hole(Clone)") {
+			//TrailRenderer trail = this.gameObject.GetComponent<TrailRenderer>();
+		//	trail.time = 50;
 			print ("black hole!!");
 		//	Starscript bhole = collision.gameObject.GetComponent<Starscript>();
 		//	bhole.black_hole_active = true;
-			this.transform.RotateAround(collision.gameObject.transform.position, Vector3.forward, 
-						1/(Vector3.Distance(this.transform.position, collision.gameObject.transform.position)*Time.deltaTime)*50);
+			complete = false;
+			this.transform.RotateAround(new Vector3(collision.gameObject.transform.position.x, collision.gameObject.transform.position.y, 0), Vector3.forward, 30*Time.deltaTime);
 			Vector3 perp = this.transform.position - collision.gameObject.transform.position;
 			perp.Normalize();
 			this.transform.position -= new Vector3(perp.x, perp.y, 0)*Manager.BLACK_HOLE_SUCKINESS;

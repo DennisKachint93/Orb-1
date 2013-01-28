@@ -749,7 +749,7 @@ public class Manager : MonoBehaviour {
 	GameObject CreateWall(float x1, float y1, float x2, float y2, bool visible) {
 		GameObject w = Instantiate (wall, new Vector3((x1+x2)/2,(y1+y2)/2,0), new Quaternion(0,0,0,0)) as GameObject;
 		float length = Vector2.Distance(new Vector2(x1, y1),new Vector2(x2,y2));
-		w.transform.localScale = new Vector3(length,25,25);
+		w.transform.localScale = new Vector3(length,10,10);
 		float theta;
 		if ((x2<x1 && y1<y2) || (x2>x1 && y1>y2))
 			length *= -1;
