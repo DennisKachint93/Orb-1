@@ -1,20 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Shaders/Particle Add.shader">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Event Generator/Event_Generator.cs">
     <Files>
-      <File FileName="Assets/BackGround/Line_Script.cs" Line="82" Column="37" />
-      <File FileName="Assets/Postgame.cs" Line="99" Column="6" />
-      <File FileName="Assets/Star/Starscript.cs" Line="153" Column="37" />
-      <File FileName="Assets/Manager.cs" Line="813" Column="31" />
-      <File FileName="Assets/Level_Editor.cs" Line="387" Column="21" />
-      <File FileName="Assets/pickups/invincibility/invinc_pickup.cs" Line="9" Column="37" />
-      <File FileName="Assets/Learth/Learth_Movement.cs" Line="62" Column="43" />
-      <File FileName="Assets/Menu.cs" Line="47" Column="40" />
+      <File FileName="Assets/BackGround/Line_Script.cs" Line="1" Column="1" />
+      <File FileName="Assets/Postgame.cs" Line="1" Column="1" />
+      <File FileName="Assets/Star/Starscript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Manager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Level_Editor.cs" Line="1" Column="1" />
+      <File FileName="Assets/pickups/invincibility/invinc_pickup.cs" Line="1" Column="1" />
+      <File FileName="Assets/Learth/Learth_Movement.cs" Line="1" Column="1" />
+      <File FileName="Assets/Menu.cs" Line="1" Column="1" />
       <File FileName="Assets/Sounds/Sound_Scripts/Alien_Exp_Sound.cs" Line="1" Column="1" />
-      <File FileName="Assets/Menu/Line_Script_menu.cs" Line="58" Column="10" />
-      <File FileName="Assets/Menu/Background_menu.cs" Line="34" Column="63" />
-      <File FileName="Assets/BackGround/Background.cs" Line="38" Column="11" />
+      <File FileName="Assets/Menu/Line_Script_menu.cs" Line="1" Column="1" />
+      <File FileName="Assets/Menu/Background_menu.cs" Line="1" Column="1" />
+      <File FileName="Assets/BackGround/Background.cs" Line="1" Column="1" />
       <File FileName="Assets/Shaders/Particle Add.shader" Line="1" Column="1" />
+      <File FileName="Assets/Event Generator/Event_Generator.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

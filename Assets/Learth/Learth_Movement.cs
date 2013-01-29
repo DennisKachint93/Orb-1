@@ -128,7 +128,8 @@ public class Learth_Movement : MonoBehaviour {
 				
 				
 				/* else */if(Manager.IS_INVINCIBLE && !scpt.isBlackHole) {
-					Manager.energy += Manager.INVINC_ENERGY_BONUS;
+					Manager.Popup(5, ""+Manager.INVINC_ENERGY_BONUS, this.transform.position);
+					Manager.points += Manager.INVINC_ENERGY_BONUS;
 					Starscript col_scpt = collision.gameObject.GetComponent<Starscript>();
 					col_scpt.removeStar(2);
 				}
@@ -159,7 +160,8 @@ public class Learth_Movement : MonoBehaviour {
 				ascpt.coin_grab.Play();
 				gscpt.coins_collected++;
 				Manager.energy += 3;
-			//	Manager.points += Manager.COIN_POINTS;
+				Manager.Popup(3, ""+Manager.COIN_POINTS, this.transform.position);
+				Manager.points += Manager.COIN_POINTS;
 				cpe = Instantiate (coin_pickup_effect, collision.gameObject.transform.position, 
 					collision.gameObject.transform.rotation) as GameObject;
 				Destroy(collision.gameObject);

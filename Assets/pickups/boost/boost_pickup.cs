@@ -35,7 +35,8 @@ public class boost_pickup : MonoBehaviour {
 	void OnCollisionEnter(Collision c) {
 		if(c.transform.name == "Learth(Clone)") {
 			//sound
-			
+			Manager.points += Manager.BOOST_POINTS;
+			Manager.Popup(5, ""+Manager.BOOST_POINTS, this.transform.position);
 			//increment boost counter in manager
 			Manager.boost_count++;
 			GameObject go = GameObject.Find("Alien_Exp_Sound");

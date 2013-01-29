@@ -73,6 +73,7 @@ public class Event_Generator : MonoBehaviour {
 		current_dur = durations[Random.Range(0,durations.Length)];
 		current_mul = multipliers[Random.Range(0,multipliers.Length)];
 		event_on = true;
+		Manager.Popup(5, "event", Manager.l.transform.position);
 		last_event_generated = Time.time;
 		Debug.Log("new event generated: "+current_color.ToString()+" "+current_dur+" "+current_mul);
 	}

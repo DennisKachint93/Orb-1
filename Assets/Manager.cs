@@ -127,16 +127,20 @@ public class Manager : MonoBehaviour {
 	//cost of a directional shift
 	public static float DIR_SHIFT_COST = 0;
 	//energy value for specific star colors
-	public static float RED_ENERGY = 5f;
-	public static float ORANGE_ENERGY = 10f;
-	public static float YELLOW_ENERGY = 15f;
+	public static float RED_ENERGY = 20f;
+	public static float ORANGE_ENERGY = 20f;
+	public static float YELLOW_ENERGY = 20f;
 	public static float GREEN_ENERGY = 20f;
-	public static float BLUE_ENERGY = 25f;
-	public static float AQUA_ENERGY = 30f;
-	public static float PURPLE_ENERGY = 35f;
+	public static float BLUE_ENERGY = 20f;
+	public static float AQUA_ENERGY = 20f;
+	public static float PURPLE_ENERGY = 20f;
 	//energy from blowing up a star by flying through it while invincible
-	public static float INVINC_ENERGY_BONUS = 50;
-
+	public static float INVINC_ENERGY_BONUS = 200;
+	//energy from obtaining a boost
+	public static float BOOST_POINTS = 75f;
+	//energy from a single coin
+	public static float COIN_POINTS = 5f;
+	
 	//POWERUP BOOLEANS (these are special cases. try to avoid using powerup booleans. use a new script.)
     public static bool SHIELD = false;
     public static bool BLACK_HOLE_HELPER = false;
@@ -282,6 +286,13 @@ public class Manager : MonoBehaviour {
 	
 	//points
 	public static float points = 0;
+	
+	 //popup text for points
+	public static string popup_text;
+	public static Vector3 popup_location;
+	public static bool popup = false;
+	//instance for waiting
+	private static Manager m_Instance = null;
 	
 	//keep track of number of orbs of each color and boosts aquired
 	public static int red_orbs = 0;
@@ -1122,13 +1133,13 @@ public class Manager : MonoBehaviour {
 						else {
 							clockwise = false;
 						}
-						
+						float fill_level = 0;
 						if (!sscript.isBlackHole) {
 							//add appropriate energy value depending on color of star and change learth's trail color
 							
 							
 							//make energy added proportional to intensity of star light
-							float fill_level = sscript.r.light.intensity;
+							fill_level = sscript.r.light.intensity;
 							if(sscript.c == orange) {
 								fill_level /= 1.4f;	
 							} else if (sscript.c == purple) {
@@ -1229,11 +1240,40 @@ public class Manager : MonoBehaviour {
 							}
 							sscript.r.light.intensity = .1f;
 						}
+						//THIS WORKS AS LONG AS ALL ORBS HAVE SAME POINT VALUE
+						Manager.Popup(2,""+(int)(ORANGE_ENERGY*fill_level),s.transform.position);
 						break;
 					}
 				}
 			}
 		}
+	}
+	
+    public static Manager Instance {
+        get 
+        {
+            if (m_Instance == null)
+            {
+                // Find a singleton instance
+                m_Instance = (Manager)FindObjectOfType(typeof(Manager)); 
+                // If there is no GameObject with this script, create one
+                if (m_Instance == null)
+                    m_Instance = (new GameObject("Manager Singleton")).AddComponent<Manager>();
+            }
+            return m_Instance;
+        }
+    }
+	
+	public static void Popup(int seconds, string s, Vector3 location) {
+		Manager.popup_text = s;
+		Manager.popup_location = Camera.main.WorldToScreenPoint(location);
+		Manager.popup = true;
+		Instance.StartCoroutine(Instance.MyMethod(seconds));
+	}
+	
+	private IEnumerator MyMethod(int seconds) {
+ 		yield return new WaitForSeconds(seconds);
+		Manager.popup = false;
 	}
 	
 	void OnGUI() {
@@ -1272,6 +1312,10 @@ public class Manager : MonoBehaviour {
    			if (escape)
    				GUI.Label(new Rect(Screen.width/8, Screen.height/8,Screen.width, Screen.height),control_scheme);
    			
+			if (popup) {
+				GUI.skin.label.fontSize = 10;
+				GUI.Label(new Rect(popup_location.x,popup_location.y,100,100),popup_text); 
+			}
 		}
 	}
 		
