@@ -185,7 +185,7 @@ public class Starscript : MonoBehaviour {
 		if (c == Manager.orange) 
 			r.light.intensity = 2f;
 		else if (c == Manager.purple)
-			r.light.intensity = 3f;
+			r.light.intensity = 4f;
 		else if (c == Manager.aqua)
 			r.light.intensity = 3f;
 		else
@@ -194,13 +194,13 @@ public class Starscript : MonoBehaviour {
 	
 	void Update() {
 		//gradually increase intensities of lights
-		if (c == Manager.orange && r.light.intensity < 2f) {
+		if (c == Manager.orange && r.light.intensity < 2-.001f) 
 				r.light.intensity += .001f;
-			//	print (r.light.intensity);
-		}
-		else if (c == Manager.purple && r.light.intensity < 4f) 
+		else if (c == Manager.purple && r.light.intensity < 4-.002f) 
 				r.light.intensity += .002f;
-		else if (r.light.intensity < 3.5f) 
+		else if (c == Manager.aqua && r.light.intensity < 3-.005f)
+			r.light.intensity += .005f;
+		else if (r.light.intensity < 3.5-.00175f) 
 				r.light.intensity += .00175f;
 		
 		this.renderer.material.color = c;

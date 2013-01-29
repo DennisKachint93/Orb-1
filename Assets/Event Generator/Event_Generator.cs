@@ -15,11 +15,14 @@ public class Event_Generator : MonoBehaviour {
 	private static int EVENT_FREQUENCY = 5;
 	
 	//probability that an event occurs (set = 10 to make events always occur)
-	private static int EVENT_PROBABILITY = 5;
+	private static int EVENT_PROBABILITY = 1;
 
 	private static Color[] colors;
 	private static int[] durations;
 	private static float[] multipliers;
+	
+	//for popup
+	public GUISkin skin;
 	
 	// Use this for initialization
 	void Start () {
@@ -68,12 +71,11 @@ public class Event_Generator : MonoBehaviour {
 	
 	//generates and enables a point event
 	static void GenerateEvent() {
-		current_color = colors[0];
-	//	current_color = colors[Random.Range(0,colors.Length)];
+	//	current_color = colors[0];
+		current_color = colors[Random.Range(0,colors.Length)];
 		current_dur = durations[Random.Range(0,durations.Length)];
 		current_mul = multipliers[Random.Range(0,multipliers.Length)];
 		event_on = true;
-		Manager.Popup(5, "event", Manager.l.transform.position);
 		last_event_generated = Time.time;
 		Debug.Log("new event generated: "+current_color.ToString()+" "+current_dur+" "+current_mul);
 	}
@@ -87,9 +89,34 @@ public class Event_Generator : MonoBehaviour {
 		return 0;
 	}
 	
+	public string colorString(Color c) {
+		if (c == Color.red)
+			return "red";
+		else if (c == Manager.orange)
+			return "orange";
+		else if (c == Color.yellow)
+			return "yellow";		
+		else if (c == Manager.green)
+			return "green";
+		else if (c == Color.blue)
+			return "blue";
+		else if (c == Manager.purple)
+			return "purple";
+		else
+			return "aqua";
+	}
+	
+	
 	void OnGUI() {
+		GUI.skin = skin;
 		//if currently in an event
 		if(event_on) {
+				GUI.skin.label.normal.textColor = current_color;
+				GUI.skin.label.fontSize = 16;
+				GUI.Box(new Rect(Screen.width-210, Screen.height-105,210,120), "");
+				GUI.Label(new Rect(Screen.width-200, Screen.height-95,170,100),"For the next "+(int)current_dur+" seconds, "
+					+colorString(current_color)+" orbs are worth "+current_mul+"X points."); 
+			
 			//display gui popup about that event (current_color, etc.)
 		}
 	}

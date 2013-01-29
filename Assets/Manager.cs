@@ -291,6 +291,10 @@ public class Manager : MonoBehaviour {
 	public static string popup_text;
 	public static Vector3 popup_location;
 	public static bool popup = false;
+	//popups for events
+	public static string event_popup_text;
+	public static bool event_popup = false;
+	
 	//instance for waiting
 	private static Manager m_Instance = null;
 	
@@ -1134,18 +1138,19 @@ public class Manager : MonoBehaviour {
 							clockwise = false;
 						}
 						float fill_level = 0;
-						if (!sscript.isBlackHole) {
-							//add appropriate energy value depending on color of star and change learth's trail color
-							
+						if (!sscript.isBlackHole) {	
+
 							
 							//make energy added proportional to intensity of star light
 							fill_level = sscript.r.light.intensity;
 							if(sscript.c == orange) {
-								fill_level /= 1.4f;	
+								fill_level = sscript.r.light.intensity/2f;	
 							} else if (sscript.c == purple) {
-								fill_level /= 4;
+								fill_level = sscript.r.light.intensity/4f;
+							}else if (sscript.c == aqua) {
+								fill_level = sscript.r.light.intensity/3f;
 							} else {
-								fill_level /= 3.5f;
+								fill_level = sscript.r.light.intensity/3.5f;
 							}
 							
 							//color suck effect ripple
@@ -1313,7 +1318,7 @@ public class Manager : MonoBehaviour {
    				GUI.Label(new Rect(Screen.width/8, Screen.height/8,Screen.width, Screen.height),control_scheme);
    			
 			if (popup) {
-				GUI.skin.label.fontSize = 10;
+				GUI.skin.label.fontSize = 14;
 				GUI.Label(new Rect(popup_location.x,popup_location.y,100,100),popup_text); 
 			}
 		}
