@@ -49,7 +49,7 @@ public class Postgame : MonoBehaviour {
 		GUI.skin.label.normal.textColor = Color.white;
 		GUI.skin.label.fontSize = 30;
 		//total points
-		GUI.Label(new Rect(startx, starty-10, 500, 50), "YOU EARNED " + Manager.points + " POINTS");
+		GUI.Label(new Rect(startx, starty-10, 500, 50), "YOU EARNED " + (int)Manager.points+"/"+(int)Manager.req_points + " POINTS");
 		
 		GUI.skin.label.fontSize = 24;
 		//total orbs
