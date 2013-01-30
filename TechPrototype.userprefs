@@ -1,6 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Event Generator/Event_Generator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Sounds/Sound_Scripts/Alien_Exp_Sound.cs">
     <Files>
       <File FileName="Assets/BackGround/Line_Script.cs" Line="1" Column="1" />
       <File FileName="Assets/Postgame.cs" Line="1" Column="1" />

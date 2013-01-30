@@ -70,8 +70,6 @@ public class Game_State : MonoBehaviour {
 	public float stars_destroyed  = 0;
 	public float num_stars		  = 0;
 	public float time_to_complete = 0;
-
-	
 	
 	// Use this for initialization
 	void Start () {

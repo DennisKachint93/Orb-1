@@ -16,6 +16,7 @@ public class Alien_Exp_Sound : MonoBehaviour {
 	public AudioSource n3;
 	public AudioSource n4;
 	public AudioSource n5;
+	public AudioSource drums;
 	
 	// Use this for initialization
 	void Start () {
@@ -35,6 +36,7 @@ public class Alien_Exp_Sound : MonoBehaviour {
 		n3 = sources[12];
 		n4 = sources[13];
 		n5 = sources[14];
+		drums = sources[15];
 	}
 	
 	// Update is called once per frame
