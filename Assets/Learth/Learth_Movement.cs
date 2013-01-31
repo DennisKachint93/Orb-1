@@ -160,28 +160,13 @@ public class Learth_Movement : MonoBehaviour {
 					//effect
 					Instantiate(reset_effect,Manager.l.transform.position,Manager.l.transform.rotation);
 				
-					//functional but sketchy
-					//very sketchy
-					Vector3 reflected = -2 * (Vector3.Dot(velocity,Vector3.Normalize(last_norm)) * Vector3.Normalize(last_norm)) - velocity; 
-					Vector3 v1 = lastPos.position - transform.position;
-					Vector3 v2 = reflected;
-					float angle = Vector3.Angle(v1,v2);
-					Quaternion q1 = Quaternion.AngleAxis(-2*angle,Vector3.forward);
-					Quaternion q2 = Quaternion.AngleAxis(-1*-2*angle,Vector3.forward);
-					Vector3 vec1 = q1 * Vector3.Normalize(last_norm);
-					Vector3 vec2 = q2 * Vector3.Normalize(last_norm);
-					float ang1 = Vector3.Angle(vec1, reflected);
-					float ang2 = Vector3.Angle(vec2, reflected);
-					
-					if(ang1 > ang2)
-						reflected = q1 * reflected;
-					else 
-						reflected = q2 * reflected;
-					
-				
-					lastPos.position = transform.position - reflected;
-				
-				//	Manager.Die ();
+					//bounce ship off wall - v' = 2 * (v . n) * n - v
+					Vector3 v = Vector3.Normalize(velocity);
+					Vector3 n = last_norm; //normal of the plane we're about to hit
+					float dp = Vector3.Dot(v,n);
+					Vector3 v2 = 2 * dp * n;
+					Vector3 reflected = -1 * (v2 - v); 
+					lastPos.position = transform.position - reflected; 
 				}
 			}				
 	
