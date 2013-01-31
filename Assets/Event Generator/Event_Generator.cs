@@ -12,10 +12,10 @@ public class Event_Generator : MonoBehaviour {
 	private static float last_event_generated;
 	
 	//every event_frequency seconds there's a change that an event will occur
-	private static int EVENT_FREQUENCY = 5;
+	private static int EVENT_FREQUENCY = 30;
 	
 	//probability that an event occurs (set = 10 to make events always occur)
-	private static int EVENT_PROBABILITY = 1;
+	private static int EVENT_PROBABILITY = 5;
 
 	private static Color[] colors;
 	private static int[] durations;
@@ -80,10 +80,14 @@ public class Event_Generator : MonoBehaviour {
 		Debug.Log("new event generated: "+current_color.ToString()+" "+current_dur+" "+current_mul);
 	}
 	
-	public static float GetPointsFromEvent(Color c, int points) {
+	//passed the current value of points that is about to be added
+	//returns the modified vlue based on what events are currently active
+	public static float GetPointsFromEvent(Color c, float points) {
 		if(event_on) {
 			if(c.Equals(current_color)) {
-				Debug.Log("event success");		
+				//add points
+				return points * current_mul;
+				//Debug.Log("event success");		
 			}
 		}
 		return 0;

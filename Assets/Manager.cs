@@ -1162,7 +1162,7 @@ public class Manager : MonoBehaviour {
 							if(sscript.c == Color.red) {
 								red_orbs++;
 								det.color = Color.red;
-								points += RED_ENERGY*fill_level;
+								//points += RED_ENERGY*fill_level;
 								
 								//events
 								/*
@@ -1173,7 +1173,7 @@ public class Manager : MonoBehaviour {
 								 * based on the currently active (if there is one) event. 
 								 * */
 								
-								float pts = Event_Generator.GetPointsFromEvent(Color.red,0);
+								points += Event_Generator.GetPointsFromEvent(Color.red,RED_ENERGY*fill_level);
 								
 								
 								if (!IS_INVINCIBLE) {
@@ -1185,7 +1185,7 @@ public class Manager : MonoBehaviour {
 							}  else if (sscript.c == orange) {
 								orange_orbs++;
 								det.color = orange;
-								points += ORANGE_ENERGY*fill_level;
+								points +=  Event_Generator.GetPointsFromEvent(orange,ORANGE_ENERGY*fill_level);
 								if (!IS_INVINCIBLE) {
 									Destroy(lt);
 									lt = Instantiate (orange_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
@@ -1195,7 +1195,7 @@ public class Manager : MonoBehaviour {
 							}  else if (sscript.c == Color.yellow) {
 								yellow_orbs++;
 								det.color = Color.yellow;
-								points += YELLOW_ENERGY*fill_level;
+								points += Event_Generator.GetPointsFromEvent(Color.yellow,YELLOW_ENERGY*fill_level);
 								if (!IS_INVINCIBLE) {
 									Destroy(lt);
 									lt = Instantiate (yellow_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
@@ -1209,13 +1209,13 @@ public class Manager : MonoBehaviour {
 									Destroy(lt);
 									lt = Instantiate (green_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
 									lt.transform.parent = l.transform;
-									points += GREEN_ENERGY*fill_level;
+									points +=  Event_Generator.GetPointsFromEvent(green,GREEN_ENERGY*fill_level);
 									l.renderer.material.color = green;
 								}
 							}  else if(sscript.c == Color.blue){
 								blue_orbs++;
 								det.color = Color.blue;
-								points += BLUE_ENERGY*fill_level;
+								points +=  Event_Generator.GetPointsFromEvent(Color.blue,BLUE_ENERGY*fill_level);
 								if (!IS_INVINCIBLE) {
 									Destroy(lt);
 									lt = Instantiate (blue_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
@@ -1225,7 +1225,7 @@ public class Manager : MonoBehaviour {
 							}  else if(sscript.c == aqua) {
 								aqua_orbs++;
 								det.color = aqua;
-								points += AQUA_ENERGY*fill_level;
+								points +=  Event_Generator.GetPointsFromEvent(aqua,AQUA_ENERGY*fill_level);
 								if (!IS_INVINCIBLE) {
 									Destroy(lt);
 									lt = Instantiate (aqua_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
@@ -1235,7 +1235,7 @@ public class Manager : MonoBehaviour {
 							}  else if(sscript.c == purple) {
 								purple_orbs++;
 								det.color = purple;
-								points += PURPLE_ENERGY*fill_level;
+								points +=  Event_Generator.GetPointsFromEvent(purple,PURPLE_ENERGY*fill_level);
 								if (!IS_INVINCIBLE) {
 									Destroy(lt);
 									lt = Instantiate (purple_learth_trail, l.transform.position, l.transform.rotation) as GameObject;
