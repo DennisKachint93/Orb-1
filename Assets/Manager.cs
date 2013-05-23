@@ -311,6 +311,10 @@ public class Manager : MonoBehaviour {
 	//ending animations
 	public static bool end_animation = true;
 	public Transform explosion;
+	
+	//used to allow the ship to enter orbit around the last star, but only if after a wall bounce
+	//because we check that the start is not the last star when getting into orbit to avoid re-entering orbit as soon as you leave
+	public static bool just_hit_wall = false;
 
 			
 	void Start () {
@@ -1111,7 +1115,7 @@ public class Manager : MonoBehaviour {
 						outerOrbit = -RADIAL_ERROR;
 						innerOrbit = RADIAL_ERROR;
 					}
-					if (s != lastStar 
+					if ( s != lastStar
 					&& Vector3.Distance(s.transform.position, l.transform.position) >= (sscript.orbitRadius - innerOrbit) 
 					&& Vector3.Distance(s.transform.position, l.transform.position) <= (sscript.orbitRadius - outerOrbit) 
 					&& Vector3.Distance (tangent, l.transform.position) <= TAN_ERROR) 
@@ -1310,7 +1314,7 @@ public class Manager : MonoBehaviour {
 				ResetLevel();
 	      //  GUI.Label(new Rect(10, Screen.height-65, 150, 50), "Space Coins: "+(gscpt.num_coins));
 			//GUI.Label(new Rect(10, Screen.height-50,150,50), "Energy:");
-	   		GUI.DrawTexture(new Rect(10, Screen.height-30, energy*3, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
+	   	//	GUI.DrawTexture(new Rect(10, Screen.height-30, energy*3, 20), gaugeTexture, ScaleMode.ScaleAndCrop, true, 10F); 
 	   		
    		
 	   		//on pause

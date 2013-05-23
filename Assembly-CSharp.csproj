@@ -46,6 +46,7 @@
   <ItemGroup>
      <Compile Include="Assets\BackGround\Background.cs" />
      <Compile Include="Assets\BackGround\Line_Script.cs" />
+     <Compile Include="Assets\Combos.cs" />
      <Compile Include="Assets\End_scene\End_Scene.cs" />
      <Compile Include="Assets\Event Generator\Event_Generator.cs" />
      <Compile Include="Assets\Game_State.cs" />
